@@ -46,6 +46,16 @@ from rdkit.Chem import AllChem as Chem
 from rdkit.Chem import Descriptors, Lipinski, QED
 from itertools import combinations
 from collections import namedtuple
+from rdkit import RDConfig
+ContriDir = RDConfig.RDContribDir
+
+import sys,os
+sys.path.append(ContriDir)
+from SA_Score import sascorer
+from NP_Score import npscorer
+from IFG.ifg import identify_functional_groups
+
+
 
 def CalculateMolWeight(mol):    
     """
@@ -620,6 +630,25 @@ def CalculateHetCarbonRatio(mol):
     het = Total-nCarb  
     return round(het/nCarb,2)    
     
+
+def CalculateSAscore(mol):
+    """
+    """
+    return sascorer.calculateScore(mol)
+
+
+def CalculateNPscore(mol):
+    """
+    """
+    filename = os.path.join(ContriDir, 'NP_Score/publicnp.model.gz')
+    fscore = npscorer.pickle.load(npscorer.gzip.open(filename)) 
+    return npscorer.scoreMol(mol,fscore=fscore)
+
+    
+def GetIFG(mol):
+    """
+    """
+    return identify_functional_groups(mol)
 
 def GetProperties(mol):
     """
