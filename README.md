@@ -9,7 +9,7 @@
 
 # Scopy: a compounds filter for early stages drug discovery.
 
-[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://github.com/996icu/996.ICU/blob/master/externals/instruction.md)
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 
 ## what's it
 
