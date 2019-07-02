@@ -1,0 +1,4 @@
+Name	Group	SMARTS	Author	Article	Alert_ID	Reject	Accept
+Benzyl Imidazole scaffold	SMARTS: 	[c,n]:1:c:[c,n]:[c,n]2:[c,n](:c:1)[c,n,o,s][c,n]([c,n,o,s]2)*-,=*c:3:c:c:c:c:c:3	Ghosh, 	588342_Activity_at_11.5um.xlsx	TA9334		['[c,n]:1:c:[c,n]:[c,n]2:[c,n](:c:1)[c,n,o,s][c,n]([c,n,o,s]2)*-,=*c:3:c:c:c:c:c:3']
+6-Phenyl Napthaline type scaffold	SMARTS: 	[c,n]:1:c:[c,n]:[c,n]2:[c,n](:c:1)[c,n,o,s][c,n]([c,n,o,s][c,n,o,s]2)*~*c:3:c:c:c:c:c:3	Ghosh, 	588342_Activity_at_11.5um.xlsx	TA9335		['[c,n]:1:c:[c,n]:[c,n]2:[c,n](:c:1)[c,n,o,s][c,n]([c,n,o,s][c,n,o,s]2)*~*c:3:c:c:c:c:c:3']
+2-(2-(1H-pyrrol-2-yl)ethyl)-1H-benzoimidazole scaffold	Benzoimidazole scaffold with pyrrole/Furan/Thiophene attached with a ethyl linker	[c,n]:1:c:c2:c(:[c,n]:c:1)[c,n,o,s][c,n]([c,n,o,s]2)*~*c3ccc*3	Ghosh, 	588342_Activity_at_11.5um.xlsx	TA9337		['[c,n]:1:c:c2:c(:[c,n]:c:1)[c,n,o,s][c,n]([c,n,o,s]2)*~*c3ccc*3']

@@ -1,0 +1,4 @@
+Name	SMARTS	Reject	Accept
+Benzyl Imidazole scaffold	[c,n]:1:c:[c,n]:[c,n]2:[c,n](:c:1)[c,n,o,s][c,n]([c,n,o,s]2)*-,=*c:3:c:c:c:c:c:3		['[c,n]:1:c:[c,n]:[c,n]2:[c,n](:c:1)[c,n,o,s][c,n]([c,n,o,s]2)*-,=*c:3:c:c:c:c:c:3']
+6-Phenyl Napthaline type scaffold	[c,n]:1:c:[c,n]:[c,n]2:[c,n](:c:1)[c,n,o,s][c,n]([c,n,o,s][c,n,o,s]2)*~*c:3:c:c:c:c:c:3		['[c,n]:1:c:[c,n]:[c,n]2:[c,n](:c:1)[c,n,o,s][c,n]([c,n,o,s][c,n,o,s]2)*~*c:3:c:c:c:c:c:3']
+2-(2-(1H-pyrrol-2-yl)ethyl)-1H-benzoimidazole scaffold	[c,n]:1:c:c2:c(:[c,n]:c:1)[c,n,o,s][c,n]([c,n,o,s]2)*~*c3ccc*3		['[c,n]:1:c:c2:c(:[c,n]:c:1)[c,n,o,s][c,n]([c,n,o,s]2)*~*c3ccc*3']
