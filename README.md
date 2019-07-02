@@ -15,7 +15,7 @@
 
 ## Main Function
 
-### compute properties
+### Compute properties
 
 ```python
 """
@@ -52,24 +52,24 @@ Followed should be achieved in the future:
 this function is realized in module scopy.Druglikeness
 
 ```python
->>>from scopy.Druglikeness import CalculateProperty
->>>from rdkit import Chem
+>>> from scopy.Druglikeness import CalculateProperty
+>>> from rdkit import Chem
 ```
 
 ```python
->>>mol = Chem.MolFromSmiles('C1=CC=CC1')
->>>res = CalculateProperty.GetProperties(mol)
->>>print(res)
+>>> mol = Chem.MolFromSmiles('C1=CC=CC1')
+>>> res = CalculateProperty.GetProperties(mol)
+>>> print(res)
 Properties(MW=66.1, nBond=5, nAtom=11, nHD=0, nHA=0, nHB=0, nHet=0, nStero=0, nHev=5, nRot=0, nRig=5, nRing=1, logP=1.5, logSw=-1.21, MR=22.9, tPSA=0.0, AP=0.0, HetRatio=0.0, Fsp3=0.2, MaxRing=5)
 ```
 
 You could also compute each property respectively, like:
 
 ```python
->>>mol = Chem.MolFromSmiles('C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2')
->>>res_1 = CalculateProperty.CalculateLogP(mol)
->>>res_2 = CalculateProperty.CalculateNumHAcceptors(mol)
->>>res_3 = CalculateProperty.CalculateNumRing(mol)
+>>> mol = Chem.MolFromSmiles('C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2')
+>>> res_1 = CalculateProperty.CalculateLogP(mol)
+>>> res_2 = CalculateProperty.CalculateNumHAcceptors(mol)
+>>> res_3 = CalculateProperty.CalculateNumRing(mol)
 >>>print(res_1,res_2,res_3)
 5.15 0 4
 ```
@@ -77,15 +77,15 @@ You could also compute each property respectively, like:
 or you could calculate all properties firstly
 
 ```python
->>>mol = Chem.MolFromSmiles('C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2')
->>>res = CalculateProperty.GetProperties(mol)
->>>print(res)
->>>print(res.logP,res.nHA,res.nRing)
+>>> mol = Chem.MolFromSmiles('C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2')
+>>> res = CalculateProperty.GetProperties(mol)
+>>> print(res)
+>>> print(res.logP,res.nHA,res.nRing)
 Properties(MW=228.29, nBond=21, nAtom=30, nHD=0, nHA=0, nHB=0, nHet=0, nStero=0, nHev=18, nRot=0, nRig=21, nRing=4, logP=5.15, logSw=-5.28, MR=78.96, tPSA=0.0, AP=1.0, HetRatio=0.0, Fsp3=0.0, MaxRing=18)
 5.15 0 4
 ```
 
-### Check Druglikeness Rules
+### Check Drug-likeness Rules
 
 ```python
 """
@@ -122,22 +122,96 @@ Followed should be achieved in the future:
 this function is realized in module scopy.Druglikeness
 
 ```python
->>>from scopy.Druglikeness import CheckRule
->>>from rdkit import Chem
+>>> from scopy.Druglikeness import CheckRule
+>>> from rdkit import Chem
 
->>>mol = Chem.MolFromSmiles('C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2')
->>>res = CheckRule.CheckLipinskiRule(mol)
->>>print(res)
+>>> mol = Chem.MolFromSmiles('C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2')
+>>> res = CheckRule.CheckLipinskiRule(mol)
+>>> print(res)
 LipinskiRule(Disposed='Accepted', nViolate=1)
 ```
 
 The filed 'Disposed' is meant molecular state after rule applied. 'Accepted' means obey the rule. attribute 'nViolated' means the number of violated requirement of a rule.
 
-If you want to get specific properties suggested in rule, you could pass the 'True'  to Parameter 'detail'(default: False)
+If you want to get specific properties suggested in rule, you could pass the <code>True</code>  to Parameter 'detail'(default: False)
 
 ```python
->>>res = DrugLikeness.CheckLipinskiRule(mol,detail=True)
->>>print(res)
+>>> res = CheckRule.CheckLipinskiRule(mol,detail=True)
+>>> print(res)
 LipinskiRule(MW=228.29, logP=5.15, nHD=0, nHA=0, Disposed='Accept', nViolated=1)
 ```
+
+If you are  not familiar with some rules, you could use <code>help</code>function
+
+```python
+>>> help(CheckRule.CheckEganRule)
+Help on function CheckEganRule in module scopy.Druglikeness.CheckRule:
+
+CheckEganRule(mol, detail)
+    #################################################################
+    Bad or Good oral biovailability rule
+    
+    -Ref.:
+        Egan, William J., Kenneth M. Merz, and John J. Baldwin. 
+        Journal of medicinal chemistry 43.21 (2000): 3867-3877.
+        
+    -Rule details:
+        0 <= tPSA <= 132
+        -1 <= logP <=6
+    #################################################################
+```
+
+### Filter compounds through SMARTS
+
+The filters consist of a series of molecular query strings written using the SMARTS coding language described by [Daylight](https://www.daylight.com/). 
+
+```python
+"""
+---
+Up to now(2019.07.02), we have collected followed endpoints(the number of SMARTS):
+	Acute_Aquatic_Toxicity(99)
+	AlphaScreen_FHs(6)
+	AlphaScreen_GST_FHs(34)
+	AlphaScreen_HIS_FHs(19)
+	Biodegradable(9)
+	BMS(180)
+	Chelating(55)
+	Developmental_Mitochondrial(12)
+	Genotoxic_Carcinogenicity_Mutagenicity(117)
+	Idiosyncratic(35)
+	LD50_oral(20)
+	Luciferase_Inhibitory(3)
+	NonBiodegradable(19)
+	NonGenotoxic_Carcinogenicity(23)
+	NTD(105)
+	Pains(480)
+	Potential_Electrophilic(119)
+	Promiscuity(177)
+	Reactive_Unstable_Toxic(335)
+	Skin_Sensitization(155)
+	SureChEMBL(165)
+---	
+Total: 23 endpints with 2167 SMARTS
+"""
+```
+
+Besides, we have collected **450 SMARTS** about **E**xtended **F**unctional **G**roups(EFG), an efficient set
+for chemical characterization and structure-activity relationship studies of chemical compounds.
+
+```python
+>>> from scopy.StructureAlert import FliterWithSmarts
+>>> mol = Chem.MolFromSmiles('C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2')
+>>> res = FliterWithSmarts.Check_SureChEMBL(mol)
+print(res)
+CheckRes(Disposed='Rejected', Endpoint='SureChEMBL')
+```
+
+Similarly, you could pass <code>True</code> to parameter show to get more information.
+
+```python
+>>> res = FliterWithSmarts.Check_SureChEMBL(mol,detail=True)
+CheckRes(Disposed='Rejected', MatchedAtoms=[((3, 2, 1, 0, 17, 16, 15, 14, 13, 8, 7, 6, 5, 4), (12, 11, 10, 9, 8, 7, 6, 5, 4, 17, 16, 15, 14, 13))], MatchedNames=['Polynuclear_Aromatic_2'], Endpoint='SureChEMBL')
+```
+
+### Visualization
 

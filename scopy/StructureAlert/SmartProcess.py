@@ -70,7 +70,7 @@ def _CheckPattl(mol,reject_pattl,accept_pattl):
     return res
 
 
-def _CheckWithSmarts(mol,endpoint='all',show=False):
+def _CheckWithSmarts(mol,endpoint='all',detail=False):
     """
     #################################################################
     *Internal Use Only*
@@ -120,7 +120,7 @@ def _CheckWithSmarts(mol,endpoint='all',show=False):
                 matched_atoms = ['-']
                 matched_names = ['-']
                                 
-            if show:
+            if detail:
                 res = namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint'])
                 checkres = res(Disposed=disposed,MatchedAtoms=matched_atoms,MatchedNames=matched_names,Endpoint=endpoint)
             else:

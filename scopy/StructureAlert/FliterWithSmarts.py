@@ -14,7 +14,7 @@ Created on Tue Jun 25 21:59:42 2019
 from rdkit.Chem import AllChem as Chem
 from scopy.StructureAlert import SmartProcess
 
-def Check_Acute_Aquatic_Toxicity(mol, show=False):
+def Check_Acute_Aquatic_Toxicity(mol, detail=False):
     """
     #################################################################
     This function is used for detecting molecular whether or not
@@ -42,11 +42,11 @@ def Check_Acute_Aquatic_Toxicity(mol, show=False):
         Output: res is a customize object--CheckRes            
     #################################################################
     """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='Acute_Aquatic_Toxicity',show=show)    
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='Acute_Aquatic_Toxicity',detail=detail)    
     return res
 
 
-def Check_AlphaScreen_FHs(mol, show=False):
+def Check_AlphaScreen_FHs(mol, detail=False):
     """
     #################################################################
     This Function is used for detecting molecular whether or not
@@ -67,21 +67,21 @@ def Check_AlphaScreen_FHs(mol, show=False):
         Output: df is a pandas.core.frame.DataFrame object.
     #################################################################
     """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='AlphaScreen_FHs',show=show)
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='AlphaScreen_FHs',detail=detail)
     
     return res
 
 
-def Check_AlphaScreen_GST_FHs(mol, show=False):
+def Check_AlphaScreen_GST_FHs(mol, detail=False):
     """
     NOTE: The Smarts in this endpoint may should be revised
     """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='AlphaScreen_GST_FHs',show=show)
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='AlphaScreen_GST_FHs',detail=detail)
     
     return res
 
 
-def Check_AlphaScreen_HIS_FHs(mol, show=False):
+def Check_AlphaScreen_HIS_FHs(mol, detail=False):
     """
     #################################################################
     This Function is used for detecting molecular whether or not
@@ -107,7 +107,7 @@ def Check_AlphaScreen_HIS_FHs(mol, show=False):
     return res
 
 
-def Check_Biodegradable(mol, show=False):
+def Check_Biodegradable(mol, detail=False):
     """
     #################################################################
     This function is used for detecting molecular whether or not
@@ -126,12 +126,12 @@ def Check_Biodegradable(mol, show=False):
         Output: df is a pandas.core.frame.DataFrame object.
     #################################################################
     """
-    df = SmartProcess._CheckWithSmarts(mol,endpoint='Biodegradable',show=show)
+    df = SmartProcess._CheckWithSmarts(mol,endpoint='Biodegradable',detail=detail)
     
     return df
     
 
-def Check_Chelating(mol, show=False):
+def Check_Chelating(mol, detail=False):
     """
     #################################################################
     This function is used for...
@@ -149,11 +149,11 @@ def Check_Chelating(mol, show=False):
         Output: df is a pandas.core.frame.DataFrame object.
     #################################################################
     """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='Chelating',show=show)
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='Chelating',detail=detail)
     
     return res
 
-def Check_Developmental_Mitochondrial(mol, show=False):
+def Check_Developmental_Mitochondrial(mol, detail=False):
     """
     #################################################################
     This function is used for...
@@ -176,7 +176,7 @@ def Check_Developmental_Mitochondrial(mol, show=False):
     return df
 
 
-def Check_Genotoxic_Carcinogenicity_Mutagenicity(mol, show=False):
+def Check_Genotoxic_Carcinogenicity_Mutagenicity(mol, detail=False):
     """
     #################################################################
     This function is used for...
@@ -194,12 +194,12 @@ def Check_Genotoxic_Carcinogenicity_Mutagenicity(mol, show=False):
         Output: df is a pandas.core.frame.DataFrame object.
     #################################################################
     """
-    df = SmartProcess._CheckWithSmarts(mol,endpoint='Genotoxic_Carcinogenicity_Mutagenicity',show=show)
+    df = SmartProcess._CheckWithSmarts(mol,endpoint='Genotoxic_Carcinogenicity_Mutagenicity',detail=detail)
     
     return df
     
     
-def Check_Idiosyncratic(mol, show=False):
+def Check_Idiosyncratic(mol, detail=False):
     """
     #################################################################
     This function is used for...
@@ -217,12 +217,12 @@ def Check_Idiosyncratic(mol, show=False):
         Output: df is a pandas.core.frame.DataFrame object.
     #################################################################
     """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='Idiosyncratic',show=show)
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='Idiosyncratic',detail=detail)
     
     return res
     
 
-def Check_LD50_Oral(mol, show=False):
+def Check_LD50_Oral(mol, detail=False):
     """
     #################################################################
     This function is used for...    
@@ -240,12 +240,12 @@ def Check_LD50_Oral(mol, show=False):
         Output: df is a pandas.core.frame.DataFrame object.
     #################################################################
     """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='LD50_Oral',show=show)
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='LD50_Oral',detail=detail)
     
     return res
 
 
-def Check_Luciferase_Inhibitory(mol, show=False):
+def Check_Luciferase_Inhibitory(mol, detail=False):
     """
     #################################################################
     This function is used for...
@@ -268,7 +268,7 @@ def Check_Luciferase_Inhibitory(mol, show=False):
     return df
     
 
-def Check_NonBiodegradable(mol, show=False):
+def Check_NonBiodegradable(mol, detail=False):
     """
     #################################################################
     This function is used for...
@@ -286,12 +286,12 @@ def Check_NonBiodegradable(mol, show=False):
         Output: df is a pandas.core.frame.DataFrame object.
     #################################################################
     """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='NonBiodegradable',show=show)
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='NonBiodegradable',detail=detail)
     
     return res
     
     
-def Check_NonGenotoxic_Carcinogenicity(mol, show=False):
+def Check_NonGenotoxic_Carcinogenicity(mol, detail=False):
     """
     #################################################################
     This function is used for...
@@ -309,12 +309,12 @@ def Check_NonGenotoxic_Carcinogenicity(mol, show=False):
         Output: df is a pandas.core.frame.DataFrame object.
     #################################################################
     """
-    df = SmartProcess._CheckWithSmarts(mol,endpoint='NonGenotoxic_Carcinogenicity',show=show)
+    df = SmartProcess._CheckWithSmarts(mol,endpoint='NonGenotoxic_Carcinogenicity',detail=detail)
     
     return df
 
 
-def Check_Pains(mol, show=False):
+def Check_Pains(mol, detail=False):
     """
     #################################################################
     This function is used for...
@@ -332,12 +332,12 @@ def Check_Pains(mol, show=False):
         Output: res is a pandas.core.frame.DataFrame object.
     #################################################################
     """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='Pains',show=show)
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='Pains',detail=detail)
     
     return res
 
 
-def Check_Potential_Electrophilic(mol, show=False):
+def Check_Potential_Electrophilic(mol, detail=False):
     """
     #################################################################
     This function is used for...
@@ -355,11 +355,11 @@ def Check_Potential_Electrophilic(mol, show=False):
         Output: df is a pandas.core.frame.DataFrame object.
     #################################################################
     """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='Potential_Electrophilic',show=show)
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='Potential_Electrophilic',detail=detail)
     
     return res
 
-def Check_Promiscuity(mol, show=False):
+def Check_Promiscuity(mol, detail=False):
     """
     #################################################################
     This function is used for...
@@ -377,12 +377,12 @@ def Check_Promiscuity(mol, show=False):
         Output: df is a pandas.core.frame.DataFrame object.
     #################################################################
     """
-    df = SmartProcess._CheckWithSmarts(mol,endpoint='Promiscuity',show=show)
+    df = SmartProcess._CheckWithSmarts(mol,endpoint='Promiscuity',detail=detail)
     
     return df
 
 
-def Check_Reactive_Unstable_Toxic(mol, show=False):
+def Check_Reactive_Unstable_Toxic(mol, detail=False):
     """
     #################################################################
     This function is used for...
@@ -400,12 +400,12 @@ def Check_Reactive_Unstable_Toxic(mol, show=False):
         Output: df is a pandas.core.frame.DataFrame object.
     #################################################################
     """
-    df = SmartProcess._CheckWithSmarts(mol,endpoint='Reactive_Unstable_Toxic',show=show)
+    df = SmartProcess._CheckWithSmarts(mol,endpoint='Reactive_Unstable_Toxic',detail=detail)
     
     return df
 
 
-def Check_Skin_Sensitization(mol, show=False):
+def Check_Skin_Sensitization(mol, detail=False):
     """
     #################################################################
     This function is used for...
@@ -423,12 +423,12 @@ def Check_Skin_Sensitization(mol, show=False):
         Output: df is a pandas.core.frame.DataFrame object.
     #################################################################
     """
-    df = SmartProcess._CheckWithSmarts(mol,endpoint='Skin_Sensitization',show=show)    
+    df = SmartProcess._CheckWithSmarts(mol,endpoint='Skin_Sensitization',detail=detail)    
     
     return df
     
 
-def Check_DNA_Binding_ToxTree(mol,show=False):
+def Check_DNA_Binding_ToxTree(mol,detail=False):
     """
     #################################################################
     This function is used for...
@@ -446,11 +446,11 @@ def Check_DNA_Binding_ToxTree(mol,show=False):
         Output: df is a pandas.core.frame.DataFrame object.
     #################################################################
     """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='Acute_Aquatic_Toxicity',show=show)
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='Acute_Aquatic_Toxicity',detail=detail)
     return res
     
 
-def Check_SureChEMBL(mol,show=False):
+def Check_SureChEMBL(mol,detail=False):
     """
     ---
     Ref.: https://www.surechembl.org/knowledgebase/169485   
@@ -463,17 +463,17 @@ def Check_SureChEMBL(mol,show=False):
     ---
     Parameters:
         >>> mol: rdkit.Chem.rdchem.Mol
-        >>> show: bool, optional(default=True), 
+        >>> detail: bool, optional(default=True), 
             When set to True, function will return more information(MatchedAtoms,MatchedNames)
             else, only return Disposed and Endpoint
     
     Return: a namedtuple
     """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='SureChEMBL',show=show)
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='SureChEMBL',detail=detail)
     return res
     
     
-def Check_BMS(mol,show=False):
+def Check_BMS(mol,detail=False):
     """
     ---
     Ref.: Pearce, Bradley C., et al.
@@ -488,17 +488,17 @@ def Check_BMS(mol,show=False):
     ---
     Parameters:
         >>> mol: rdkit.Chem.rdchem.Mol
-        >>> show: bool, optional(default=True), 
+        >>> detail: bool, optional(default=True), 
             When set to True, function will return more information(MatchedAtoms,MatchedNames)
             else, only return Disposed and Endpoint
     
     Return: a namedtuple
     """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='BMS',show=show)
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='BMS',detail=detail)
     return res
 
 
-def Check_NTD(mol,show=False):
+def Check_NTD(mol,detail=False):
     """
     ---
     Ref.: Brenk, Ruth, et al.
@@ -510,13 +510,13 @@ def Check_NTD(mol,show=False):
     ---
      Parameters:
         >>> mol: rdkit.Chem.rdchem.Mol.
-        >>> show: bool, optional(default=True), 
+        >>> detail: bool, optional(default=True), 
             When set to True, function will return more information(MatchedAtoms,MatchedNames)
             else, only return Disposed and Endpoint
     
     Return: a namedtuple
     """        
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='NTD',show=show)
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='NTD',detail=detail)
     return res
 
 
@@ -550,7 +550,7 @@ if __name__ == '__main__':
     
     smi = smis[-1]
     mol = Chem.MolFromSmiles(smi)
-    res = Check_SureChEMBL(mol,show=True)
+    res = Check_SureChEMBL(mol,detail=True)
     #res = Check_Acute_Aquatic_Toxicity(mol)
     print(res)
     

@@ -12,6 +12,6 @@ Created on Tue Jun 25 21:59:42 2019
 
 from scopy.StructureAlert import SmartProcess
 
-def GetEFG(mol,show=False):
+def GetEFG(mol,detail=False):
     res = SmartProcess._CheckWithSmarts(mol,endpoint='Extended_Functional_Groups')
     return res
