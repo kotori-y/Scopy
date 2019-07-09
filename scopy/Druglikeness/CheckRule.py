@@ -16,15 +16,15 @@ __doc__ = """
     We have collected followed rules:
 
     Egan Rule     0<=tPSA<=132; -1<=logP<=6
-    Veber Rule   nRot<= 10; tPSA<= 140; nHb<= 12
+    Veber Rule   nRot<= 10; tPSA<= 140; nHB<= 12
     LipinskiRule  MW<=500; logP<=5, nHD<=5, nHA <=10
     BeyondRo5   Mw<=1000; -2<=logP<=10; nHD<=6, nHA<=15; tPSA<=250; nRot<=20
     Pfizer Rule     logP>3; PSA<75
     GSK Rule        MW<=400; logP<=4
     OralMacrocycles     MW<1000; logP<10; nHD<5; PSA<250
     Oprea Rule      0<=nHD<=2; 2<= nHA<=9; 2<=nRot<=8; 1<=nRing<=4
-    Ghose Rule      nRing>=3; nRig>=18; nRot>=6
-    Xu Rule     nhd<=5; nha <= 10; 3 <= rot <= 35; 1 <= nring <= 7; 10 <= nhev <= 50
+    Ghose Rule      -0.4<logP<5.6; 160<MW<480; 40<MR<130; 20<nAtom<70
+    Xu Rule     nHD<=5; nHA <= 10; 3 <= rot <= 35; 1 <= nring <= 7; 10 <= nhev <= 50
     Ro4 Rule    MW<=400; logP<=4; nHD<=4; NHA<=8; PSA<=120
     Ro3 Rule    MW<=300; -3<=logP<=3; nHD<=3; nHA<=6; PSA<=60
     Ro2 Rule    MW<=200; logP<=2; nHD<=2; nHA<=4
@@ -46,7 +46,7 @@ __doc__ = """
 
 from scopy.Druglikeness import CalculateProperty
 from collections import namedtuple
-#from rdkit import Chem
+from rdkit import Chem
 
 def CheckEganRule(mol,detail):
     """
@@ -55,7 +55,7 @@ def CheckEganRule(mol,detail):
     
     -Ref.:
         Egan, William J., Kenneth M. Merz, and John J. Baldwin. 
-        Journal of medicinal chemistry 43.21 (2000): 3867-3877.
+        J Med Chem, 43.21 (2000): 3867-3877.
         
     -Rule details:
         0 <= tPSA <= 132
@@ -176,7 +176,7 @@ def CheckBeyondRo5(mol,detail=False):
     
     -Ref.:
         Doak, Bradley C., et al.
-        ournal of medicinal chemistry 59.6 (2015): 2312-2327.
+        journal of medicinal chemistry 59.6 (2015): 2312-2327.
         
     -Rule details:
         MW <= 1000
@@ -405,30 +405,33 @@ def CheckGhoseRule(mol,detail=False):
         Journal of combinatorial chemistry 1.1 (1999): 55-68.
     
     -Rules details:
-        nRing >= 3
-        nRig >= 18
-        nRot >= 6
+        -0.4<logP<5.6
+        160<MW<480
+        40<MR<130
+        20<nAtom<70
     #################################################################
     """
     #Calculate required properties of Oprea
-    nRing = CalculateProperty.CalculateNumRing(mol)
-    nRig = CalculateProperty.CalculateNumRigidBonds(mol)
-    nRot = CalculateProperty.CalculateNumRotatableBonds(mol)    
+    logP = CalculateProperty.CalculateLogP(mol)
+    MW = CalculateProperty.CalculateMolWeight(mol)
+    MR = CalculateProperty.CalculateMolMR(mol)
+    nAtom = CalculateProperty.CalculateNumAtoms(mol)    
     #Determine whether the molecular match each rule
-    anRing = (nRing>=1)
-    anRig = (nRig>=18)
-    anRot = (nRot>=6)   
+    alogP = (-0.4<logP<5.6)
+    aMW = (160<MW<480)
+    aMR = (40<MR<130)
+    anAtom = (20<nAtom<70)
     #Give the advice
-    if (anRing&anRig&anRot):
+    if (alogP&aMW&aMR&anAtom):
         disposed = 'Accept'
     else:
         disposed = 'Reject'
     #Count the number of violated rules
-    violate = 3 - (anRing+anRig+anRot)
+    violate = 4 - (alogP+aMW+aMR+anAtom)
     #Res
     if detail:
-        res = namedtuple('GhoseRuler',['nRing','nRig','nRot','Disposed','Violate'])
-        checkres = res(nRing,nRig,nRot,disposed,violate)
+        res = namedtuple('GhoseRuler',['logP','MW','MR','nAtom','Disposed','Violate'])
+        checkres = res(logP,MW,MR,nAtom,disposed,violate)
     else:
         res = namedtuple('GhoseRuler',['Disposed','Violate'])
         checkres = res(disposed,violate)
@@ -441,6 +444,8 @@ def CheckKelderRule(mol):
     Check moleculars under Kelder rules
     
     -Ref.:
+        Kelder, Jan, et al.
+        Pharm Res, 16.10 (1999): 1514-1519.
         
     -Rule details:
         tpsa <120 for orally active;
@@ -460,7 +465,7 @@ def CheckREOS(mol):
     
     -Ref.:
         Walters, W. Patrick, and Mark Namchuk.
-        Nature reviews Drug discovery 2.4 (2003): 259.
+        Nat Rev Drug Discov, 2.4 (2003): 259.
         
     -Rule details:
         200 <= mw <= 500
@@ -514,7 +519,7 @@ def CheckGoldenTriangle(mol):
     
     -Ref.:
         Johnson, Ted W., Klaus R. Dress, and Martin Edwards.
-        Bioorganic & medicinal chemistry letters 19.19 (2009): 5560-5564.
+        Bioorg Med Chem Lett, 19.19 (2009): 5560-5564.
         
     -Rule details:
         200 <= MW <= 500
@@ -590,6 +595,8 @@ def CheckSchneiderRule(mol):
     Check  molecular under Schneider rule
     
     -Ref.:
+        Schneider, Nadine, et al.
+        J Chem Inf Model, 48.3 (2008): 613-628.
         
     -Rule details:
         mw > 230
@@ -756,15 +763,15 @@ def DrugLikeOne(mol):
     
     -Ref.:
         (1) Lipinski, Christopher A., et al.
-        Advanced drug delivery reviews 23.1-3 (1997): 3-25.
+        Adv Drug Deliv Rev, 223.1-3 (1997): 3-25.
         (2) Oprea, Tudor I.
-        Journal of computer-aided molecular design 14.3 (2000): 251-264.
+        J Comput Aided Mol Des, 14.3 (2000): 251-264.
         (3) Irwin, John J., and Brian K. Shoichet.
-        Journal of chemical information and modeling 45.1 (2005): 177-182.
+        J Chem Inf Model, 45.1 (2005): 177-182.
         (4) Oprea, Tudor I., et al.
-        Journal of chemical information and computer sciences 41.5 (2001): 1308-1315.
+        J Chem Inf Comput Sci, 41.5 (2001): 1308-1315.
         (5) Pihan, Emilie, et al.
-        Bioinformatics 28.11 (2012): 1540-1541.
+        Bioinformatics, 28.11 (2012): 1540-1541.
         
     -Rule details:
         100 <= weight <= 600
@@ -784,27 +791,7 @@ def DrugLikeOne(mol):
     #################################################################
     """
     pass
-#    #Calculate required properties of REOS
-#    weight = CalculateMolWeight(mol)
-#    LogP = CalculateLogP(mol)
-#    nhd = CalculateNumHDonors(mol)
-#    nha = CalculateNumHAcceptors(mol)
-#    
-#    #Determine whether the molecular match each rule
-#    aw = (weight<=200)
-#    alogp = (LogP<=2)
-#    anhd = (nhd<=2)
-#    anha = (nha<=4)
-#    
-#    #Check whether mol pass the whole rules
-#    temp1 = (aw&alogp&anhd&anha)
-#    #Count the number of matched rules
-#    temp2 = (aw+alogp+anhd+anha)
-#    
-#    res = [temp1,temp2]
-#    
-#    return res
-    return None
+
 
 
 def DrugLikeTwo(mol):
@@ -817,13 +804,13 @@ def DrugLikeTwo(mol):
     
     -Ref.:
         (1) Oprea, Tudor I., et al.
-        Journal of chemical information and computer sciences 41.5 (2001): 1308-1315.
+        J Comput Aided Mol Des, 14.3 (2000): 251-264.
         (2) Workman, Paul, and Ian Collins.
-        Chemistry & biology 17.6 (2010): 561-577.
+        Chem Biol, 17.6 (2010): 561-577.
         (3) Baell, Jonathan B.
-        Journal of chemical information and modeling 53.1 (2012): 39-55.
+        J Chem Inf Model, 53.1 (2012): 39-55.
         (4) Brenk, Ruth, et al.
-        ChemMedChem: Chemistry Enabling Drug Discovery 3.3 (2008): 435-444.
+        ChemMedChem 3.3 (2008): 435-444.
         
     -Rule details:
         150 <= weight <= 400
@@ -844,27 +831,6 @@ def DrugLikeTwo(mol):
     #################################################################
     """
     pass
-#    #Calculate required properties of REOS
-#    weight = CalculateMolWeight(mol)
-#    LogP = CalculateLogP(mol)
-#    nhd = CalculateNumHDonors(mol)
-#    nha = CalculateNumHAcceptors(mol)
-#    
-#    #Determine whether the molecular match each rule
-#    aw = (weight<=200)
-#    alogp = (LogP<=2)
-#    anhd = (nhd<=2)
-#    anha = (nha<=4)
-#    
-#    #Check whether mol pass the whole rules
-#    temp1 = (aw&alogp&anhd&anha)
-#    #Count the number of matched rules
-#    temp2 = (aw+alogp+anhd+anha)
-#    
-#    res = [temp1,temp2]
-#    
-#    return reslg
-    return None
 
 def CheckZinc(mol):
     """
@@ -873,7 +839,7 @@ def CheckZinc(mol):
     
     -Ref.:
         Irwin, John J., and Brian K. Shoichet. 
-        Journal of chemical information and modeling 45.1 (2005): 177-182.
+        J Chem Inf Model, 45.1 (2005): 177-182.
         
     -Rule details:
         60 <= weight <= 100
@@ -898,14 +864,14 @@ def CheckZinc(mol):
     return None
 
 
-def CheckCns(mol):
+def CheckCNS(mol,detail=False):
     """
     #################################################################
     Check mol under CNS
     
     -Ref.:
         Jeffrey, Phil, and Scott Summerfield.
-        Neurobiology of disease 37.1 (2010): 33-37.
+        Neurobiol Dis, 37.1 (2010): 33-37.
         
     -Rule details:
         135 <= weight <= 582
@@ -915,42 +881,165 @@ def CheckCns(mol):
         3 <= TPSA <= 118
     #################################################################
     """
-    pass
+    #Calculate required properties of REOS
+    MW = CalculateProperty.CalculateMolWeight(mol)
+    logP = CalculateProperty.CalculateLogP(mol)
+    nHD = CalculateProperty.CalculateNumHDonors(mol)
+    nHA = CalculateProperty.CalculateNumHAcceptors(mol)
+    tPSA = CalculateProperty.CalculateTPSA(mol)
+    #Determine whether the molecular match each rule
+    aMW = (135<=MW<=582)
+    alogP = (-0.2<=logP<=6.1)
+    anHD = (nHD<=3)
+    anHA = (nHA<=5)  
+    atPSA = (3<=tPSA<=118)
+    #Give the advice
+    if (aMW&alogP&anHD&anHA&atPSA):
+        disposed = 'Accept'
+    else:
+        disposed = 'Reject'
+    #Count the number of violated rules
+    violate = 5 - (aMW+alogP+anHD+anHA+atPSA)
+    #res
+    if detail:
+        res = namedtuple('CNS',['MW','logP','nHD','nHA','tPSA','Disposed','Violate'])
+        checkres = res(MW,logP,nHD,nHA,tPSA,disposed,violate)
+    else:
+        res = namedtuple('CNS',['Disposed','Violate'])
+        checkres = res(disposed,violate)
+    return checkres
 
-    return None
 
-
-def CheckRespiratory(mol):
+def CheckRespiratory(mol,detail=False):
     """
     #################################################################
     Check mol under Respiratory
     
     -Ref.:
         Ritchie, Timothy J., Christopher N. Luscombe, and Simon JF Macdonald. 
-        Journal of chemical information and modeling 49.4 (2009): 1025-1032.
+        J Chem Inf Model, 49.4 (2009): 1025-1032.
         
     -Rule details:
-        240 <= weight <= 520
-        -2.0 <= logP <= 4.7
-        6 <= nhyb <= 12
-        51 <= TPSA <= 135
-        3 <= nrot <= 8
-        1 <= nring <= 5
+        240<=MW<= 520
+        -2.0<=logP<=4.7
+        6<=nHB<=12
+        51<=tPSA<=135
+        3<=nRot<=8
+        1<=nRing<=5
     #################################################################
     """
-    pass
+    #Calculate required properties of REOS
+    MW = CalculateProperty.CalculateMolWeight(mol)
+    logP = CalculateProperty.CalculateLogP(mol)
+    nHB = CalculateProperty.CalculateNumHyBond(mol)
+    tPSA = CalculateProperty.CalculateTPSA(mol)
+    nRot = CalculateProperty.CalculateNumRotatableBonds(mol)
+    nRing = CalculateProperty.CalculateNumRing(mol)
+    #Determine whether the molecular match each rule
+    aMW = (240<=MW<=520)
+    alogP = (-0.2<=logP<=4.7)
+    anHB = (6<=nHB<=12)  
+    atPSA = (51<=tPSA<=135)
+    anRot = (3<=nRot<=8)
+    anRing = (1<=nRing<=5)
+    #Give the advice
+    if (aMW&alogP&anHB&atPSA&anRot&anRing):
+        disposed = 'Accept'
+    else:
+        disposed = 'Reject'
+    #Count the number of violated rules
+    violate = 6 - (aMW+alogP+anHB+atPSA+anRot+anRing)
+    #res
+    if detail:
+        res = namedtuple('Respiratory',['MW','logP','nHB','tPSA','nRot','nRing','Disposed','Violate'])
+        checkres = res(MW,logP,nHB,tPSA,nRot,nRing,disposed,violate)
+    else:
+        res = namedtuple('CNS',['Disposed','Violate'])
+        checkres = res(disposed,violate)
+    return checkres
+
+
+def Check_CustomizeRule(mol,prop_kws,closed_interval=True,detail=False):
+    """
+    You could customize the rule you want.
     
-    return None
+    ---     
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> prop_kws: dict, the keys of dict are properties you want to check;
+                        the values should be a tuple or list with two elements,
+                        present the left- and right-bounded respectively.
+    >>> closed_interval: bool, optional(default=True), 
+                         True for using closed interval and False for opened interval
+    ---
+    Return:
+        a namedtuple            
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    """
+    allowed = ['MW','nBond','nHet','nRot','nRig',
+               'nRing','nHev','logP','MR','nHD',
+               'nHA','nHB','AP','logSw','Fsp3','tPSA',
+               'AP','HetRatio','MaxRing','nStero', 'HetRatio']    
+    properties = CalculateProperty.GetProperties(mol)._asdict()
+    keys = list(prop_kws.keys())
+    try:
+        res = [properties[key] for key in keys]
+        if closed_interval:
+            bo = [((not prop_kws.get(key)[0] or properties[key] >= prop_kws.get(key)[0])and\
+                   (not prop_kws.get(key)[-1] or properties[key] <= prop_kws.get(key)[-1]))\
+                   for key in keys]
+        else:
+            bo = [((not prop_kws.get(key)[0] or properties[key] > prop_kws.get(key)[0])and\
+                   (not prop_kws.get(key)[-1] or properties[key] < prop_kws.get(key)[-1]))\
+                   for key in keys]
+    except KeyError:
+        raise ValueError('the key of prop_kws must a member of {}'.format(', '.join(allowed)))
+    VioProp = [keys[idx] for idx,item in enumerate(bo) if not item]
+    nViolate = len(keys)-sum(bo)
+    if detail:       
+        keys.extend(['nViolate','VioProp'])
+        res.extend([nViolate,VioProp])
+        checkres = namedtuple('CustomizeRule',keys)
+    else:
+        checkres = namedtuple('CustomizeRule',['nViolate','VioProp'])
+        res = [nViolate,VioProp]
+    return checkres(*res)
+       
 
-
-#if __name__ =='__main__':
-#    
-#    smis = ['CCCC','CCCCC','CCCCCC','CC(N)C(=O)O','CC(N)C(=O)[O-].[Na+]','CC(=O)OC1=CC=CC=C1C(=O)O']
-#    smi5=['CCCCCC','CCC(C)CC','CC(C)CCC','CC(C)C(C)C','CCCCCN','c1ccccc1N']
-#    smiring = ['C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2','C1CCC2C3CC(C4CCCC5CCCCC45)CCC3CCC2C1','C1CCC2(CCC3(CCCCC3)CC2)CC1']
-#    for index, smi in enumerate(smis):
-#        mol = Chem.MolFromSmiles(smi)
-#        print('Index:{}'.format(index))
-#        res = CheckLipinskiRule(mol,detail=True)
+if __name__ =='__main__':
+    
+    smis = ['CCCC','CCCCC','CCCCCC','CC(N)C(=O)O','CC(N)C(=O)[O-].[Na+]','CC(=O)OC1=CC=CC=C1C(=O)O']
+    smi5=['CCCCCC','CCC(C)CC','CC(C)CCC','CC(C)C(C)C','CCCCCN','c1ccccc1N']
+    smiring = ['C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2','C1CCC2C3CC(C4CCCC5CCCCC45)CCC3CCC2C1','C1CCC2(CCC3(CCCCC3)CC2)CC1']
+    for index, smi in enumerate(smis):
+        mol = Chem.MolFromSmiles(smi)
+        print('Index:{}'.format(index))
+        res = CheckRespiratory(mol,detail=True)
 #        print(res)
-        
+#        res = Check_CustomizeRule(mol,
+#                                  prop_kws={'MW':(100,500),
+#                                            'nRot':(2,3),
+#                                            'nHD':(None,5),
+#                                            'nHB':(1,None)},
+#                                  detail=True,
+#                                  closed_interval=False)
+        print(res)
+                                  
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   

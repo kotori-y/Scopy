@@ -441,7 +441,8 @@ def CalculateQED(mol,wtype = "mean"):
     Calculation QED descriptor under different weights
     
     A descriptor a measure of drug-likeness based on the concept of desirability
-    -Ref.: Bickerton, G. Richard, et al. "Quantifying the chemical beauty of drugs." Nature chemistry 4.2 (2012): 90.
+    -Ref.: Bickerton, G. Richard, et al.
+           Nat Chem, 4.2 (2012): 90.
             
     Quantitative Estimate of Drug-likeness 
     
@@ -466,7 +467,7 @@ def CalculateQED(mol,wtype = "mean"):
         #msg = "invalid wtype has been input"
         qed = None
     
-    return qed 
+    return round(qed,2) 
     
 
 def CalculateMaxSizeSystemRing(mol):
@@ -633,22 +634,74 @@ def CalculateHetCarbonRatio(mol):
 
 def CalculateSAscore(mol):
     """
+    ---
+    Ref.: Ertl, Peter, and Ansgar Schuffenhauer.
+          J Cheminform, 1(1), 8.      
+    Based: https://github.com/rdkit/rdkit/tree/master/Contrib/SA_Score   
+    
+    ---
+    Brief: A function to estimate ease of synthesis (synthetic accessibility) of drug-like molecules  
+    
+    ---
+    Parameters:
+        >>> mol: dkit.Chem.rdchem.Mol;
+    
+    Return:
+        float, meant SA score
     """
-    return sascorer.calculateScore(mol)
+    return round(sascorer.calculateScore(mol),2)
 
 
 def CalculateNPscore(mol):
     """
+    ---
+    Ref.: Ertl, Peter, Silvio Roggo, and Ansgar Schuffenhauer.
+          J Chem Inf Model, 48(1), 68-74.
+    
+    Based: Https://github.com/rdkit/rdkit/tree/master/Contrib/NP_Score
+    
+    ---
+    Brief: A function to calculate the natural product-likeness score
+    
+    ---
+    Parameters:
+        >>> mol: dkit.Chem.rdchem.Mol;
+    
+    Return:
+        float, meant NP score
     """
     filename = os.path.join(ContriDir, 'NP_Score/publicnp.model.gz')
     fscore = npscorer.pickle.load(npscorer.gzip.open(filename)) 
-    return npscorer.scoreMol(mol,fscore=fscore)
+    return round(npscorer.scoreMol(mol,fscore=fscore),2)
 
     
 def GetIFG(mol):
     """
+    ---
+    Ref.: Ertl, Peter.
+          J Cheminform, 9(1), 36.
+    
+    Based: https://github.com/rdkit/rdkit/tree/master/Contrib/IFG
+    
+    ---
+    Brief: A function to compute functional groups in organic molecules
+    
+    ---
+    Parameters:
+        >>> mol: dkit.Chem.rdchem.Mol;
+        
+    Return:
+        list of namedtuple, namedtuple('IFG', ['atomIds', 'atoms', 'type'])
+        e.g.:
+            [IFG(atomIds=(2,), atoms='n', type='cnc'),
+             IFG(atomIds=(4, 5, 6, 7), atoms='NS(=O)=O', type='cNS(c)(=O)=O'),
+             IFG(atomIds=(12,), atoms='N', type='cN'),
+             IFG(atomIds=(15,), atoms='n', type='cnc')]
+    ---
     """
     return identify_functional_groups(mol)
+
+
 
 def GetProperties(mol):
     """
@@ -657,6 +710,7 @@ def GetProperties(mol):
     MW = CalculateMolWeight(mol)
     nBond = CalculateNumBonds(mol)
     nAtom = CalculateNumAtoms(mol)
+    nCarbon = CalculateCarbonNumber(mol)
     nHet = CalculateHeteroNumber(mol)
     nRot = CalculateNumRotatableBonds(mol)
     nRig = CalculateNumRigidBonds(mol)
@@ -674,21 +728,24 @@ def GetProperties(mol):
     MaxRing = CalculateMaxSizeSystemRing(mol)
     nStero = CalculateNumberStereocenters(mol)
     HetRation = CalculateHetCarbonRatio(mol)
+    QED = CalculateQED(mol)
+    SAscore = CalculateSAscore(mol)
+    NPscore = CalculateNPscore(mol)
     
-    res = namedtuple('Properties',['MW','nBond','nAtom','nHD','nHA','nHB',
+    res = namedtuple('Properties',['MW','nBond','nAtom','nCarbon','nHD','nHA','nHB',
                                    'nHet','nStero','nHev','nRot','nRig','nRing',
                                    'logP','logSw','MR','tPSA','AP','HetRatio',
-                                   'Fsp3','MaxRing'])
-    checkres = res(MW,nBond,nAtom,nHD,nHA,nHB,
+                                   'Fsp3','MaxRing','QED','SAscore','NPscore'])
+    checkres = res(MW,nBond,nAtom,nCarbon,nHD,nHA,nHB,
                    nHet,nStero,nHev,nRot,nRig,nRing,
                    logP,logSw,MR,tPSA,AP,HetRation,
-                   Fsp3,MaxRing)  
+                   Fsp3,MaxRing,QED,SAscore,NPscore)  
     return checkres
 
 
 
-#if __name__ =='__main__':
-#    
+if __name__ =='__main__':
+    
 #    smis = ['CCCC','CCCCC','CCCCCC','CC(N)C(=O)O','CC(N)C(=O)[O-].[Na+]','CC(=O)OC1=CC=CC=C1C(=O)O']
 #    smi5=['CCCCCC','CCC(C)CC','CC(C)CCC','CC(C)C(C)C','CCCCCN','c1ccccc1N']
 #    smiring = ['C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2','C1CCC2C3CC(C4CCCC5CCCCC45)CCC3CCC2C1','C1CCC2(CCC3(CCCCC3)CC2)CC1']
@@ -697,5 +754,10 @@ def GetProperties(mol):
 #        print('Index:{}'.format(index))
 #        res = GetProperties(mol)
 #        print(res)
-#        
+    
+    smi = 'C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2'
+    mol = Chem.MolFromSmiles(smi)
+    res = GetProperties(mol)
+    print(res)
+        
         

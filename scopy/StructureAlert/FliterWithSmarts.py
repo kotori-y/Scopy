@@ -14,33 +14,33 @@ Created on Tue Jun 25 21:59:42 2019
 from rdkit.Chem import AllChem as Chem
 from scopy.StructureAlert import SmartProcess
 
+
 def Check_Acute_Aquatic_Toxicity(mol, detail=False):
     """
-    #################################################################
-    This function is used for detecting molecular whether or not
-    has the toxicophores of Acute Aquatic Toxicity through SMARTS.
-            
-    -Endpoint Info:        
-        
-        Endpoint: Acute Aquatic Toxicity
-        
-        Brief Express: The toxicity to water
-                     
-    -Ref.:
-        
+    ---
+    Ref.:
         (1) Hermens, J. L.
-        Environmental health perspectives 87 (1990): 219-225.
+        Environ Health Perspect, 87 (1990): 219-225.
         (2) Verhaar, Henk JM, Cees J. Van Leeuwen, and Joop LM Hermens.
-        Chemosphere 25.4 (1992): 471-491.
-        
-    -Usage:
-        
-        res = Check_Acute_Aquatic_Toxicity(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: res is a customize object--CheckRes            
-    #################################################################
+        Chemosphere, 25.4 (1992): 471-491.
+    
+    ---
+    Brief:
+        The endpoint, Acute_Aquatic_Toxicity presents
+        a compound may cause toxicity to liquid(water).
+        There are 99 SMARTS in this endpoint.
+   
+    ---     
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
+    
+    Return:
+        a namedtuple            
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     """
     res = SmartProcess._CheckWithSmarts(mol,endpoint='Acute_Aquatic_Toxicity',detail=detail)    
     return res
@@ -48,334 +48,427 @@ def Check_Acute_Aquatic_Toxicity(mol, detail=False):
 
 def Check_AlphaScreen_FHs(mol, detail=False):
     """
-    #################################################################
-    This Function is used for detecting molecular whether or not
-    has the substructure of alphascreen frequent hitters, through SMARTS,
-        
-    We have obtained 6 substructures in this endpoint
-    
-    -Ref.:
+    ---
+    Ref.:
         Schorpp, Kenji, et al.
-        Journal of biomolecular screening 19.5 (2014): 715-726.
+        J Biomol Screen, 19.5 (2014): 715-726.
         
-    -Usage:
-        
-        df = Check_AlphaScreen_FHs(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
-    """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='AlphaScreen_FHs',detail=detail)
+    ---
+    Brief:
+        The endpoint, AlphaScreen_FHs presents
+        a compound may be alphascreen frequent hitters
+        There are 6 SMARTS in this endpoint
+   
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    """
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='AlphaScreen_FHs',detail=detail) 
     return res
 
 
 def Check_AlphaScreen_GST_FHs(mol, detail=False):
     """
-    NOTE: The Smarts in this endpoint may should be revised
-    """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='AlphaScreen_GST_FHs',detail=detail)
+    ---
+    Ref.:
+        Brenke, Jara K., et al.
+        J Biomol Screen, 21.6 (2016): 596-607.
+        
+    ---
+    Brief:
+        The endpoint GST_FHs presents
+        a compound may prevents GST/GSH interaction during HTS.
+        There are 34 SMARTS in this endpoint
+        
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    """
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='AlphaScreen_GST_FHs',detail=detail)  
     return res
 
 
 def Check_AlphaScreen_HIS_FHs(mol, detail=False):
     """
-    #################################################################
-    This Function is used for detecting molecular whether or not
-    has the substructure of alphascreen frequent hitters in HIS, through SMARTS,
-        
-    We have obtained 19 substructures in this endpoint
-    
-    -Ref.:
+    ---
+    Ref.:
         Schorpp, Kenji, et al.
-        Journal of biomolecular screening 19.5 (2014): 715-726.
+        J Biomol Screen, 19.5 (2014): 715-726.
         
-    -Usage:
+    ---
+    Brief:
+        The endpoint HIS_FHs presents
+        a compound prevents the binding of the protein His-tag moiety to nickel chelate
+        There are 19 SMARTS in this endpoint
         
-        df = Check_AlphaScreen_HIS_FHs(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
-    """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='AlphaScreen_HIS_FHs')
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    """
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='AlphaScreen_HIS_FHs') 
     return res
 
 
 def Check_Biodegradable(mol, detail=False):
     """
-    #################################################################
-    This function is used for detecting molecular whether or not
-    be able to be biodegraded
+    ---
+    Ref:
+        Environment Canada.
+        Existing Substances Program (CD-ROM), released April, 2004 (2003).
+        
+    ---
+    Brief:
+        The endpoint Biodegradable presents
+        a compound may be Biodegradable.
+        There are 9 SMARTS in this enpoint
     
-    We have obtained 9 substructures in this endpoint
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
-    -Ref.:
-        
-    -Usage:
-        
-        df = Check_Biodegradable(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     """
-    df = SmartProcess._CheckWithSmarts(mol,endpoint='Biodegradable',detail=detail)
-    
-    return df
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='Biodegradable',detail=detail)    
+    return res
     
 
 def Check_Chelating(mol, detail=False):
     """
-    #################################################################
-    This function is used for...
+    ---
+    Ref.:
+        Agrawal, Arpita, et al.
+        ChemMedChem, 5.2 (2010): 195-199.
     
-    We have obtained 55 substructures in this endpoint
+    ---
+    Brief:
+        The endpoint Chelating presents
+        a compound may inhibits metalloproteins.
+        Thers are 55 SMARTS in this endpoint
     
-    -Ref.:
-        
-    -Usage:
-        
-        df = Check_Chelating(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
+    
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     """
     res = SmartProcess._CheckWithSmarts(mol,endpoint='Chelating',detail=detail)
-    
     return res
+
 
 def Check_Developmental_Mitochondrial(mol, detail=False):
     """
-    #################################################################
-    This function is used for...
+    Ref.:
+        Mukesh, P.
+        Structural Alerts for Developmental Toxicity and 
+        Mitochondrial Toxicity Molecular Initiating Events (Lhasa Limited)
+        
+    ---
+    Brief:
+        The endpoint Developmental_Mitochondrial present
+        a compound may casue Developmental Toxicity and Mitochondrial Toxicity
+        There are 12 SMARTS in this endpoint
     
-    We have obtained 12 substructures in this endpoint
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
-    -Ref.:
-        
-    -Usage:
-        
-        df = Check_Developmental_Mitochondrial(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     """
-    df = SmartProcess._CheckWithSmarts(mol,endpoint='Developmental_Mitochondrial')
-
-    return df
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='Developmental_Mitochondrial')
+    return res
 
 
 def Check_Genotoxic_Carcinogenicity_Mutagenicity(mol, detail=False):
     """
-    #################################################################
-    This function is used for...
+    ---
+    Ref.:
+        (1) Benigni, Romualdo, and Cecilia Bossa. 
+            Mutat Res Rev Mutat Res, 659.3 (2008): 248-261.
+        (2) Ashby, John, and Raymond W. Tennant.
+            Mutat Res Rev Mutat Res, 204.1 (1988): 17-115.
+        (3) Kazius, Jeroen, Ross McGuire, and Roberta Bursi.
+            J Med Chem, 48.1 (2005): 312-320.
+        (4) Bailey, Allan B., et al.
+            Regul Toxicol Pharmacol, 42.2 (2005): 225-235.
     
-    We have obtained 117 substructures in this endpoint
+    ---
+    Brief:
+        The endpoint Genotoxic_Carcinogenicity_Mutagenicity present
+        a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms;
+        There are 117 SMARTS in this endpoint
+        
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
-    -Ref.:
-        
-    -Usage:
-        
-        df = Check_Genotoxic_Carcinogenicity_Mutagenicity(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     """
-    df = SmartProcess._CheckWithSmarts(mol,endpoint='Genotoxic_Carcinogenicity_Mutagenicity',detail=detail)
-    
-    return df
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='Genotoxic_Carcinogenicity_Mutagenicity',detail=detail)   
+    return res
     
     
 def Check_Idiosyncratic(mol, detail=False):
     """
-    #################################################################
-    This function is used for...
+    ---
+    Ref.:
+        Kalgutkar, Amit S., and John R. Soglia. 
+        Expert Opin Drug Metab Toxicol, 1.1 (2005): 91-142
+        
+    ---
+    Brief:
+        The endpoit Idiosyncratic presents
+        a compound may has diosyncratic toxicity
+        There are 35 SMARTS in this endpoint.
+        
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
-    We have obtained 35 substructures in this endpoint
-    
-    -Ref.:
-        
-    -Usage:
-        
-        df = Check_Idiosyncratic(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     """
     res = SmartProcess._CheckWithSmarts(mol,endpoint='Idiosyncratic',detail=detail)
-    
     return res
     
 
 def Check_LD50_Oral(mol, detail=False):
     """
-    #################################################################
-    This function is used for...    
+    ---
+    Ref.:
+        Tinkov OV
+        Biomed Khim, 65.2 (2019): 123-132.
     
-    We have obtained 20 substructures in this endpoint
+    ---    
+    Brief:
+        The endpoint LD50_Oral presents
+         a compound may cause acute toxicity during oral administration;
+         There are 20 SMARTS in this endpoint
+         
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
-    -Ref.:
-        
-    -Usage:
-        
-        df = Check_LD50_oral(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     """
     res = SmartProcess._CheckWithSmarts(mol,endpoint='LD50_Oral',detail=detail)
-    
     return res
 
 
 def Check_Luciferase_Inhibitory(mol, detail=False):
     """
-    #################################################################
-    This function is used for...
+    ---
+    Ref.:
+        An unpublished parper
     
-    We have obtained 3 substructures in this endpoint
+    ---
+    Brief:
+        
+        
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
-    -Ref.:
-        
-    -Usage:
-        
-        df = Check_Luciferase_Inhibitory(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     """
-    df = SmartProcess._CheckWithSmarts(mol,endpoint='Luciferase_Inhibitory')
-    
-    return df
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='Luciferase_Inhibitory')
+    return res
     
 
 def Check_NonBiodegradable(mol, detail=False):
     """
-    #################################################################
-    This function is used for...
+    ---
+    Ref:
+        Environment Canada.
+        Existing Substances Program (CD-ROM), released April, 2004 (2003).
+        
+    ---
+    Brief:
+        The endpoint Biodegradable presents
+        a compound may be non-biodegradable.
+        There are 19 SMARTS in this enpoint
     
-    We have obtained 19 substructures in this endpoint
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
-    -Ref.:
-        
-    -Usage:
-        
-        df = Check_NonBiodegradable(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='NonBiodegradable',detail=detail)
-    
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='NonBiodegradable',detail=detail)   
     return res
     
     
 def Check_NonGenotoxic_Carcinogenicity(mol, detail=False):
     """
-    #################################################################
-    This function is used for...
+    ---
+    Ref.:
+        (1) Benigni, Romualdo, and Cecilia Bossa. 
+            Mutat Res Rev Mutat Res, 659.3 (2008): 248-261.
+        (2) Benigni, Romualdo, Cecilia Bossa, and Olga Tcheremenskaia.
+            Chem Rev, 113.5 (2013): 2940-2957.
     
-    We have obtained 23 substructures in this endpoint
+    ---
+    Brief:
+        The endpoint Genotoxic_Carcinogenicity_Mutagenicity present
+        a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms;
+        There are 23 SMARTS in this endpoint
+        
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
-    -Ref.:
-        
-    -Usage:
-        
-        df = Check_NonGenotoxic_Carcinogenicity(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     """
-    df = SmartProcess._CheckWithSmarts(mol,endpoint='NonGenotoxic_Carcinogenicity',detail=detail)
-    
-    return df
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='NonGenotoxic_Carcinogenicity',detail=detail)
+    return res
 
 
 def Check_Pains(mol, detail=False):
     """
-    #################################################################
-    This function is used for...
+    ---
+    Ref.:
+        Baell, Jonathan B., and Georgina A. Holloway.
+        J Med Chem, 53.7 (2010): 2719-2740.
     
-    We have obtained 480 substructures in this endpoint
+    ---
+    Brief: 
+        PAINS i.e.,Pan Assay Interference Compounds, presents a type of
+        compounds tend to be hitted in HTS. The article, J Med Chem, 53.7 (2010): 2719-2740,
+        proposed 480 substructures to demonstrated PAINS.
+           
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
-    -Ref.:
-        
-    -Usage:
-        
-        res = Check_Pains(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: res is a pandas.core.frame.DataFrame object.
-    #################################################################
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False   
     """
     res = SmartProcess._CheckWithSmarts(mol,endpoint='Pains',detail=detail)
-    
     return res
 
 
 def Check_Potential_Electrophilic(mol, detail=False):
     """
-    #################################################################
-    This function is used for...
+    ---
+    Ref.:
+        Enoch, S. J., et al.
+        Crit Rev Toxicol, 41.9 (2011): 783-802.
+        
+    ---
+    Brief:
+        The point Potential_Electrophilic presents
+        a compound would be more probably take part in electrophilic reaction,
+        and the electrophilic reaction is strongly assosiated with protein binding.
+        There are 119 SMARTS in this endpoint
+        
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
-    We have obtained 119 substructures in this endpoint
-    
-    -Ref.:
-        
-    -Usage:
-        
-        df = Check_Potential_Electrophilic(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False 
     """
     res = SmartProcess._CheckWithSmarts(mol,endpoint='Potential_Electrophilic',detail=detail)
-    
     return res
+
 
 def Check_Promiscuity(mol, detail=False):
     """
-    #################################################################
-    This function is used for...
+    ---
+    Ref.:
+        Pearce, Bradley C., et al.
+        J Chem Inf Model, 46.3 (2006): 1060-1068.
+        
+    ---
+    Brief:
+        There are 119
     
-    We have obtained  substructures in this endpoint
-    
-    -Ref.:
-        
-    -Usage:
-        
-        df = Check_Potential_Electrophilic(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
     """
     df = SmartProcess._CheckWithSmarts(mol,endpoint='Promiscuity',detail=detail)
     
@@ -384,21 +477,8 @@ def Check_Promiscuity(mol, detail=False):
 
 def Check_Reactive_Unstable_Toxic(mol, detail=False):
     """
-    #################################################################
-    This function is used for...
-    
-    We have obtained 335 substructures in this endpoint
-    
-    -Ref.:
-        
-    -Usage:
-        
-        df = Check_Reactive_Unstable_Toxic(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
+    Ref.:
+        ChemDiv
     """
     df = SmartProcess._CheckWithSmarts(mol,endpoint='Reactive_Unstable_Toxic',detail=detail)
     
@@ -407,46 +487,57 @@ def Check_Reactive_Unstable_Toxic(mol, detail=False):
 
 def Check_Skin_Sensitization(mol, detail=False):
     """
-    #################################################################
-    This function is used for...
+    ---
+    Ref.:
+        (1) Payne, M. P., and P. T. Walsh
+            J Chem Inf Comput Sci, 34.1 (1994): 154-161.
+        (2) Enoch, S. J., J. C. Madden, and M. T. D. Cronin
+            SAR QSAR Environ Res, 19.5-6 (2008): 555-578.
+        (3) Barratt, M. D., et al.
+            Toxicol In Vitro, 8.5 (1994): 1053-1060.
+            
+    ---
+    Brief:
+        There are 155 SMARTS in this endpoint
     
-    We have obtained 155 substructures in this endpoint
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
-    -Ref.:
-        
-    -Usage:
-        
-        df = Check_Reactive_Unstable_Toxic(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     """
-    df = SmartProcess._CheckWithSmarts(mol,endpoint='Skin_Sensitization',detail=detail)    
-    
-    return df
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='Skin_Sensitization',detail=detail)    
+    return res
     
 
-def Check_DNA_Binding_ToxTree(mol,detail=False):
+def Check_DNA_Binding(mol,detail=False):
     """
-    #################################################################
-    This function is used for...
+    ---
+    Ref.:
+        
+    ---
+    Brief:
+        There are 78 SMARTS in this endpoint
     
-    We have obtained 78 substructures in this endpoint
+    ---
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
-    -Ref.:
-        
-    -Usage:
-        
-        df = Check_DNA_Binding_ToxTree(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: df is a pandas.core.frame.DataFrame object.
-    #################################################################
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False  
     """
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='Acute_Aquatic_Toxicity',detail=detail)
+    res = SmartProcess._CheckWithSmarts(mol,endpoint='DNA_Binding',detail=detail)
     return res
     
 
@@ -462,12 +553,15 @@ def Check_SureChEMBL(mol,detail=False):
     
     ---
     Parameters:
-        >>> mol: rdkit.Chem.rdchem.Mol
-        >>> detail: bool, optional(default=True), 
-            When set to True, function will return more information(MatchedAtoms,MatchedNames)
-            else, only return Disposed and Endpoint
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
-    Return: a namedtuple
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     """
     res = SmartProcess._CheckWithSmarts(mol,endpoint='SureChEMBL',detail=detail)
     return res
@@ -487,12 +581,15 @@ def Check_BMS(mol,detail=False):
     
     ---
     Parameters:
-        >>> mol: rdkit.Chem.rdchem.Mol
-        >>> detail: bool, optional(default=True), 
-            When set to True, function will return more information(MatchedAtoms,MatchedNames)
-            else, only return Disposed and Endpoint
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
-    Return: a namedtuple
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     """
     res = SmartProcess._CheckWithSmarts(mol,endpoint='BMS',detail=detail)
     return res
@@ -508,18 +605,19 @@ def Check_NTD(mol,detail=False):
     Brief: Brenk has proposed 105 unwanted groups in HTS
     
     ---
-     Parameters:
-        >>> mol: rdkit.Chem.rdchem.Mol.
-        >>> detail: bool, optional(default=True), 
-            When set to True, function will return more information(MatchedAtoms,MatchedNames)
-            else, only return Disposed and Endpoint
+    Parameters:
+    >>> mol: rdkit.Chem.rdchem.Mol
+    >>> detail: bool, optional(default=True), 
+        When set to True, function will return more information(MatchedAtoms,MatchedNames)
+        else, only return Disposed and Endpoint
     
-    Return: a namedtuple
+    Return:
+        a namedtuple
+        namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
+        and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     """        
     res = SmartProcess._CheckWithSmarts(mol,endpoint='NTD',detail=detail)
     return res
-
-
 
 
 if __name__ == '__main__':
@@ -550,25 +648,6 @@ if __name__ == '__main__':
     
     smi = smis[-1]
     mol = Chem.MolFromSmiles(smi)
-    res = Check_SureChEMBL(mol,detail=True)
+    res = Check_AlphaScreen_GST_FHs(mol,detail=True)
     #res = Check_Acute_Aquatic_Toxicity(mol)
-    print(res)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    print(res)   
