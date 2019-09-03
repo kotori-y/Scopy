@@ -16,7 +16,7 @@ from morgan import Morgan
 from daylight import Daylight
 from efg import EFG
 from rdkit.Chem.rdMolDescriptors import GetMACCSKeysFingerprint
-from PubChemFingerprints import calcPubChemFingerAll
+from pubchem import calcPubChemFingerAll
 import numpy as np
 
 
@@ -268,7 +268,7 @@ if '__main__' == __name__:
             'N(CC)(CCCCC)C(=S)N', #Idiosyncratic
             ]
     mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    fps = CalculateDaylight(mols)
+    fps = CalculateGhoseCrippen(mols)
     print(fps)
     
     

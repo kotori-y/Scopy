@@ -6,17 +6,22 @@
 
 ## What's it is
 
-**Scopy** is a Python package, based on RDKit, computing various **properties of molecule** which present in some **drug likeness rules**, such as Lipinski's rule, Pfizer rule, Beyond Ro5 rule, so that a molecule could be checked under some rules. Besides, Scopy could scan molecule through a predefined toxic fragments in **SMARTS** format to filter the molecule which may has some **unexpected endpoint**.
+**Scopy(<font color='red'>S</font>creening <font color='red'>CO</font>mpounds)**, based on RDKit, is an open-source virtual screening tool. Its calculation is based on the various drug-likeness rules and many **unexpected substructure** presented in **SMARTS** format. Besides, Scopy could also compute some **fingerprints** that retrieved from  **structures**
 
 ## Main Function
 
-### Compute properties
+### Checking molecule under drug-likeness rules
 
-```python
-"""
+Drug-likeness rules are set of guidelines for the structural properties of compounds, used for fast calculation of drug-like properties of a molecule. These guidelines are not absolute, nor are they intended to form strict cutoff values for which property values are drug-like and which are not drug-like. Nevertheless, they can be quite effective and efficient.
+
+#### Physicochemical Properties
+
+In order to implement checking molecule under drug-likeness rules, physicochemical properties should be calculated firstly.
+
+```
 This moudle is used to calculated properise that contained in our collectded rules
     ---
-    up to now(2019.07.22), we have achived followed properties:
+    up to now(2019.07.22), we have achived following properties:
         Molcular Weight >>> MW
         Number of bonds >>> nBond
         Number of atoms >>> nAtom
@@ -28,7 +33,7 @@ This moudle is used to calculated properise that contained in our collectded rul
         logP >>> logP
         logD >>> logD
         logSw >>> logSw
-        Acid or Base >>> Acid/Base
+        Acid or Base >>> ab
         pKa >>> pKa
         QED >>> qed
         Molecular refraction >>> MR
@@ -49,101 +54,84 @@ This moudle is used to calculated properise that contained in our collectded rul
         Volume of mol >>> Vol
         Density >>> Dense
         MolFCharge >>> fChar
-        Number of Carbon atoms
-        Number of Boron atoms
-        Number of Chlorin atoms
-        Number of Bromine atoms
-        Number of Iodine atoms
-        Number of Phosphor atoms
-        Number of Sulfur atoms
-        Number of Oxygen atoms
-        Number of Nitrogen atoms       
+        Number of Carbon atoms >>> nC
+        Number of Boron atoms >>> nB
+        Number of Chlorin atoms >>> nCl
+        Number of Bromine atoms >>> nBr
+        Number of Iodine atoms >>> nI
+        Number of Phosphor atoms >>> P
+        Number of Sulfur atoms >>> nS
+        Number of Oxygen atoms >>> nO
+        Number of Nitrogen atoms >>> nN
     ---
     Followed should be achieved in the future:
-        logD
-        difference between clogP and alogP
         Formal total charge of the compound
         Number of Charged Groups
-"""
 ```
-this function is realized in module scopy.Druglikeness
+This function is implemented in module scopy.druglikeness
 
 ```python
->>> from scopy.Druglikeness import CalculateProperty
+>>> from scopy.druglikeness import molproperty
 >>> from rdkit import Chem
 ```
 
 ```python
 >>> mol = Chem.MolFromSmiles('C1=CC=CC1')
->>> res = CalculateProperty.GetProperties(mol)
+>>> res = molproperty.GetProperties(mol)
 >>> print(res)
-Properties(MW=66.1, nBond=5, nAtom=11, nCarbon=5, nHD=0, nHA=0, nHB=0, nHet=0, nStero=0, nHev=5, nRot=0, nRig=5, nRing=1, logP=1.5, logSw=-1.21, MR=22.9, tPSA=0.0, AP=0.0, HetRatio=0.0, Fsp3=0.2, MaxRing=5, QED=0.4, SAscore=3.31, NPscore=2.16)
+Properties(MW=66.1, Vol=81.21, Dense=0.81, fChar=0, nBond=5, nAtom=11, nCarbon=5, nHD=0, nHA=0, nHB=0, nHet=0, nStero=0, nHev=5, nRot=0, nRig=5, nRing=1, logP=1.5, logD=1.2081988287461527, pKa=-7.418658028559937, logSw=-1.21, ab='base', MR=22.9, tPSA=0.0, AP=0.0, HetRatio=0.0, Fsp3=0.2, MaxRing=5, QED=0.4, SAscore=3.31, NPscore=2.16, nSingle=3, nDouble=2, nTriple=0, nC=5, nB=0, nF=0, nCl=0, nBr=0, nI=0, nP=0, nS=0, nO=0, nN=0)
 ```
 
 You could also compute each property respectively, like:
 
 ```python
 >>> mol = Chem.MolFromSmiles('C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2')
->>> res_1 = CalculateProperty.CalculateLogP(mol)
->>> res_2 = CalculateProperty.CalculateNumHAcceptors(mol)
->>> res_3 = CalculateProperty.CalculateNumRing(mol)
+>>> res_1 = molproperty.CalculateLogP(mol)
+>>> res_2 = molproperty.CalculateNumHAcceptors(mol)
+>>> res_3 = molproperty.CalculateNumRing(mol)
 >>> print(res_1,res_2,res_3)
 5.15 0 4
 ```
 
-or you could calculate all properties firstly
+#### Drug-likeness Rules
 
-```python
->>> mol = Chem.MolFromSmiles('C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2')
->>> res = CalculateProperty.GetProperties(mol)
->>> print(res)
-5.15 0 4
->>> print(res.logP,res.nHA,res.nRing)
-Properties(MW=228.29, nBond=21, nAtom=30, nCarbon=18, nHD=0, nHA=0, nHB=0, nHet=0, nStero=0, nHev=18, nRot=0, nRig=21, nRing=4, logP=5.15, logSw=-5.28, MR=78.96, tPSA=0.0, AP=1.0, HetRatio=0.0, Fsp3=0.0, MaxRing=18, QED=0.37, SAscore=1.35, NPscore=-0.14)
 ```
-
-### Check Drug-likeness Rules
-
-```python
-"""
----
-up to now(2019.07.09), we have achived followed rules:
-    Egan Rule
-    Veber Rule
-    Lipinski Rule
-    Beyond Ro5
-    Pfizer Rule(3/75 PfizerRule)
-    GSK Rule
-    Macrocycles
-    Oprea Rule
-    Ghose Rule
-   	Xu Rule
-    Ro4
-    Ro3
-    Ro2
-    CNS rule
-    Respiratory rule`
+up to now(2019.07.09), we have achived following rules:
+    Egan Rule     0<=tPSA<=132; -1<=logP<=6
+    Veber Rule   nRot<= 10; tPSA<= 140; nHB<= 12
+    LipinskiRule  MW<=500; logP<=5, nHD<=5, nHA <=10
+    BeyondRo5   Mw<=1000; -2<=logP<=10; nHD<=6, nHA<=15; tPSA<=250; nRot<=20
+    Pfizer Rule     logP>3; PSA<75
+    GSK Rule        MW<=400; logP<=4
+    OralMacrocycles     MW<1000; logP<10; nHD<5; PSA<250
+    Oprea Rule   nRing>=3,nRig>=18,nRot>=6  
+    Ghose Rule      -0.4<logP<5.6; 160<MW<480; 40<MR<130; 20<nAtom<70
+    Xu Rule     nHD<=5; nHA <= 10; 3 <= rot <= 35; 1 <= nring <= 7; 10 <= nhev <= 50
+    Ro4 Rule    MW<=400; logP<=4; nHD<=4; NHA<=8; PSA<=120
+    Ro3 Rule    MW<=300; -3<=logP<=3; nHD<=3; nHA<=6; PSA<=60
+    Ro2 Rule    MW<=200; logP<=2; nHD<=2; nHA<=4
 ---
 Followed should be achieved in the future:
     OpreaTwo Rule
     Kelder Rule
-    REOS
-    GoldenTriangle rule
-    Schneider rule
-    DrugLikeOne rule
-    DrugLikeTwo rule
-    Zinc rule
-"""
+    REOS Rule
+    GoldenTriangle
+    Schneider Rule
+    DrugLikeOne
+    DrugLikeTwo
+    Zinc
+    Cns
+    Respiratory
 ```
 
-this function is realized in module scopy.Druglikeness
+this function is realized in module scopy.druglikeness
 
 ```python
->>> from scopy.Druglikeness import CheckRule
+>>> from scopy.druglikeness import rulesfilter
 >>> from rdkit import Chem
 
 >>> mol = Chem.MolFromSmiles('C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2')
->>> res = CheckRule.CheckLipinskiRule(mol)
+>>> res = rulesfilter.CheckLipinskiRule(mol)
 >>> print(res)
 LipinskiRule(Disposed='Accepted', nViolate=1)
 ```
@@ -153,35 +141,15 @@ The filed 'Disposed' is meant molecular state after rule applied. 'Accepted' mea
 If you want to get specific properties suggested in rule, you could pass the <code>True</code>  to Parameter 'detail'(default: False)
 
 ```python
->>> res = CheckRule.CheckLipinskiRule(mol,detail=True)
+>>> res = rulesfilter.CheckLipinskiRule(mol,detail=True)
 >>> print(res)
 LipinskiRule(MW=228.29, logP=5.15, nHD=0, nHA=0, Disposed='Accept', nViolated=1)
 ```
 
-If you are  not familiar with some rules, you could use <code>help</code>function
+Customized rules are also supported
 
 ```python
->>> help(CheckRule.CheckEganRule)
-Help on function CheckEganRule in module scopy.Druglikeness.CheckRule:
-
-CheckEganRule(mol, detail)
-    #################################################################
-    Bad or Good oral biovailability rule
-    
-    -Ref.:
-        Egan, William J., Kenneth M. Merz, and John J. Baldwin. 
-        Journal of medicinal chemistry 43.21 (2000): 3867-3877.
-        
-    -Rule details:
-        0 <= tPSA <= 132
-        -1 <= logP <=6
-    #################################################################
-```
-
-you could also customize your rules
-
-```python
->>> res = CheckRule.Check_CustomizeRule(mol,prop_kws={'MW':(None,500),
+>>> res = rulesfilter.Check_CustomizeRule(mol,prop_kws={'MW':(None,500),
                                                   'nRing':(1,5),
                                                   'nHB':(1,5)},
                                         	detail=True,closed_interval=False)
@@ -189,7 +157,46 @@ you could also customize your rules
 CustomizeRule(MW=228.29, nRing=4, nHB=0, nViolate=1, VioProp=['nHB'])
 ```
 
-### Filter compounds through SMARTS
+#### Visualize Rules
+
+Some rules could be visualized
+
+```
+up to now(2019.07.20), following rules could be visualized:
+	BeyondRo5 rule
+	Lipinski rule
+	Xu'rule
+	Pfizer's rule
+```
+
+```python
+>>>	from scopy.druglikeness import visualize
+>>>	mol = Chem.MolFromSmiles('Fc1ccc(CC2=NNC(=O)c3ccccc23)cc1C(=O)N4CCc5cccc6C(=O)NCC4c56')
+```
+
+```python
+>>>	visualize.VisualizeXu(mol)
+>>>	visualize.VisualizeLipinski(mol)
+>>>	visualize.VisualizeBeyondRo5(mol)
+```
+
+<div align=left>
+    <img src='XuRule_demo.png' width=25% height=25%>
+    <img src='Lipinski_demo.png' width=25% height=25%>
+    <img src='bRo5_demo.png' width=25% height=25%>
+</div>
+
+radar plot, the compounds values are materialized by the blue line, which should fall within the optimal pale blue.
+
+```python
+>>> visualize.PfizerPositioning(mol)
+```
+
+<div align=left>
+    <img src='Pfizer_demo.png' width=35% height=35%>
+</div>
+
+### Checking molecule under predefined substructures
 
 The filters consist of a series of molecular query strings written using the SMARTS coding language described by [Daylight](https://www.daylight.com/). 
 
@@ -223,22 +230,63 @@ Total: 23 endpints with 2167 SMARTS
 """
 ```
 
-Besides, we have collected **450 SMARTS** about **E**xtended **F**unctional **G**roups(EFG), an efficient set
-for chemical characterization and structure-activity relationship studies of chemical compounds.
+This function is implemented in module scopy.structure_alert
 
 ```python
->>> from scopy.StructureAlert import FliterWithSmarts
->>> mol = Chem.MolFromSmiles('C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2')
->>> res = FliterWithSmarts.Check_SureChEMBL(mol)
-print(res)
-CheckRes(Disposed='Rejected', Endpoint='SureChEMBL')
+>>>	from scopy.structure_alert import FliterWithSmarts
+>>>	smis = [
+            'C1=CC=C2C(=O)CC(=O)C2=C1', #Pains
+            'C1=CC=CC(COCO)=C1', #Potential_Electrophilic
+            'N1=NC=CN1C=O', #Promiscuity
+            'CC(=O)OC(=O)C1C=COC1', #Skin_Sensitization
+            'S',
+            'CCCCC(=O)[H]', #Biodegradable
+            'C1=CN=C(C(=O)O)C=C1', #Chelating
+            'C(OC)1=CC=C2OCC3OC4C=C(OC)C=CC=4C(=O)C3C2=C1',
+            'C1=C2N=CC=NC2=C2N=CNC2=C1', #Genotoxic_Carcinogenicity_Mutagenicity
+            'N(CC)(CCCCC)C(=S)N', #Idiosyncratic
+            ]
+>>>	mols = (Chem.MolFromSmiles(x) for x in smis)
+>>>	res = Check_PAINS(mols=mols)
+>>>	print(res)
 ```
-
-Similarly, you could pass <code>True</code> to parameter show to get more information.
 
 ```python
->>> res = FliterWithSmarts.Check_SureChEMBL(mol,detail=True)
-CheckRes(Disposed='Rejected', MatchedAtoms=[((3, 2, 1, 0, 17, 16, 15, 14, 13, 8, 7, 6, 5, 4), (12, 11, 10, 9, 8, 7, 6, 5, 4, 17, 16, 15, 14, 13))], MatchedNames=['Polynuclear_Aromatic_2'], Endpoint='SureChEMBL')
+>>>	[CheckRes(Disposed=False, Endpoint='Pains'), CheckRes(Disposed=True, 				Endpoint='Pains'), CheckRes(Disposed=True, Endpoint='Pains'), CheckRes(Disposed=True, 	Endpoint='Pains'), CheckRes(Disposed=True, Endpoint='Pains'), CheckRes(Disposed=True, 	Endpoint='Pains'), CheckRes(Disposed=True, Endpoint='Pains'), CheckRes(Disposed=True, 	Endpoint='Pains'), CheckRes(Disposed=True, Endpoint='Pains'), CheckRes(Disposed=True, 	Endpoint='Pains')]
 ```
+
+parametermols if Iterable object(like .sdf), each element is a rdkit.Chem.rdchem.Mol
+
+The filed 'Disposed' is meant molecular state after filter applied. <code>True</code> meant unmatched any SMARTS in the specific endpoint. For <code>False</code>, at least one SMARTS to be matched.
+
+Similarly, you could pass <code>True</code> to parameter <code>detail</code> show to get more information.
+
+```python
+>>>	mols = (Chem.MolFromSmiles(x) for x in smis)
+>>>	res = Check_PAINS(mols=mols, detail=True)
+>>>	print(res)
+```
+
+```python
+>>>	[CheckRes(Disposed=False, MatchedAtoms=[((0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),)], 	MatchedNames=['Keto_keto_beta_A'], Endpoint='Pains'), CheckRes(Disposed=True, 			MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains')]
+```
+
+"MatchedAtoms" shown which atoms has matched SMARTS. "MatchedNames" is the name or code of SMARTS. You could find it in the folder <code>*/Scopy/data/SMARTS</code>
 
 ### Visualization
+
+If you get the index of atoms, you could highlight them
+
+```python
+>>>	mol = Chem.MolFromSmiles('C1=CC=C2C(=O)CC(=O)C2=C1')
+>>>	pic = VisualizeFragment(mol,(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+>>>	pic
+```
+
+
+
+<div align=left>
+    <img src='Visual_demo.png' width=35% height=35%>
+</div>
+
+# Copyright (C) 2015-2019 CBDD Group

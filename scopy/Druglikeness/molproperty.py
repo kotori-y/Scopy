@@ -62,16 +62,18 @@ __doc__ = """
         Formal total charge of the compound
         Number of Charged Groups
     """
-from scopy.StructureAlert import ComputeCrippen
+import sys,os
+sys.path.append('..')
+from fingerprint.fingerprints import CalculateGhoseCrippen
 from rdkit.Chem import AllChem as Chem
 from rdkit.Chem import Descriptors, Lipinski, QED
 from itertools import combinations
 from collections import namedtuple
 from rdkit import RDConfig
 ContriDir = RDConfig.RDContribDir
-
-import sys,os
+import csv
 sys.path.append(ContriDir)
+import ScoConfig
 from SA_Score import sascorer
 from NP_Score import npscorer
 from IFG.ifg import identify_functional_groups
@@ -271,9 +273,9 @@ def CalculateLogD(mol):
     """
     intercept = 0.5748907159915493
     
-    fps = ComputeCrippen.ComputeCrippen(mol)
-    with open(ComputeCrippen.ScoConfig.CrippenDir + '\\Crippen.txt') as f_obj:
-        lines = ComputeCrippen.csv.reader(f_obj,delimiter='\t')
+    fps = CalculateGhoseCrippen([mol]).flatten()
+    with open(ScoConfig.CrippenDir + '\\Crippen.txt') as f_obj:
+        lines = csv.reader(f_obj,delimiter='\t')
         next(lines)
         contri = [x[-1] for x in lines]
         contri = [float(x) for x in contri]

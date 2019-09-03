@@ -13,7 +13,7 @@ Created on Tue Sep  3 10:31:34 2019
 
 import pickle, gzip, os, csv, sys
 sys.path.append('..')
-from StructureAlert.SmartProcess import _CheckPattl
+from structure_alert.SmartProcess import _CheckPattl
 import ScoConfig
 from rdkit import Chem
 

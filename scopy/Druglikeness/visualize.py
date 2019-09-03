@@ -10,14 +10,13 @@ Created on Tue Aug  6 09:46:11 2019
 
 """
 
-__doc__="""
-        Words
-        """
 
-from scopy.Druglikeness import rulefilter
+
+import rulesfilter
 from rdkit import Chem
 import matplotlib.pyplot as plt
 import numpy as np
+
 
 Rule_dict = {
         'BeyondRo5':{'MW':(0,1000),'logP':(-2,10),'nHD':(0,6),'nHA':(0,15),'TPSA':(0,250),'nRot':(0,20)},
@@ -28,8 +27,7 @@ Rule_dict = {
         }
 
 
-
-def _Radar(CheckResult,Rule):
+def _Radar(CheckResult, Rule):
     res = [x for x in CheckResult[:-2]]
     length = len(res)
     
@@ -69,51 +67,55 @@ def _Radar(CheckResult,Rule):
 #    plt.show()
     
     
-def VisualizeBeyondRo5(mol=None,bRo5Rule=None):
+def VisualizeBeyondRo5(mol=None, bRo5Rule=None):
     if not mol:
         _Radar(bRo5Rule,'BeyondRo5')
     else:
-        bRo5Rule = rulefilter.CheckBeyondRo5(mol,detail=True)
+        bRo5Rule = rulesfilter.CheckBeyondRo5(mol,detail=True)
         _Radar(bRo5Rule,'BeyondRo5')
     
 
-def VisualizeLipinski(mol=None,LipinskiRule=None):
+def VisualizeLipinski(mol=None, LipinskiRule=None):
     if not mol:
         _Radar(LipinskiRule,'Lipinski')
     else:
-        LipinskiRule = rulefilter.CheckLipinskiRule(mol,detail=True)
+        LipinskiRule = rulesfilter.CheckLipinskiRule(mol,detail=True)
         _Radar(LipinskiRule,'Lipinski')
 
 
-def VisualizeXu(mol=None,XuRule=None):
+def VisualizeXu(mol=None, XuRule=None):
     if not mol:
         _Radar(XuRule,'Xu')
     else:
-        XuRule = rulefilter.CheckXuRule(mol,detail=True)
+        XuRule = rulesfilter.CheckXuRule(mol,detail=True)
         _Radar(XuRule,'Xu')
 
-def VisualizeEgan(EganRule=None,mol=None):
+#def VisualizeEgan(EganRule=None,mol=None):
+#    if mol:
+#        EganRule = rulefilter.CheckEganRule(mol)
+#    else:
+#        pass
+#    y,x = [x for x in EganRule[:-2]]
+#    f,ax = plt.subplots()
+#    
+#    y_ceil = max(y,132)
+#    ax.fill([-1,6,2.5,-1],[0,0,132,0],'#D7FCCB',
+#            zorder=0)
+#    ax.scatter(x,y)
+##    ax.set_xlim(0)
+#    ax.set_ylim([0,1.1*y_ceil])
+#    ax.tick_params(right=True,top=True,width=1,direction='in')
+#    ax.set_xlabel('LogP')
+#    ax.set_ylabel('tPSA')
+#    plt.show()
+
+
+
+def PfizerPositioning(mol=None, PfizerRule=None):
     if mol:
-        EganRule = rulefilter.CheckEganRule(mol)
+        PfizerRule = rulesfilter.CheckPfizerRule(mol, detail=True)
     else:
         pass
-    y,x = [x for x in EganRule[:-2]]
-    f,ax = plt.subplots()
-    
-    y_ceil = max(y,132)
-    ax.fill([-1,6,2.5,-1],[0,0,132,0],'#D7FCCB',
-            zorder=0)
-    ax.scatter(x,y)
-#    ax.set_xlim(0)
-    ax.set_ylim([0,1.1*y_ceil])
-    ax.tick_params(right=True,top=True,width=1,direction='in')
-    ax.set_xlabel('LogP')
-    ax.set_ylabel('tPSA')
-    plt.show()
-
-
-
-def PfizerPositioning(PfizerRule):
     f,ax = plt.subplots()
     res = [x for x in PfizerRule[:-2]]
     ax.scatter(*res,s=30,color='black')
@@ -134,12 +136,16 @@ def PfizerPositioning(PfizerRule):
 
 if '__main__' == __name__:
     mol = Chem.MolFromSmiles('Fc1ccc(CC2=NNC(=O)c3ccccc23)cc1C(=O)N4CCc5cccc6C(=O)NCC4c56')
-#    bRo5Rule = rulefilter.CheckBeyondRo5(mol,detail=True)
-##    VisualizeBeyondRo5(bRo5Rule)
-##    PfizerRule = CheckRule.CheckPfizerRule(mol,detail=True)
-##    PfizerPositioning(PfizerRule)
-#    
-#    VeberRule = rulefilter.CheckVeberRule(mol,detail=True)
-    Egan = rulefilter.CheckEganRule(mol,detail=True)
-#    VisualizeLipinski(mol=mol)
-    VisualizeEgan(Egan)
+    PfizerPositioning(mol)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

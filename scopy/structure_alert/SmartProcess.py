@@ -13,14 +13,12 @@ Created on Tue Jun 25 21:59:42 2019
 import _pickle as cPickle
 import gzip
 from rdkit.Chem import AllChem as Chem
-from rdkit.Chem import Draw
 from collections import namedtuple
 import sys
 sys.path.append('..')
 import ScoConfig
 
 __doc__ = """
-#################################################################
 Some SMARTSs in Ochem database(https://ochem.eu/alerts/home.do) would 
 contain logic symbol, include "AND", "OR" and "NOT", cannot be recognized 
 by RDKit. So that we split all SMARTS to two parts, "Rejected" and "Accepted",
@@ -44,13 +42,11 @@ e.g.
     Reject: None
     Accept: [SX2][Sv6X4](=[OX1])(=[OX1])
     It means if only a molecule match "[SX2][Sv6X4](=[OX1])(=[OX1])" will be considered as matching "[SX2][Sv6X4](=[OX1])(=[OX1])"
-#################################################################
 """
 
 
 def _Generatepkl(endpoint):
-    """
-    #################################################################
+    """  
     *Internal Use Only*
     
     the pkl file in this package, storing the rdkit.Chem.rdchem.Mol object,
@@ -66,7 +62,6 @@ def _Generatepkl(endpoint):
     Return:
     -----------
     None
-    #################################################################
     """
     import csv 
     import os
@@ -95,8 +90,7 @@ def _Generatepkl(endpoint):
     
         
 def _Loadpkl(endpoint):
-    """
-    #################################################################
+    """ 
     *Internal Use Only*
     
     loading the specific pkl file which contain the 'Rejected' and 'Accepted' SMARTS
@@ -113,8 +107,7 @@ def _Loadpkl(endpoint):
         whose element ia also a list with four elements:
         0: the name of SMARTS, 1:original SMARTS,
         2: the 'rejected' part of SMARTS,
-        3: the 'accepted' part of SMARTS.     
-    #################################################################
+        3: the 'accepted' part of SMARTS.      
     """
     filename = ScoConfig.PattDir +'\\{}.pkl.gz'.format(endpoint)
     try:
@@ -134,7 +127,6 @@ def _Loadpkl(endpoint):
 
 def _CheckPattl(mol, rejected_pattl, accepted_pattl):
     """
-    #################################################################
     *Internal Use Only*
     
     Checking mol through 'rejected' and 'accepted' part respectively
@@ -151,7 +143,6 @@ def _CheckPattl(mol, rejected_pattl, accepted_pattl):
     Yield:
     -----------
     bool, True meant matched SMARTS, else unmatched.
-    #################################################################
     """    
     for reject_list,accept_list in zip(rejected_pattl,accepted_pattl):
         if (not reject_list) or (not any([mol.HasSubstructMatch(patt) for patt in reject_list])):
@@ -164,8 +155,7 @@ def _CheckPattl(mol, rejected_pattl, accepted_pattl):
       
 
 def _CheckWithSmarts(mol, pattl, endpoint, detail=False):
-    """
-    #################################################################
+    """  
     *Internal Use Only*
     
     checking molecule(s) wheather or not 
@@ -198,7 +188,6 @@ def _CheckWithSmarts(mol, pattl, endpoint, detail=False):
             Endpoint: string
                 the name of endpoint 
         else only return 'Disposed' and 'Endpoint'
-    #################################################################
     """ 
     reject_pattl = map(lambda x: x[-2], pattl)
     accept_pattl = map(lambda x: x[-1], pattl)
@@ -244,31 +233,6 @@ def _CheckWithSmarts(mol, pattl, endpoint, detail=False):
         res = namedtuple('CheckRes',['Disposed','Endpoint'])
         return res(Disposed=disposed,Endpoint=endpoint)  
                 
-
-def VisualizeFragment(mol,atoms):
-    """
-    #################################################################
-    This function is used for show which part of fragment matched the SMARTS
-    
-    Parameters:
-    -----------
-    mol: rdkit.Chem.rdchem.Mol
-        the molecule to be visualized
-    atoms: tuple
-        the atoms to be highlighted
-    
-    Rrturn:
-    -----------
-    pic: PIL.Image.Image
-    
-    Usage:
-    -----------     
-    pic = Visualize(mol,atoms)
-    #################################################################
-    """    
-    pic = Draw.MolToImage(mol,highlightAtoms=atoms,size=(600,600),fitImage=True)
-    return pic
-
 
 if '__main__' == __name__:
     smis = [

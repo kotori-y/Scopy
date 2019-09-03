@@ -291,7 +291,7 @@ def Check_Chelating(mols, detail=False):
     return res
 
 
-def Check_Developmental_Mitochondrial(mol, detail=False):
+def Check_Developmental_Mitochondrial(mols, detail=False):
     """
     Ref.:
     -----------
@@ -333,7 +333,7 @@ def Check_Developmental_Mitochondrial(mol, detail=False):
     return res
 
 
-def Check_Genotoxic_Carcinogenicity_Mutagenicity(mol, detail=False):
+def Check_Genotoxic_Carcinogenicity_Mutagenicity(mols, detail=False):
     """
     Ref.:
     -----------
@@ -380,7 +380,7 @@ def Check_Genotoxic_Carcinogenicity_Mutagenicity(mol, detail=False):
     return res
     
     
-def Check_Idiosyncratic(mol, detail=False):
+def Check_Idiosyncratic(mols, detail=False):
     """
     Ref.:
     -----------
@@ -462,7 +462,7 @@ def Check_LD50_Oral(mol, detail=False):
     return res
     
 
-def Check_Luciferase_Inhibitory(mol, detail=False):
+def Check_Luciferase_Inhibitory(mols, detail=False):
     """
     Ref.:
     -----------
@@ -496,7 +496,7 @@ def Check_Luciferase_Inhibitory(mol, detail=False):
     return res
     
 
-def Check_NonBiodegradable(mol, detail=False):
+def Check_NonBiodegradable(mols, detail=False):
     """
     Ref:
     -----------
@@ -1055,20 +1055,42 @@ def Check_Toxicophores(mols, stype='single', detail=False):
     return res
     
 
+def VisualizeFragment(mol,highlightAtoms,figsize=[400,200]):
+    from rdkit.Chem.Draw import IPythonConsole, rdMolDraw2D
+    from IPython.display import SVG
+    from rdkit.Chem import rdDepictor
+    """
+    This function is used for show which part of fragment matched the SMARTS
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+        the molecule to be visualized
+    atoms: tuple
+        the index of atoms to be highlighted
+    
+    Rrturn:
+    -----------
+    pic: IPython.core.display.SVG
+        a SVG file
+    
+    Usage:
+    ----------- 
+    mol = Chem.MolFromSmiles('C1=CC=C2C(=O)CC(=O)C2=C1')    
+    pic = VisualizeFragment(mol,(0, 1, 2, 6, 7, 8,10))
+    """    
+    rdDepictor.Compute2DCoords(mol)
+    drawer = rdMolDraw2D.MolDraw2DSVG(*figsize)
+    drawer.DrawMolecule(mol,highlightAtoms=highlightAtoms)
+    drawer.FinishDrawing()
+    svg = drawer.GetDrawingText().replace('svg:','')
+    fig = SVG(svg)
+    return fig
+
+
+
 if __name__ == '__main__':
     smis = [
-            'C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1',
-            'C1=NC(CCN)=CN1',
-            'C1CCCC(CCO)C1',
-            'C1=CC=C2N=C(O)C=CC2=C1',
-            'C(OC)1=C(C)C=C2OC[C@]([H])3OC4C(C)=C(OC)C=CC=4C(=O)[C@@]3([H])C2=C1C',
-            'C1=C2N=CC=NC2=C2N=CNC2=C1',
-            'C1=C(O)C=CC(O)=C1',
-            'CCC1(c2ccccc2)C(=O)NC(=O)NC1=O',
-            'N1=CN=CN=C1',
-            'C1=C2C=CC=CC2=CC2C=CC=CC1=2', #NonGenotoxic_Carcinogenicity
             'C1=CC=C2C(=O)CC(=O)C2=C1', #Pains
             'C1=CC=CC(COCO)=C1', #Potential_Electrophilic
             'N1=NC=CN1C=O', #Promiscuity
@@ -1079,11 +1101,9 @@ if __name__ == '__main__':
             'C(OC)1=CC=C2OCC3OC4C=C(OC)C=CC=4C(=O)C3C2=C1',
             'C1=C2N=CC=NC2=C2N=CNC2=C1', #Genotoxic_Carcinogenicity_Mutagenicity
             'N(CC)(CCCCC)C(=S)N', #Idiosyncratic
-            ]
-     
-    mol = (Chem.MolFromSmiles(x) for x in smis)
-    res = Check_Frequent_Hitters(mol,detail=1)
-    print(res)
+            ]     
+    mol = Chem.MolFromSmiles(smis[0])
+    pic = VisualizeFragment(mol,(0, 1, 2, 6, 7, 8,10))
     
     
     

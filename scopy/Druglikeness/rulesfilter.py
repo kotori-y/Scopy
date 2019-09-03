@@ -44,7 +44,7 @@ __doc__ = """
     Respiratory
     """
 
-from scopy.Druglikeness import molproperty
+import molproperty
 from collections import namedtuple
 from rdkit import Chem
 
@@ -1015,7 +1015,7 @@ def CheckRule(mol):
            CheckBeyondRo5(mol)[-2],
            CheckPfizerRule(mol)[-2],
            CheckGSKRule(mol)[-2],
-           OralMacrocycles(mol)[-2],
+           CheckOralMacrocycles(mol)[-2],
            CheckOpreaRule(mol)[-2],
            CheckGhoseRule(mol)[-2],
            CheckXuRule(mol)[-2],
