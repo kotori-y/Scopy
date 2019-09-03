@@ -170,14 +170,14 @@ up to now(2019.07.20), following rules could be visualized:
 ```
 
 ```python
->>>	from scopy.druglikeness import visualize
->>>	mol = Chem.MolFromSmiles('Fc1ccc(CC2=NNC(=O)c3ccccc23)cc1C(=O)N4CCc5cccc6C(=O)NCC4c56')
+>>> from scopy.druglikeness import visualize
+>>> mol = Chem.MolFromSmiles('Fc1ccc(CC2=NNC(=O)c3ccccc23)cc1C(=O)N4CCc5cccc6C(=O)NCC4c56')
 ```
 
 ```python
->>>	visualize.VisualizeXu(mol)
->>>	visualize.VisualizeLipinski(mol)
->>>	visualize.VisualizeBeyondRo5(mol)
+>>> visualize.VisualizeXu(mol)
+>>> visualize.VisualizeLipinski(mol)
+>>> visualize.VisualizeBeyondRo5(mol)
 ```
 
 <div align=left>
@@ -233,8 +233,8 @@ Total: 23 endpints with 2167 SMARTS
 This function is implemented in module scopy.structure_alert
 
 ```python
->>>	from scopy.structure_alert import FliterWithSmarts
->>>	smis = [
+>>> from scopy.structure_alert import FliterWithSmarts
+>>> smis = [
             'C1=CC=C2C(=O)CC(=O)C2=C1', #Pains
             'C1=CC=CC(COCO)=C1', #Potential_Electrophilic
             'N1=NC=CN1C=O', #Promiscuity
@@ -246,9 +246,9 @@ This function is implemented in module scopy.structure_alert
             'C1=C2N=CC=NC2=C2N=CNC2=C1', #Genotoxic_Carcinogenicity_Mutagenicity
             'N(CC)(CCCCC)C(=S)N', #Idiosyncratic
             ]
->>>	mols = (Chem.MolFromSmiles(x) for x in smis)
->>>	res = Check_PAINS(mols=mols)
->>>	print(res)
+>>> mols = (Chem.MolFromSmiles(x) for x in smis)
+>>> res = Check_PAINS(mols=mols)
+>>> print(res)
 ```
 
 ```python
@@ -262,9 +262,9 @@ The filed 'Disposed' is meant molecular state after filter applied. <code>True</
 Similarly, you could pass <code>True</code> to parameter <code>detail</code> show to get more information.
 
 ```python
->>>	mols = (Chem.MolFromSmiles(x) for x in smis)
->>>	res = Check_PAINS(mols=mols, detail=True)
->>>	print(res)
+>>> mols = (Chem.MolFromSmiles(x) for x in smis)
+>>> res = Check_PAINS(mols=mols, detail=True)
+>>> print(res)
 ```
 
 ```python
@@ -278,9 +278,9 @@ Similarly, you could pass <code>True</code> to parameter <code>detail</code> sho
 If you get the index of atoms, you could highlight them
 
 ```python
->>>	mol = Chem.MolFromSmiles('C1=CC=C2C(=O)CC(=O)C2=C1')
->>>	pic = VisualizeFragment(mol,(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
->>>	pic
+>>> mol = Chem.MolFromSmiles('C1=CC=C2C(=O)CC(=O)C2=C1')
+>>> pic = VisualizeFragment(mol,(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+>>> pic
 ```
 
 
