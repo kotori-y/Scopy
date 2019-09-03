@@ -1,4 +1,4 @@
 build
 dist
-scopy/test/*
-scopy/example/*
+/scopy/test/*
+/scopy/example/*
