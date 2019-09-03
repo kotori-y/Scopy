@@ -297,7 +297,7 @@ If you get the index of atoms, you could highlight them
 
 ```python
 >>> mol = Chem.MolFromSmiles('C1=CC=C2C(=O)CC(=O)C2=C1')
->>> pic = VisualizeFragment(mol,(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+>>> pic = FliterWithSmarts.VisualizeFragment(mol,(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
 >>> pic
 ```
 
