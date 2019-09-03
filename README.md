@@ -1,6 +1,6 @@
 # Scopy: a compounds filter for early stages drug discovery.
 
-![Scopy](C:\Users\mtdzj04\Desktop\py_work\Scopy\Scopy.png)
+![Scopy](Scopy.png)
 
 ## what's it is
 
