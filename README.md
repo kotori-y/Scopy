@@ -252,7 +252,16 @@ This function is implemented in module scopy.structure_alert
 ```
 
 ```python
->>> [CheckRes(Disposed=False, Endpoint='Pains'), CheckRes(Disposed=True, 				Endpoint='Pains'), CheckRes(Disposed=True, Endpoint='Pains'), CheckRes(Disposed=True, 	Endpoint='Pains'), CheckRes(Disposed=True, Endpoint='Pains'), CheckRes(Disposed=True, 	Endpoint='Pains'), CheckRes(Disposed=True, Endpoint='Pains'), CheckRes(Disposed=True, 	Endpoint='Pains'), CheckRes(Disposed=True, Endpoint='Pains'), CheckRes(Disposed=True, 	Endpoint='Pains')]
+>>> [CheckRes(Disposed=False, Endpoint='Pains'),
+ CheckRes(Disposed=True, Endpoint='Pains'),
+ CheckRes(Disposed=True, Endpoint='Pains'),
+ CheckRes(Disposed=True, Endpoint='Pains'),
+ CheckRes(Disposed=True, Endpoint='Pains'),
+ CheckRes(Disposed=True, Endpoint='Pains'),
+ CheckRes(Disposed=True, Endpoint='Pains'),
+ CheckRes(Disposed=True, Endpoint='Pains'),
+ CheckRes(Disposed=True, Endpoint='Pains'),
+ CheckRes(Disposed=True, Endpoint='Pains')]
 ```
 
 parametermols if Iterable object(like .sdf), each element is a rdkit.Chem.rdchem.Mol
@@ -268,7 +277,16 @@ Similarly, you could pass <code>True</code> to parameter <code>detail</code> sho
 ```
 
 ```python
->>> [CheckRes(Disposed=False, MatchedAtoms=[((0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),)], 	MatchedNames=['Keto_keto_beta_A'], Endpoint='Pains'), CheckRes(Disposed=True, 			MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'), CheckRes(Disposed=True, 		MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains')]
+>>> [CheckRes(Disposed=False, MatchedAtoms=[((0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),)], MatchedNames=['Keto_keto_beta_A'], Endpoint='Pains'),
+ CheckRes(Disposed=True, MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'),
+ CheckRes(Disposed=True, MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'),
+ CheckRes(Disposed=True, MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'),
+ CheckRes(Disposed=True, MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'),
+ CheckRes(Disposed=True, MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'),
+ CheckRes(Disposed=True, MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'),
+ CheckRes(Disposed=True, MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'),
+ CheckRes(Disposed=True, MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'),
+ CheckRes(Disposed=True, MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains')]
 ```
 
 "MatchedAtoms" shown which atoms has matched SMARTS. "MatchedNames" is the name or code of SMARTS. You could find it in the folder <code>*/Scopy/data/SMARTS</code>

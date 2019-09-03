@@ -1102,8 +1102,8 @@ if __name__ == '__main__':
             'C1=C2N=CC=NC2=C2N=CNC2=C1', #Genotoxic_Carcinogenicity_Mutagenicity
             'N(CC)(CCCCC)C(=S)N', #Idiosyncratic
             ]     
-    mol = Chem.MolFromSmiles(smis[0])
-    pic = VisualizeFragment(mol,(0, 1, 2, 6, 7, 8,10))
+    mols = (Chem.MolFromSmiles(smi) for smi in smis)
+    res = Check_PAINS(mols,detail=True)
     
     
     
