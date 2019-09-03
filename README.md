@@ -1,8 +1,10 @@
 # Scopy: a compounds filter for early stages drug discovery.
 
-![Scopy](Scopy.png)
+<div align=center>
+    <img src='Scopy.png'>
+</div>
 
-## what's it is
+## What's it is
 
 **Scopy** is a Python package, based on RDKit, computing various **properties of molecule** which present in some **drug likeness rules**, such as Lipinski's rule, Pfizer rule, Beyond Ro5 rule, so that a molecule could be checked under some rules. Besides, Scopy could scan molecule through a predefined toxic fragments in **SMARTS** format to filter the molecule which may has some **unexpected endpoint**.
 
