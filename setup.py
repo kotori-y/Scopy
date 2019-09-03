@@ -8,7 +8,7 @@ Created on Fri Mar 15 13:21:07 2019
 @Mail: yzjkid9@gmail.com; oriental-cds@163.com
 @Blog: https://blog.moyule.me
 
-I love my senpai forerver!
+I love my senpai forerver!:P
 """
 
 from __future__ import absolute_import
