@@ -247,7 +247,7 @@ This function is implemented in module scopy.structure_alert
             'N(CC)(CCCCC)C(=S)N', #Idiosyncratic
             ]
 >>> mols = (Chem.MolFromSmiles(x) for x in smis)
->>> res = Check_PAINS(mols=mols)
+>>> res = FliterWithSmarts.Check_PAINS(mols=mols)
 >>> print(res)
 ```
 
@@ -272,7 +272,7 @@ Similarly, you could pass <code>True</code> to parameter <code>detail</code> sho
 
 ```python
 >>> mols = (Chem.MolFromSmiles(x) for x in smis)
->>> res = Check_PAINS(mols=mols, detail=True)
+>>> res = FliterWithSmarts.Check_PAINS(mols=mols, detail=True)
 >>> print(res)
 ```
 
