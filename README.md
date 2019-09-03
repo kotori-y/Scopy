@@ -248,11 +248,8 @@ This function is implemented in module scopy.structure_alert
             ]
 >>> mols = (Chem.MolFromSmiles(x) for x in smis)
 >>> res = FliterWithSmarts.Check_PAINS(mols=mols)
->>> print(res)
-```
-
-```python
->>> [CheckRes(Disposed=False, Endpoint='Pains'),
+>>> res
+[CheckRes(Disposed=False, Endpoint='Pains'),
  CheckRes(Disposed=True, Endpoint='Pains'),
  CheckRes(Disposed=True, Endpoint='Pains'),
  CheckRes(Disposed=True, Endpoint='Pains'),
@@ -273,11 +270,8 @@ Similarly, you could pass <code>True</code> to parameter <code>detail</code> sho
 ```python
 >>> mols = (Chem.MolFromSmiles(x) for x in smis)
 >>> res = FliterWithSmarts.Check_PAINS(mols=mols, detail=True)
->>> print(res)
-```
-
-```python
->>> [CheckRes(Disposed=False, MatchedAtoms=[((0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),)], MatchedNames=['Keto_keto_beta_A'], Endpoint='Pains'),
+>>> res
+[CheckRes(Disposed=False, MatchedAtoms=[((0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),)], MatchedNames=['Keto_keto_beta_A'], Endpoint='Pains'),
  CheckRes(Disposed=True, MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'),
  CheckRes(Disposed=True, MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'),
  CheckRes(Disposed=True, MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains'),
@@ -293,7 +287,7 @@ Similarly, you could pass <code>True</code> to parameter <code>detail</code> sho
 
 ### Visualization
 
-If you get the index of atoms, you could highlight them
+If you get the indices of atoms, you could highlight them
 
 ```python
 >>> mol = Chem.MolFromSmiles('C1=CC=C2C(=O)CC(=O)C2=C1')
