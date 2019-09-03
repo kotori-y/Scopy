@@ -1,15 +1,8 @@
----
-@Data: 2019-06-25
-@Author: Zhi-Jiang Yang, Dong-Sheng Cao
-@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，
-@Homepage: http://www.scbdd.com
-@Mail: yzjkid9@gmail.com; oriental-cds@163.com
-@Blog: https://blog.moyule.me
----
-
 # Scopy: a compounds filter for early stages drug discovery.
 
-## what's its
+![Scopy](C:\Users\mtdzj04\Desktop\py_work\Scopy\Scopy.png)
+
+## what's it is
 
 **Scopy** is a Python package, based on RDKit, computing various **properties of molecule** which present in some **drug likeness rules**, such as Lipinski's rule, Pfizer rule, Beyond Ro5 rule, so that a molecule could be checked under some rules. Besides, Scopy could scan molecule through a predefined toxic fragments in **SMARTS** format to filter the molecule which may has some **unexpected endpoint**.
 
@@ -247,4 +240,3 @@ CheckRes(Disposed='Rejected', MatchedAtoms=[((3, 2, 1, 0, 17, 16, 15, 14, 13, 8,
 ```
 
 ### Visualization
-
