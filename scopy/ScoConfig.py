@@ -15,3 +15,6 @@ import os
 ScoDir = os.path.dirname(__file__)
 _share = ScoDir +'\\data'
 SmartDir = _share + '\\SMARTS'
+CrippenDir = _share + '\\Crippen'
+PattDir = _share + '\\PATT'
+EFGDir = _share + '\\EFG'

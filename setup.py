@@ -2,20 +2,21 @@
 """
 Created on Fri Mar 15 13:21:07 2019
 
-You are not expected to understand my codes!
+@Author: Zhi-Jiang Yang, Dong-Sheng Cao
+@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China
+@Homepage: http://www.scbdd.com
+@Mail: yzjkid9@gmail.com; oriental-cds@163.com
+@Blog: https://blog.moyule.me
 
-@Author: Kotori_Y
-@Blog: blog.moyule.me
-@Weibo: Kotori-Y
-@Mail: yzjkid9@gmial.com
-
-I love Megumi forerver!
+I love my senpai forerver!
 """
 
 from __future__ import absolute_import
 from distutils.core import setup
 
-package_data= {'scopy':['StructureAlert/*','Druglikeness/*','test/*','data/SMARTS/*','data/*']}
+
+
+package_data= {'scopy':['StructureAlert/*','Druglikeness/*','test/*','data/SMARTS/*','data/PATT/*','data/ACID/*','data/*','data/Crippen/*','fingerprint/*']}
 
 setup(name="scopy",  
       version="1.0", 

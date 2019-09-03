@@ -13,27 +13,48 @@ Created on Tue Jun 25 21:59:42 2019
 __doc__ = """
     This moudle is used to calculated properise that contained in our collectded rules
     ---
-    up to now(2019.06.24), we have achived followed properties:
+    up to now(2019.07.22), we have achived followed properties:
         Molcular Weight >>> MW
         Number of bonds >>> nBond
         Number of atoms >>> nAtom
         Number of heteroatoms >>> nHet
+        Number of heavy atom >>> nHev
         Number of rotable bonds >>> nRot
         Number of rigid bonds >>> nRig
         Number of SSSR >>> nRing
-        Number of heavy atom >>> nHev
-        logP >>> #we haven't discriminated the AlogP and ClogP
+        logP >>> logP
+        logD >>> logD
+        logSw >>> logSw
+        Acid or Base >>> ab
+        pKa >>> pKa
+        QED >>> qed
         Molecular refraction >>> MR
         Number of hydrogen bond donors >>> nHD
         Number of hydrogen bond acceptors >>> nHA
         Number of hydrogen bond donors& acceptors >>> nHB
         Aromatic proportion >>> AP
-        logSw #by the ESOL method
         sp3 hybridized carbons/total carbon count >>> Fsp3
-        TPSA >>> tpsa
+        TPSA >>> TPSA
         Number of atoms involved in the biggest system ring >>> MaxRing
         Number of Sterocenterss >>> nStero
         HetCarbonRatio >>> HetRatio
+        synthetic accessibility score >>> SAscore
+        natural product-likeness score >>> NPscore
+        Number of single bonds >>> nSingle
+        Number of double bobds >>> nDoudle
+        Number of triple bonds >>> nTriple
+        Volume of mol >>> Vol
+        Density >>> Dense
+        MolFCharge >>> fChar
+        Number of Carbon atoms >>> nC
+        Number of Boron atoms >>> nB
+        Number of Chlorin atoms >>> nCl
+        Number of Bromine atoms >>> nBr
+        Number of Iodine atoms >>> nI
+        Number of Phosphor atoms >>> P
+        Number of Sulfur atoms >>> nS
+        Number of Oxygen atoms >>> nO
+        Number of Nitrogen atoms >>> nN   
     ---
     Followed should be achieved in the future:
         logD
@@ -41,7 +62,7 @@ __doc__ = """
         Formal total charge of the compound
         Number of Charged Groups
     """
-
+from scopy.StructureAlert import ComputeCrippen
 from rdkit.Chem import AllChem as Chem
 from rdkit.Chem import Descriptors, Lipinski, QED
 from itertools import combinations
@@ -213,7 +234,7 @@ def CalculateNumRing(mol):
     return nRing
 
 
-def CalculateHeavyAtomNumber(mol):
+def CalculateNumHeavyAtom(mol):
     """
     #################################################################
     Calculation of Heavy atom counts in a molecule
@@ -235,7 +256,7 @@ def CalculateHeavyAtomNumber(mol):
 def CalculateLogD(mol):
     """
     #################################################################
-    Calculation of molecular LogP
+    Calculation of molecular logD
     
     ---->LogD
     
@@ -248,8 +269,17 @@ def CalculateLogD(mol):
         Output: result is a numeric value
     #################################################################
     """
-    pass
-    return None
+    intercept = 0.5748907159915493
+    
+    fps = ComputeCrippen.ComputeCrippen(mol)
+    with open(ComputeCrippen.ScoConfig.CrippenDir + '\\Crippen.txt') as f_obj:
+        lines = ComputeCrippen.csv.reader(f_obj,delimiter='\t')
+        next(lines)
+        contri = [x[-1] for x in lines]
+        contri = [float(x) for x in contri]
+    f_obj.close()
+    logD = sum([a*b for a,b in zip(fps,contri)]) + intercept
+    return logD
 
 
 def CalculateLogP(mol):    
@@ -271,6 +301,45 @@ def CalculateLogP(mol):
     return round(Descriptors.MolLogP(mol),2)  
 
 
+def CheckAcid(mol):
+    """
+    """
+    acid_fragment = ['[!H0;F,Cl,Br,I,N+,$([OH]-*=[!#6]),+]',
+                     '[CX3](=O)[OX2H1]',
+                     '[CX3](=O)[OX1H0-,OX2H1]',
+                     '[$([OH]-*=[!#6])]',
+                     '[$(P(=[OX1])([$([OX2H]),$([OX1-]),$([OX2]P)])([$([OX2H]),$([OX1-]),$([OX2]P)])[$([OX2H]),$([OX1-]),$([OX2]P)]),$([P+]([OX1-])([$([OX2H]),$([OX1-]),$([OX2]P)])([$([OX2H]),$([OX1-]),$([OX2]P)])[$([OX2H]),$([OX1-]),$([OX2]P)])]',
+                     '[$([#16X4](=[OX1])(=[OX1])([#6])[OX2H,OX1H0-]),$([#16X4+2]([OX1-])([OX1-])([#6])[OX2H,OX1H0-])]',
+                     '[CX3](=[OX1])[F,Cl,Br,I]'
+                     ]
+    for sma in acid_fragment:
+        patt = Chem.MolFromSmarts(sma)
+        if mol.HasSubstructMatch(patt):
+            return 'acid'
+    else:
+        return 'base'        
+        
+def CalculatepKa(mol):
+    from math import log10
+    """
+    Eq.:
+        |pH-pKa| = log10(10^(logP-logD)-1)
+        pKa = pH - log10(10^(logP-logD)-1) for acid
+        pKa = log10(10^(logP-logD)-1) - pH for base  
+    """
+    logP = CalculateLogP(mol)
+    logD = CalculateLogD(mol)
+    status = CheckAcid(mol)
+    try:
+        if status == 'acid':
+            pKa = 7.4 - log10(10**(logP-logD)-1)
+        else:
+            pKa = log10(10**(logP-logD)-1) - 7.4
+        return pKa
+    except:
+        return 'N/A'
+    
+    
 def CalculateMolMR(mol):
     """
     #################################################################
@@ -369,7 +438,7 @@ def CalculateAromaticProportion(mol):
     #################################################################
     """
     aroma = len(mol.GetSubstructMatches(Chem.MolFromSmarts('[a]')))
-    total = CalculateHeavyAtomNumber(mol)
+    total = CalculateNumHeavyAtom(mol)
     return round(aroma/total,2)    
     
 
@@ -532,7 +601,9 @@ def CalculateSolubilityForecastIndex(mol):
     SFI = clogD(pH=7.4) + #Ar
     #################################################################
     """
+    logD = CalculateLogD(mol)
     pass
+
 
 def _CalculateElementNumber(mol,AtomicNumber=6):
     """
@@ -546,7 +617,6 @@ def _CalculateElementNumber(mol,AtomicNumber=6):
             [atom for atom in mol.GetAtoms()\
                 if atom.GetAtomicNum() == AtomicNumber]
             )
-
 
 
 def CalculateCarbonNumber(mol):
@@ -567,6 +637,188 @@ def CalculateCarbonNumber(mol):
     """
 
     return _CalculateElementNumber(mol,AtomicNumber=6)
+
+
+def CalculateBoronNumber(mol):
+
+    """
+    #################################################################
+    Calculation of Boron counts in a molecule
+    
+    ---->ncof
+    
+    Usage:
+        
+        result=CalculateBoronNumber(mol)
+        
+        Input: mol is a molecule object.
+        
+        Output: result is a numeric value.
+    #################################################################
+    """
+            
+    return _CalculateElementNumber(mol,AtomicNumber=5)
+
+
+def CalculateFluorinNumber(mol):
+
+    """
+    #################################################################
+    Calculation of Fluorin counts in a molecule
+    
+    ---->ncof
+    
+    Usage:
+        
+        result=CalculateBoronNumber(mol)
+        
+        Input: mol is a molecule object.
+        
+        Output: result is a numeric value.
+    #################################################################
+    """
+            
+    return _CalculateElementNumber(mol,AtomicNumber=10)
+
+
+def CalculateChlorinNumber(mol):
+
+    """
+    #################################################################
+    Calculation of Chlorin counts in a molecule
+    
+    ---->ncocl
+    
+    Usage:
+        
+        result=CalculateChlorinNumber(mol)
+        
+        Input: mol is a molecule object.
+        
+        Output: result is a numeric value.
+    #################################################################
+    """
+
+    return _CalculateElementNumber(mol,AtomicNumber=17)
+
+
+def CalculateBromineNumber(mol):
+
+    """
+    #################################################################
+    Calculation of Bromine counts in a molecule
+    
+    ---->ncobr
+    
+    Usage:
+        
+        result=CalculateBromineNumber(mol)
+        
+        Input: mol is a molecule object.
+        
+        Output: result is a numeric value.
+    #################################################################
+    """
+
+    return _CalculateElementNumber(mol,AtomicNumber=35)
+
+
+def CalculateIodineNumber(mol):
+    """
+    #################################################################
+    Calculation of Iodine counts in a molecule
+    
+    ---->ncoi
+    
+    Usage:
+        
+        result=CalculateIodineNumber(mol)
+        
+        Input: mol is a molecule object.
+        
+        Output: result is a numeric value.
+    #################################################################
+    """
+
+    return _CalculateElementNumber(mol,AtomicNumber=53)
+
+
+def CalculatePhosphorNumber(mol):
+    """
+    #################################################################
+    Calcualtion of Phosphor number in a molecule
+    
+    ---->nphos
+    
+    Usage:
+        
+        result=CalculatePhosphorNumber(mol)
+        
+        Input: mol is a molecule object.
+        
+        Output: result is a numeric value.
+    #################################################################
+    """
+    return _CalculateElementNumber(mol,AtomicNumber=15)
+
+
+def CalculateSulfurNumber(mol):
+    """
+    #################################################################
+    Calculation of Sulfur counts in a molecule
+    
+    ---->nsulph
+    
+    Usage:
+        
+        result=CalculateSulfurNumber(mol)
+        
+        Input: mol is a molecule object.
+        
+        Output: result is a numeric value.
+    #################################################################
+    """
+    return _CalculateElementNumber(mol,AtomicNumber=16)
+
+
+def CalculateOxygenNumber(mol):
+    """
+    #################################################################
+    Calculation of Oxygen counts in a molecule
+    
+    ---->noxy
+    
+    Usage:
+        
+        result=CalculateOxygenNumber(mol)
+        
+        Input: mol is a molecule object.
+        
+        Output: result is a numeric value.
+    #################################################################
+
+    """
+    return _CalculateElementNumber(mol,AtomicNumber=8)
+        
+
+def CalculateNitrogenNumber(mol):
+    """
+    #################################################################
+    Calculation of Nitrogen counts in a molecule
+    
+    ---->nnitro
+    
+    Usage:
+        
+        result=CalculateNitrogenNumber(mol)
+        
+        Input: mol is a molecule object.
+        
+        Output: result is a numeric value.
+    #################################################################
+    """
+    
+    return _CalculateElementNumber(mol,AtomicNumber=7)
 
 
 def CalculateNumberChargedGroups(mol):
@@ -626,7 +878,7 @@ def CalculateHetCarbonRatio(mol):
         Output: result is a numeric value.
     #################################################################
     """
-    Total = CalculateHeavyAtomNumber(mol)
+    Total = CalculateNumHeavyAtom(mol)
     nCarb = CalculateCarbonNumber(mol)
     het = Total-nCarb  
     return round(het/nCarb,2)    
@@ -702,12 +954,93 @@ def GetIFG(mol):
     return identify_functional_groups(mol)
 
 
+def CalculateMolVolume(mol):
+    """
+    ---
+    Equation: 
+        for single atom: Vw = 4/3*pi*rw^3, the rw is the Van der Waals radius of atom
+        VvdW = ∑(atom contributions)-5.92NB(Unit in Å^3), NB is the total number of bonds
+        the Van der Waals radius of atom is derived from wikipedia.
+        
+    ---
+    Parameters:
+        >>> mol: dkit.Chem.rdchem.Mol;
+        
+    Rerurn:
+        float 
+    """
+    from math import pi
+    Radii = {'H':1.20,'C':1.70,'N':1.55,
+             'O':1.52,'S':1.80,'P':1.80,
+             'F':1.47,'Cl':1.75,'Br':1.85,
+             'I':1.98,'Na':2.27,'Mg':1.73,
+             'K':2.75,'Ca':2.31,'Ba':2.68,
+             }
+    mol = Chem.AddHs(mol)
+    contrib = [Radii[atom.GetSymbol()] for atom in mol.GetAtoms()]
+    contrib = [pi*(r**3)*4/3 for r in contrib]
+    vol = sum(contrib) - 5.92*len(mol.GetBonds())
+    return round(vol,2)
+
+
+def CalculateMolDensity(mol):
+    """
+    """
+    MW = CalculateMolWeight(mol)
+    Vol = CalculateMolVolume(mol)
+    Dens = MW/Vol
+    return round(Dens,2)
+
+def CalculateMolFCharge(mol):
+    """
+    """
+    mol = Chem.AddHs(mol)
+    FChar = [atom.GetFormalCharge() for atom in mol.GetAtoms()]
+    return sum(FChar)
+
+
+def _CalculateNumBond(mol,btype):
+    if btype == 'SINGLE':
+        return len([bond for bond in mol.GetBonds() 
+                    if bond.GetBondType() == Chem.rdchem.BondType.SINGLE])
+    elif btype == 'DOUBLE':
+        return len([bond for bond in mol.GetBonds() 
+                    if bond.GetBondType() == Chem.rdchem.BondType.DOUBLE])
+    elif btype == 'TRIPLE':
+        return len([bond for bond in mol.GetBonds() 
+                    if bond.GetBondType() == Chem.rdchem.BondType.TRIPLE])
+
+
+def CalculateNumSinBond(mol):
+    """
+    ---> nSingle
+    """
+    return _CalculateNumBond(mol,btype='SINGLE')
+
+
+def CalculateNumDouBond(mol):
+    """
+    ---> nDouble
+    """
+    return _CalculateNumBond(mol,btype='DOUBLE')
+
+
+def CalculateNumTriBond(mol,btype='TRIPLE'):
+    """
+    ---> nTriple
+    """
+    return _CalculateNumBond(mol,btype='TRIPLE')
+
+
 
 def GetProperties(mol):
     """
     Get all properties in scopy
     """
     MW = CalculateMolWeight(mol)
+    Vol = CalculateMolVolume(mol)
+    Dense = CalculateMolDensity(mol)
+    fChar = CalculateMolFCharge(mol)
     nBond = CalculateNumBonds(mol)
     nAtom = CalculateNumAtoms(mol)
     nCarbon = CalculateCarbonNumber(mol)
@@ -715,8 +1048,11 @@ def GetProperties(mol):
     nRot = CalculateNumRotatableBonds(mol)
     nRig = CalculateNumRigidBonds(mol)
     nRing = CalculateNumRing(mol)
-    nHev = CalculateHeavyAtomNumber(mol)
+    nHev = CalculateNumHeavyAtom(mol)
     logP = CalculateLogP(mol)
+    logD = CalculateLogD(mol)
+    pKa = CalculatepKa(mol)
+    ab = CheckAcid(mol)
     MR = CalculateMolMR(mol)
     nHD = CalculateNumHDonors(mol)
     nHA = CalculateNumHAcceptors(mol)
@@ -731,33 +1067,50 @@ def GetProperties(mol):
     QED = CalculateQED(mol)
     SAscore = CalculateSAscore(mol)
     NPscore = CalculateNPscore(mol)
+    nSingle = CalculateNumSinBond(mol)
+    nDouble = CalculateNumDouBond(mol)
+    nTriple = CalculateNumTriBond(mol)
+    nC = CalculateCarbonNumber(mol)
+    nB = CalculateBoronNumber(mol)
+    nF = CalculateFluorinNumber(mol)
+    nCl = CalculateChlorinNumber(mol)
+    nBr = CalculateBromineNumber(mol)
+    nI = CalculateIodineNumber(mol)
+    nP = CalculatePhosphorNumber(mol)
+    nS = CalculateSulfurNumber(mol)
+    nO = CalculateOxygenNumber(mol)
+    nN = CalculateNitrogenNumber(mol)
     
-    res = namedtuple('Properties',['MW','nBond','nAtom','nCarbon','nHD','nHA','nHB',
+    res = namedtuple('Properties',['MW','Vol','Dense','fChar','nBond','nAtom','nCarbon','nHD','nHA','nHB',
                                    'nHet','nStero','nHev','nRot','nRig','nRing',
-                                   'logP','logSw','MR','tPSA','AP','HetRatio',
-                                   'Fsp3','MaxRing','QED','SAscore','NPscore'])
-    checkres = res(MW,nBond,nAtom,nCarbon,nHD,nHA,nHB,
+                                   'logP','logD','pKa','logSw','ab','MR','tPSA','AP','HetRatio',
+                                   'Fsp3','MaxRing','QED','SAscore','NPscore',
+                                   'nSingle','nDouble','nTriple','nC','nB','nF','nCl','nBr','nI',
+                                   'nP','nS','nO','nN'])
+    checkres = res(MW,Vol,Dense,fChar,nBond,nAtom,nCarbon,nHD,nHA,nHB,
                    nHet,nStero,nHev,nRot,nRig,nRing,
-                   logP,logSw,MR,tPSA,AP,HetRation,
-                   Fsp3,MaxRing,QED,SAscore,NPscore)  
+                   logP,logD,pKa,logSw,ab,MR,tPSA,AP,HetRation,
+                   Fsp3,MaxRing,QED,SAscore,NPscore,
+                   nSingle,nDouble,nTriple,nC,nB,nF,nCl,nBr,nI,
+                   nP,nS,nO,nN)  
     return checkres
 
 
 
 if __name__ =='__main__':
     
-#    smis = ['CCCC','CCCCC','CCCCCC','CC(N)C(=O)O','CC(N)C(=O)[O-].[Na+]','CC(=O)OC1=CC=CC=C1C(=O)O']
-#    smi5=['CCCCCC','CCC(C)CC','CC(C)CCC','CC(C)C(C)C','CCCCCN','c1ccccc1N']
-#    smiring = ['C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2','C1CCC2C3CC(C4CCCC5CCCCC45)CCC3CCC2C1','C1CCC2(CCC3(CCCCC3)CC2)CC1']
-#    for index, smi in enumerate(smis):
-#        mol = Chem.MolFromSmiles(smi)
-#        print('Index:{}'.format(index))
-#        res = GetProperties(mol)
-#        print(res)
+    smis = ['CCCC','CCCCC','CCCCCC','CC(N)C(=O)O','CC(N)C(=O)[O-].[Na+]','CC(=O)OC1=CC=CC=C1C(=O)O']
+    smi5=['CCCCCC','CCC(C)CC','CC(C)CCC','CC(C)C(C)C','CCCCCN','c1ccccc1N']
+    smiring = ['C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2','C1CCC2C3CC(C4CCCC5CCCCC45)CCC3CCC2C1','C1CCC2(CCC3(CCCCC3)CC2)CC1']
+    for index, smi in enumerate(smis):
+        mol = Chem.MolFromSmiles(smi)
+        print('Index:{}'.format(index))
+        res = GetProperties(mol)
+        print(res)
     
-    smi = 'C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2'
-    mol = Chem.MolFromSmiles(smi)
-    res = GetProperties(mol)
-    print(res)
+#    smi = 'CC(=O)OCOC(=O)C'
+#    mol = Chem.MolFromSmiles(smi)
+#    res = CalculateNumTriBond(mol)
+#    print(res)
         
         

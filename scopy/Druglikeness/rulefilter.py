@@ -11,9 +11,9 @@ Created on Tue Jun 25 21:59:42 2019
 """
 
 __doc__ = """
-    This module implments properties obtained from module CalculateProperty
+    This module implments properties obtained from module molproperty
     ---
-    We have collected followed rules:
+    We have collected following rules:
 
     Egan Rule     0<=tPSA<=132; -1<=logP<=6
     Veber Rule   nRot<= 10; tPSA<= 140; nHB<= 12
@@ -22,7 +22,7 @@ __doc__ = """
     Pfizer Rule     logP>3; PSA<75
     GSK Rule        MW<=400; logP<=4
     OralMacrocycles     MW<1000; logP<10; nHD<5; PSA<250
-    Oprea Rule      0<=nHD<=2; 2<= nHA<=9; 2<=nRot<=8; 1<=nRing<=4
+    Oprea Rule   nRing>=3,nRig>=18,nRot>=6  
     Ghose Rule      -0.4<logP<5.6; 160<MW<480; 40<MR<130; 20<nAtom<70
     Xu Rule     nHD<=5; nHA <= 10; 3 <= rot <= 35; 1 <= nring <= 7; 10 <= nhev <= 50
     Ro4 Rule    MW<=400; logP<=4; nHD<=4; NHA<=8; PSA<=120
@@ -32,7 +32,7 @@ __doc__ = """
     ---
     Followed should be achieved in the future:
 
-    OpreaTwo Rule       mw <= 450; -3.5<=clogP<=4.5; -4<=logD<=4; nring<= 4; no. of nonterminal single bonds<=10; nHD<=5; nHA<=8
+    OpreaTwo Rule: mw <= 450; -3.5<=clogP<=4.5; -4<=logD<=4; nring<= 4; no. of nonterminal single bonds<=10; nHD<=5; nHA<=8
     Kelder Rule
     REOS Rule
     GoldenTriangle
@@ -44,11 +44,12 @@ __doc__ = """
     Respiratory
     """
 
-from scopy.Druglikeness import CalculateProperty
+from scopy.Druglikeness import molproperty
 from collections import namedtuple
 from rdkit import Chem
 
-def CheckEganRule(mol,detail):
+
+def CheckEganRule(mol,detail=False):
     """
     #################################################################
     Bad or Good oral biovailability rule
@@ -63,8 +64,8 @@ def CheckEganRule(mol,detail):
     #################################################################
     """
     #Calculate required properties of Lipinskin's rule
-    tPSA = CalculateProperty.CalculateTPSA(mol)
-    logP = CalculateProperty.CalculateLogP(mol)
+    tPSA = molproperty.CalculateTPSA(mol)
+    logP = molproperty.CalculateLogP(mol)
     
     #Determine whether the molecular match each rule
     atPSA = (0<=tPSA<=132)
@@ -102,9 +103,9 @@ def CheckVeberRule(mol,detail=False):
     #################################################################
     """
     #Calculate required properties of Lipinskin's rule
-    nRot = CalculateProperty.CalculateNumRotatableBonds(mol)
-    tPSA = CalculateProperty.CalculateTPSA(mol)
-    nHB = CalculateProperty.CalculateNumHyBond(mol)   
+    nRot = molproperty.CalculateNumRotatableBonds(mol)
+    tPSA = molproperty.CalculateTPSA(mol)
+    nHB = molproperty.CalculateNumHyBond(mol)   
     #Determine whether the molecular match each rule
     anRot = (nRot<=10)
     atPSA = (tPSA<=140)
@@ -143,10 +144,10 @@ def CheckLipinskiRule(mol,detail=False):
     #################################################################
     """
     #Calculate required properties of Lipinskin's rule
-    MW = CalculateProperty.CalculateMolWeight(mol)
-    logP = CalculateProperty.CalculateLogP(mol)
-    nHD = CalculateProperty.CalculateNumHDonors(mol)
-    nHA = CalculateProperty.CalculateNumHAcceptors(mol)   
+    MW = molproperty.CalculateMolWeight(mol)
+    logP = molproperty.CalculateLogP(mol)
+    nHD = molproperty.CalculateNumHDonors(mol)
+    nHA = molproperty.CalculateNumHAcceptors(mol)   
     #Determine whether the molecular match each rule
     aw = (MW <= 500)
     alogp = (logP <= 5)
@@ -188,12 +189,12 @@ def CheckBeyondRo5(mol,detail=False):
     #################################################################
     """
     #Calculate required properties of Lipinskin's rule
-    MW = CalculateProperty.CalculateMolWeight(mol)
-    logP = CalculateProperty.CalculateLogP(mol)
-    nHD = CalculateProperty.CalculateNumHDonors(mol)
-    nHA = CalculateProperty.CalculateNumHAcceptors(mol)
-    PSA = CalculateProperty.CalculateTPSA(mol)
-    nRot = CalculateProperty.CalculateNumRotatableBonds(mol)
+    MW = molproperty.CalculateMolWeight(mol)
+    logP = molproperty.CalculateLogP(mol)
+    nHD = molproperty.CalculateNumHDonors(mol)
+    nHA = molproperty.CalculateNumHAcceptors(mol)
+    PSA = molproperty.CalculateTPSA(mol)
+    nRot = molproperty.CalculateNumRotatableBonds(mol)
     
     #Determine whether the molecular match each rule
     aMW = (MW<=1000)
@@ -234,8 +235,8 @@ def CheckPfizerRule(mol,detail=False):
     #################################################################
     """
     #Calculate required properties
-    logP = CalculateProperty.CalculateLogP(mol)
-    PSA = CalculateProperty.CalculateTPSA(mol)
+    logP = molproperty.CalculateLogP(mol)
+    PSA = molproperty.CalculateTPSA(mol)
     
     #Determine whether the molecular match each rule
     alogP = (logP > 3)
@@ -272,8 +273,8 @@ def CheckGSKRule(mol,detail=False):
     #################################################################
     """
     #Calculate required properties
-    MW = CalculateProperty.CalculateMolWeight(mol)
-    logP = CalculateProperty.CalculateLogP(mol)   
+    MW = molproperty.CalculateMolWeight(mol)
+    logP = molproperty.CalculateLogP(mol)   
     #Determine whether the molecular match each rule    
     aMW = (MW <= 400)
     alogP = (logP <= 4)    
@@ -294,7 +295,7 @@ def CheckGSKRule(mol,detail=False):
     return checkres
 
 
-def OralMacrocycles(mol,detail=False):
+def CheckOralMacrocycles(mol,detail=False):
     """
     #################################################################
     Check molecular under oral macrocycles rules
@@ -310,10 +311,10 @@ def OralMacrocycles(mol,detail=False):
     #################################################################
     """
     #Calculate required properties of Lipinskin's rule
-    MW = CalculateProperty.CalculateMolWeight(mol)
-    logP = CalculateProperty.CalculateLogP(mol)
-    nHD = CalculateProperty.CalculateNumHDonors(mol)
-    tPSA = CalculateProperty.CalculateTPSA(mol)   
+    MW = molproperty.CalculateMolWeight(mol)
+    logP = molproperty.CalculateLogP(mol)
+    nHD = molproperty.CalculateNumHDonors(mol)
+    tPSA = molproperty.CalculateTPSA(mol)   
     #Determine whether the molecular match each rule
     aMW = (MW < 1000)
     alogP = (logP < 10)
@@ -343,38 +344,36 @@ def CheckOpreaRule(mol,detail=False):
         Oprea, Tudor I.
         Journal of computer-aided molecular design 14.3 (2000): 251-264.
         
-    -Rule details:
-        0 <= nHD <= 2
-        2 <= nHA <= 9
-        2 <= nRot <= 8
-        1 <= nRing <= 4
+    -Rules details:
+        nRing >= 3
+        nRig >= 18
+        nRot >=6
     #################################################################
     """
     #Calculate required properties of Oprea
-    nHD = CalculateProperty.CalculateNumHDonors(mol)
-    nHA = CalculateProperty.CalculateNumHAcceptors(mol)
-    nRot = CalculateProperty.CalculateNumRotatableBonds(mol)
-    nRing = CalculateProperty.CalculateNumRing(mol)    
+    nRing = molproperty.CalculateNumRing(mol)
+    nRig = molproperty.CalculateNumRigidBonds(mol)
+    nRot = molproperty.CalculateNumRotatableBonds(mol)
     #Determine whether the molecular match each rule
-    anHD = (0<=nHD<=2)
-    anHA = (2<=nHA<=9)
-    anRot = (2<=nRot<=8)
-    anRing = (1<=nRing<=4)   
+    anRing = (nRing >= 3)
+    anRig = (nRig >= 18)
+    anRot = (nRot >= 6)
     #Give the advice
-    if (anHD&anHA&anRot&anRing):
+    if (anRing&anRig&anRot):
         disposed = 'Accept'
     else:
         disposed = 'Reject'
     #Count the number of violated rules
-    violate = 4 - (anHD+anHA+anRot+anRing)
-    #res   
+    violate = 3 - (anRing+anRig+anRot)
+    #Res
     if detail:
-        res = namedtuple('OpreaRules',['nHD','nHA','nRot','nRing','Disposed','Violate'])
-        checkres = res(nHD,nHA,nRot,nRing,disposed,violate)
+        res = namedtuple('OpreaRule',['nRing','nRig','nRot','Disposed','Violate'])
+        checkres = res(nRing,nRig,nRot,disposed,violate)
     else:
-        res = namedtuple('OpreaRules',['Disposed','Violate'])
+        res = namedtuple('OpreaRule',['Disposed','Violate'])
         checkres = res(disposed,violate)
     return checkres
+
     
 
 def CheckOpreaTwoRule(mol):
@@ -412,10 +411,10 @@ def CheckGhoseRule(mol,detail=False):
     #################################################################
     """
     #Calculate required properties of Oprea
-    logP = CalculateProperty.CalculateLogP(mol)
-    MW = CalculateProperty.CalculateMolWeight(mol)
-    MR = CalculateProperty.CalculateMolMR(mol)
-    nAtom = CalculateProperty.CalculateNumAtoms(mol)    
+    logP = molproperty.CalculateLogP(mol)
+    MW = molproperty.CalculateMolWeight(mol)
+    MR = molproperty.CalculateMolMR(mol)
+    nAtom = molproperty.CalculateNumAtoms(mol)    
     #Determine whether the molecular match each rule
     alogP = (-0.4<logP<5.6)
     aMW = (160<MW<480)
@@ -430,10 +429,10 @@ def CheckGhoseRule(mol,detail=False):
     violate = 4 - (alogP+aMW+aMR+anAtom)
     #Res
     if detail:
-        res = namedtuple('GhoseRuler',['logP','MW','MR','nAtom','Disposed','Violate'])
+        res = namedtuple('GhoseRule',['logP','MW','MR','nAtom','Disposed','Violate'])
         checkres = res(logP,MW,MR,nAtom,disposed,violate)
     else:
-        res = namedtuple('GhoseRuler',['Disposed','Violate'])
+        res = namedtuple('GhoseRule',['Disposed','Violate'])
         checkres = res(disposed,violate)
     return checkres
 
@@ -478,13 +477,13 @@ def CheckREOS(mol):
     #################################################################
     """
     #Calculate required properties of REOS
-    mw = CalculateProperty.CalculateMolWeight(mol)
-    logP = CalculateProperty.CalculateLogP(mol)
-    nhd = CalculateProperty.CalculateNumHDonors(mol)
-    nha = CalculateProperty.CalculateNumHAcceptors(mol)
-    nrot = CalculateProperty.CalculateNumRotatableBonds(mol)
-    tpsa = CalculateProperty.CalculateTPSA(mol)
-    totalchar = CalculateProperty.CalculateTotalCharge(mol)
+    mw = molproperty.CalculateMolWeight(mol)
+    logP = molproperty.CalculateLogP(mol)
+    nhd = molproperty.CalculateNumHDonors(mol)
+    nha = molproperty.CalculateNumHAcceptors(mol)
+    nrot = molproperty.CalculateNumRotatableBonds(mol)
+    tpsa = molproperty.CalculateTPSA(mol)
+    totalchar = molproperty.CalculateTotalCharge(mol)
     
     #Determine whether the molecular match each rule
     aw = ((mw>=200)&(mw<=500))
@@ -510,7 +509,7 @@ def CheckREOS(mol):
     return None
 
 
-def CheckGoldenTriangle(mol):
+def CheckGoldenTriangle(mol,detail=False):
     """
     #################################################################
     Check molecular under 'Golden Triangle'
@@ -527,8 +526,8 @@ def CheckGoldenTriangle(mol):
     #################################################################
     """
     #Calculate required properties of REOS
-    MW = CalculateProperty.CalculateMolWeight(mol)
-    logP = CalculateProperty.CalculateLogP(mol)
+    MW = molproperty.CalculateMolWeight(mol)
+    logP = molproperty.CalculateLogP(mol)
     
     #Determine whether the molecular match each rule
     aw = (200<=MW<=500)
@@ -544,7 +543,7 @@ def CheckGoldenTriangle(mol):
     pass
 
 
-def CheckXuRule(mol,detail):
+def CheckXuRule(mol,detail=False):
     """
     #################################################################
     Check molecular under Xu's rule
@@ -561,11 +560,11 @@ def CheckXuRule(mol,detail):
     #################################################################
     """
     #Calculate required properties of Xu's rule
-    nHD = CalculateProperty.CalculateNumHDonors(mol)
-    nHA = CalculateProperty.CalculateNumHAcceptors(mol)
-    nRot = CalculateProperty.CalculateNumRotatableBonds(mol)
-    nRing = CalculateProperty.CalculateNumRing(mol)
-    nHev = CalculateProperty.CalculateHeavyAtomNumber(mol)   
+    nHD = molproperty.CalculateNumHDonors(mol)
+    nHA = molproperty.CalculateNumHAcceptors(mol)
+    nRot = molproperty.CalculateNumRotatableBonds(mol)
+    nRing = molproperty.CalculateNumRing(mol)
+    nHev = molproperty.CalculateNumHeavyAtom(mol)   
     #Determine whether the molecular match each rule
     anHD = (nHD<=5)
     anHA = (nHA<=10)
@@ -634,11 +633,11 @@ def CheckRo4(mol,detail=False):
     #################################################################
     """
     #Calculate required properties of REOS
-    MW = CalculateProperty.CalculateMolWeight(mol)
-    logP = CalculateProperty.CalculateLogP(mol)
-    nHD = CalculateProperty.CalculateNumHDonors(mol)
-    nHA = CalculateProperty.CalculateNumHAcceptors(mol)
-    tPSA = CalculateProperty.CalculateTPSA(mol)    
+    MW = molproperty.CalculateMolWeight(mol)
+    logP = molproperty.CalculateLogP(mol)
+    nHD = molproperty.CalculateNumHDonors(mol)
+    nHA = molproperty.CalculateNumHAcceptors(mol)
+    tPSA = molproperty.CalculateTPSA(mol)    
     #Determine whether the molecular match each rule
     aMW = (MW<=400)
     alogP = (logP<=4)
@@ -680,12 +679,12 @@ def CheckRo3(mol,detail=False):
     #################################################################
     """
     #Calculate required properties of REOS
-    MW = CalculateProperty.CalculateMolWeight(mol)
-    logP = CalculateProperty.CalculateLogP(mol)
-    nHD = CalculateProperty.CalculateNumHDonors(mol)
-    nHA = CalculateProperty.CalculateNumHAcceptors(mol)
-    tPSA = CalculateProperty.CalculateTPSA(mol)
-    nRot = CalculateProperty.CalculateNumRotatableBonds(mol)    
+    MW = molproperty.CalculateMolWeight(mol)
+    logP = molproperty.CalculateLogP(mol)
+    nHD = molproperty.CalculateNumHDonors(mol)
+    nHA = molproperty.CalculateNumHAcceptors(mol)
+    tPSA = molproperty.CalculateTPSA(mol)
+    nRot = molproperty.CalculateNumRotatableBonds(mol)    
     #Determine whether the molecular match each rule
     aMW = (MW<=300)
     alogP = (-3<=logP<=3)
@@ -710,7 +709,7 @@ def CheckRo3(mol,detail=False):
     return checkres
 
 
-def CheckRo2(mol,detail):
+def CheckRo2(mol,detail=False):
     """
     #################################################################
     Check molecular under RO2
@@ -727,10 +726,10 @@ def CheckRo2(mol,detail):
     #################################################################    
     """
     #Calculate required properties of REOS
-    MW = CalculateProperty.CalculateMolWeight(mol)
-    logP = CalculateProperty.CalculateLogP(mol)
-    nHD = CalculateProperty.CalculateNumHDonors(mol)
-    nHA = CalculateProperty.CalculateNumHAcceptors(mol)    
+    MW = molproperty.CalculateMolWeight(mol)
+    logP = molproperty.CalculateLogP(mol)
+    nHD = molproperty.CalculateNumHDonors(mol)
+    nHA = molproperty.CalculateNumHAcceptors(mol)    
     #Determine whether the molecular match each rule
     aMW = (MW<=200)
     alogP = (logP<=2)
@@ -882,11 +881,11 @@ def CheckCNS(mol,detail=False):
     #################################################################
     """
     #Calculate required properties of REOS
-    MW = CalculateProperty.CalculateMolWeight(mol)
-    logP = CalculateProperty.CalculateLogP(mol)
-    nHD = CalculateProperty.CalculateNumHDonors(mol)
-    nHA = CalculateProperty.CalculateNumHAcceptors(mol)
-    tPSA = CalculateProperty.CalculateTPSA(mol)
+    MW = molproperty.CalculateMolWeight(mol)
+    logP = molproperty.CalculateLogP(mol)
+    nHD = molproperty.CalculateNumHDonors(mol)
+    nHA = molproperty.CalculateNumHAcceptors(mol)
+    tPSA = molproperty.CalculateTPSA(mol)
     #Determine whether the molecular match each rule
     aMW = (135<=MW<=582)
     alogP = (-0.2<=logP<=6.1)
@@ -929,12 +928,12 @@ def CheckRespiratory(mol,detail=False):
     #################################################################
     """
     #Calculate required properties of REOS
-    MW = CalculateProperty.CalculateMolWeight(mol)
-    logP = CalculateProperty.CalculateLogP(mol)
-    nHB = CalculateProperty.CalculateNumHyBond(mol)
-    tPSA = CalculateProperty.CalculateTPSA(mol)
-    nRot = CalculateProperty.CalculateNumRotatableBonds(mol)
-    nRing = CalculateProperty.CalculateNumRing(mol)
+    MW = molproperty.CalculateMolWeight(mol)
+    logP = molproperty.CalculateLogP(mol)
+    nHB = molproperty.CalculateNumHyBond(mol)
+    tPSA = molproperty.CalculateTPSA(mol)
+    nRot = molproperty.CalculateNumRotatableBonds(mol)
+    nRing = molproperty.CalculateNumRing(mol)
     #Determine whether the molecular match each rule
     aMW = (240<=MW<=520)
     alogP = (-0.2<=logP<=4.7)
@@ -981,7 +980,7 @@ def Check_CustomizeRule(mol,prop_kws,closed_interval=True,detail=False):
                'nRing','nHev','logP','MR','nHD',
                'nHA','nHB','AP','logSw','Fsp3','tPSA',
                'AP','HetRatio','MaxRing','nStero', 'HetRatio']    
-    properties = CalculateProperty.GetProperties(mol)._asdict()
+    properties = molproperty.GetProperties(mol)._asdict()
     keys = list(prop_kws.keys())
     try:
         res = [properties[key] for key in keys]
@@ -1007,6 +1006,30 @@ def Check_CustomizeRule(mol,prop_kws,closed_interval=True,detail=False):
     return checkres(*res)
        
 
+def CheckRule(mol):
+    """
+    """
+    res = [CheckEganRule(mol)[-2],
+           CheckVeberRule(mol)[-2],
+           CheckLipinskiRule(mol)[-2],
+           CheckBeyondRo5(mol)[-2],
+           CheckPfizerRule(mol)[-2],
+           CheckGSKRule(mol)[-2],
+           OralMacrocycles(mol)[-2],
+           CheckOpreaRule(mol)[-2],
+           CheckGhoseRule(mol)[-2],
+           CheckXuRule(mol)[-2],
+           CheckRo4(mol)[-2],
+           CheckRo3(mol)[-2],
+           CheckRo2(mol)[-2],
+           CheckCNS(mol)[-2],
+           CheckRespiratory(mol)[-2]]
+    res = [[False,True][x=='Reject'] for x in res]
+    return res
+
+
+
+
 if __name__ =='__main__':
     
     smis = ['CCCC','CCCCC','CCCCCC','CC(N)C(=O)O','CC(N)C(=O)[O-].[Na+]','CC(=O)OC1=CC=CC=C1C(=O)O']
@@ -1015,7 +1038,7 @@ if __name__ =='__main__':
     for index, smi in enumerate(smis):
         mol = Chem.MolFromSmiles(smi)
         print('Index:{}'.format(index))
-        res = CheckRespiratory(mol,detail=True)
+        res = CheckRule(mol)
 #        print(res)
 #        res = Check_CustomizeRule(mol,
 #                                  prop_kws={'MW':(100,500),

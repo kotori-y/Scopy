@@ -9,9 +9,9 @@
 
 # Scopy: a compounds filter for early stages drug discovery.
 
-## what's it
+## what's its
 
-**Scopy** is a Python package, based on RDKit, computing various properties** **of molecule** which present in some **drug likeness rules**, such as Lipinski's rule, Pfizer rule, Beyond Ro5 rule, so that a molecule could be checked under some rules. Besides, Scopy could scan molecule through a predefined toxic fragments in **SMARTS** format to filter the molecule which may has some **unexpected endpoint**.
+**Scopy** is a Python package, based on RDKit, computing various **properties of molecule** which present in some **drug likeness rules**, such as Lipinski's rule, Pfizer rule, Beyond Ro5 rule, so that a molecule could be checked under some rules. Besides, Scopy could scan molecule through a predefined toxic fragments in **SMARTS** format to filter the molecule which may has some **unexpected endpoint**.
 
 ## Main Function
 
@@ -19,37 +19,56 @@
 
 ```python
 """
----
-up to now(2019.07.09), we have achived followed properties:
-    Molcular Weight,MW
-    Number of bonds, nBond
-    Number of atoms, nAtom
-    Number of heteroatoms, nHet
-    Number of rotable bonds, nRot
-    Number of rigid bonds, nRig
-    Number of SSSR, nRing
-    Number of heavy atom, nHev
-    logP, #we haven't discriminated the AlogP and ClogP
-    Molecular refraction, MR
-    Number of hydrogen bond donors, nHD
-    Number of hydrogen bond acceptors, nHA
-    Number of hydrogen bond donors& acceptors, nHB
-    Aromatic proportion, AP
-    logSw #by the ESOL method
-    sp3 hybridized carbons/total carbon count, Fsp3
-    tPSA, tPSA
-    Number of atoms involved in the biggest system ring, MaxRing
-    Number of Sterocenterss, nStero
-    HetCarbonRatio, HetRatio
-    QED
-    SAscore
-    NPscore
----
-Followed should be achieved in the future:
-    logD
-    difference between clogP and alogP
-    Formal total charge of the compound
-    Number of Charged Groups
+This moudle is used to calculated properise that contained in our collectded rules
+    ---
+    up to now(2019.07.22), we have achived followed properties:
+        Molcular Weight >>> MW
+        Number of bonds >>> nBond
+        Number of atoms >>> nAtom
+        Number of heteroatoms >>> nHet
+        Number of heavy atom >>> nHev
+        Number of rotable bonds >>> nRot
+        Number of rigid bonds >>> nRig
+        Number of SSSR >>> nRing
+        logP >>> logP
+        logD >>> logD
+        logSw >>> logSw
+        Acid or Base >>> Acid/Base
+        pKa >>> pKa
+        QED >>> qed
+        Molecular refraction >>> MR
+        Number of hydrogen bond donors >>> nHD
+        Number of hydrogen bond acceptors >>> nHA
+        Number of hydrogen bond donors& acceptors >>> nHB
+        Aromatic proportion >>> AP
+        sp3 hybridized carbons/total carbon count >>> Fsp3
+        TPSA >>> TPSA
+        Number of atoms involved in the biggest system ring >>> MaxRing
+        Number of Sterocenterss >>> nStero
+        HetCarbonRatio >>> HetRatio
+        synthetic accessibility score >>> SAscore
+        natural product-likeness score >>> NPscore
+        Number of single bonds >>> nSingle
+        Number of double bobds >>> nDoudle
+        Number of triple bonds >>> nTriple
+        Volume of mol >>> Vol
+        Density >>> Dense
+        MolFCharge >>> fChar
+        Number of Carbon atoms
+        Number of Boron atoms
+        Number of Chlorin atoms
+        Number of Bromine atoms
+        Number of Iodine atoms
+        Number of Phosphor atoms
+        Number of Sulfur atoms
+        Number of Oxygen atoms
+        Number of Nitrogen atoms       
+    ---
+    Followed should be achieved in the future:
+        logD
+        difference between clogP and alogP
+        Formal total charge of the compound
+        Number of Charged Groups
 """
 ```
 this function is realized in module scopy.Druglikeness
@@ -162,6 +181,17 @@ CheckEganRule(mol, detail)
         0 <= tPSA <= 132
         -1 <= logP <=6
     #################################################################
+```
+
+you could also customize your rules
+
+```python
+>>> res = CheckRule.Check_CustomizeRule(mol,prop_kws={'MW':(None,500),
+                                                  'nRing':(1,5),
+                                                  'nHB':(1,5)},
+                                        	detail=True,closed_interval=False)
+>>> print(res)
+CustomizeRule(MW=228.29, nRing=4, nHB=0, nViolate=1, VioProp=['nHB'])
 ```
 
 ### Filter compounds through SMARTS

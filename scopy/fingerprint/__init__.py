@@ -9,9 +9,3 @@ Created on Tue Jun 25 21:59:42 2019
 @Blog: https://blog.moyule.me
 
 """
-
-from scopy.StructureAlert import SmartProcess
-
-def GetEFG(mol,detail=False):
-    res = SmartProcess._CheckWithSmarts(mol,endpoint='Extended_Functional_Groups')
-    return res
