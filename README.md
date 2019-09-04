@@ -136,7 +136,7 @@ this function is realized in module scopy.druglikeness
 LipinskiRule(Disposed='Accepted', nViolate=1)
 ```
 
-The filed 'Disposed' means molecular state after a rule applied. 'Accepted' means obeying the rule. The attribute 'nViolated' means the number of violated requirement of this rule.
+The filed 'Disposed' represents molecular state after a rule applied. 'Accepted' means obeying the rule. The attribute 'nViolated' means the number of violated requirement of this rule.
 
 If you want to get specific properties suggested in a rule, you could pass the <code>True</code>  to Parameter 'detail'(default: False)
 
@@ -200,7 +200,7 @@ Compounds located in the red square are likely to cause toxicity and experimenta
 
 ### Checking a molecule under predefined substructures
 
-The filters consist of a series of molecular query strings written using the SMARTS coding language described by [Daylight](https://www.daylight.com/). 
+The filters consist of a series of molecular query strings written by the SMARTS coding language proposed by [Daylight](https://www.daylight.com/). 
 
 ```python
 """
@@ -263,9 +263,9 @@ This function is implemented in module scopy.structure_alert
  CheckRes(Disposed=True, Endpoint='Pains')]
 ```
 
-The parameter 'mols' means iterable object(like .sdf), for which each element is a rdkit.Chem.rdchem.Mol
+The parameter 'mols' means iterable object(like .sdf), in which each element is a rdkit.Chem.rdchem.Mol.
 
-The filed 'Disposed' means molecular state after the filter applied. <code>True</code> means unmatching any SMARTS in the specific endpoint. Inversely, <code>False</code> means at least one SMARTS to be matched.
+The filed 'Disposed' means molecular state after the filter applied. <code>True</code> means unmatching any SMARTS in the specific endpoint, while <code>False</code> means at least one SMARTS to be matched.
 
 Similarly, you could pass <code>True</code> to parameter <code>detail</code> for getting more information.
 
