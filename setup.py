@@ -16,7 +16,7 @@ from distutils.core import setup
 
 
 
-package_data= {'scopy':['StructureAlert/*','Druglikeness/*','test/*','data/SMARTS/*','data/PATT/*','data/ACID/*','data/*','data/Crippen/*','fingerprint/*']}
+package_data= {'scopy':['structure_alert/*','druglikeness/*','test/*','data/SMARTS/*','data/PATT/*','data/ACID/*','data/*','data/Crippen/*','fingerprint/*']}
 
 setup(name="scopy",  
       version="1.0", 
