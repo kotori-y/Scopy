@@ -1,4 +1,4 @@
-# Scopy: a compounds filter for early stages drug discovery.
+# Scopy: a compounds filter for early stages in drug discovery.
 
 <div align=center>
     <img src='Scopy.png'>
@@ -10,13 +10,13 @@
 
 ## Main Function
 
-### Checking molecule under drug-likeness rules
+### Checking a molecule under drug-likeness rules
 
 Drug-likeness rules serve as guidelines for the structural properties of compounds, used for fast calculation of drug-like properties of a molecule. These guidelines are not absolute, nor are they intended to form strict cutoff values for which property values are drug-like and which are not drug-like. Nevertheless, they can be quite effective and efficient.
 
 #### Physicochemical Properties
 
-In order to implement checking molecule under drug-likeness rules, physicochemical properties should be calculated firstly.
+In order to implement checking molecule(s) under drug-likeness rules, physicochemical properties should be calculated firstly.
 
 ```
 This moudle is used to calculated properise that contained in our collectded rules
@@ -136,9 +136,9 @@ this function is realized in module scopy.druglikeness
 LipinskiRule(Disposed='Accepted', nViolate=1)
 ```
 
-The filed 'Disposed' is meant molecular state after rule applied. 'Accepted' means obey the rule. attribute 'nViolated' means the number of violated requirement of a rule.
+The filed 'Disposed' means molecular state after a rule applied. 'Accepted' means obeying the rule. The attribute 'nViolated' means the number of violated requirement of this rule.
 
-If you want to get specific properties suggested in rule, you could pass the <code>True</code>  to Parameter 'detail'(default: False)
+If you want to get specific properties suggested in a rule, you could pass the <code>True</code>  to Parameter 'detail'(default: False)
 
 ```python
 >>> res = rulesfilter.CheckLipinskiRule(mol,detail=True)
@@ -186,7 +186,7 @@ up to now(2019.07.20), following rules could be visualized:
     <img src='bRo5_demo.png' width=25% height=25%>
 </div>
 
-radar plot, the compounds values are materialized by the blue line, which should fall within the optimal pale blue.
+Radar plot. The compounds values are materialized by the blue line, which should fall within the optimal pale blue.
 
 ```python
 >>> visualize.PfizerPositioning(mol)
@@ -198,7 +198,7 @@ radar plot, the compounds values are materialized by the blue line, which should
 
 Compounds located in the red square are likely to cause toxicity and experimental promiscuity.
 
-### Checking molecule under predefined substructures
+### Checking a molecule under predefined substructures
 
 The filters consist of a series of molecular query strings written using the SMARTS coding language described by [Daylight](https://www.daylight.com/). 
 
@@ -263,11 +263,11 @@ This function is implemented in module scopy.structure_alert
  CheckRes(Disposed=True, Endpoint='Pains')]
 ```
 
-parametermols if Iterable object(like .sdf), each element is a rdkit.Chem.rdchem.Mol
+The parameter 'mols' means iterable object(like .sdf), for which each element is a rdkit.Chem.rdchem.Mol
 
-The filed 'Disposed' is meant molecular state after filter applied. <code>True</code> meant unmatched any SMARTS in the specific endpoint. For <code>False</code>, at least one SMARTS to be matched.
+The filed 'Disposed' means molecular state after the filter applied. <code>True</code> means unmatching any SMARTS in the specific endpoint. Inversely, <code>False</code> means at least one SMARTS to be matched.
 
-Similarly, you could pass <code>True</code> to parameter <code>detail</code> show to get more information.
+Similarly, you could pass <code>True</code> to parameter <code>detail</code> for getting more information.
 
 ```python
 >>> mols = (Chem.MolFromSmiles(x) for x in smis)
@@ -285,7 +285,7 @@ Similarly, you could pass <code>True</code> to parameter <code>detail</code> sho
  CheckRes(Disposed=True, MatchedAtoms=['-'], MatchedNames=['-'], Endpoint='Pains')]
 ```
 
-"MatchedAtoms" shown which atoms has matched SMARTS. "MatchedNames" is the name or code of SMARTS. You could find it in the folder <code>*/Scopy/data/SMARTS</code>
+"MatchedAtoms" showed which atoms have been matched by SMARTS. "MatchedNames" is the name or code of SMARTS. You could find it in the folder <code>*/Scopy/data/SMARTS</code>
 
 ### Visualization
 
