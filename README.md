@@ -4,15 +4,15 @@
     <img src='Scopy.png'>
 </div>
 
-## What's it is
+## What it is
 
-**Scopy(<font color='red'>S</font>creening <font color='red'>CO</font>mpounds)**, based on RDKit, is an open-source virtual screening tool. Its calculation is based on the various drug-likeness rules and many **unexpected substructure** presented in **SMARTS** format. Besides, Scopy could also compute some **fingerprints** that retrieved from  **structures**
+**Scopy(<font color='red'>S</font>creening <font color='red'>CO</font>mpounds)**, based on RDKit, is an open-source virtual screening tool. Its calculation is based on the various drug-likeness rules and many **unexpected substructure** presented in **SMARTS** format. Besides, Scopy could also compute some **fingerprints** retrieved from  **structures**
 
 ## Main Function
 
 ### Checking molecule under drug-likeness rules
 
-Drug-likeness rules are set of guidelines for the structural properties of compounds, used for fast calculation of drug-like properties of a molecule. These guidelines are not absolute, nor are they intended to form strict cutoff values for which property values are drug-like and which are not drug-like. Nevertheless, they can be quite effective and efficient.
+Drug-likeness rules serve as guidelines for the structural properties of compounds, used for fast calculation of drug-like properties of a molecule. These guidelines are not absolute, nor are they intended to form strict cutoff values for which property values are drug-like and which are not drug-like. Nevertheless, they can be quite effective and efficient.
 
 #### Physicochemical Properties
 
@@ -195,6 +195,8 @@ radar plot, the compounds values are materialized by the blue line, which should
 <div align=left>
     <img src='Pfizer_demo.png' width=35% height=35%>
 </div>
+
+Compounds located in the red square are likely to cause toxicity and experimental promiscuity.
 
 ### Checking molecule under predefined substructures
 

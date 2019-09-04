@@ -29,4 +29,4 @@ setup(name="scopy",
       package_dir={'scopy':'scopy'},
       py_modules = ['scopy.ScoConfig'],
       packages=['scopy']
-      )  
+      )
