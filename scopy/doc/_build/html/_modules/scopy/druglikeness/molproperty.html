@@ -1,0 +1,1234 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>scopy.druglikeness.molproperty &#8212; Scopy 1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for scopy.druglikeness.molproperty</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Tue Jun 25 21:59:42 2019</span>
+
+<span class="sd">@Author: Zhi-Jiang Yang, Dong-Sheng Cao</span>
+<span class="sd">@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，</span>
+<span class="sd">@Homepage: http://www.scbdd.com</span>
+<span class="sd">@Mail: yzjkid9@gmail.com; oriental-cds@163.com</span>
+<span class="sd">@Blog: https://blog.moyule.me</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    This moudle is used to calculated properise that contained in our collectded rules</span>
+<span class="s2">    ---</span>
+<span class="s2">    up to now(2019.07.22), we have achived followed properties:</span>
+<span class="s2">        Molcular Weight &gt;&gt;&gt; MW</span>
+<span class="s2">        Molcular Volume &gt;&gt;&gt; MolVol</span>
+<span class="s2">        Molcular Density &gt;&gt;&gt; Dense</span>
+<span class="s2">        Formal Charge &gt;&gt;&gt; fChar</span>
+<span class="s2">        Number of bonds &gt;&gt;&gt; nBond</span>
+<span class="s2">        Number of atoms &gt;&gt;&gt; nAtom</span>
+<span class="s2">        Number of heteroatoms &gt;&gt;&gt; nHet</span>
+<span class="s2">        Number of heavy atom &gt;&gt;&gt; nHev</span>
+<span class="s2">        Number of rotable bonds &gt;&gt;&gt; nRot</span>
+<span class="s2">        Number of rigid bonds &gt;&gt;&gt; nRig</span>
+<span class="s2">        Number of SSSR &gt;&gt;&gt; nRing</span>
+<span class="s2">        logP &gt;&gt;&gt; logP</span>
+<span class="s2">        logD &gt;&gt;&gt; logD</span>
+<span class="s2">        logSw &gt;&gt;&gt; logSw</span>
+<span class="s2">        Acid or Base &gt;&gt;&gt; ab</span>
+<span class="s2">        pKa &gt;&gt;&gt; pKa</span>
+<span class="s2">        QED with average descriptor weights &gt;&gt;&gt; QEDmean</span>
+<span class="s2">        QED with maximal descriptor weights &gt;&gt;&gt; QEDmax</span>
+<span class="s2">        QED with using unit weights &gt;&gt;&gt; QEDnone</span>
+<span class="s2">        Molecular refraction &gt;&gt;&gt; MR</span>
+<span class="s2">        Number of hydrogen bond donors &gt;&gt;&gt; nHD</span>
+<span class="s2">        Number of hydrogen bond acceptors &gt;&gt;&gt; nHA</span>
+<span class="s2">        Number of hydrogen bond donors&amp; acceptors &gt;&gt;&gt; nHB</span>
+<span class="s2">        Aromatic proportion &gt;&gt;&gt; AP</span>
+<span class="s2">        sp3 hybridized carbons/total carbon count &gt;&gt;&gt; Fsp3</span>
+<span class="s2">        TPSA &gt;&gt;&gt; TPSA</span>
+<span class="s2">        Number of atoms involved in the biggest system ring &gt;&gt;&gt; MaxRing</span>
+<span class="s2">        Number of Sterocenterss &gt;&gt;&gt; nStero</span>
+<span class="s2">        HetCarbonRatio &gt;&gt;&gt; HetRatio</span>
+<span class="s2">        synthetic accessibility score &gt;&gt;&gt; SAscore</span>
+<span class="s2">        natural product-likeness score &gt;&gt;&gt; NPscore</span>
+<span class="s2">        Number of single bonds &gt;&gt;&gt; nSingle</span>
+<span class="s2">        Number of double bobds &gt;&gt;&gt; nDouble</span>
+<span class="s2">        Number of triple bonds &gt;&gt;&gt; nTriple</span>
+<span class="s2">        Number of Carbon atoms &gt;&gt;&gt; nC</span>
+<span class="s2">        Number of Boron atoms &gt;&gt;&gt; nB</span>
+<span class="s2">        Number of Chlorin atoms &gt;&gt;&gt; nCl</span>
+<span class="s2">        Number of Bromine atoms &gt;&gt;&gt; nBr</span>
+<span class="s2">        Number of Iodine atoms &gt;&gt;&gt; nI</span>
+<span class="s2">        Number of Phosphor atoms &gt;&gt;&gt; P</span>
+<span class="s2">        Number of Sulfur atoms &gt;&gt;&gt; nS</span>
+<span class="s2">        Number of Oxygen atoms &gt;&gt;&gt; nO</span>
+<span class="s2">        Number of Nitrogen atoms &gt;&gt;&gt; nN   </span>
+<span class="s2">    ---</span>
+<span class="s2">    Followed should be achieved in the future:</span>
+<span class="s2">        Number of Charged Groups</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">rdkit</span> <span class="k">import</span> <span class="n">RDConfig</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span><span class="nn">csv</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RDConfig</span><span class="o">.</span><span class="n">RDContribDir</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">SA_Score</span> <span class="k">import</span> <span class="n">sascorer</span>
+<span class="kn">from</span> <span class="nn">NP_Score</span> <span class="k">import</span> <span class="n">npscorer</span>
+<span class="kn">from</span> <span class="nn">IFG.ifg</span> <span class="k">import</span> <span class="n">identify_functional_groups</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">..fingerprint.fingerprints</span> <span class="k">import</span> <span class="n">CalculateGhoseCrippen</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">fingerprint.fingerprints</span> <span class="k">import</span> <span class="n">CalculateGhoseCrippen</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ScoConfig</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">ScoConfig</span>
+
+<span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="k">import</span> <span class="n">AllChem</span> <span class="k">as</span> <span class="n">Chem</span>
+<span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="k">import</span> <span class="n">Descriptors</span><span class="p">,</span> <span class="n">Lipinski</span><span class="p">,</span> <span class="n">QED</span>
+<span class="kn">from</span> <span class="nn">rdkit.Chem.Scaffolds</span> <span class="k">import</span> <span class="n">MurckoScaffold</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">combinations</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">namedtuple</span>
+
+
+
+<div class="viewcode-block" id="CalculateMolWeight"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateMolWeight">[docs]</a><span class="k">def</span> <span class="nf">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of molecular weight(contain hydrogen atoms)   </span>
+<span class="sd">    ----&gt;MW  </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    MW: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">AddHs</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">MW</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">sum</span><span class="p">([</span><span class="n">atom</span><span class="o">.</span><span class="n">GetMass</span><span class="p">()</span> <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetAtoms</span><span class="p">()]),</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">MW</span></div>
+
+
+<div class="viewcode-block" id="CalculateNumBonds"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumBonds">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation the number of bonds where between heavy atoms       </span>
+<span class="sd">    ---&gt;nBond</span>
+<span class="sd">        </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nBond: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nBond</span> <span class="o">=</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetNumBonds</span><span class="p">()</span>    
+    <span class="k">return</span> <span class="n">nBond</span></div>
+
+
+<div class="viewcode-block" id="CalculateNumAtoms"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumAtoms">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumAtoms</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of the number of atoms in molecular </span>
+<span class="sd">    ----&gt;nAtom</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nBond: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>  
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">AddHs</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetNumAtoms</span><span class="p">()</span></div>
+   
+
+<div class="viewcode-block" id="CalculateNumHetero"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumHetero">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumHetero</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of Hetero counts in a molecule  </span>
+<span class="sd">    ----&gt;nHet</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nHet: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">atom</span> <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetAtoms</span><span class="p">()</span>\
+             <span class="k">if</span> <span class="n">atom</span><span class="o">.</span><span class="n">GetAtomicNum</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">]]</span>
+            <span class="p">)</span>
+    <span class="n">nHet</span> <span class="o">=</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetNumAtoms</span><span class="p">()</span><span class="o">-</span><span class="n">i</span>
+    <span class="k">return</span> <span class="n">nHet</span></div>
+
+
+<div class="viewcode-block" id="CalculateNumRotatableBonds"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumRotatableBonds">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumRotatableBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of the number of rotatableBonds</span>
+<span class="sd">    ----&gt;nRot</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nRot: int</span>
+<span class="sd">    </span>
+<span class="sd">    Note:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    In some situaion Amide C-N bonds are not considered </span>
+<span class="sd">    because of their high rotational energy barrier</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">patt</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmarts</span><span class="p">(</span><span class="s1">&#39;[!$(*#*)&amp;!D1]-&amp;!@[!$(*#*)&amp;!D1]&#39;</span><span class="p">)</span>
+    <span class="n">nRot</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">GetSubstructMatches</span><span class="p">(</span><span class="n">patt</span><span class="p">))</span>    
+    <span class="k">return</span> <span class="n">nRot</span></div>
+
+
+<div class="viewcode-block" id="CalculateNumRigidBonds"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumRigidBonds">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumRigidBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Number of non-flexible bonds, in opposite to rotatable bonds    </span>
+<span class="sd">    ----&gt;nRig</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nRot: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nBOND</span> <span class="o">=</span> <span class="n">CalculateNumBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>    
+    <span class="n">flex</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetBonds</span><span class="p">():</span>
+        <span class="n">bondtype</span> <span class="o">=</span> <span class="n">bond</span><span class="o">.</span><span class="n">GetBondType</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">bondtype</span> <span class="o">==</span> <span class="n">Chem</span><span class="o">.</span><span class="n">rdchem</span><span class="o">.</span><span class="n">BondType</span><span class="o">.</span><span class="n">SINGLE</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">bond</span><span class="o">.</span><span class="n">IsInRing</span><span class="p">():</span>
+            <span class="n">flex</span><span class="o">+=</span><span class="mi">1</span> 
+    <span class="n">nRig</span> <span class="o">=</span> <span class="n">nBOND</span><span class="o">-</span><span class="n">flex</span>                
+    <span class="k">return</span> <span class="n">nRig</span></div>
+
+
+<div class="viewcode-block" id="CalculateNumRing"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumRing">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumRing</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of the number of ring   </span>
+<span class="sd">    ----&gt;nRing</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nRing: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nRing</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">GetSSSR</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>    
+    <span class="k">return</span> <span class="n">nRing</span></div>
+
+
+<div class="viewcode-block" id="CalculateNumHeavyAtom"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumHeavyAtom">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumHeavyAtom</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of Heavy atom counts in a molecule   </span>
+<span class="sd">    ----&gt;nHev</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nHev: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nHev</span> <span class="o">=</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetNumHeavyAtoms</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">nHev</span></div>
+
+
+<div class="viewcode-block" id="CalculateLogD"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateLogD">[docs]</a><span class="k">def</span> <span class="nf">CalculateLogD</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of molecular logD under pH=7.4</span>
+<span class="sd">    ----&gt;LogD</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    logD: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">intercept</span> <span class="o">=</span> <span class="mf">0.5748907159915493</span>
+    
+    <span class="n">fps</span> <span class="o">=</span> <span class="n">CalculateGhoseCrippen</span><span class="p">([</span><span class="n">mol</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">ScoConfig</span><span class="o">.</span><span class="n">CrippenDir</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">Crippen.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_obj</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f_obj</span><span class="p">,</span><span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">next</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+        <span class="n">contri</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+        <span class="n">contri</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">contri</span><span class="p">]</span>
+    <span class="n">f_obj</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">logD</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">a</span><span class="o">*</span><span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fps</span><span class="p">,</span><span class="n">contri</span><span class="p">)])</span> <span class="o">+</span> <span class="n">intercept</span>
+    <span class="k">return</span> <span class="n">logD</span></div>
+
+
+<div class="viewcode-block" id="CalculateLogP"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateLogP">[docs]</a><span class="k">def</span> <span class="nf">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of molecular LogP</span>
+<span class="sd">    ----&gt;logP</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    logP: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>  
+    <span class="n">logP</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">Descriptors</span><span class="o">.</span><span class="n">MolLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>  
+    <span class="k">return</span> <span class="n">logP</span></div>
+
+
+<div class="viewcode-block" id="CheckAcid"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CheckAcid">[docs]</a><span class="k">def</span> <span class="nf">CheckAcid</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Judge a molecular whether is acid via SMARTS</span>
+<span class="sd">    These SMARTS retrived from https://www.daylight.com/dayhtml_tutorials/languages/smarts/smarts_examples.html</span>
+<span class="sd">    ----&gt;ab</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    ab: str  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">acid_fragment</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;[!H0;F,Cl,Br,I,N+,$([OH]-*=[!#6]),+]&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;[CX3](=O)[OX2H1]&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;[CX3](=O)[OX1H0-,OX2H1]&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;[$([OH]-*=[!#6])]&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;[$(P(=[OX1])([$([OX2H]),$([OX1-]),$([OX2]P)])([$([OX2H]),$([OX1-]),$([OX2]P)])[$([OX2H]),$([OX1-]),$([OX2]P)]),$([P+]([OX1-])([$([OX2H]),$([OX1-]),$([OX2]P)])([$([OX2H]),$([OX1-]),$([OX2]P)])[$([OX2H]),$([OX1-]),$([OX2]P)])]&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;[$([#16X4](=[OX1])(=[OX1])([#6])[OX2H,OX1H0-]),$([#16X4+2]([OX1-])([OX1-])([#6])[OX2H,OX1H0-])]&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;[CX3](=[OX1])[F,Cl,Br,I]&#39;</span>
+                     <span class="p">]</span>
+    <span class="k">for</span> <span class="n">sma</span> <span class="ow">in</span> <span class="n">acid_fragment</span><span class="p">:</span>
+        <span class="n">patt</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmarts</span><span class="p">(</span><span class="n">sma</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mol</span><span class="o">.</span><span class="n">HasSubstructMatch</span><span class="p">(</span><span class="n">patt</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s1">&#39;acid&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;base&#39;</span>        </div>
+  
+      
+<div class="viewcode-block" id="CalculatepKa"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculatepKa">[docs]</a><span class="k">def</span> <span class="nf">CalculatepKa</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">log10</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculating pKa based on the ralation between logD and logP in specific pH   </span>
+<span class="sd">    Eq.:</span>
+<span class="sd">        |pH-pKa| = log10(10^(logP-logD)-1)</span>
+<span class="sd">        pKa = pH - log10(10^(logP-logD)-1) for acid</span>
+<span class="sd">        pKa = log10(10^(logP-logD)-1) - pH for base</span>
+<span class="sd">        </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    pKa: float</span>
+<span class="sd">    </span>
+<span class="sd">    Note:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    This function should be revised</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logD</span> <span class="o">=</span> <span class="n">CalculateLogD</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">CheckAcid</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;acid&#39;</span><span class="p">:</span>
+            <span class="n">pKa</span> <span class="o">=</span> <span class="mf">7.4</span> <span class="o">-</span> <span class="n">log10</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">logP</span><span class="o">-</span><span class="n">logD</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pKa</span> <span class="o">=</span> <span class="n">log10</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">logP</span><span class="o">-</span><span class="n">logD</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">7.4</span>
+        <span class="k">return</span> <span class="n">pKa</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;N/A&#39;</span></div>
+    
+    
+<div class="viewcode-block" id="CalculateMolMR"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateMolMR">[docs]</a><span class="k">def</span> <span class="nf">CalculateMolMR</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cacluation of molecular refraction value based on Crippen method </span>
+<span class="sd">    ----&gt;MR</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    MR: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">MR</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">Descriptors</span><span class="o">.</span><span class="n">MolMR</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span> 
+    <span class="k">return</span> <span class="n">MR</span></div>
+
+
+<div class="viewcode-block" id="CalculateNumHDonors"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumHDonors">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumHDonors</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Caculation of the number of Hydrogen Bond Donors</span>
+<span class="sd">    ----&gt;nHD</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nHD: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nHD</span> <span class="o">=</span> <span class="n">Lipinski</span><span class="o">.</span><span class="n">NumHDonors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>    
+    <span class="k">return</span> <span class="n">nHD</span></div>
+
+
+<div class="viewcode-block" id="CalculateNumHAcceptors"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumHAcceptors">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumHAcceptors</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Caculation of the number of Hydrogen Bond Acceptors  </span>
+<span class="sd">    ----&gt;nHA</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nHA: int </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nHA</span> <span class="o">=</span> <span class="n">Lipinski</span><span class="o">.</span><span class="n">NumHAcceptors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>    
+    <span class="k">return</span> <span class="n">nHA</span></div>
+
+
+<div class="viewcode-block" id="CalculateNumHyBond"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumHyBond">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumHyBond</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sum of Hydrogen Bond Donnors and Acceptors   </span>
+<span class="sd">    ----&gt;nHB</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nHA: int </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nHD</span> <span class="o">=</span> <span class="n">CalculateNumHDonors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHA</span> <span class="o">=</span> <span class="n">CalculateNumHAcceptors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHB</span> <span class="o">=</span> <span class="n">nHD</span><span class="o">+</span><span class="n">nHA</span>
+    <span class="k">return</span> <span class="n">nHB</span></div>
+
+
+<div class="viewcode-block" id="CalculateAromaticProportion"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateAromaticProportion">[docs]</a><span class="k">def</span> <span class="nf">CalculateAromaticProportion</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The proportion of heavy atoms in the molecule that are in an aromatic ring  </span>
+<span class="sd">    ----&gt;AP</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    AP: float </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">aroma</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">GetSubstructMatches</span><span class="p">(</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmarts</span><span class="p">(</span><span class="s1">&#39;[a]&#39;</span><span class="p">)))</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">CalculateNumHeavyAtom</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">AP</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">aroma</span><span class="o">/</span><span class="n">total</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> 
+    <span class="k">return</span> <span class="n">AP</span>  </div>
+    
+
+<div class="viewcode-block" id="CalculateLogSw"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateLogSw">[docs]</a><span class="k">def</span> <span class="nf">CalculateLogSw</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The logSw represents the logarithm of compounds water solubility computed by the ESOL method</span>
+<span class="sd">    ----&gt;logSw</span>
+<span class="sd">    Equation: Log(Sw) = 0.16-0.638*clogP-0.0062*MWT+0.066*RB-0.74*AP</span>
+<span class="sd">              &gt;MWT: Molecular Weight</span>
+<span class="sd">              &gt;RB: Rotatable bonds</span>
+<span class="sd">              &gt;AP: Aromatic proportion</span>
+<span class="sd">    </span>
+<span class="sd">    Ref.:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    Delaney, John S. </span>
+<span class="sd">    Journal of chemical information and computer sciences 44.3 (2004): 1000-1005.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    logSw: float          </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate each property</span>
+    <span class="n">MWT</span> <span class="o">=</span> <span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">RB</span> <span class="o">=</span> <span class="n">CalculateNumRotatableBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">AP</span> <span class="o">=</span> <span class="n">CalculateAromaticProportion</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>  
+    <span class="n">logSw</span> <span class="o">=</span> <span class="mf">0.16</span><span class="o">-</span><span class="mf">0.638</span><span class="o">*</span><span class="n">logP</span><span class="o">-</span><span class="mf">0.0062</span><span class="o">*</span><span class="n">MWT</span><span class="o">+</span><span class="mf">0.066</span><span class="o">*</span><span class="n">RB</span><span class="o">-</span><span class="mf">0.74</span><span class="o">*</span><span class="n">AP</span>   
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">logSw</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculateFsp3"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateFsp3">[docs]</a><span class="k">def</span> <span class="nf">CalculateFsp3</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fsp3 (carbon bond saturation) is defined as the number of sp3 hybridized carbons / total carbon count.   </span>
+<span class="sd">    ----&gt;FSP3</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    Fsp3: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">Lipinski</span><span class="o">.</span><span class="n">FractionCSP3</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span></div>
+    
+
+<div class="viewcode-block" id="CalculateTPSA"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateTPSA">[docs]</a><span class="k">def</span> <span class="nf">CalculateTPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of TPSA   </span>
+<span class="sd">    ----&gt;TPSA</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    TPSA: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">TPSA</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">Descriptors</span><span class="o">.</span><span class="n">TPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">TPSA</span></div>
+    
+
+            
+<div class="viewcode-block" id="CalculateQEDmean"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateQEDmean">[docs]</a><span class="k">def</span> <span class="nf">CalculateQEDmean</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation QED descriptor under different weights   </span>
+<span class="sd">    A descriptor a measure of drug-likeness based on the concept of desirability</span>
+<span class="sd">    Here, calculating the QED descriptor using average descriptor weights.</span>
+<span class="sd">    ----&gt;QEDmean</span>
+<span class="sd">    </span>
+<span class="sd">    Ref.:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    Bickerton, G. Richard, et al.</span>
+<span class="sd">    Nat Chem, 4.2 (2012): 90.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    qed: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="n">QEDmean</span> <span class="o">=</span> <span class="n">QED</span><span class="o">.</span><span class="n">weights_mean</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>        
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">QEDmean</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> </div>
+
+
+<div class="viewcode-block" id="CalculateQEDmax"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateQEDmax">[docs]</a><span class="k">def</span> <span class="nf">CalculateQEDmax</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation QED descriptor under different weights   </span>
+<span class="sd">    A descriptor a measure of drug-likeness based on the concept of desirability</span>
+<span class="sd">    Here, calculating the QED descriptor using maximal descriptor weights.</span>
+<span class="sd">    ----&gt;QEDmax</span>
+<span class="sd">    </span>
+<span class="sd">    Ref.:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    Bickerton, G. Richard, et al.</span>
+<span class="sd">    Nat Chem, 4.2 (2012): 90.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    qed: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="n">QEDmax</span> <span class="o">=</span> <span class="n">QED</span><span class="o">.</span><span class="n">weights_max</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>        
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">QEDmax</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>     </div>
+
+
+<div class="viewcode-block" id="CalculateQEDnone"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateQEDnone">[docs]</a><span class="k">def</span> <span class="nf">CalculateQEDnone</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation QED descriptor under different weights   </span>
+<span class="sd">    A descriptor a measure of drug-likeness based on the concept of desirability</span>
+<span class="sd">    Here, calculating the QED descriptor using unit weights.</span>
+<span class="sd">    ----&gt;QEDnone</span>
+<span class="sd">    </span>
+<span class="sd">    Ref.:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    Bickerton, G. Richard, et al.</span>
+<span class="sd">    Nat Chem, 4.2 (2012): 90.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    qed: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="n">QEDnone</span> <span class="o">=</span> <span class="n">QED</span><span class="o">.</span><span class="n">weights_none</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>        
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">QEDnone</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculateMaxSizeSystemRing"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateMaxSizeSystemRing">[docs]</a><span class="k">def</span> <span class="nf">CalculateMaxSizeSystemRing</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Number of atoms involved in the biggest system ring  </span>
+<span class="sd">    ----&gt; maxring</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    MaxRing: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#0.Get the scaffold</span>
+    <span class="n">core</span> <span class="o">=</span> <span class="n">MurckoScaffold</span><span class="o">.</span><span class="n">GetScaffoldForMol</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">fw</span> <span class="o">=</span> <span class="n">MurckoScaffold</span><span class="o">.</span><span class="n">MakeScaffoldGeneric</span><span class="p">(</span><span class="n">core</span><span class="p">)</span>
+    <span class="c1">#1.Obtaining which atoms consist of rings</span>
+    <span class="n">MaxRing</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ri</span> <span class="o">=</span> <span class="n">fw</span><span class="o">.</span><span class="n">GetRingInfo</span><span class="p">()</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ri</span><span class="o">.</span><span class="n">AtomRings</span><span class="p">())</span>    
+    <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>    
+    <span class="k">if</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rw</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">RWMol</span><span class="p">(</span><span class="n">fw</span><span class="p">)</span>        
+        <span class="c1">#2.Judge which atoms are replacement</span>
+        <span class="n">atoms</span> <span class="o">=</span> <span class="p">[</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">atoms</span><span class="p">]</span>            
+        <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">),</span><span class="mi">2</span><span class="p">):</span>
+            <span class="n">replace</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">atoms</span><span class="p">[</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">&amp;</span><span class="n">atoms</span><span class="p">[</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">replace</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">repl</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="n">replace</span><span class="p">,</span><span class="mi">2</span><span class="p">)):</span>
+                    <span class="n">rw</span><span class="o">.</span><span class="n">RemoveBond</span><span class="p">(</span><span class="o">*</span><span class="n">repl</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>    
+        <span class="n">m</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">rw</span><span class="p">))</span>
+        <span class="n">ri</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">GetRingInfo</span><span class="p">()</span>
+        <span class="n">bonds</span> <span class="o">=</span> <span class="n">ri</span><span class="o">.</span><span class="n">BondRings</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">bonds</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MaxRing</span><span class="p">:</span>
+                <span class="n">MaxRing</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>   
+    <span class="k">return</span> <span class="n">MaxRing</span></div>
+    
+
+<div class="viewcode-block" id="CalculateNumberStereocenters"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumberStereocenters">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumberStereocenters</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    the number of stereo centers</span>
+<span class="sd">    ----&gt;nStero</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nStero: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Chem</span><span class="o">.</span><span class="n">CalcNumAtomStereoCenters</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>    </div>
+
+
+<span class="k">def</span> <span class="nf">_CalculateElementNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Internal used only**</span>
+<span class="sd">    Calculation of specific type of atom number in a molecule</span>
+<span class="sd">    </span>
+<span class="sd">    Calculation of element counts with atomic number equal to n in a molecule</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">atom</span> <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetAtoms</span><span class="p">()</span>\
+                <span class="k">if</span> <span class="n">atom</span><span class="o">.</span><span class="n">GetAtomicNum</span><span class="p">()</span> <span class="o">==</span> <span class="n">AtomicNumber</span><span class="p">]</span>
+            <span class="p">)</span>
+
+
+<div class="viewcode-block" id="CalculateCarbonNumber"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateCarbonNumber">[docs]</a><span class="k">def</span> <span class="nf">CalculateCarbonNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of Carbon number in a molecule    </span>
+<span class="sd">    ----&gt;nC</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nC: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_CalculateElementNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculateBoronNumber"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateBoronNumber">[docs]</a><span class="k">def</span> <span class="nf">CalculateBoronNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of Boron counts in a molecule  </span>
+<span class="sd">    ----&gt;nB</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nB: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>       
+    <span class="k">return</span> <span class="n">_CalculateElementNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculateFluorinNumber"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateFluorinNumber">[docs]</a><span class="k">def</span> <span class="nf">CalculateFluorinNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of Fluorin counts in a molecule  </span>
+<span class="sd">    ----&gt;nF</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nF: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>         
+    <span class="k">return</span> <span class="n">_CalculateElementNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculateChlorinNumber"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateChlorinNumber">[docs]</a><span class="k">def</span> <span class="nf">CalculateChlorinNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of Chlorin counts in a molecule</span>
+<span class="sd">    ----&gt;nCl</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nCl: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_CalculateElementNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculateBromineNumber"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateBromineNumber">[docs]</a><span class="k">def</span> <span class="nf">CalculateBromineNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of Bromine counts in a molecule  </span>
+<span class="sd">    ----&gt;nBr</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nBr: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_CalculateElementNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">35</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculateIodineNumber"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateIodineNumber">[docs]</a><span class="k">def</span> <span class="nf">CalculateIodineNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of Iodine counts in a molecule </span>
+<span class="sd">    ----&gt;nI</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nI: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_CalculateElementNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">53</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculatePhosphorNumber"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculatePhosphorNumber">[docs]</a><span class="k">def</span> <span class="nf">CalculatePhosphorNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calcualtion of Phosphor number in a molecule</span>
+<span class="sd">    ----&gt;nP</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nP: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_CalculateElementNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculateSulfurNumber"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateSulfurNumber">[docs]</a><span class="k">def</span> <span class="nf">CalculateSulfurNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of Sulfur counts in a molecule  </span>
+<span class="sd">    ----&gt;nS</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nCa: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_CalculateElementNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculateOxygenNumber"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateOxygenNumber">[docs]</a><span class="k">def</span> <span class="nf">CalculateOxygenNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of Oxygen counts in a molecule    </span>
+<span class="sd">    ----&gt;nO</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nO: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_CalculateElementNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span></div>
+        
+
+<div class="viewcode-block" id="CalculateNitrogenNumber"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNitrogenNumber">[docs]</a><span class="k">def</span> <span class="nf">CalculateNitrogenNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of Nitrogen counts in a molecule</span>
+<span class="sd">    ----&gt;nnitro</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nN: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_CalculateElementNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculateNumberChargedGroups"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumberChargedGroups">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumberChargedGroups</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Number of Charged Groups </span>
+<span class="sd">    ----&gt;nChar</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nChar: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="CalculateHetCarbonRatio"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateHetCarbonRatio">[docs]</a><span class="k">def</span> <span class="nf">CalculateHetCarbonRatio</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The ratio between the number of non carbon atoms and the number of carbon atoms.</span>
+<span class="sd">    ----&gt;HetRatio</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    HetRatio: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Total</span> <span class="o">=</span> <span class="n">CalculateNumHeavyAtom</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nCarb</span> <span class="o">=</span> <span class="n">CalculateCarbonNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">het</span> <span class="o">=</span> <span class="n">Total</span><span class="o">-</span><span class="n">nCarb</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">HetRatio</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">het</span><span class="o">/</span><span class="n">nCarb</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">HetRatio</span> <span class="o">=</span> <span class="s1">&#39;Inf&#39;</span>
+    <span class="k">return</span> <span class="n">HetRatio</span>   </div>
+    
+
+<div class="viewcode-block" id="CalculateSAscore"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateSAscore">[docs]</a><span class="k">def</span> <span class="nf">CalculateSAscore</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A function to estimate ease of synthesis (synthetic accessibility) of drug-like molecules</span>
+<span class="sd">    ----&gt;SAscore</span>
+<span class="sd">    </span>
+<span class="sd">    Ref.:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    Ertl, Peter, and Ansgar Schuffenhauer.</span>
+<span class="sd">    J Cheminform, 1(1), 8.      </span>
+<span class="sd">    Based: https://github.com/rdkit/rdkit/tree/master/Contrib/SA_Score   </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    SAscore: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">sascorer</span><span class="o">.</span><span class="n">calculateScore</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculateNPscore"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNPscore">[docs]</a><span class="k">def</span> <span class="nf">CalculateNPscore</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A function to calculate the natural product-likeness score</span>
+<span class="sd">    ----&gt;NPscore</span>
+<span class="sd">    </span>
+<span class="sd">    Ref.:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    Ertl, Peter, Silvio Roggo, and Ansgar Schuffenhauer.</span>
+<span class="sd">    J Chem Inf Model, 48(1), 68-74.</span>
+<span class="sd">    Based: Https://github.com/rdkit/rdkit/tree/master/Contrib/NP_Score</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    NPscore: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ContriDir</span> <span class="o">=</span> <span class="n">RDConfig</span><span class="o">.</span><span class="n">RDContribDir</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ContriDir</span><span class="p">,</span> <span class="s1">&#39;NP_Score/publicnp.model.gz&#39;</span><span class="p">)</span>
+    <span class="n">fscore</span> <span class="o">=</span> <span class="n">npscorer</span><span class="o">.</span><span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">npscorer</span><span class="o">.</span><span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span> 
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">npscorer</span><span class="o">.</span><span class="n">scoreMol</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">fscore</span><span class="o">=</span><span class="n">fscore</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="GetIFG"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.GetIFG">[docs]</a><span class="k">def</span> <span class="nf">GetIFG</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A function to compute functional groups in organic molecules</span>
+<span class="sd">    </span>
+<span class="sd">    Ref.: </span>
+<span class="sd">    -----------</span>
+<span class="sd">    Ertl, Peter.</span>
+<span class="sd">    J Cheminform, 9(1), 36.</span>
+<span class="sd">    Based: https://github.com/rdkit/rdkit/tree/master/Contrib/IFG</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: dkit.Chem.rdchem.Mol;</span>
+<span class="sd">        </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    list of namedtuple, namedtuple(&#39;IFG&#39;, [&#39;atomIds&#39;, &#39;atoms&#39;, &#39;type&#39;])</span>
+<span class="sd">    e.g.:</span>
+<span class="sd">        [IFG(atomIds=(2,), atoms=&#39;n&#39;, type=&#39;cnc&#39;),</span>
+<span class="sd">         IFG(atomIds=(4, 5, 6, 7), atoms=&#39;NS(=O)=O&#39;, type=&#39;cNS(c)(=O)=O&#39;),</span>
+<span class="sd">         IFG(atomIds=(12,), atoms=&#39;N&#39;, type=&#39;cN&#39;),</span>
+<span class="sd">         IFG(atomIds=(15,), atoms=&#39;n&#39;, type=&#39;cnc&#39;)]</span>
+<span class="sd">    ---</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">identify_functional_groups</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculateMolVolume"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateMolVolume">[docs]</a><span class="k">def</span> <span class="nf">CalculateMolVolume</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of Van der Waals Volume of molecule</span>
+<span class="sd">    ----&gt;MolVol</span>
+<span class="sd">    </span>
+<span class="sd">    Equation: </span>
+<span class="sd">    -----------</span>
+<span class="sd">    for single atom: Vw = 4/3*pi*rw^3, the rw is the Van der Waals radius of atom</span>
+<span class="sd">    VvdW = ∑(atom contributions)-5.92NB(Unit in Å^3), NB is the total number of bonds</span>
+<span class="sd">    the Van der Waals radius of atom is derived from wikipedia.</span>
+<span class="sd">        </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    NPscore: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">pi</span>
+    <span class="n">Radii</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;H&#39;</span><span class="p">:</span><span class="mf">1.20</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">:</span><span class="mf">1.70</span><span class="p">,</span><span class="s1">&#39;N&#39;</span><span class="p">:</span><span class="mf">1.55</span><span class="p">,</span>
+             <span class="s1">&#39;O&#39;</span><span class="p">:</span><span class="mf">1.52</span><span class="p">,</span><span class="s1">&#39;S&#39;</span><span class="p">:</span><span class="mf">1.80</span><span class="p">,</span><span class="s1">&#39;P&#39;</span><span class="p">:</span><span class="mf">1.80</span><span class="p">,</span>
+             <span class="s1">&#39;F&#39;</span><span class="p">:</span><span class="mf">1.47</span><span class="p">,</span><span class="s1">&#39;Cl&#39;</span><span class="p">:</span><span class="mf">1.75</span><span class="p">,</span><span class="s1">&#39;Br&#39;</span><span class="p">:</span><span class="mf">1.85</span><span class="p">,</span>
+             <span class="s1">&#39;I&#39;</span><span class="p">:</span><span class="mf">1.98</span><span class="p">,</span><span class="s1">&#39;Na&#39;</span><span class="p">:</span><span class="mf">2.27</span><span class="p">,</span><span class="s1">&#39;Mg&#39;</span><span class="p">:</span><span class="mf">1.73</span><span class="p">,</span>
+             <span class="s1">&#39;K&#39;</span><span class="p">:</span><span class="mf">2.75</span><span class="p">,</span><span class="s1">&#39;Ca&#39;</span><span class="p">:</span><span class="mf">2.31</span><span class="p">,</span><span class="s1">&#39;Ba&#39;</span><span class="p">:</span><span class="mf">2.68</span><span class="p">,</span>
+             <span class="s1">&#39;He&#39;</span><span class="p">:</span><span class="mi">140</span><span class="p">,</span><span class="s1">&#39;Li&#39;</span><span class="p">:</span><span class="mi">182</span><span class="p">,</span><span class="s1">&#39;Be&#39;</span><span class="p">:</span><span class="mi">153</span><span class="p">,</span>
+             <span class="s1">&#39;B&#39;</span><span class="p">:</span><span class="mi">192</span><span class="p">,</span><span class="s1">&#39;Ne&#39;</span><span class="p">:</span><span class="mi">154</span><span class="p">,</span><span class="s1">&#39;Al&#39;</span><span class="p">:</span><span class="mi">184</span><span class="p">,</span>
+             <span class="s1">&#39;Si&#39;</span><span class="p">:</span><span class="mi">210</span><span class="p">,</span><span class="s1">&#39;Ar&#39;</span><span class="p">:</span><span class="mi">188</span><span class="p">,</span><span class="s1">&#39;Ni&#39;</span><span class="p">:</span><span class="mi">163</span><span class="p">,</span>
+             <span class="s1">&#39;Cu&#39;</span><span class="p">:</span><span class="mi">140</span><span class="p">,</span><span class="s1">&#39;Zn&#39;</span><span class="p">:</span><span class="mi">139</span><span class="p">,</span><span class="s1">&#39;Ga&#39;</span><span class="p">:</span><span class="mi">187</span><span class="p">,</span>
+             <span class="s1">&#39;Ge&#39;</span><span class="p">:</span><span class="mi">211</span><span class="p">,</span><span class="s1">&#39;As&#39;</span><span class="p">:</span><span class="mi">185</span><span class="p">,</span><span class="s1">&#39;Se&#39;</span><span class="p">:</span><span class="mi">190</span><span class="p">,</span>
+             <span class="s1">&#39;Kr&#39;</span><span class="p">:</span><span class="mi">202</span><span class="p">,</span><span class="s1">&#39;Rb&#39;</span><span class="p">:</span><span class="mi">303</span><span class="p">,</span><span class="s1">&#39;Sr&#39;</span><span class="p">:</span><span class="mi">249</span><span class="p">,</span>
+             <span class="s1">&#39;Pd&#39;</span><span class="p">:</span><span class="mi">163</span><span class="p">,</span><span class="s1">&#39;Ag&#39;</span><span class="p">:</span><span class="mi">172</span><span class="p">,</span><span class="s1">&#39;Cd&#39;</span><span class="p">:</span><span class="mi">158</span><span class="p">,</span>
+             <span class="s1">&#39;In&#39;</span><span class="p">:</span><span class="mi">193</span><span class="p">,</span><span class="s1">&#39;Sn&#39;</span><span class="p">:</span><span class="mi">217</span><span class="p">,</span><span class="s1">&#39;Sb&#39;</span><span class="p">:</span><span class="mi">206</span><span class="p">,</span>
+             <span class="s1">&#39;Te&#39;</span><span class="p">:</span><span class="mi">206</span><span class="p">,</span><span class="s1">&#39;Xe&#39;</span><span class="p">:</span><span class="mi">216</span><span class="p">,</span><span class="s1">&#39;Cs&#39;</span><span class="p">:</span><span class="mi">343</span><span class="p">,</span>
+             <span class="s1">&#39;Pt&#39;</span><span class="p">:</span><span class="mi">175</span><span class="p">,</span><span class="s1">&#39;Au&#39;</span><span class="p">:</span><span class="mi">166</span><span class="p">,</span><span class="s1">&#39;U&#39;</span><span class="p">:</span><span class="mi">186</span><span class="p">,</span>
+             <span class="s1">&#39;Hg&#39;</span><span class="p">:</span><span class="mi">155</span><span class="p">,</span><span class="s1">&#39;Tl&#39;</span><span class="p">:</span><span class="mi">196</span><span class="p">,</span><span class="s1">&#39;Pb&#39;</span><span class="p">:</span><span class="mi">202</span><span class="p">,</span>
+             <span class="s1">&#39;Bi&#39;</span><span class="p">:</span><span class="mi">207</span><span class="p">,</span><span class="s1">&#39;Po&#39;</span><span class="p">:</span><span class="mi">197</span><span class="p">,</span><span class="s1">&#39;At&#39;</span><span class="p">:</span><span class="mi">202</span><span class="p">,</span>
+             <span class="s1">&#39;Rn&#39;</span><span class="p">:</span><span class="mi">220</span><span class="p">,</span><span class="s1">&#39;Fr&#39;</span><span class="p">:</span><span class="mi">348</span><span class="p">,</span><span class="s1">&#39;Ra&#39;</span><span class="p">:</span><span class="mi">283</span><span class="p">}</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">AddHs</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">contrib</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetAtoms</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">contrib</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Radii</span><span class="p">[</span><span class="n">atom</span><span class="o">.</span><span class="n">GetSymbol</span><span class="p">()])</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="c1"># contrib = [Radii[atom.GetSymbol()] for atom in mol.GetAtoms()]</span>
+    <span class="n">contrib</span> <span class="o">=</span> <span class="p">[</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">4</span><span class="o">/</span><span class="mi">3</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">contrib</span><span class="p">]</span>
+    <span class="n">vol</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">contrib</span><span class="p">)</span> <span class="o">-</span> <span class="mf">5.92</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">GetBonds</span><span class="p">())</span>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">vol</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculateMolDensity"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateMolDensity">[docs]</a><span class="k">def</span> <span class="nf">CalculateMolDensity</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of Density of molecule</span>
+<span class="sd">    ----&gt;Dense</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    Dense: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">MW</span> <span class="o">=</span> <span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">Vol</span> <span class="o">=</span> <span class="n">CalculateMolVolume</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">Dens</span> <span class="o">=</span> <span class="n">MW</span><span class="o">/</span><span class="n">Vol</span>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">Dens</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CalculateMolFCharge"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateMolFCharge">[docs]</a><span class="k">def</span> <span class="nf">CalculateMolFCharge</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of formal charge of molecule</span>
+<span class="sd">    ----&gt;fChar</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    fChar: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">AddHs</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">FChar</span> <span class="o">=</span> <span class="p">[</span><span class="n">atom</span><span class="o">.</span><span class="n">GetFormalCharge</span><span class="p">()</span> <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetAtoms</span><span class="p">()]</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">FChar</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_CalculateNumBond</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">btype</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Internal used only**</span>
+<span class="sd">    Calculation of specific type of bond number in a molecule</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">btype</span> <span class="o">==</span> <span class="s1">&#39;SINGLE&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">([</span><span class="n">bond</span> <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetBonds</span><span class="p">()</span> 
+                    <span class="k">if</span> <span class="n">bond</span><span class="o">.</span><span class="n">GetBondType</span><span class="p">()</span> <span class="o">==</span> <span class="n">Chem</span><span class="o">.</span><span class="n">rdchem</span><span class="o">.</span><span class="n">BondType</span><span class="o">.</span><span class="n">SINGLE</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">btype</span> <span class="o">==</span> <span class="s1">&#39;DOUBLE&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">([</span><span class="n">bond</span> <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetBonds</span><span class="p">()</span> 
+                    <span class="k">if</span> <span class="n">bond</span><span class="o">.</span><span class="n">GetBondType</span><span class="p">()</span> <span class="o">==</span> <span class="n">Chem</span><span class="o">.</span><span class="n">rdchem</span><span class="o">.</span><span class="n">BondType</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">btype</span> <span class="o">==</span> <span class="s1">&#39;TRIPLE&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">([</span><span class="n">bond</span> <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetBonds</span><span class="p">()</span> 
+                    <span class="k">if</span> <span class="n">bond</span><span class="o">.</span><span class="n">GetBondType</span><span class="p">()</span> <span class="o">==</span> <span class="n">Chem</span><span class="o">.</span><span class="n">rdchem</span><span class="o">.</span><span class="n">BondType</span><span class="o">.</span><span class="n">TRIPLE</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="CalculateNumSinBond"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumSinBond">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumSinBond</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of single bond number of molecule</span>
+<span class="sd">    ---&gt; nSingle</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nSingle: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_CalculateNumBond</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">btype</span><span class="o">=</span><span class="s1">&#39;SINGLE&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculateNumDouBond"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumDouBond">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumDouBond</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of double bond number of molecule</span>
+<span class="sd">    ---&gt;nDouble</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nDouble: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_CalculateNumBond</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">btype</span><span class="o">=</span><span class="s1">&#39;DOUBLE&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CalculateNumTriBond"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumTriBond">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumTriBond</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">btype</span><span class="o">=</span><span class="s1">&#39;TRIPLE&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculation of triple bond number of molecule</span>
+<span class="sd">    ---&gt; nTriple</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    nTriple: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_CalculateNumBond</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">btype</span><span class="o">=</span><span class="s1">&#39;TRIPLE&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="GetProperties"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.molproperty.GetProperties">[docs]</a><span class="k">def</span> <span class="nf">GetProperties</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get all properties in scopy</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">MW</span> <span class="o">=</span> <span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">Vol</span> <span class="o">=</span> <span class="n">CalculateMolVolume</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">Dense</span> <span class="o">=</span> <span class="n">CalculateMolDensity</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">fChar</span> <span class="o">=</span> <span class="n">CalculateMolFCharge</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nBond</span> <span class="o">=</span> <span class="n">CalculateNumBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nAtom</span> <span class="o">=</span> <span class="n">CalculateNumAtoms</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nCarbon</span> <span class="o">=</span> <span class="n">CalculateCarbonNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHet</span> <span class="o">=</span> <span class="n">CalculateNumHetero</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nRot</span> <span class="o">=</span> <span class="n">CalculateNumRotatableBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nRig</span> <span class="o">=</span> <span class="n">CalculateNumRigidBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nRing</span> <span class="o">=</span> <span class="n">CalculateNumRing</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHev</span> <span class="o">=</span> <span class="n">CalculateNumHeavyAtom</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logD</span> <span class="o">=</span> <span class="n">CalculateLogD</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">pKa</span> <span class="o">=</span> <span class="n">CalculatepKa</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">ab</span> <span class="o">=</span> <span class="n">CheckAcid</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">MR</span> <span class="o">=</span> <span class="n">CalculateMolMR</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHD</span> <span class="o">=</span> <span class="n">CalculateNumHDonors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHA</span> <span class="o">=</span> <span class="n">CalculateNumHAcceptors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHB</span> <span class="o">=</span> <span class="n">CalculateNumHyBond</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">AP</span> <span class="o">=</span> <span class="n">CalculateAromaticProportion</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logSw</span> <span class="o">=</span> <span class="n">CalculateLogSw</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">Fsp3</span> <span class="o">=</span> <span class="n">CalculateFsp3</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">tPSA</span> <span class="o">=</span> <span class="n">CalculateTPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">MaxRing</span> <span class="o">=</span> <span class="n">CalculateMaxSizeSystemRing</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nStero</span> <span class="o">=</span> <span class="n">CalculateNumberStereocenters</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">HetRatio</span> <span class="o">=</span> <span class="n">CalculateHetCarbonRatio</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">QEDmean</span> <span class="o">=</span> <span class="n">CalculateQEDmean</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">QEDmax</span> <span class="o">=</span> <span class="n">CalculateQEDmax</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">QEDnone</span> <span class="o">=</span> <span class="n">CalculateQEDnone</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">SAscore</span> <span class="o">=</span> <span class="n">CalculateSAscore</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">NPscore</span> <span class="o">=</span> <span class="n">CalculateNPscore</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nSingle</span> <span class="o">=</span> <span class="n">CalculateNumSinBond</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nDouble</span> <span class="o">=</span> <span class="n">CalculateNumDouBond</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nTriple</span> <span class="o">=</span> <span class="n">CalculateNumTriBond</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nC</span> <span class="o">=</span> <span class="n">CalculateCarbonNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nB</span> <span class="o">=</span> <span class="n">CalculateBoronNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nF</span> <span class="o">=</span> <span class="n">CalculateFluorinNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nCl</span> <span class="o">=</span> <span class="n">CalculateChlorinNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nBr</span> <span class="o">=</span> <span class="n">CalculateBromineNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nI</span> <span class="o">=</span> <span class="n">CalculateIodineNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nP</span> <span class="o">=</span> <span class="n">CalculatePhosphorNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nS</span> <span class="o">=</span> <span class="n">CalculateSulfurNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nO</span> <span class="o">=</span> <span class="n">CalculateOxygenNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nN</span> <span class="o">=</span> <span class="n">CalculateNitrogenNumber</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    
+    <span class="n">res</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Properties&#39;</span><span class="p">,[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span><span class="s1">&#39;Vol&#39;</span><span class="p">,</span><span class="s1">&#39;Dense&#39;</span><span class="p">,</span><span class="s1">&#39;fChar&#39;</span><span class="p">,</span><span class="s1">&#39;nBond&#39;</span><span class="p">,</span><span class="s1">&#39;nAtom&#39;</span><span class="p">,</span><span class="s1">&#39;nCarbon&#39;</span><span class="p">,</span><span class="s1">&#39;nHD&#39;</span><span class="p">,</span><span class="s1">&#39;nHA&#39;</span><span class="p">,</span><span class="s1">&#39;nHB&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;nHet&#39;</span><span class="p">,</span><span class="s1">&#39;nStero&#39;</span><span class="p">,</span><span class="s1">&#39;nHev&#39;</span><span class="p">,</span><span class="s1">&#39;nRot&#39;</span><span class="p">,</span><span class="s1">&#39;nRig&#39;</span><span class="p">,</span><span class="s1">&#39;nRing&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;logP&#39;</span><span class="p">,</span><span class="s1">&#39;logD&#39;</span><span class="p">,</span><span class="s1">&#39;pKa&#39;</span><span class="p">,</span><span class="s1">&#39;logSw&#39;</span><span class="p">,</span><span class="s1">&#39;ab&#39;</span><span class="p">,</span><span class="s1">&#39;MR&#39;</span><span class="p">,</span><span class="s1">&#39;tPSA&#39;</span><span class="p">,</span><span class="s1">&#39;AP&#39;</span><span class="p">,</span><span class="s1">&#39;HetRatio&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;Fsp3&#39;</span><span class="p">,</span><span class="s1">&#39;MaxRing&#39;</span><span class="p">,</span><span class="s1">&#39;QEDmean&#39;</span><span class="p">,</span><span class="s1">&#39;QEDmax&#39;</span><span class="p">,</span><span class="s1">&#39;QEDnone&#39;</span><span class="p">,</span><span class="s1">&#39;SAscore&#39;</span><span class="p">,</span><span class="s1">&#39;NPscore&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;nSingle&#39;</span><span class="p">,</span><span class="s1">&#39;nDouble&#39;</span><span class="p">,</span><span class="s1">&#39;nTriple&#39;</span><span class="p">,</span><span class="s1">&#39;nC&#39;</span><span class="p">,</span><span class="s1">&#39;nB&#39;</span><span class="p">,</span><span class="s1">&#39;nF&#39;</span><span class="p">,</span><span class="s1">&#39;nCl&#39;</span><span class="p">,</span><span class="s1">&#39;nBr&#39;</span><span class="p">,</span><span class="s1">&#39;nI&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;nP&#39;</span><span class="p">,</span><span class="s1">&#39;nS&#39;</span><span class="p">,</span><span class="s1">&#39;nO&#39;</span><span class="p">,</span><span class="s1">&#39;nN&#39;</span><span class="p">])</span>
+    <span class="n">checkres</span> <span class="o">=</span> <span class="n">res</span><span class="p">(</span><span class="n">MW</span><span class="p">,</span><span class="n">Vol</span><span class="p">,</span><span class="n">Dense</span><span class="p">,</span><span class="n">fChar</span><span class="p">,</span><span class="n">nBond</span><span class="p">,</span><span class="n">nAtom</span><span class="p">,</span><span class="n">nCarbon</span><span class="p">,</span><span class="n">nHD</span><span class="p">,</span><span class="n">nHA</span><span class="p">,</span><span class="n">nHB</span><span class="p">,</span>
+                   <span class="n">nHet</span><span class="p">,</span><span class="n">nStero</span><span class="p">,</span><span class="n">nHev</span><span class="p">,</span><span class="n">nRot</span><span class="p">,</span><span class="n">nRig</span><span class="p">,</span><span class="n">nRing</span><span class="p">,</span>
+                   <span class="n">logP</span><span class="p">,</span><span class="n">logD</span><span class="p">,</span><span class="n">pKa</span><span class="p">,</span><span class="n">logSw</span><span class="p">,</span><span class="n">ab</span><span class="p">,</span><span class="n">MR</span><span class="p">,</span><span class="n">tPSA</span><span class="p">,</span><span class="n">AP</span><span class="p">,</span><span class="n">HetRatio</span><span class="p">,</span>
+                   <span class="n">Fsp3</span><span class="p">,</span><span class="n">MaxRing</span><span class="p">,</span><span class="n">QEDmean</span><span class="p">,</span><span class="n">QEDmax</span><span class="p">,</span><span class="n">QEDnone</span><span class="p">,</span><span class="n">SAscore</span><span class="p">,</span><span class="n">NPscore</span><span class="p">,</span>
+                   <span class="n">nSingle</span><span class="p">,</span><span class="n">nDouble</span><span class="p">,</span><span class="n">nTriple</span><span class="p">,</span><span class="n">nC</span><span class="p">,</span><span class="n">nB</span><span class="p">,</span><span class="n">nF</span><span class="p">,</span><span class="n">nCl</span><span class="p">,</span><span class="n">nBr</span><span class="p">,</span><span class="n">nI</span><span class="p">,</span>
+                   <span class="n">nP</span><span class="p">,</span><span class="n">nS</span><span class="p">,</span><span class="n">nO</span><span class="p">,</span><span class="n">nN</span><span class="p">)</span>  
+    <span class="k">return</span> <span class="n">checkres</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    
+    <span class="n">smis</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CCCC&#39;</span><span class="p">,</span><span class="s1">&#39;CCCCC&#39;</span><span class="p">,</span><span class="s1">&#39;CCCCCC&#39;</span><span class="p">,</span><span class="s1">&#39;CC(N)C(=O)O&#39;</span><span class="p">,</span><span class="s1">&#39;CC(N)C(=O)[O-].[Na+]&#39;</span><span class="p">,</span><span class="s1">&#39;CC(=O)OC1=CC=CC=C1C(=O)O&#39;</span><span class="p">]</span>
+    <span class="n">smi5</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;CCCCCC&#39;</span><span class="p">,</span><span class="s1">&#39;CCC(C)CC&#39;</span><span class="p">,</span><span class="s1">&#39;CC(C)CCC&#39;</span><span class="p">,</span><span class="s1">&#39;CC(C)C(C)C&#39;</span><span class="p">,</span><span class="s1">&#39;CCCCCN&#39;</span><span class="p">,</span><span class="s1">&#39;c1ccccc1N&#39;</span><span class="p">]</span>
+    <span class="n">smiring</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2&#39;</span><span class="p">,</span><span class="s1">&#39;C1CCC2C3CC(C4CCCC5CCCCC45)CCC3CCC2C1&#39;</span><span class="p">,</span><span class="s1">&#39;C1CCC2(CCC3(CCCCC3)CC2)CC1&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">smi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">smis</span><span class="p">):</span>
+        <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smi</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Index:</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">GetIFG</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    
+<span class="c1">#    smi = &#39;CC(=O)OCOC(=O)C&#39;</span>
+<span class="c1">#    mol = Chem.MolFromSmiles(smi)</span>
+<span class="c1">#    res = CalculateNumTriBond(mol)</span>
+<span class="c1">#    print(res)</span>
+        
+        
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Kotori.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

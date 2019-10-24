@@ -8,7 +8,6 @@ Created on Tue Sep  3 09:53:13 2019
 @Mail: yzjkid9@gmail.com; oriental-cds@163.com
 @Blog: https://blog.moyule.me
 
-♥I love Princess Zelda forever♥
 """
 
 from rdkit.Chem.rdmolops import RDKFingerprint

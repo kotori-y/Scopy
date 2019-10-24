@@ -16,10 +16,10 @@ from distutils.core import setup
 
 
 
-package_data= {'scopy':['StructureAlert/*','Druglikeness/*','test/*','data/SMARTS/*','data/PATT/*','data/ACID/*','data/*','data/Crippen/*','fingerprint/*']}
+package_data= {'scopy':['structure_alert/*','druglikeness/*','test/*','data/SMARTS/*','data/PATT/*','data/ACID/*','data/*','data/Crippen/*','data/EFG/*','fingerprint/*','visualize/*','pretreat/*']}
 
 setup(name="scopy",  
-      version="1.0", 
+      version="1.1", 
       description="",
       long_description="",
       author="Orient&Kotori_Y",

@@ -1,0 +1,1063 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>scopy.structure_alert package &#8212; Scopy 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">scopy.structure_alert package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-scopy.structure_alert.FilterWithSmarts">scopy.structure_alert.FilterWithSmarts module</a></li>
+<li><a class="reference internal" href="#module-scopy.structure_alert.SmartProcess">scopy.structure_alert.SmartProcess module</a><ul>
+<li><a class="reference internal" href="#e-g">e.g.</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-scopy.structure_alert.SmartsFilter">scopy.structure_alert.SmartsFilter module</a></li>
+<li><a class="reference internal" href="#module-scopy.structure_alert">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/refernces/scopy.structure_alert.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="scopy-structure-alert-package">
+<h1>scopy.structure_alert package<a class="headerlink" href="#scopy-structure-alert-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-scopy.structure_alert.FilterWithSmarts">
+<span id="scopy-structure-alert-filterwithsmarts-module"></span><h2>scopy.structure_alert.FilterWithSmarts module<a class="headerlink" href="#module-scopy.structure_alert.FilterWithSmarts" title="Permalink to this headline">¶</a></h2>
+<p>Created on Tue Jun 25 21:59:42 2019</p>
+<p>&#64;Author: Zhi-Jiang Yang, Dong-Sheng Cao
+&#64;Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，
+&#64;Homepage: <a class="reference external" href="http://www.scbdd.com">http://www.scbdd.com</a>
+&#64;Mail: <a class="reference external" href="mailto:yzjkid9&#37;&#52;&#48;gmail&#46;com">yzjkid9<span>&#64;</span>gmail<span>&#46;</span>com</a>; <a class="reference external" href="mailto:oriental-cds&#37;&#52;&#48;163&#46;com">oriental-cds<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Blog: <a class="reference external" href="https://blog.moyule.me">https://blog.moyule.me</a></p>
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Acute_Aquatic_Toxicity">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Acute_Aquatic_Toxicity</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Acute_Aquatic_Toxicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Acute_Aquatic_Toxicity" title="Permalink to this definition">¶</a></dt>
+<dd><p>(1) Hermens, J. L.
+Environ Health Perspect, 87 (1990): 219-225.
+(2) Verhaar, Henk JM, Cees J. Van Leeuwen, and Joop LM Hermens.
+Chemosphere, 25.4 (1992): 471-491.</p>
+<p>The endpoint, Acute_Aquatic_Toxicity presents
+a compound may cause toxicity to liquid(water).
+There are 99 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a list of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Acute_Aquatic_Toxicity(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Aggregators">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Aggregators</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Aggregators"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Aggregators" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Aggregators(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Alarm_NMR">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Alarm_NMR</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Alarm_NMR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Alarm_NMR" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Alarm_NMR(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_FHs">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_AlphaScreen_FHs</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_AlphaScreen_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_FHs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Schorpp, Kenji, et al.
+J Biomol Screen, 19.5 (2014): 715-726.</p>
+<p>The endpoint, AlphaScreen_FHs presents
+a compound may be alphascreen frequent hitters
+There are 6 SMARTS in this endpoint</p>
+<dl class="simple">
+<dt>mol: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_AlphaScreen_FHs(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_GST_FHs">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_AlphaScreen_GST_FHs</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_AlphaScreen_GST_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_GST_FHs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brenke, Jara K., et al.
+J Biomol Screen, 21.6 (2016): 596-607.</p>
+<p>The endpoint GST_FHs presents
+a compound may prevent GST/GSH interaction during HTS.
+There are 34 SMARTS in this endpoint</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_AlphaScreen_GST_FHs(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_HIS_FHs">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_AlphaScreen_HIS_FHs</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_AlphaScreen_HIS_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_HIS_FHs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Schorpp, Kenji, et al.
+J Biomol Screen, 19.5 (2014): 715-726.</p>
+<p>The endpoint HIS_FHs presents
+a compound prevents the binding of the protein His-tag moiety to nickel chelate
+There are 19 SMARTS in this endpoint</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_AlphaScreen_HIS_FHs(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_BMS">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_BMS</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_BMS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_BMS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pearce, Bradley C., et al.
+J Chem Inf Model, 46.3 (2006): 1060-1068.</p>
+<p>Pearce has proposed a Functional Group Compound Filters(FG Filters).
+The FG filters are consisted of two part, Exclusion FG filters and informational filters.
+Exclusion FG filters are those intended for compound removal from screening decks;
+Informational filters are useful for compound annotation.</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_BMS(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Biodegradable">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Biodegradable</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Biodegradable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Biodegradable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Environment Canada.
+Existing Substances Program (CD-ROM), released April, 2004 (2003).</p>
+<p>The endpoint Biodegradable presents
+a compound may be Biodegradable.
+There are 9 SMARTS in this enpoint</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Biodegradable(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Chelating">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Chelating</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Chelating"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Chelating" title="Permalink to this definition">¶</a></dt>
+<dd><p>Agrawal, Arpita, et al.
+ChemMedChem, 5.2 (2010): 195-199.</p>
+<p>The endpoint Chelating presents
+a compound may inhibit metalloproteins.
+Thers are 55 SMARTS in this endpoint</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Chelating(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_DNA_Binding">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_DNA_Binding</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_DNA_Binding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_DNA_Binding" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are 78 SMARTS in this endpoint</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Reactive_DNA_Binding(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Developmental_Mitochondrial">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Developmental_Mitochondrial</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Developmental_Mitochondrial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Developmental_Mitochondrial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mukesh, P.
+Structural Alerts for Developmental Toxicity and 
+Mitochondrial Toxicity Molecular Initiating Events (Lhasa Limited)</p>
+<p>The endpoint Developmental_Mitochondrial present
+a compound may casue Developmental Toxicity and Mitochondrial Toxicity
+There are 12 SMARTS in this endpoint</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Developmental_Mitochondrial(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Frequent_Hitters">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Frequent_Hitters</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Frequent_Hitters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Frequent_Hitters" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Alarm_NMR(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Genotoxic_Carcinogenicity_Mutagenicity">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Genotoxic_Carcinogenicity_Mutagenicity</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Genotoxic_Carcinogenicity_Mutagenicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Genotoxic_Carcinogenicity_Mutagenicity" title="Permalink to this definition">¶</a></dt>
+<dd><ol class="arabic simple">
+<li><p>Benigni, Romualdo, and Cecilia Bossa. 
+Mutat Res Rev Mutat Res, 659.3 (2008): 248-261.</p></li>
+<li><p>Ashby, John, and Raymond W. Tennant.
+Mutat Res Rev Mutat Res, 204.1 (1988): 17-115.</p></li>
+<li><p>Kazius, Jeroen, Ross McGuire, and Roberta Bursi.
+J Med Chem, 48.1 (2005): 312-320.</p></li>
+<li><p>Bailey, Allan B., et al.
+Regul Toxicol Pharmacol, 42.2 (2005): 225-235.</p></li>
+</ol>
+<p>The endpoint Genotoxic_Carcinogenicity_Mutagenicity present
+a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms;
+There are 117 SMARTS in this endpoint</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Genotoxic_Carcinogenicity_Mutagenicity(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Idiosyncratic">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Idiosyncratic</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Idiosyncratic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Idiosyncratic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kalgutkar, Amit S., and John R. Soglia. 
+Expert Opin Drug Metab Toxicol, 1.1 (2005): 91-142</p>
+<p>The endpoit Idiosyncratic presents
+a compound may has diosyncratic toxicity
+There are 35 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Idiosyncratic(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_LD50_Oral">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_LD50_Oral</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_LD50_Oral"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_LD50_Oral" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tinkov OV
+Biomed Khim, 65.2 (2019): 123-132.</p>
+<p>The endpoint LD50_Oral presentshh
+a compound may cause acute toxicity during oral administration;
+There are 20 SMARTS in this endpoint</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_LD50_Oral(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Luciferase_Inhibitory">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Luciferase_Inhibitory</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Luciferase_Inhibitory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Luciferase_Inhibitory" title="Permalink to this definition">¶</a></dt>
+<dd><p>An unpublished parper</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Luciferase_Inhibitory(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_NTD">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_NTD</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_NTD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_NTD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brenk, Ruth, et al.
+ChemMedChem, 3(3), 435-444.</p>
+<p>Brenk has proposed 105 unwanted groups in HTS</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_NTD(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_NonBiodegradable">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_NonBiodegradable</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_NonBiodegradable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_NonBiodegradable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Environment Canada.
+Existing Substances Program (CD-ROM), released April, 2004 (2003).</p>
+<p>The endpoint Biodegradable presents
+a compound may be non-biodegradable.
+There are 19 SMARTS in this enpoint</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_NonBiodegradable(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_NonGenotoxic_Carcinogenicity">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_NonGenotoxic_Carcinogenicity</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_NonGenotoxic_Carcinogenicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_NonGenotoxic_Carcinogenicity" title="Permalink to this definition">¶</a></dt>
+<dd><ol class="arabic simple">
+<li><p>Benigni, Romualdo, and Cecilia Bossa. 
+Mutat Res Rev Mutat Res, 659.3 (2008): 248-261.</p></li>
+<li><p>Benigni, Romualdo, Cecilia Bossa, and Olga Tcheremenskaia.
+Chem Rev, 113.5 (2013): 2940-2957.</p></li>
+</ol>
+<p>The endpoint Genotoxic_Carcinogenicity_Mutagenicity present
+a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms;
+There are 23 SMARTS in this endpoint</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_NonGenotoxic_Carcinogenicity(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_PAINS">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_PAINS</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_PAINS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_PAINS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Baell, Jonathan B., and Georgina A. Holloway.
+J Med Chem, 53.7 (2010): 2719-2740.</p>
+<p>PAINS i.e.,Pan Assay Interference Compounds, presents a type of
+compounds tend to be hitted in HTS. The article, J Med Chem, 53.7 (2010): 2719-2740,
+proposed 480 substructures to demonstrated PAINS.</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_PAINS(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Potential_Electrophilic">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Potential_Electrophilic</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Potential_Electrophilic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Potential_Electrophilic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enoch, S. J., et al.
+Crit Rev Toxicol, 41.9 (2011): 783-802.</p>
+<p>The point Potential_Electrophilic presents
+a compound would be more probably take part in electrophilic reaction,
+and the electrophilic reaction is strongly assosiated with protein binding.
+There are 119 SMARTS in this endpoint</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Potential_Electrophilic(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Promiscuity">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Promiscuity</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Promiscuity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Promiscuity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pearce, Bradley C., et al.
+J Chem Inf Model, 46.3 (2006): 1060-1068.</p>
+<p>There are 119</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Promiscuity(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Reactive_Unstable_Toxic">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Reactive_Unstable_Toxic</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Reactive_Unstable_Toxic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Reactive_Unstable_Toxic" title="Permalink to this definition">¶</a></dt>
+<dd><p>ChemDiv</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Reactive_Unstable_Toxic(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Skin_Sensitization">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Skin_Sensitization</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Skin_Sensitization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Skin_Sensitization" title="Permalink to this definition">¶</a></dt>
+<dd><ol class="arabic simple">
+<li><p>Payne, M. P., and P. T. Walsh
+J Chem Inf Comput Sci, 34.1 (1994): 154-161.</p></li>
+<li><p>Enoch, S. J., J. C. Madden, and M. T. D. Cronin
+SAR QSAR Environ Res, 19.5-6 (2008): 555-578.</p></li>
+<li><p>Barratt, M. D., et al.
+Toxicol In Vitro, 8.5 (1994): 1053-1060.</p></li>
+</ol>
+<p>There are 155 SMARTS in this endpoint</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Reactive_Skin_Sensitization(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_SureChEMBL">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_SureChEMBL</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_SureChEMBL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_SureChEMBL" title="Permalink to this definition">¶</a></dt>
+<dd><p>SMARTS descriptions used by SureChEMBL that would indicate whether 
+a compound would match one or more structural alerts and
+hence considered to have a MedChem unfriendly status.</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_SureChEMBL(mols, detail=True)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Toxicophores">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Toxicophores</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">stype='single'</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Toxicophores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Toxicophores" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+<dt>detail: bool, optional(default=True), </dt><dd><p>When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd>
+</dl>
+<p>a lisf of namedtuple            
+namedtuple(‘CheckRes’,[‘Disposed’,’MatchedAtoms’,’MatchedNames’,’Endpoint’]), for detail=True;
+and namedtuple(‘CheckRes’,[‘Disposed’,’Endpoint’]) for False</p>
+<dl class="simple">
+<dt>smis = [‘C1=CC=CC(C(Br)C)=C1’,</dt><dd><p>‘C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1’,
+‘C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1’]</p>
+</dd>
+</dl>
+<p>mols = (Chem.MolFromSmiles(smi) for smi in smis)
+res = Check_Alarm_NMR(mols, detail=True)</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scopy.structure_alert.SmartProcess">
+<span id="scopy-structure-alert-smartprocess-module"></span><h2>scopy.structure_alert.SmartProcess module<a class="headerlink" href="#module-scopy.structure_alert.SmartProcess" title="Permalink to this headline">¶</a></h2>
+<p>Some SMARTSs in Ochem database(<a class="reference external" href="https://ochem.eu/alerts/home.do">https://ochem.eu/alerts/home.do</a>) would 
+contain logic symbol, include “AND”, “OR” and “NOT”, cannot be recognized 
+by RDKit. So that we split all SMARTS to two parts, “Rejected” and “Accepted”,
+meant should not be matched and be necessarily matched part respectively 
+according to the SMARTS.</p>
+<div class="section" id="e-g">
+<h3>e.g.<a class="headerlink" href="#e-g" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; SMARTS: [CX4]F AND NOT [$([CX4](F)[CX3]=[CX3]),$([CX4](F)[CX2]#[CX2]),$([CX4](F)a)]
+    - &gt; Reject: [$([CX4](F)[CX3]=[CX3]),$([CX4](F)[CX2]#[CX2]),$([CX4](F)a)]
+    - &gt; Accept: [CX4]F
+    It means if a molecule don&#39;t match &quot;[$([CX4](F)[CX3]=[CX3]),$([CX4](F)[CX2]#[CX2]),$([CX4](F)a)]&quot;
+    and match [CX4]F will be considered as matching SMARTS: &quot;[CX4]F AND NOT [$([CX4](F)[CX3]=[CX3]),$([CX4](F)[CX2]#[CX2]),$([CX4](F)a)]&quot;
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; SMARTS: NOT [!#1!#6]
+    Reject: [!#1!#6]
+    Accept: None
+    It means if only a molecule don&#39;t match &quot;[!#1!#6]&quot; will be considered as matching &quot;NOT [!#1!#6]&quot;
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">SMARTS</span><span class="p">:</span> <span class="p">[</span><span class="n">SX2</span><span class="p">][</span><span class="n">Sv6X4</span><span class="p">](</span><span class="o">=</span><span class="p">[</span><span class="n">OX1</span><span class="p">])(</span><span class="o">=</span><span class="p">[</span><span class="n">OX1</span><span class="p">])</span>
+<span class="go">    Reject: None</span>
+<span class="go">    Accept: [SX2][Sv6X4](=[OX1])(=[OX1])</span>
+<span class="go">    It means if only a molecule match &quot;[SX2][Sv6X4](=[OX1])(=[OX1])&quot; will be considered as matching &quot;[SX2][Sv6X4](=[OX1])(=[OX1])&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="module-scopy.structure_alert.SmartsFilter">
+<span id="scopy-structure-alert-smartsfilter-module"></span><h2>scopy.structure_alert.SmartsFilter module<a class="headerlink" href="#module-scopy.structure_alert.SmartsFilter" title="Permalink to this headline">¶</a></h2>
+<p>Created on Mon Aug 12 14:48:23 2019</p>
+<p>&#64;Author: Zhi-Jiang Yang, Dong-Sheng Cao
+&#64;Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China
+&#64;Homepage: <a class="reference external" href="http://www.scbdd.com">http://www.scbdd.com</a>
+&#64;Mail: <a class="reference external" href="mailto:yzjkid9&#37;&#52;&#48;gmail&#46;com">yzjkid9<span>&#64;</span>gmail<span>&#46;</span>com</a>; <a class="reference external" href="mailto:oriental-cds&#37;&#52;&#48;163&#46;com">oriental-cds<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Blog: <a class="reference external" href="https://blog.moyule.me">https://blog.moyule.me</a></p>
+<dl class="class">
+<dt id="scopy.structure_alert.SmartsFilter.Filter">
+<em class="property">class </em><code class="sig-prename descclassname">scopy.structure_alert.SmartsFilter.</code><code class="sig-name descname">Filter</code><span class="sig-paren">(</span><em class="sig-param">mols</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Here, we comdat the whole function that check endpoint retrieved  from module FilterWithSmarts</p>
+<dl class="simple">
+<dt>mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol</dt><dd><p>The molecule(s) to be scanned</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Acute_Aquatic_Toxicity">
+<code class="sig-name descname">Check_Acute_Aquatic_Toxicity</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Acute_Aquatic_Toxicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Acute_Aquatic_Toxicity" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Aggregators">
+<code class="sig-name descname">Check_Aggregators</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Aggregators"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Aggregators" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Alarm_NMR">
+<code class="sig-name descname">Check_Alarm_NMR</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Alarm_NMR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Alarm_NMR" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_AlphaScreen_GST_FHs">
+<code class="sig-name descname">Check_AlphaScreen_GST_FHs</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_AlphaScreen_GST_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_AlphaScreen_GST_FHs" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_AlphaScreen_HIS_FHs">
+<code class="sig-name descname">Check_AlphaScreen_HIS_FHs</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_AlphaScreen_HIS_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_AlphaScreen_HIS_FHs" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_BMS">
+<code class="sig-name descname">Check_BMS</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_BMS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_BMS" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Biodegradable">
+<code class="sig-name descname">Check_Biodegradable</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Biodegradable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Biodegradable" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Check_AlphaScreen_FHs">
+<code class="sig-name descname">Check_Check_AlphaScreen_FHs</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Check_AlphaScreen_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Check_AlphaScreen_FHs" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Chelating">
+<code class="sig-name descname">Check_Chelating</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Chelating"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Chelating" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_DNA_Binding">
+<code class="sig-name descname">Check_DNA_Binding</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_DNA_Binding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_DNA_Binding" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Developmental_Mitochondrial">
+<code class="sig-name descname">Check_Developmental_Mitochondrial</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Developmental_Mitochondrial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Developmental_Mitochondrial" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Frequent_Hitters">
+<code class="sig-name descname">Check_Frequent_Hitters</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Frequent_Hitters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Frequent_Hitters" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Genotoxic_Carcinogenicity_Mutagenicity">
+<code class="sig-name descname">Check_Genotoxic_Carcinogenicity_Mutagenicity</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Genotoxic_Carcinogenicity_Mutagenicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Genotoxic_Carcinogenicity_Mutagenicity" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Idiosyncratic">
+<code class="sig-name descname">Check_Idiosyncratic</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Idiosyncratic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Idiosyncratic" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_LD50_Oral">
+<code class="sig-name descname">Check_LD50_Oral</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_LD50_Oral"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_LD50_Oral" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Luciferase_Inhibitory">
+<code class="sig-name descname">Check_Luciferase_Inhibitory</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Luciferase_Inhibitory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Luciferase_Inhibitory" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_NTD">
+<code class="sig-name descname">Check_NTD</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_NTD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_NTD" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_NonBiodegradable">
+<code class="sig-name descname">Check_NonBiodegradable</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_NonBiodegradable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_NonBiodegradable" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_NonGenotoxic_Carcinogenicity">
+<code class="sig-name descname">Check_NonGenotoxic_Carcinogenicity</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_NonGenotoxic_Carcinogenicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_NonGenotoxic_Carcinogenicity" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_PAINS">
+<code class="sig-name descname">Check_PAINS</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_PAINS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_PAINS" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Potential_Electrophilic">
+<code class="sig-name descname">Check_Potential_Electrophilic</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Potential_Electrophilic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Potential_Electrophilic" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Promiscuity">
+<code class="sig-name descname">Check_Promiscuity</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Promiscuity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Promiscuity" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Reactive_Unstable_Toxic">
+<code class="sig-name descname">Check_Reactive_Unstable_Toxic</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Reactive_Unstable_Toxic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Reactive_Unstable_Toxic" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Skin_Sensitization">
+<code class="sig-name descname">Check_Skin_Sensitization</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Skin_Sensitization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Skin_Sensitization" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_SureChEMBL">
+<code class="sig-name descname">Check_SureChEMBL</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_SureChEMBL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_SureChEMBL" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Toxicophores">
+<code class="sig-name descname">Check_Toxicophores</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Toxicophores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Toxicophores" title="Permalink to this definition">¶</a></dt>
+<dd><p>detail: bool, optional(default=True), 
+When set to True, function will return more information(MatchedAtoms,MatchedNames)
+else, only return Disposed and Endpoint</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scopy.structure_alert">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scopy.structure_alert" title="Permalink to this headline">¶</a></h2>
+<p>Created on Tue Jun 25 21:59:42 2019</p>
+<p>&#64;Author: Zhi-Jiang Yang, Dong-Sheng Cao
+&#64;Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，
+&#64;Homepage: <a class="reference external" href="http://www.scbdd.com">http://www.scbdd.com</a>
+&#64;Mail: <a class="reference external" href="mailto:yzjkid9&#37;&#52;&#48;gmail&#46;com">yzjkid9<span>&#64;</span>gmail<span>&#46;</span>com</a>; <a class="reference external" href="mailto:oriental-cds&#37;&#52;&#48;163&#46;com">oriental-cds<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Blog: <a class="reference external" href="https://blog.moyule.me">https://blog.moyule.me</a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Kotori.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

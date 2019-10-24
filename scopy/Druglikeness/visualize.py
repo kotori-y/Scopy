@@ -10,9 +10,10 @@ Created on Tue Aug  6 09:46:11 2019
 
 """
 
-
-
-import rulesfilter
+try:
+	from . import rulesfilter
+except:
+	import rulesfilter
 from rdkit import Chem
 import matplotlib.pyplot as plt
 import numpy as np
@@ -110,7 +111,6 @@ def VisualizeXu(mol=None, XuRule=None):
 #    plt.show()
 
 
-
 def PfizerPositioning(mol=None, PfizerRule=None):
     if mol:
         PfizerRule = rulesfilter.CheckPfizerRule(mol, detail=True)
@@ -130,6 +130,7 @@ def PfizerPositioning(mol=None, PfizerRule=None):
     ax.set_ylim([0,200])
     ax.set_xlabel('LogP')
     ax.set_ylabel('tPSA')
+    plt.show()
     
     
 

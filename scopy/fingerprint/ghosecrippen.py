@@ -11,8 +11,11 @@ Created on Mon Sep  2 09:24:41 2019
 """
 
 import sys
-sys.path.append('..')
-import ScoConfig
+try:
+    from .. import ScoConfig
+except:
+    sys.path.append('..')
+    import ScoConfig
 import csv
 from rdkit.Chem import AllChem as Chem
 

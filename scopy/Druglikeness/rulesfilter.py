@@ -28,14 +28,13 @@ __doc__ = """
     Ro4 Rule    MW<=400; logP<=4; nHD<=4; NHA<=8; PSA<=120
     Ro3 Rule    MW<=300; -3<=logP<=3; nHD<=3; nHA<=6; PSA<=60
     Ro2 Rule    MW<=200; logP<=2; nHD<=2; nHA<=4
-
+    REOS Rule    200<=MW<=500; -5<=logP<=5; nHD<=5; nHA<=10; nRot<=8; TPSA<=150; -4<=fChar<=4
+    GoldenTriangle
     ---
     Followed should be achieved in the future:
 
     OpreaTwo Rule: mw <= 450; -3.5<=clogP<=4.5; -4<=logD<=4; nring<= 4; no. of nonterminal single bonds<=10; nHD<=5; nHA<=8
     Kelder Rule
-    REOS Rule
-    GoldenTriangle
     Schneider Rule
     DrugLikeOne
     DrugLikeTwo
@@ -44,104 +43,158 @@ __doc__ = """
     Respiratory
     """
 
-import molproperty
+try:
+    from . import molproperty
+except:
+    import sys
+    sys.path.append('.')
+    import molproperty
 from collections import namedtuple
 from rdkit import Chem
 
 
-def CheckEganRule(mol,detail=False):
+def CheckEganRule(mol, detail=False):
     """
-    #################################################################
     Bad or Good oral biovailability rule
     
-    -Ref.:
-        Egan, William J., Kenneth M. Merz, and John J. Baldwin. 
-        J Med Chem, 43.21 (2000): 3867-3877.
+    Ref.:
+    -----------
+    Egan, William J., Kenneth M. Merz, and John J. Baldwin. 
+    J Med Chem, 43.21 (2000): 3867-3877.
+    
+    Rule details:
+    -----------
+    0 <= TPSA <= 132
+    -1 <= logP <=6
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
         
-    -Rule details:
-        0 <= tPSA <= 132
-        -1 <= logP <=6
-    #################################################################
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            bRo5Ruler(MW=180.16, logP=1.31, nHD=1, nHA=3, PSA=63.6, nRot=3, Disposed=True, nViolate=0)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively.
     """
     #Calculate required properties of Lipinskin's rule
-    tPSA = molproperty.CalculateTPSA(mol)
+    TPSA = molproperty.CalculateTPSA(mol)
     logP = molproperty.CalculateLogP(mol)
-    
     #Determine whether the molecular match each rule
-    atPSA = (0<=tPSA<=132)
-    alogP = (-1<=logP<=6)   
+    atPSA = (0 <= TPSA <= 132)
+    alogP = (-1 <= logP <= 6)
     #Give the advice
     if atPSA&alogP:
-        disposed = 'Accept'
+        disposed = True
     else:
-        disposed = 'Reject'
+        disposed = False
     #Count the number of violsted rules
-    violate = 2 - (atPSA+alogP)    
+    violate = 2 - (atPSA + alogP)
     #res
     if detail:
-        res = namedtuple('EganRuler',['tPSA','logP','Disposed','Violate'])
-        checkres = res(tPSA,logP,disposed,violate)
+        res = namedtuple('EganRuler', ['tPSA', 'logP', 
+                                       'Disposed','nViolate'])
+        checkres = res(TPSA, logP, disposed, violate)
     else:
-        res = namedtuple('EganRuler',['Disposed','Violate'])
-        checkres = res(disposed,violate)
+        res = namedtuple('EganRuler', ['Disposed', 'nViolate'])
+        checkres = res(disposed, violate)
     return checkres
 
 
-def CheckVeberRule(mol,detail=False):
+def CheckVeberRule(mol, detail=False):
     """
-    #################################################################
     Bad or Good oral biovailability rule
     
-    -Ref.:
-        Veber, Daniel F., et al.
-        Journal of medicinal chemistry 45.12 (2002): 2615-2623.
+    Ref.:
+    -----------
+    Veber, Daniel F., et al.
+    Journal of medicinal chemistry 45.12 (2002): 2615-2623.
         
-    -Rule details:
-        nRot <= 10
-        TPSA <= 140
-        the number of H-Bonds Donors and H-Bonds Acceptors <= 12
-    #################################################################
+    Rule details:
+    -----------
+    nRot <= 10
+    TPSA <= 140
+    nHB <= 12
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
+        
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            VeberRuler(nRot=3, tPSA=63.6, nHB=4, Disposed=True, Violate=0)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively.
     """
     #Calculate required properties of Lipinskin's rule
     nRot = molproperty.CalculateNumRotatableBonds(mol)
     tPSA = molproperty.CalculateTPSA(mol)
     nHB = molproperty.CalculateNumHyBond(mol)   
     #Determine whether the molecular match each rule
-    anRot = (nRot<=10)
-    atPSA = (tPSA<=140)
-    anHB = (nHB<=12)    
+    anRot = (nRot <= 10)
+    atPSA = (tPSA <= 140)
+    anHB = (nHB <= 12)    
     #Give the advice
     if (anRot&atPSA&anHB):
-        disposed = 'Accept'
+        disposed = True
     else:
-        disposed = 'Reject'
+        disposed = False
     #Count the number of violated rules
-    violate = 3 - (anRot+atPSA+anHB)
+    violate = 3 - (anRot + atPSA + anHB)
     #res
     if detail:
-        res = namedtuple('VeberRuler',['nRot','tPSA','nHB','Disposed','Violate'])
-        checkres = res(nRot,tPSA,nHB,disposed,violate)
+        res = namedtuple('VeberRuler', ['nRot', 'tPSA', 'nHB', 
+                                        'Disposed','nViolate'])
+        checkres = res(nRot, tPSA, nHB, disposed, violate)
     else:
-        res = namedtuple('VeberRuler',['Disposed','Violate'])
-        checkres = res(disposed,violate)    
+        res = namedtuple('VeberRuler', ['Disposed','nViolate'])
+        checkres = res(disposed, violate)    
     return checkres
 
 
-def CheckLipinskiRule(mol,detail=False):
+def CheckLipinskiRule(mol, detail=False):
     """
-    #################################################################
     Check molecular under Lipinski's rule
     
-    -Ref.:
-        Lipinski, Christopher A., et al.
-        Advanced drug delivery reviews 23.1-3 (1997): 3-25.
+    Ref.:
+    -----------
+    Lipinski, Christopher A., et al.
+    Advanced drug delivery reviews 23.1-3 (1997): 3-25.
     
-    -Rule details:
-        molecular weight <= 500(Da)
-        LogP <= 5
-        number of hydrogen bond donors <= 5
-        number of hydrogen Bond accptors <= 10
-    #################################################################
+    Rule details:
+    -----------
+    MW <= 500(Da)
+    logP <= 5
+    nHD <= 5
+    nHA <= 10
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
+        
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            LipinskiRule(MW=180.16, logP=1.31, nHD=1, nHA=3, Disposed=True, nViolate=0)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively.
     """
     #Calculate required properties of Lipinskin's rule
     MW = molproperty.CalculateMolWeight(mol)
@@ -154,39 +207,56 @@ def CheckLipinskiRule(mol,detail=False):
     anhd = (nHD <= 5)
     anha = (nHA <= 10)
     #Count the number of matched rules
-    nviolate = 4 - (aw+alogp+anhd+anha)
+    nviolate = 4 - (aw + alogp + anhd + anha)
     #Give the disposed
     if nviolate >= 2:
-        disposed = 'Reject'
+        disposed = False
     else:
-        disposed = 'Accept'
+        disposed = True
         
     if detail:
-        res = namedtuple('LipinskiRule',['MW','logP','nHD','nHA','Disposed','nViolate'])
-        checkres = res(MW,logP,nHD,nHA,disposed,nviolate)
+        res = namedtuple('LipinskiRule', ['MW', 'logP', 'nHD', 
+                                          'nHA', 'Disposed', 'nViolate'])
+        checkres = res(MW, logP, nHD, nHA, disposed, nviolate)
     else:
-        res = namedtuple('LipinskiRule',['Disposed','nViolate'])
-        checkres = res(disposed,nviolate)    
+        res = namedtuple('LipinskiRule', ['Disposed', 'nViolate'])
+        checkres = res(disposed, nviolate)    
     return checkres   
     
 
-def CheckBeyondRo5(mol,detail=False):
+def CheckBeyondRo5(mol, detail=False):
     """
-    #################################################################
     Check molecular under beyond Ro5
     
-    -Ref.:
-        Doak, Bradley C., et al.
-        journal of medicinal chemistry 59.6 (2015): 2312-2327.
+    Ref.:
+    -----------
+    Doak, Bradley C., et al.
+    journal of medicinal chemistry 59.6 (2015): 2312-2327.
         
-    -Rule details:
-        MW <= 1000
-        -2 <= logP <= 10
-        nHD <= 6
-        nHA <= 15
-        PSA <= 250
-        nRot <= 20        
-    #################################################################
+    Rule details:
+    -----------
+    MW <= 1000
+    -2 <= logP <= 10
+    nHD <= 6
+    nHA <= 15
+    PSA <= 250
+    nRot <= 20
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
+        
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            bRo5Ruler(MW=180.16, logP=1.31, nHD=1, nHA=3, PSA=63.6, nRot=3, Disposed=True, nViolate=0)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively.
     """
     #Calculate required properties of Lipinskin's rule
     MW = molproperty.CalculateMolWeight(mol)
@@ -206,33 +276,51 @@ def CheckBeyondRo5(mol,detail=False):
     
     #Check whether mol pass the whole rules
     if (aMW&alogP&anHD&anHA&aRot&aPSA):
-        disposed = 'Accept'
+        disposed = True
     else:
-        disposed = 'Reject'   
+        disposed = False   
     #Count the number of violated rules
-    violate = 6 - (aMW+alogP+anHD+anHA+aRot+aPSA)    
+    violate = 6 - (aMW + alogP + anHD + anHA + aRot + aPSA)    
     if detail:
-        res = namedtuple('bRo5Ruler',['MW','logP','nHD','nHA','PSA','nRot','Disposed','Violate'])
-        checkres = res(MW,logP,nHD,nHA,PSA,nRot,disposed,violate)
+        res = namedtuple('bRo5Ruler', ['MW', 'logP', 'nHD', 
+                                       'nHA', 'PSA','nRot', 
+                                       'Disposed','nViolate'])
+        checkres = res(MW, logP, nHD, nHA, PSA, nRot, disposed, violate)
     else:
-        res = namedtuple('bRo5Ruler',['Disposed','Violate'])
-        checkres = res(disposed,violate)        
+        res = namedtuple('bRo5Ruler', ['Disposed', 'nViolate'])
+        checkres = res(disposed, violate)        
     return checkres    
 
 
-def CheckPfizerRule(mol,detail=False):
+def CheckPfizerRule(mol, detail=False):
     """
-    #################################################################
     Check molecular under Rfizer Rule(3/75 Rule)
     
-    -Ref.:
-        Hughes, Jason D., et al. 
-        Bioorganic & medicinal chemistry letters 18.17 (2008): 4872-4875.
+    Ref.:
+    -----------
+    Hughes, Jason D., et al. 
+    Bioorganic & medicinal chemistry letters 18.17 (2008): 4872-4875.
         
-    -Rule details:
-        ---Logp > 3
-        ---PSA < 75
-    #################################################################
+    Rule details:
+    -----------
+    logp > 3
+    TPSA < 75
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
+        
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            PfizerRule(logP=1.31, PSA=63.6, Disposed=False, nViolate=1)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively.
     """
     #Calculate required properties
     logP = molproperty.CalculateLogP(mol)
@@ -243,34 +331,51 @@ def CheckPfizerRule(mol,detail=False):
     aPSA = (PSA < 75)    
     #Give the advice
     if alogP&aPSA:
-        disposed = 'Accept'
+        disposed = True
     else:
-        disposed = 'Reject'
+        disposed = False
     #Count the number of violated rules
-    violate = 2 - (alogP+aPSA)
+    violate = 2 - (alogP + aPSA)
     #res
     if detail:
-        res = namedtuple('PfizerRule',['logP','PSA','Disposed','Violate'])
+        res = namedtuple('PfizerRule', ['logP', 'PSA', 
+                                        'Disposed', 'nViolate'])
         checkres = res(logP,PSA,disposed,violate)
     else:
-        res = namedtuple('PfizerRule',['Disposed','Violate'])
+        res = namedtuple('PfizerRule', ['Disposed', 'nViolate'])
         checkres = res(disposed,violate)    
     return checkres
     
 
-def CheckGSKRule(mol,detail=False):
+def CheckGSKRule(mol, detail=False):
     """
-    #################################################################
     Check molecular under GSK rule(4/400 Rule)
     
-    -Ref.:
-        Gleeson, M. Paul.
-        Journal of medicinal chemistry 51.4 (2008): 817-834.
+    Ref.:
+    -----------
+    Gleeson, M. Paul.
+    Journal of medicinal chemistry 51.4 (2008): 817-834.
         
-    -Rule details:
-        molecular weight <= 400
-        LogP <= 4
-    #################################################################
+    Rule details:
+    -----------
+    MW <= 400
+    logP <= 4
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
+        
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            GSKRuler(MW=180.16, logP=1.31, Disposed=True, nViolate=0)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively.
     """
     #Calculate required properties
     MW = molproperty.CalculateMolWeight(mol)
@@ -280,35 +385,53 @@ def CheckGSKRule(mol,detail=False):
     alogP = (logP <= 4)    
     #Give the advice
     if aMW&alogP:
-        disposed = 'Accept'
+        disposed = True
     else:
-        disposed = 'Reject'
+        disposed = False
     #Count the number of violated rules
     violate = 2 - (aMW+alogP)
     #res
     if detail:
-        res = namedtuple('GSKRuler',['MW','logP','Disposed','Violate'])
-        checkres = res(MW,logP,disposed,violate)
+        res = namedtuple('GSKRuler', ['MW', 'logP', 
+                                      'Disposed', 'nViolate'])
+        checkres = res(MW, logP, disposed, violate)
     else:
-        res = namedtuple('GSKRuler',['Disposed','Violate'])
-        checkres = res(disposed,violate)
+        res = namedtuple('GSKRuler', ['Disposed', 'nViolate'])
+        checkres = res(disposed, violate)
     return checkres
 
 
-def CheckOralMacrocycles(mol,detail=False):
+def CheckOralMacrocycles(mol, detail=False):
     """
-    #################################################################
     Check molecular under oral macrocycles rules
-    -Ref.:
-        Giordanetto, Fabrizio, and Jan Kihlberg.
-        Journal of medicinal chemistry 57.2 (2013): 278-295.        
+    
+    Ref.:
+    -----------
+    Giordanetto, Fabrizio, and Jan Kihlberg.
+    Journal of medicinal chemistry 57.2 (2013): 278-295.        
 
-    -Rule details:
-        molecular weight < 1000(Da)
-        LogP < 10
-        number of hydrogen bond donors < 5
-        PSA < 250
-    #################################################################
+    Rule details:
+    -----------
+    MW < 1000(Da)
+    logP < 10
+    nHD < 5
+    TPSA < 250
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
+        
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            OralMacrocycles(MW=180.16, logP=1.31, nHD=1, tPSA=63.6, Disposed=True, nViolate=0)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively.
     """
     #Calculate required properties of Lipinskin's rule
     MW = molproperty.CalculateMolWeight(mol)
@@ -322,33 +445,50 @@ def CheckOralMacrocycles(mol,detail=False):
     aPSA = (tPSA < 250)  
     #Give the advice
     if (aMW&alogP&anHD&aPSA):
-        disposed = 'Accept'
+        disposed = True
     else:
-        disposed = 'Reject'
+        disposed = False
     #Count the number of violate rules
-    violate = 4 - (aMW+alogP+anHD+aPSA)
+    violate = 4 - (aMW + alogP + anHD + aPSA)
     #res
     if detail:
-        res = namedtuple('OralMacrocycles',['MW','logP','nHD','tPSA','Disposed','Violate'])
-        checkres = res(MW,logP,nHD,tPSA,disposed,violate)
+        res = namedtuple('OralMacrocycles', ['MW', 'logP', 'nHD', 'tPSA', 
+                                             'Disposed', 'nViolate'])
+        checkres = res(MW, logP, nHD, tPSA, disposed, violate)
     else:
-        res = namedtuple('OralMacrocycles',['MW','logP','nHD','tPSA','Disposed','Violate'])
-        checkres = res(MW,logP,nHD,tPSA,disposed,violate) 
+        res = namedtuple('OralMacrocycles', ['Disposed', 'nViolate'])
+        checkres = res(disposed, violate) 
     return checkres
 
 
-def CheckOpreaRule(mol,detail=False):
+def CheckOpreaRule(mol, detail=False):
     """
-    #################################################################
-    -Ref.:
-        Oprea, Tudor I.
-        Journal of computer-aided molecular design 14.3 (2000): 251-264.
+    Ref.:
+    -----------
+    Oprea, Tudor I.
+    Journal of computer-aided molecular design 14.3 (2000): 251-264.
         
-    -Rules details:
-        nRing >= 3
-        nRig >= 18
-        nRot >=6
-    #################################################################
+    Rules details:
+    -----------
+    nRing >= 3
+    nRig >= 18
+    nRot >=6
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
+        
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            OpreaRule(nRing=1, nRig=8, nRot=3, Disposed=False, nViolate=3)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively.
     """
     #Calculate required properties of Oprea
     nRing = molproperty.CalculateNumRing(mol)
@@ -360,18 +500,19 @@ def CheckOpreaRule(mol,detail=False):
     anRot = (nRot >= 6)
     #Give the advice
     if (anRing&anRig&anRot):
-        disposed = 'Accept'
+        disposed = True
     else:
-        disposed = 'Reject'
+        disposed = False
     #Count the number of violated rules
-    violate = 3 - (anRing+anRig+anRot)
+    violate = 3 - (anRing + anRig + anRot)
     #Res
     if detail:
-        res = namedtuple('OpreaRule',['nRing','nRig','nRot','Disposed','Violate'])
-        checkres = res(nRing,nRig,nRot,disposed,violate)
+        res = namedtuple('OpreaRule', ['nRing', 'nRig', 'nRot', 
+                                       'Disposed','nViolate'])
+        checkres = res(nRing, nRig, nRot, disposed, violate)
     else:
-        res = namedtuple('OpreaRule',['Disposed','Violate'])
-        checkres = res(disposed,violate)
+        res = namedtuple('OpreaRule', ['Disposed', 'nViolate'])
+        checkres = res(disposed, violate)
     return checkres
 
     
@@ -394,21 +535,37 @@ def CheckOpreaTwoRule(mol):
     pass 
 
 
-def CheckGhoseRule(mol,detail=False):
+def CheckGhoseRule(mol, detail=False):
     """
-    #################################################################
     Check molecular under Ghose rule
     
-    -Ref.:
-        Ghose, Arup K., Vellarkad N. Viswanadhan, and John J. Wendoloski. 
-        Journal of combinatorial chemistry 1.1 (1999): 55-68.
+    Ref.:
+    -----------
+    Ghose, Arup K., Vellarkad N. Viswanadhan, and John J. Wendoloski. 
+    Journal of combinatorial chemistry 1.1 (1999): 55-68.
     
-    -Rules details:
-        -0.4<logP<5.6
-        160<MW<480
-        40<MR<130
-        20<nAtom<70
-    #################################################################
+    Rules details:
+    -----------
+    -0.4 < logP < 5.6
+    160 < MW < 480
+    40 < MR< 130
+    20 < nAtom < 70
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
+        
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            GhoseRule(logP=1.31, MW=180.16, MR=44.71, nAtom=21, Disposed=True, nViolate=0)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively.
     """
     #Calculate required properties of Oprea
     logP = molproperty.CalculateLogP(mol)
@@ -416,28 +573,29 @@ def CheckGhoseRule(mol,detail=False):
     MR = molproperty.CalculateMolMR(mol)
     nAtom = molproperty.CalculateNumAtoms(mol)    
     #Determine whether the molecular match each rule
-    alogP = (-0.4<logP<5.6)
-    aMW = (160<MW<480)
-    aMR = (40<MR<130)
-    anAtom = (20<nAtom<70)
+    alogP = (-0.4 < logP < 5.6)
+    aMW = (160 < MW < 480)
+    aMR = (40 < MR< 130)
+    anAtom = (20 < nAtom<  70)
     #Give the advice
     if (alogP&aMW&aMR&anAtom):
-        disposed = 'Accept'
+        disposed = True
     else:
-        disposed = 'Reject'
+        disposed = False
     #Count the number of violated rules
-    violate = 4 - (alogP+aMW+aMR+anAtom)
+    violate = 4 - (alogP + aMW + aMR + anAtom)
     #Res
     if detail:
-        res = namedtuple('GhoseRule',['logP','MW','MR','nAtom','Disposed','Violate'])
-        checkres = res(logP,MW,MR,nAtom,disposed,violate)
+        res = namedtuple('GhoseRule', ['logP', 'MW', 'MR', 'nAtom', 
+                                      'Disposed', 'nViolate'])
+        checkres = res(logP, MW, MR, nAtom, disposed, violate)
     else:
-        res = namedtuple('GhoseRule',['Disposed','Violate'])
-        checkres = res(disposed,violate)
+        res = namedtuple('GhoseRule', ['Disposed', 'nViolate'])
+        checkres = res(disposed, violate)
     return checkres
 
 
-def CheckKelderRule(mol):
+def CheckKelderRule(mol, detail=False):
     """
     #################################################################
     Check moleculars under Kelder rules
@@ -457,107 +615,161 @@ def CheckKelderRule(mol):
     return None
 
 
-def CheckREOS(mol):
+def CheckREOS(mol, detail=False):
     """
-    #################################################################
     Check molecular under REOS program
     
-    -Ref.:
-        Walters, W. Patrick, and Mark Namchuk.
-        Nat Rev Drug Discov, 2.4 (2003): 259.
+    Ref.:
+    -----------
+    Walters, W. Patrick, and Mark Namchuk.
+    Nat Rev Drug Discov, 2.4 (2003): 259.
         
-    -Rule details:
-        200 <= mw <= 500
-        -5 <= logP <= 5
-        nhd <= 5
-        nha <= 10
-        nrot <= 8
-        tpsa <= 150
-        -4 <= totalchar <= 4
-    #################################################################
-    """
-    #Calculate required properties of REOS
-    mw = molproperty.CalculateMolWeight(mol)
-    logP = molproperty.CalculateLogP(mol)
-    nhd = molproperty.CalculateNumHDonors(mol)
-    nha = molproperty.CalculateNumHAcceptors(mol)
-    nrot = molproperty.CalculateNumRotatableBonds(mol)
-    tpsa = molproperty.CalculateTPSA(mol)
-    totalchar = molproperty.CalculateTotalCharge(mol)
+    Rule details:
+    -----------
+    200 <= MW <= 500
+    -5 <= logP <= 5
+    nHD <= 5
+    nHA <= 10
+    nRot <= 8
+    TPSA <= 150
+    -4 <= fChar <= 4
     
-    #Determine whether the molecular match each rule
-    aw = ((mw>=200)&(mw<=500))
-    alogP = ((logP>=-5)&(logP<=5))
-    anhd = (nhd<=5)
-    anha = (nha<=10)
-    anrot = ((nrot>=2)&(nrot<=8))
-    atpsa = (tpsa<=150)
-    atotalchar = ((totalchar>=-4)&(totalchar<=4))
-
-#    #Check whether mol pass the whole rules
-#    temp1 = (aw&alogP&anhd&anha&anrot&atpsa&atotalchar)
-#    #Count the number of matched rules
-#    temp2 = (aw+alogP+anhd+anha+anrot+atpsa+atotalchar)
-#    
-#    res = [temp1,temp2]
-#    
-#    return res
-    
-    
-    pass
-
-    return None
-
-
-def CheckGoldenTriangle(mol,detail=False):
-    """
-    #################################################################
-    Check molecular under 'Golden Triangle'
-    
-    NOTICE: We should use LogD!!
-    
-    -Ref.:
-        Johnson, Ted W., Klaus R. Dress, and Martin Edwards.
-        Bioorg Med Chem Lett, 19.19 (2009): 5560-5564.
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
         
-    -Rule details:
-        200 <= MW <= 500
-        -2 <= LogD <= 5
-    #################################################################
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            REOSRule(MW=180.16, logP=1.31, nHD=1, nHA=3, nRot=3, TPSA=63.6, fChar=0, Disposed=False, nViolate=1)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively.
     """
     #Calculate required properties of REOS
     MW = molproperty.CalculateMolWeight(mol)
     logP = molproperty.CalculateLogP(mol)
-    
+    nHD = molproperty.CalculateNumHDonors(mol)
+    nHA = molproperty.CalculateNumHAcceptors(mol)
+    nRot = molproperty.CalculateNumRotatableBonds(mol)
+    TPSA = molproperty.CalculateTPSA(mol)
+    fChar = molproperty.CalculateMolFCharge(mol) 
     #Determine whether the molecular match each rule
-    aw = (200<=MW<=500)
-    alogp = (-2<=logD<=5)
-    
-    #Check whether mol pass the whole rules
-    temp1 = (aw&alogp)
-    #Count the number of matched rules
-    temp2 = (aw+alogp)
-    
-    res = [temp1,temp2]
-    
-    pass
+    amw = (200 <= MW <= 500)
+    alogP = (-5 <= logP <= 5)
+    anhd = (nHD <= 5)
+    anha = (nHA <= 10)
+    anrot = (nRot <= 8)
+    atpsa = (TPSA <= 150)
+    afchar = (-4 <= fChar <= 4)
+    #Give the advice
+    if (amw&alogP&anhd&anha&anrot&atpsa&afchar):
+        disposed = True
+    else:
+        disposed = False
+    #Count the number of violated rules
+    violate = 7 - (amw + alogP + anhd + anha + anrot + atpsa + afchar)
+    #Res
+    if detail:
+        res = namedtuple('REOSRule', ['MW', 'logP', 'nHD', 'nHA',
+                                     'nRot', 'TPSA', 'fChar', 
+                                     'Disposed','nViolate'])
+        checkres = res(MW, logP, nHD, nHA, nRot, TPSA, fChar, disposed,violate)
+    else:
+        res = namedtuple('REOSRule', ['Disposed', 'nViolate'])
+        checkres = res(disposed, violate)
+    return checkres
 
 
-def CheckXuRule(mol,detail=False):
+def CheckGoldenTriangle(mol, detail=False):
     """
-    #################################################################
+    Check molecular under 'Golden Triangle'
+    
+    Ref.:
+    -----------
+    Johnson, Ted W., Klaus R. Dress, and Martin Edwards.
+    Bioorg Med Chem Lett, 19.19 (2009): 5560-5564.
+        
+    Rule details:
+    -----------
+    200 <= MW <= 500
+    -2 <= logD <= 5
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
+        
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            GoldenTriangle(MW=180.16, logD=0.6117536115454374, Disposed=False, nViolate=1)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively.
+    """
+    #Calculate required properties of REOS
+    MW = molproperty.CalculateMolWeight(mol)
+    logD = molproperty.CalculateLogD(mol)
+    #Determine whether the molecular match each rule
+    amw = (200 <= MW <= 500)
+    alogd = (-2 <= logD <=5)
+    #Give the advice
+    if (amw&alogd):
+        disposed = True
+    else:
+        disposed = False
+    #Count the number of violated rules
+    violate = 2 - (amw + alogd)
+    #Res
+    if detail:
+        res = namedtuple('GoldenTriangle', ['MW', 'logD', 
+                                            'Disposed', 'nViolate'])
+        checkres = res(MW, logD, disposed, violate)
+    else:
+        res = namedtuple('GoldenTriangle', ['Disposed', 'nViolate'])
+        checkres = res(disposed, violate)
+    return checkres
+
+
+def CheckXuRule(mol, detail=False):
+    """
     Check molecular under Xu's rule
     
-    -Ref.:
+    Ref.:
+    -----------
         
-    -Rule details:
-        nhd <= 5
-        nha <= 10
-        3 <= rot <= 35
-        1 <= nring <= 7
-        10 <= nhev <= 50
     
-    #################################################################
+    Rule details:
+    -----------
+    nhd <= 5
+    nha <= 10
+    3 <= rot <= 35
+    1 <= nring <= 7
+    10 <= nhev <= 50
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
+        
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            XuRule(nHD=1, nHA=3, nRot=3, nRing=1, nHev=13, Disposed=True, Violate=0)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively.
     """
     #Calculate required properties of Xu's rule
     nHD = molproperty.CalculateNumHDonors(mol)
@@ -566,38 +778,39 @@ def CheckXuRule(mol,detail=False):
     nRing = molproperty.CalculateNumRing(mol)
     nHev = molproperty.CalculateNumHeavyAtom(mol)   
     #Determine whether the molecular match each rule
-    anHD = (nHD<=5)
-    anHA = (nHA<=10)
-    anRot = (3<=nRot<=35)
-    anRing = (1<=nRing<=7)
-    anHev = (10<=nHev<=50)
+    anHD = (nHD <= 5)
+    anHA = (nHA <= 10)
+    anRot = (3 <= nRot <= 35)
+    anRing = (1 <= nRing <= 7)
+    anHev = (10 <= nHev <= 50)
     #Give the advice
     if (anHD&anHA&anRot&anRing&anHev):
-        disposed = 'Accept'
+        disposed = True
     else:
-        disposed = 'Reject'
+        disposed = False
     #Count the number of violated rules
-    violate = 5 - (anHD+anHA+anRot+anRing+anHev)
+    violate = 5 - (anHD + anHA + anRot + anRing + anHev)
     #res
     if detail:
-        res = namedtuple('XuRule',['nHD','nHA','nRot','nRing','nHev','Disposed','Violate'])
-        checkres = res(nHD,nHA,nRot,nRing,nHev,disposed,violate)
+        res = namedtuple('XuRule', ['nHD', 'nHA', 'nRot', 
+                                    'nRing', 'nHev', 'Disposed', 'nViolate'])
+        checkres = res(nHD, nHA, nRot, nRing, nHev, disposed, violate)
     else:
-        res = namedtuple('XuRule',['Disposed','Violate'])
-        checkres = res(disposed,violate)
+        res = namedtuple('XuRule', ['Disposed', 'nViolate'])
+        checkres = res(disposed, violate)
     return checkres
 
 
 def CheckSchneiderRule(mol):
     """
-    #################################################################
     Check  molecular under Schneider rule
     
-    -Ref.:
-        Schneider, Nadine, et al.
-        J Chem Inf Model, 48.3 (2008): 613-628.
+    Ref.:
+    -----------
+    Schneider, Nadine, et al.
+    J Chem Inf Model, 48.3 (2008): 613-628.
         
-    -Rule details:
+    Rule details:
         mw > 230
         nhd > 0
         nha > 0
@@ -614,23 +827,38 @@ def CheckSchneiderRule(mol):
     #################################################################
     """
     pass
-
     return None
 
 
-def CheckRo4(mol,detail=False):
+def CheckRo4(mol, detail=False):
     """
-    #################################################################
+    Ref.:
+    -----------
     
-    -Ref.:
+    
+    Rule details:
+    -----------
+    MW <= 400
+    logP <= 4
+    nHD <= 4
+    nHA <= 8
+    TPSA <= 120
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
         
-    -Rule:
-        MW <= 400
-        Logp <= 4
-        NHD <= 4
-        NHA <= 8
-        PSA <= 120
-    #################################################################
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            Ro4(MW=180.16, logP=1.31, nHD=1, nHA=3, tPSA=63.6, Disposed=True, nViolate=0)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively. 
     """
     #Calculate required properties of REOS
     MW = molproperty.CalculateMolWeight(mol)
@@ -639,44 +867,61 @@ def CheckRo4(mol,detail=False):
     nHA = molproperty.CalculateNumHAcceptors(mol)
     tPSA = molproperty.CalculateTPSA(mol)    
     #Determine whether the molecular match each rule
-    aMW = (MW<=400)
-    alogP = (logP<=4)
-    anHD = (nHD<=4)
-    anHA = (nHA<=8)
-    atPSA = (tPSA<=120)   
+    aMW = (MW <= 400)
+    alogP = (logP <= 4)
+    anHD = (nHD <= 4)
+    anHA = (nHA <= 8)
+    atPSA = (tPSA <= 120)   
     #Give the advice
     if (aMW&alogP&anHD&anHA&atPSA):
-        disposed = 'Accept'
+        disposed = True
     else:
-        disposed = 'Reject'
+        disposed = False
     #Count the number of violated rules
-    violate = 5 - (anHD+anHA+aMW+alogP+atPSA)
+    violate = 5 - (anHD + anHA + aMW + alogP + atPSA)
     #res
     if detail:
-        res = namedtuple('Ro4',['MW','logP','nHD','nHA','tPSA','Disposed','Violate'])
-        checkres = res(MW,logP,nHD,nHA,tPSA,disposed,violate)
+        res = namedtuple('Ro4', ['MW', 'logP', 'nHD', 
+                                 'nHA', 'tPSA', 'Disposed', 'nViolate'])
+        checkres = res(MW, logP, nHD, nHA, tPSA ,disposed, violate)
     else:
-        res = namedtuple('Ro4',['Disposed','Violate'])
+        res = namedtuple('Ro4',['Disposed','nViolate'])
         checkres = res(disposed,violate)
     return checkres
 
 
-def CheckRo3(mol,detail=False):
+def CheckRo3(mol, detail=False):
     """
-    #################################################################
     Check molecular under Ro3
     
-    -Ref.:
-        Congreve, Miles, et al.
-        Drug discovery today 19.8 (2003): 876-877.
+    Ref.:
+    -----------
+    Congreve, Miles, et al.
+    Drug discovery today 19.8 (2003): 876-877.
         
-    -Rule details:
-        MW <= 300
-        -3 <= logP <= 3
-        NHD <= 3
-        NHA <= 6
-        PSA <= 60
-    #################################################################
+    Rule details:
+    -----------
+    MW <= 300
+    -3 <= logP <= 3
+    NHD <= 3
+    NHA <= 6
+    PSA <= 60
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
+        
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            Ro3(MW=180.16, logP=1.31, nHD=1, nHA=3, tPSA=63.6, nRot=3, Disposed=False, nViolate=1)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively. 
     """
     #Calculate required properties of REOS
     MW = molproperty.CalculateMolWeight(mol)
@@ -686,44 +931,62 @@ def CheckRo3(mol,detail=False):
     tPSA = molproperty.CalculateTPSA(mol)
     nRot = molproperty.CalculateNumRotatableBonds(mol)    
     #Determine whether the molecular match each rule
-    aMW = (MW<=300)
-    alogP = (-3<=logP<=3)
-    anHD = (nHD<=3)
-    anHA = (nHA<=6)
-    atPSA = (tPSA<=60)
-    anRot = (nRot<=3)
+    aMW = (MW <= 300)
+    alogP = (-3 <= logP <= 3)
+    anHD = (nHD <= 3)
+    anHA = (nHA <= 6)
+    atPSA = (tPSA <= 60)
+    anRot = (nRot <= 3)
     #Give the advice
     if (aMW&alogP&anHD&anHA&atPSA&anRot):
-        disposed = 'Accept'
+        disposed = True
     else:
-        disposed = 'Reject'
+        disposed = False
     #Count the number of violated rules
-    violate = 6 - (aMW+alogP+anHD+anHA+atPSA+anRot)
+    violate = 6 - (aMW + alogP + anHD + anHA + atPSA + anRot)
     #res
     if detail:
-        res = namedtuple('Ro3',['MW','logP','nHD','nHA','tPSA','nRot','Disposed','Violate'])
-        checkres = res(MW,logP,nHD,nHA,tPSA,nRot,disposed,violate)
+        res = namedtuple('Ro3', ['MW', 'logP', 'nHD', 
+                                 'nHA','tPSA','nRot', 
+                                 'Disposed','nViolate'])
+        checkres = res(MW, logP, nHD, nHA, tPSA, nRot, disposed, violate)
     else:
-        res = namedtuple('Ro3',['Disposed','Violate'])
-        checkres = res(disposed,violate)    
+        res = namedtuple('Ro3', ['Disposed', 'nViolate'])
+        checkres = res(disposed, violate)    
     return checkres
 
 
-def CheckRo2(mol,detail=False):
+def CheckRo2(mol, detail=False):
     """
-    #################################################################
     Check molecular under RO2
     
-    -Ref.:
+    Ref.:
+    -----------
         Goldberg, Frederick W., et al.
         Drug Discovery Today 20.1 (2015): 11-17.
         
-    -Rule details:
-        MW <= 200
-        Logp <= 2
-        NHD <= 2
-        NHA <= 4
-    #################################################################    
+    Rule details:
+    -----------
+    MW <= 200
+    Logp <= 2
+    NHD <= 2
+    NHA <= 4
+
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
+        
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            Ro2(MW=180.16, logP=1.31, nHD=1, nHA=3, Disposed=True, nViolate=0)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively.     
     """
     #Calculate required properties of REOS
     MW = molproperty.CalculateMolWeight(mol)
@@ -731,24 +994,25 @@ def CheckRo2(mol,detail=False):
     nHD = molproperty.CalculateNumHDonors(mol)
     nHA = molproperty.CalculateNumHAcceptors(mol)    
     #Determine whether the molecular match each rule
-    aMW = (MW<=200)
-    alogP = (logP<=2)
-    anHD = (nHD<=2)
-    anHA = (nHA<=4)    
+    aMW = (MW <= 200)
+    alogP = (logP <= 2)
+    anHD = (nHD <= 2)
+    anHA = (nHA <= 4)    
     #Give the advice
     if (aMW&alogP&anHD&anHA):
-        disposed = 'Accept'
+        disposed = True
     else:
-        disposed = 'Reject'
+        disposed = False
     #Count the number of violated rules
-    violate = 4 - (aMW+alogP+anHD+anHA)
+    violate = 4 - (aMW + alogP + anHD + anHA)
     #res
     if detail:
-        res = namedtuple('Ro2',['MW','logP','nHD','nHA','Disposed','Violate'])
-        checkres = res(MW,logP,nHD,nHA,disposed,violate)
+        res = namedtuple('Ro2', ['MW', 'logP', 'nHD', 
+                                 'nHA', 'Disposed', 'nViolate'])
+        checkres = res(MW, logP, nHD, nHA, disposed, violate)
     else:
-        res = namedtuple('Ro2',['Disposed','Violate'])
-        checkres = res(disposed,violate)
+        res = namedtuple('Ro2', ['Disposed', 'nViolate'])
+        checkres = res(disposed, violate)
     return checkres
 
 
@@ -831,6 +1095,7 @@ def DrugLikeTwo(mol):
     """
     pass
 
+
 def CheckZinc(mol):
     """
     #################################################################
@@ -863,22 +1128,38 @@ def CheckZinc(mol):
     return None
 
 
-def CheckCNS(mol,detail=False):
+def CheckCNS(mol, detail=False):
     """
-    #################################################################
     Check mol under CNS
     
-    -Ref.:
-        Jeffrey, Phil, and Scott Summerfield.
-        Neurobiol Dis, 37.1 (2010): 33-37.
+    Ref.:
+    -----------
+    Jeffrey, Phil, and Scott Summerfield.
+    Neurobiol Dis, 37.1 (2010): 33-37.
         
-    -Rule details:
-        135 <= weight <= 582
-        -0.2 <= logP <= 6.1
-        nha <= 5
-        nhd <= 3
-        3 <= TPSA <= 118
-    #################################################################
+    Rule details:
+    -----------
+    135 <= weight <= 582
+    -0.2 <= logP <= 6.1
+    nha <= 5
+    nhd <= 3
+    3 <= TPSA <= 118
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
+        
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            CNS(MW=180.16, logP=1.31, nHD=1, nHA=3, tPSA=63.6, Disposed=True, nViolate=0)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively.
     """
     #Calculate required properties of REOS
     MW = molproperty.CalculateMolWeight(mol)
@@ -887,45 +1168,62 @@ def CheckCNS(mol,detail=False):
     nHA = molproperty.CalculateNumHAcceptors(mol)
     tPSA = molproperty.CalculateTPSA(mol)
     #Determine whether the molecular match each rule
-    aMW = (135<=MW<=582)
-    alogP = (-0.2<=logP<=6.1)
-    anHD = (nHD<=3)
-    anHA = (nHA<=5)  
-    atPSA = (3<=tPSA<=118)
+    aMW = (135 <= MW <= 582)
+    alogP = (-0.2 <= logP <= 6.1)
+    anHD = (nHD <= 3)
+    anHA = (nHA <= 5)  
+    atPSA = (3 <= tPSA <= 118)
     #Give the advice
     if (aMW&alogP&anHD&anHA&atPSA):
-        disposed = 'Accept'
+        disposed = True
     else:
-        disposed = 'Reject'
+        disposed = False
     #Count the number of violated rules
-    violate = 5 - (aMW+alogP+anHD+anHA+atPSA)
+    violate = 5 - (aMW + alogP + anHD + anHA + atPSA)
     #res
     if detail:
-        res = namedtuple('CNS',['MW','logP','nHD','nHA','tPSA','Disposed','Violate'])
-        checkres = res(MW,logP,nHD,nHA,tPSA,disposed,violate)
+        res = namedtuple('CNS', ['MW', 'logP', 'nHD', 
+                                 'nHA', 'tPSA', 'Disposed', 'nViolate'])
+        checkres = res(MW, logP, nHD, nHA, tPSA, disposed, violate)
     else:
-        res = namedtuple('CNS',['Disposed','Violate'])
-        checkres = res(disposed,violate)
+        res = namedtuple('CNS', ['Disposed', 'nViolate'])
+        checkres = res(disposed, violate)
     return checkres
 
 
-def CheckRespiratory(mol,detail=False):
+def CheckRespiratory(mol, detail=False):
     """
-    #################################################################
     Check mol under Respiratory
     
-    -Ref.:
-        Ritchie, Timothy J., Christopher N. Luscombe, and Simon JF Macdonald. 
-        J Chem Inf Model, 49.4 (2009): 1025-1032.
+    Ref.:
+    -----------
+    Ritchie, Timothy J., Christopher N. Luscombe, and Simon JF Macdonald. 
+    J Chem Inf Model, 49.4 (2009): 1025-1032.
         
-    -Rule details:
-        240<=MW<= 520
-        -2.0<=logP<=4.7
-        6<=nHB<=12
-        51<=tPSA<=135
-        3<=nRot<=8
-        1<=nRing<=5
-    #################################################################
+    Rule details:
+    -----------
+    240<=MW<= 520
+    -2.0<=logP<=4.7
+    6<=nHB<=12
+    51<=tPSA<=135
+    3<=nRot<=8
+    1<=nRing<=5
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    detail: bool(optional, default: False)
+        When set to True, function will return more 
+        information(the physicochemical properties mentioned in rule)
+        else, only return Disposed and nViolated
+        
+    Return:
+    -----------
+    checkres: namedtuple
+        if detail has been set to True, would be more specific, like:
+            Respiratory(MW=180.16, logP=1.31, nHB=4, tPSA=63.6, nRot=3, nRing=1, Disposed=False, nViolate=2)
+        else, only return 'Disposed' and 'nViolate', 
+        present obey(True) or not the rule and how any requirements has been violated respectively.
     """
     #Calculate required properties of REOS
     MW = molproperty.CalculateMolWeight(mol)
@@ -935,41 +1233,44 @@ def CheckRespiratory(mol,detail=False):
     nRot = molproperty.CalculateNumRotatableBonds(mol)
     nRing = molproperty.CalculateNumRing(mol)
     #Determine whether the molecular match each rule
-    aMW = (240<=MW<=520)
-    alogP = (-0.2<=logP<=4.7)
-    anHB = (6<=nHB<=12)  
-    atPSA = (51<=tPSA<=135)
-    anRot = (3<=nRot<=8)
-    anRing = (1<=nRing<=5)
+    aMW = (240 <= MW <= 520)
+    alogP = (-0.2 <= logP <= 4.7)
+    anHB = (6 <= nHB <= 12)  
+    atPSA = (51 <= tPSA <= 135)
+    anRot = (3 <= nRot <= 8)
+    anRing = (1 <= nRing <= 5)
     #Give the advice
     if (aMW&alogP&anHB&atPSA&anRot&anRing):
-        disposed = 'Accept'
+        disposed = True
     else:
-        disposed = 'Reject'
+        disposed = False
     #Count the number of violated rules
-    violate = 6 - (aMW+alogP+anHB+atPSA+anRot+anRing)
+    violate = 6 - (aMW + alogP + anHB + atPSA + anRot + anRing)
     #res
     if detail:
-        res = namedtuple('Respiratory',['MW','logP','nHB','tPSA','nRot','nRing','Disposed','Violate'])
-        checkres = res(MW,logP,nHB,tPSA,nRot,nRing,disposed,violate)
+        res = namedtuple('Respiratory', ['MW', 'logP', 'nHB', 
+                                         'tPSA', 'nRot', 'nRing', 
+                                         'Disposed', 'nViolate'])
+        checkres = res(MW, logP, nHB, tPSA, nRot, nRing, disposed, violate)
     else:
-        res = namedtuple('CNS',['Disposed','Violate'])
-        checkres = res(disposed,violate)
+        res = namedtuple('CNS', ['Disposed', 'nViolate'])
+        checkres = res(disposed, violate)
     return checkres
 
 
 def Check_CustomizeRule(mol,prop_kws,closed_interval=True,detail=False):
     """
-    You could customize the rule you want.
-    
-    ---     
+    You could customize the rule with mostly properties ypu want.
+         
     Parameters:
-    >>> mol: rdkit.Chem.rdchem.Mol
-    >>> prop_kws: dict, the keys of dict are properties you want to check;
-                        the values should be a tuple or list with two elements,
-                        present the left- and right-bounded respectively.
-    >>> closed_interval: bool, optional(default=True), 
-                         True for using closed interval and False for opened interval
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    prop_kws: dict
+        the keys of dict are properties you want to check;
+        the values should be a tuple or list with two elements,
+        present the left- and right-bounded respectively.
+    closed_interval: bool, optional(default=True)
+        True for using closed interval and False for opened interval
     ---
     Return:
         a namedtuple            
@@ -1006,27 +1307,26 @@ def Check_CustomizeRule(mol,prop_kws,closed_interval=True,detail=False):
     return checkres(*res)
        
 
-def CheckRule(mol):
-    """
-    """
-    res = [CheckEganRule(mol)[-2],
-           CheckVeberRule(mol)[-2],
-           CheckLipinskiRule(mol)[-2],
-           CheckBeyondRo5(mol)[-2],
-           CheckPfizerRule(mol)[-2],
-           CheckGSKRule(mol)[-2],
-           CheckOralMacrocycles(mol)[-2],
-           CheckOpreaRule(mol)[-2],
-           CheckGhoseRule(mol)[-2],
-           CheckXuRule(mol)[-2],
-           CheckRo4(mol)[-2],
-           CheckRo3(mol)[-2],
-           CheckRo2(mol)[-2],
-           CheckCNS(mol)[-2],
-           CheckRespiratory(mol)[-2]]
-    res = [[False,True][x=='Reject'] for x in res]
-    return res
-
+#def CheckRule(mol):
+#    """
+#    """
+#    res = [CheckEganRule(mol)[-2],
+#           CheckVeberRule(mol)[-2],
+#           CheckLipinskiRule(mol)[-2],
+#           CheckBeyondRo5(mol)[-2],
+#           CheckPfizerRule(mol)[-2],
+#           CheckGSKRule(mol)[-2],
+#           CheckOralMacrocycles(mol)[-2],
+#           CheckOpreaRule(mol)[-2],
+#           CheckGhoseRule(mol)[-2],
+#           CheckXuRule(mol)[-2],
+#           CheckRo4(mol)[-2],
+#           CheckRo3(mol)[-2],
+#           CheckRo2(mol)[-2],
+#           CheckCNS(mol)[-2],
+#           CheckRespiratory(mol)[-2]]
+#    res = [[False,True][x=='Reject'] for x in res]
+#    return res
 
 
 
@@ -1038,15 +1338,7 @@ if __name__ =='__main__':
     for index, smi in enumerate(smis):
         mol = Chem.MolFromSmiles(smi)
         print('Index:{}'.format(index))
-        res = CheckRule(mol)
-#        print(res)
-#        res = Check_CustomizeRule(mol,
-#                                  prop_kws={'MW':(100,500),
-#                                            'nRot':(2,3),
-#                                            'nHD':(None,5),
-#                                            'nHB':(1,None)},
-#                                  detail=True,
-#                                  closed_interval=False)
+        res = CheckRo3(mol, detail=True)
         print(res)
                                   
 

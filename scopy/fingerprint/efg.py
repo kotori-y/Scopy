@@ -12,9 +12,9 @@ Created on Tue Sep  3 10:31:34 2019
 """
 
 import pickle, gzip, os, csv, sys
-sys.path.append('..')
-from structure_alert.SmartProcess import _CheckPattl
-import ScoConfig
+# sys.path.append('..')
+from ..structure_alert.SmartProcess import _CheckPattl
+from .. import ScoConfig
 from rdkit import Chem
 
 

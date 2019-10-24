@@ -10,13 +10,22 @@ Created on Tue Jun 25 21:59:42 2019
 
 """
 from rdkit.Chem import AllChem as Chem
-from ghosecrippen import GCfp
-from estate import EStateFP
-from morgan import Morgan
-from daylight import Daylight
-from efg import EFG
+try:
+    from ghosecrippen import GCfp
+    from estate import EStateFP
+    from morgan import Morgan
+    from daylight import Daylight
+    from efg import EFG
+    from pubchem import calcPubChemFingerAll
+except:
+    from .ghosecrippen import GCfp
+    from .estate import EStateFP
+    from .morgan import Morgan
+    from .daylight import Daylight
+    from .efg import EFG
+    from .pubchem import calcPubChemFingerAll
+
 from rdkit.Chem.rdMolDescriptors import GetMACCSKeysFingerprint
-from pubchem import calcPubChemFingerAll
 import numpy as np
 
 

@@ -14,9 +14,12 @@ import _pickle as cPickle
 import gzip
 from rdkit.Chem import AllChem as Chem
 from collections import namedtuple
-import sys
-sys.path.append('..')
-import ScoConfig
+try:
+	from .. import ScoConfig
+except:
+	import sys
+	sys.path.append('..')
+	import ScoConfig
 
 __doc__ = """
 Some SMARTSs in Ochem database(https://ochem.eu/alerts/home.do) would 

@@ -9,9 +9,12 @@ Created on Tue Jun 25 21:59:42 2019
 @Blog: https://blog.moyule.me
 
 """
-from __future__ import print_function
+
 from rdkit.Chem import AllChem as Chem
-import SmartProcess
+try:
+    from . import SmartProcess
+except:
+    import SmartProcess
 
 
 class _Filter(object):
@@ -1055,37 +1058,6 @@ def Check_Toxicophores(mols, stype='single', detail=False):
     return res
     
 
-def VisualizeFragment(mol,highlightAtoms,figsize=[400,200]):
-    from rdkit.Chem.Draw import IPythonConsole, rdMolDraw2D
-    from IPython.display import SVG
-    from rdkit.Chem import rdDepictor
-    """
-    This function is used for show which part of fragment matched the SMARTS
-    
-    Parameters:
-    -----------
-    mol: rdkit.Chem.rdchem.Mol
-        the molecule to be visualized
-    atoms: tuple
-        the index of atoms to be highlighted
-    
-    Rrturn:
-    -----------
-    pic: IPython.core.display.SVG
-        a SVG file
-    
-    Usage:
-    ----------- 
-    mol = Chem.MolFromSmiles('C1=CC=C2C(=O)CC(=O)C2=C1')    
-    pic = VisualizeFragment(mol,(0, 1, 2, 6, 7, 8,10))
-    """    
-    rdDepictor.Compute2DCoords(mol)
-    drawer = rdMolDraw2D.MolDraw2DSVG(*figsize)
-    drawer.DrawMolecule(mol,highlightAtoms=highlightAtoms)
-    drawer.FinishDrawing()
-    svg = drawer.GetDrawingText().replace('svg:','')
-    fig = SVG(svg)
-    return fig
 
 
 

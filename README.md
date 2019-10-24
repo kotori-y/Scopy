@@ -21,7 +21,7 @@ In order to implement checking molecule under drug-likeness rules, physicochemic
 ```
 This moudle is used to calculated properise that contained in our collectded rules
     ---
-    up to now(2019.07.22), we have achived following properties:
+    up to now(2019.07.22), we have achived followed properties:
         Molcular Weight >>> MW
         Number of bonds >>> nBond
         Number of atoms >>> nAtom
@@ -35,7 +35,9 @@ This moudle is used to calculated properise that contained in our collectded rul
         logSw >>> logSw
         Acid or Base >>> ab
         pKa >>> pKa
-        QED >>> qed
+        QED with average descriptor weights >>> QEDmean
+        QED with maximal descriptor weights >>> QEDmax
+        QED with using unit weights >>> QEDnone
         Molecular refraction >>> MR
         Number of hydrogen bond donors >>> nHD
         Number of hydrogen bond acceptors >>> nHA
@@ -51,7 +53,7 @@ This moudle is used to calculated properise that contained in our collectded rul
         Number of single bonds >>> nSingle
         Number of double bobds >>> nDoudle
         Number of triple bonds >>> nTriple
-        Volume of mol >>> Vol
+        Volume of mol >>> MolVol
         Density >>> Dense
         MolFCharge >>> fChar
         Number of Carbon atoms >>> nC
@@ -62,10 +64,9 @@ This moudle is used to calculated properise that contained in our collectded rul
         Number of Phosphor atoms >>> P
         Number of Sulfur atoms >>> nS
         Number of Oxygen atoms >>> nO
-        Number of Nitrogen atoms >>> nN
+        Number of Nitrogen atoms >>> nN   
     ---
     Followed should be achieved in the future:
-        Formal total charge of the compound
         Number of Charged Groups
 ```
 This function is implemented in module scopy.druglikeness

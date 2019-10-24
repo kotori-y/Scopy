@@ -10,7 +10,10 @@ Created on Mon Aug 12 14:48:23 2019
 
 """
 
-import FilterWithSmarts
+try:
+	from . import FilterWithSmarts
+except:
+	import FilterWithSmarts
 from rdkit.Chem import AllChem as Chem
 
 

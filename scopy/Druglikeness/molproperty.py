@@ -15,6 +15,9 @@ __doc__ = """
     ---
     up to now(2019.07.22), we have achived followed properties:
         Molcular Weight >>> MW
+        Molcular Volume >>> MolVol
+        Molcular Density >>> Dense
+        Formal Charge >>> fChar
         Number of bonds >>> nBond
         Number of atoms >>> nAtom
         Number of heteroatoms >>> nHet
@@ -27,7 +30,9 @@ __doc__ = """
         logSw >>> logSw
         Acid or Base >>> ab
         pKa >>> pKa
-        QED >>> qed
+        QED with average descriptor weights >>> QEDmean
+        QED with maximal descriptor weights >>> QEDmax
+        QED with using unit weights >>> QEDnone
         Molecular refraction >>> MR
         Number of hydrogen bond donors >>> nHD
         Number of hydrogen bond acceptors >>> nHA
@@ -41,11 +46,8 @@ __doc__ = """
         synthetic accessibility score >>> SAscore
         natural product-likeness score >>> NPscore
         Number of single bonds >>> nSingle
-        Number of double bobds >>> nDoudle
+        Number of double bobds >>> nDouble
         Number of triple bonds >>> nTriple
-        Volume of mol >>> Vol
-        Density >>> Dense
-        MolFCharge >>> fChar
         Number of Carbon atoms >>> nC
         Number of Boron atoms >>> nB
         Number of Chlorin atoms >>> nCl
@@ -57,45 +59,47 @@ __doc__ = """
         Number of Nitrogen atoms >>> nN   
     ---
     Followed should be achieved in the future:
-        logD
-        difference between clogP and alogP
-        Formal total charge of the compound
         Number of Charged Groups
     """
-import sys,os
-sys.path.append('..')
-from fingerprint.fingerprints import CalculateGhoseCrippen
-from rdkit.Chem import AllChem as Chem
-from rdkit.Chem import Descriptors, Lipinski, QED
-from itertools import combinations
-from collections import namedtuple
 from rdkit import RDConfig
-ContriDir = RDConfig.RDContribDir
-import csv
-sys.path.append(ContriDir)
-import ScoConfig
+import sys,csv
+sys.path.append(RDConfig.RDContribDir)
 from SA_Score import sascorer
 from NP_Score import npscorer
 from IFG.ifg import identify_functional_groups
+
+try:
+    from ..fingerprint.fingerprints import CalculateGhoseCrippen
+except:
+    sys.path.append('..')
+    from fingerprint.fingerprints import CalculateGhoseCrippen
+
+try:
+    from .. import ScoConfig
+except:
+    sys.path.append('..')
+    import ScoConfig
+
+from rdkit.Chem import AllChem as Chem
+from rdkit.Chem import Descriptors, Lipinski, QED
+from rdkit.Chem.Scaffolds import MurckoScaffold
+from itertools import combinations
+from collections import namedtuple
 
 
 
 def CalculateMolWeight(mol):    
     """
-    #################################################################
-    Calculation of molecular weight
-        
+    Calculation of molecular weight(contain hydrogen atoms)   
     ---->MW  
     
-    Usage:
-        
-        result=CalculateMolWeight(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-        
-    #################################################################
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    MW: float
     """
     mol = Chem.AddHs(mol)
     MW = round(sum([atom.GetMass() for atom in mol.GetAtoms()]),2)
@@ -104,19 +108,16 @@ def CalculateMolWeight(mol):
 
 def CalculateNumBonds(mol):
     """
-    #################################################################
-    Calculation the number of bonds where between heavy atoms
-       
+    Calculation the number of bonds where between heavy atoms       
     --->nBond
+        
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
-    Usage:
-        
-        result = CalculateNumBonds(mol)
-        
-        Input: mol is a molecular object.
-        
-        Output: result is a numeric value.
-    #################################################################
+    Return:
+    -----------
+    nBond: int
     """
     nBond = mol.GetNumBonds()    
     return nBond
@@ -124,113 +125,100 @@ def CalculateNumBonds(mol):
 
 def CalculateNumAtoms(mol):
     """
-    #################################################################
-    Calculation of the number of atoms in molecular
-    
+    Calculation of the number of atoms in molecular 
     ---->nAtom
     
-    Usage:
-        
-        result = CalculateNumAtom(mol)
-        
-        Input: mol is a molecular object.
-        
-        Output: result is a numeric value.
-    #################################################################
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    nBond: int
     """  
     mol = Chem.AddHs(mol)
     return mol.GetNumAtoms()
    
 
-def CalculateHeteroNumber(mol):
+def CalculateNumHetero(mol):
     """
-    #################################################################
-    Calculation of Hetero counts in a molecule
-    
+    Calculation of Hetero counts in a molecule  
     ---->nHet
     
-    Usage:
-        
-        result=CalculateHeteroNumber(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    nHet: int
     """
     i = len(
             [atom for atom in mol.GetAtoms()\
-             if atom.GetAtomicNum()==6 or atom.GetAtomicNum()==1]
+             if atom.GetAtomicNum() in [1,6]]
             )
-    return mol.GetNumAtoms()-i
+    nHet = mol.GetNumAtoms()-i
+    return nHet
 
 
 def CalculateNumRotatableBonds(mol):
     """
-    #################################################################
     Calculation of the number of rotatableBonds
-    
-    NOTE: In some situaion Amide C-N bonds are not considered 
-          because of their high rotational energy barrier
-    
     ---->nRot
     
-    Usage:
-        
-        result = CalculateNumRotatableBonds(mol)
-        
-        Input: mol is a molecular object
-        
-        Output: result is a numeric values
-    #################################################################
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    nRot: int
+    
+    Note:
+    -----------
+    In some situaion Amide C-N bonds are not considered 
+    because of their high rotational energy barrier
     """
     patt = Chem.MolFromSmarts('[!$(*#*)&!D1]-&!@[!$(*#*)&!D1]')
-    nROT = len(mol.GetSubstructMatches(patt))    
-    return nROT
+    nRot = len(mol.GetSubstructMatches(patt))    
+    return nRot
 
 
 def CalculateNumRigidBonds(mol):
     """
-    #################################################################
-    Number of non-flexible bonds, in opposite to rotatable bonds
-    
-    NOTE: This function need to be revised in the future(2019/05/09) 
-    
+    Number of non-flexible bonds, in opposite to rotatable bonds    
     ---->nRig
     
-     Usage:
-        
-        result = CalculateNumRigidBonds(mol)
-        
-        Input: mol is a molecular object
-        
-        Output: result is a numeric value
-    #################################################################
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    nRot: int
     """
     nBOND = CalculateNumBonds(mol)    
     flex = 0
     for bond in mol.GetBonds():
         bondtype = bond.GetBondType()
         if bondtype == Chem.rdchem.BondType.SINGLE and not bond.IsInRing():
-            flex+=1               
-    return nBOND-flex   
+            flex+=1 
+    nRig = nBOND-flex                
+    return nRig
 
 
 def CalculateNumRing(mol):
     """
-    #################################################################
-    Calculation of the number of ring
-    
+    Calculation of the number of ring   
     ---->nRing
     
-    Usage:
-        
-        result = CalculateRingNum(mol)
-        
-        Input: mol is a molecular object
-        
-        Output: result is a numeric value
-    #################################################################
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    nRing: int
     """
     nRing = Chem.GetSSSR(mol)    
     return nRing
@@ -238,38 +226,33 @@ def CalculateNumRing(mol):
 
 def CalculateNumHeavyAtom(mol):
     """
-    #################################################################
-    Calculation of Heavy atom counts in a molecule
-    
+    Calculation of Heavy atom counts in a molecule   
     ---->nHev
     
-    Usage:
-        
-        result=CalculateHeavyAtomNumber(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    nHev: int
     """
-    return mol.GetNumHeavyAtoms()
+    nHev = mol.GetNumHeavyAtoms()
+    return nHev
 
 
 def CalculateLogD(mol):
     """
-    #################################################################
-    Calculation of molecular logD
-    
+    Calculation of molecular logD under pH=7.4
     ---->LogD
     
-    Usage:
-        
-        result = CalculateLogD(mol)
-        
-        Input: mol is a molecular object
-        
-        Output: result is a numeric value
-    #################################################################
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    logD: float
     """
     intercept = 0.5748907159915493
     
@@ -286,25 +269,34 @@ def CalculateLogD(mol):
 
 def CalculateLogP(mol):    
     """
-    #################################################################
     Calculation of molecular LogP
-    
     ---->logP
     
-    Usage:
-        
-        result = CalculateLogP(mol)
-        
-        Input: mol is a molecular object
-        
-        Output: result is a numeric value
-    #################################################################
-    """   
-    return round(Descriptors.MolLogP(mol),2)  
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    logP: float
+    """  
+    logP = round(Descriptors.MolLogP(mol),2)  
+    return logP
 
 
 def CheckAcid(mol):
     """
+    Judge a molecular whether is acid via SMARTS
+    These SMARTS retrived from https://www.daylight.com/dayhtml_tutorials/languages/smarts/smarts_examples.html
+    ---->ab
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    ab: str  
     """
     acid_fragment = ['[!H0;F,Cl,Br,I,N+,$([OH]-*=[!#6]),+]',
                      '[CX3](=O)[OX2H1]',
@@ -320,14 +312,28 @@ def CheckAcid(mol):
             return 'acid'
     else:
         return 'base'        
-        
+  
+      
 def CalculatepKa(mol):
     from math import log10
     """
+    Calculating pKa based on the ralation between logD and logP in specific pH   
     Eq.:
         |pH-pKa| = log10(10^(logP-logD)-1)
         pKa = pH - log10(10^(logP-logD)-1) for acid
-        pKa = log10(10^(logP-logD)-1) - pH for base  
+        pKa = log10(10^(logP-logD)-1) - pH for base
+        
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    pKa: float
+    
+    Note:
+    -----------
+    This function should be revised
     """
     logP = CalculateLogP(mol)
     logD = CalculateLogD(mol)
@@ -344,38 +350,33 @@ def CalculatepKa(mol):
     
 def CalculateMolMR(mol):
     """
-    #################################################################
-    Cacluation of molecular refraction value based on Crippen method
-    
+    Cacluation of molecular refraction value based on Crippen method 
     ---->MR
     
-    Usage:
-        
-        result = CalculateMolMR(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    MR: float
     """
-    return round(Descriptors.MolMR(mol),2) 
+    MR = round(Descriptors.MolMR(mol),2) 
+    return MR
 
 
 def CalculateNumHDonors(mol):    
     """
-    #################################################################
     Caculation of the number of Hydrogen Bond Donors
-    
     ---->nHD
     
-    Usage:
-        
-        result = CaculateNumHDonors(mol)
-        
-        Input: mol is a molecular object
-        
-        Output: result is a numeric value
-    #################################################################
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    nHD: int
     """
     nHD = Lipinski.NumHDonors(mol)    
     return nHD
@@ -383,19 +384,16 @@ def CalculateNumHDonors(mol):
 
 def CalculateNumHAcceptors(mol):    
     """
-    #################################################################
-    Caculation of the number of Hydrogen Bond Acceptors
-    
+    Caculation of the number of Hydrogen Bond Acceptors  
     ---->nHA
     
-    Usage:
-        
-        result = CalculateNumHAcceptors(mol)
-        
-        Input: mol is a molecular object
-        
-        Output: result is a numeric values
-    #################################################################    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    nHA: int 
     """
     nHA = Lipinski.NumHAcceptors(mol)    
     return nHA
@@ -403,19 +401,16 @@ def CalculateNumHAcceptors(mol):
 
 def CalculateNumHyBond(mol):
     """
-    #################################################################
-    Sum of Hydrogen Bond Donnors and Acceptors
-    
+    Sum of Hydrogen Bond Donnors and Acceptors   
     ---->nHB
     
-     Usage:
-        
-        result = CaculateNumHyBond(mol)
-        
-        Input: mol is a molecular object
-        
-        Output: result is a numeric value
-    #################################################################
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    nHA: int 
     """
     nHD = CalculateNumHDonors(mol)
     nHA = CalculateNumHAcceptors(mol)
@@ -425,39 +420,44 @@ def CalculateNumHyBond(mol):
 
 def CalculateAromaticProportion(mol):
     """
-    #################################################################
-    The proportion of heavy atoms in the molecule that are in an aromatic ring
-    
+    The proportion of heavy atoms in the molecule that are in an aromatic ring  
     ---->AP
     
-    Usage:
-        
-        result = CalculateAromaticProportion(mol)
-        
-        Input: mol is a molecular object
-        
-        Output: result is a numeric value
-    #################################################################
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    AP: float 
     """
     aroma = len(mol.GetSubstructMatches(Chem.MolFromSmarts('[a]')))
     total = CalculateNumHeavyAtom(mol)
-    return round(aroma/total,2)    
+    AP = round(aroma/total,2) 
+    return AP  
     
 
 def CalculateLogSw(mol):
     """
-    #################################################################
     The logSw represents the logarithm of compounds water solubility computed by the ESOL method
-    
+    ---->logSw
     Equation: Log(Sw) = 0.16-0.638*clogP-0.0062*MWT+0.066*RB-0.74*AP
               >MWT: Molecular Weight
               >RB: Rotatable bonds
               >AP: Aromatic proportion
-              
-    Ref.: 
-        Delaney, John S. 
-        Journal of chemical information and computer sciences 44.3 (2004): 1000-1005.
-    #################################################################
+    
+    Ref.:
+    -----------
+    Delaney, John S. 
+    Journal of chemical information and computer sciences 44.3 (2004): 1000-1005.
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    logSw: float          
     """
     #Calculate each property
     MWT = CalculateMolWeight(mol)
@@ -470,102 +470,135 @@ def CalculateLogSw(mol):
 
 def CalculateFsp3(mol):
     """
-    #################################################################
-    Fsp3 (carbon bond saturation) is defined as the number of sp3 hybridized carbons / total carbon count.
-    
+    Fsp3 (carbon bond saturation) is defined as the number of sp3 hybridized carbons / total carbon count.   
     ---->FSP3
     
-    Usage:
-        
-        result = CalculateFsp3(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    Fsp3: float
     """
     return round(Lipinski.FractionCSP3(mol),2)
     
 
 def CalculateTPSA(mol):
     """
-    #################################################################
-    Calculation of TPSA
+    Calculation of TPSA   
+    ---->TPSA
     
-    ---->tPSA
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
-    Usage:
-        
-        result = CalculateTpsa(mol)
-        
-        Input: mol is a molecular object
-        
-        Output: result is a nmeric value
-    #################################################################
+    Return:
+    -----------
+    TPSA: float
     """
-    return round(Descriptors.TPSA(mol),2)
+    TPSA = round(Descriptors.TPSA(mol),2)
+    return TPSA
     
+
             
-def CalculateQED(mol,wtype = "mean"):
+def CalculateQEDmean(mol):
     """
-    #################################################################
-    Calculation QED descriptor under different weights
-    
+    Calculation QED descriptor under different weights   
     A descriptor a measure of drug-likeness based on the concept of desirability
-    -Ref.: Bickerton, G. Richard, et al.
-           Nat Chem, 4.2 (2012): 90.
-            
-    Quantitative Estimate of Drug-likeness 
+    Here, calculating the QED descriptor using average descriptor weights.
+    ---->QEDmean
     
-    ---->qed
+    Ref.:
+    -----------
+    Bickerton, G. Richard, et al.
+    Nat Chem, 4.2 (2012): 90.
     
-    Usage:
-        
-        result = CalculateQED(mol,wtype='mean')
-        
-        Input: mol is a molecular object
-        
-        Output: result is a numeric values
-    #################################################################
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    qed: float
+    """    
+    QEDmean = QED.weights_mean(mol)        
+    return round(QEDmean,2) 
+
+
+def CalculateQEDmax(mol):
     """
-    if wtype == "mean":
-        qed = QED.weights_mean(mol)
-    elif wtype == "max":
-        qed = QED.weights_max(mol)
-    elif wtype == "none":
-        qed = QED.weights_none(mol)
-    else:
-        #msg = "invalid wtype has been input"
-        qed = None
+    Calculation QED descriptor under different weights   
+    A descriptor a measure of drug-likeness based on the concept of desirability
+    Here, calculating the QED descriptor using maximal descriptor weights.
+    ---->QEDmax
     
-    return round(qed,2) 
+    Ref.:
+    -----------
+    Bickerton, G. Richard, et al.
+    Nat Chem, 4.2 (2012): 90.
     
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    qed: float
+    """    
+    QEDmax = QED.weights_max(mol)        
+    return round(QEDmax,2)     
+
+
+def CalculateQEDnone(mol):
+    """
+    Calculation QED descriptor under different weights   
+    A descriptor a measure of drug-likeness based on the concept of desirability
+    Here, calculating the QED descriptor using unit weights.
+    ---->QEDnone
+    
+    Ref.:
+    -----------
+    Bickerton, G. Richard, et al.
+    Nat Chem, 4.2 (2012): 90.
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    qed: float
+    """    
+    QEDnone = QED.weights_none(mol)        
+    return round(QEDnone,2)
+
 
 def CalculateMaxSizeSystemRing(mol):
     """
-    #################################################################
-    Number of atoms involved in the biggest system ring
-    
+    Number of atoms involved in the biggest system ring  
     ----> maxring
     
-    Usage:
-        
-        result = CalculateMaxSizeSystemRing(mol)
-        
-        Input: mol is a molecular object
-        
-        Output: result is a numeric values
-    #################################################################
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    MaxRing: int
     """
+    #0.Get the scaffold
+    core = MurckoScaffold.GetScaffoldForMol(mol)
+    fw = MurckoScaffold.MakeScaffoldGeneric(core)
     #1.Obtaining which atoms consist of rings
-    maxring = 0
-    ri = mol.GetRingInfo()
+    MaxRing = 0
+    ri = fw.GetRingInfo()
     atoms = list(ri.AtomRings())    
     length = len(atoms)    
     if length == 0:
         pass
     else:
-        rw = Chem.RWMol(mol)        
+        rw = Chem.RWMol(fw)        
         #2.Judge which atoms are replacement
         atoms = [set(x) for x in atoms]            
         for pair in combinations(range(length),2):
@@ -579,41 +612,33 @@ def CalculateMaxSizeSystemRing(mol):
         ri = m.GetRingInfo()
         bonds = ri.BondRings()
         for item in bonds:
-            if len(item) > maxring:
-                maxring = len(item)   
-    return maxring
+            if len(item) > MaxRing:
+                MaxRing = len(item)   
+    return MaxRing
     
 
 def CalculateNumberStereocenters(mol):
     """
-    #################################################################
-    ----> nSTERO
-    #################################################################
+    the number of stereo centers
+    ---->nStero
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    nStero: int
     """
     return Chem.CalcNumAtomStereoCenters(mol)    
 
 
-def CalculateSolubilityForecastIndex(mol):
-    """
-    #################################################################
-    Water Solubility estimated by Hill et al method
-    
-    ----> SFI
-    
-    SFI = clogD(pH=7.4) + #Ar
-    #################################################################
-    """
-    logD = CalculateLogD(mol)
-    pass
-
-
 def _CalculateElementNumber(mol,AtomicNumber=6):
     """
-    #################################################################
     **Internal used only**
+    Calculation of specific type of atom number in a molecule
     
     Calculation of element counts with atomic number equal to n in a molecule
-    #################################################################
     """
     return len(
             [atom for atom in mol.GetAtoms()\
@@ -623,307 +648,246 @@ def _CalculateElementNumber(mol,AtomicNumber=6):
 
 def CalculateCarbonNumber(mol):
     """
-    #################################################################
-    Calculation of Carbon number in a molecule
+    Calculation of Carbon number in a molecule    
+    ---->nC
     
-    ---->ncarb
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
-    Usage:
-        
-        result = CalculateCarbonNumber(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
+    Return:
+    -----------
+    nC: int
     """
-
     return _CalculateElementNumber(mol,AtomicNumber=6)
 
 
 def CalculateBoronNumber(mol):
-
     """
-    #################################################################
-    Calculation of Boron counts in a molecule
+    Calculation of Boron counts in a molecule  
+    ---->nB
     
-    ---->ncof
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
-    Usage:
-        
-        result=CalculateBoronNumber(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
-    """
-            
+    Return:
+    -----------
+    nB: int
+    """       
     return _CalculateElementNumber(mol,AtomicNumber=5)
 
 
 def CalculateFluorinNumber(mol):
-
     """
-    #################################################################
-    Calculation of Fluorin counts in a molecule
+    Calculation of Fluorin counts in a molecule  
+    ---->nF
     
-    ---->ncof
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
-    Usage:
-        
-        result=CalculateBoronNumber(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
-    """
-            
+    Return:
+    -----------
+    nF: int
+    """         
     return _CalculateElementNumber(mol,AtomicNumber=10)
 
 
 def CalculateChlorinNumber(mol):
-
     """
-    #################################################################
     Calculation of Chlorin counts in a molecule
+    ---->nCl
     
-    ---->ncocl
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
-    Usage:
-        
-        result=CalculateChlorinNumber(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
+    Return:
+    -----------
+    nCl: int
     """
-
     return _CalculateElementNumber(mol,AtomicNumber=17)
 
 
 def CalculateBromineNumber(mol):
-
     """
-    #################################################################
-    Calculation of Bromine counts in a molecule
+    Calculation of Bromine counts in a molecule  
+    ---->nBr
     
-    ---->ncobr
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
-    Usage:
-        
-        result=CalculateBromineNumber(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
+    Return:
+    -----------
+    nBr: int
     """
-
     return _CalculateElementNumber(mol,AtomicNumber=35)
 
 
 def CalculateIodineNumber(mol):
     """
-    #################################################################
-    Calculation of Iodine counts in a molecule
+    Calculation of Iodine counts in a molecule 
+    ---->nI
     
-    ---->ncoi
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
-    Usage:
-        
-        result=CalculateIodineNumber(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
+    Return:
+    -----------
+    nI: int
     """
-
     return _CalculateElementNumber(mol,AtomicNumber=53)
 
 
 def CalculatePhosphorNumber(mol):
     """
-    #################################################################
     Calcualtion of Phosphor number in a molecule
+    ---->nP
     
-    ---->nphos
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
-    Usage:
-        
-        result=CalculatePhosphorNumber(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
+    Return:
+    -----------
+    nP: int
     """
     return _CalculateElementNumber(mol,AtomicNumber=15)
 
 
 def CalculateSulfurNumber(mol):
     """
-    #################################################################
-    Calculation of Sulfur counts in a molecule
+    Calculation of Sulfur counts in a molecule  
+    ---->nS
     
-    ---->nsulph
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
-    Usage:
-        
-        result=CalculateSulfurNumber(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
+    Return:
+    -----------
+    nCa: int
     """
     return _CalculateElementNumber(mol,AtomicNumber=16)
 
 
 def CalculateOxygenNumber(mol):
     """
-    #################################################################
-    Calculation of Oxygen counts in a molecule
+    Calculation of Oxygen counts in a molecule    
+    ---->nO
     
-    ---->noxy
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
-    Usage:
-        
-        result=CalculateOxygenNumber(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
-
+    Return:
+    -----------
+    nO: int
     """
     return _CalculateElementNumber(mol,AtomicNumber=8)
         
 
 def CalculateNitrogenNumber(mol):
     """
-    #################################################################
     Calculation of Nitrogen counts in a molecule
-    
     ---->nnitro
     
-    Usage:
-        
-        result=CalculateNitrogenNumber(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
-    """
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
+    Return:
+    -----------
+    nN: int
+    """
     return _CalculateElementNumber(mol,AtomicNumber=7)
 
 
 def CalculateNumberChargedGroups(mol):
     """
-    #################################################################
-    Number of Charged Groups
+    Number of Charged Groups 
+    ---->nChar
     
-    ---->ncharged
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
-    Usage:
-        
-        result = CalculateNumberChargedGroups(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
+    Return:
+    -----------
+    nChar: int
     """
     pass
-    
-    return None
-
-
-def CalculateTotalCharge(mol):
-    """
-    #################################################################
-    Formal total charge of the compound.
-    
-    ---->totalchar
-    
-    Usage:
-        
-        result = CalculateTotalCharge(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
-    """
-    pass    
-    return None
 
 
 def CalculateHetCarbonRatio(mol):
     """
-    #################################################################
     The ratio between the number of non carbon atoms and the number of carbon atoms.
+    ---->HetRatio
     
-    ---->HetCar
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
-    Usage:
-        
-        result = CalculateHetCarbonRatio(mol)
-        
-        Input: mol is a molecule object.
-        
-        Output: result is a numeric value.
-    #################################################################
+    Return:
+    -----------
+    HetRatio: float
     """
     Total = CalculateNumHeavyAtom(mol)
     nCarb = CalculateCarbonNumber(mol)
-    het = Total-nCarb  
-    return round(het/nCarb,2)    
+    het = Total-nCarb
+    try:
+        HetRatio = round(het/nCarb,2)
+    except:
+        HetRatio = 'Inf'
+    return HetRatio   
     
 
 def CalculateSAscore(mol):
     """
-    ---
-    Ref.: Ertl, Peter, and Ansgar Schuffenhauer.
-          J Cheminform, 1(1), 8.      
+    A function to estimate ease of synthesis (synthetic accessibility) of drug-like molecules
+    ---->SAscore
+    
+    Ref.:
+    -----------
+    Ertl, Peter, and Ansgar Schuffenhauer.
+    J Cheminform, 1(1), 8.      
     Based: https://github.com/rdkit/rdkit/tree/master/Contrib/SA_Score   
     
-    ---
-    Brief: A function to estimate ease of synthesis (synthetic accessibility) of drug-like molecules  
-    
-    ---
     Parameters:
-        >>> mol: dkit.Chem.rdchem.Mol;
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
     Return:
-        float, meant SA score
+    -----------
+    SAscore: float
     """
     return round(sascorer.calculateScore(mol),2)
 
 
 def CalculateNPscore(mol):
+    import os
     """
-    ---
-    Ref.: Ertl, Peter, Silvio Roggo, and Ansgar Schuffenhauer.
-          J Chem Inf Model, 48(1), 68-74.
+    A function to calculate the natural product-likeness score
+    ---->NPscore
     
+    Ref.:
+    -----------
+    Ertl, Peter, Silvio Roggo, and Ansgar Schuffenhauer.
+    J Chem Inf Model, 48(1), 68-74.
     Based: Https://github.com/rdkit/rdkit/tree/master/Contrib/NP_Score
     
-    ---
-    Brief: A function to calculate the natural product-likeness score
-    
-    ---
     Parameters:
-        >>> mol: dkit.Chem.rdchem.Mol;
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
     
     Return:
-        float, meant NP score
+    -----------
+    NPscore: float
     """
+    ContriDir = RDConfig.RDContribDir
     filename = os.path.join(ContriDir, 'NP_Score/publicnp.model.gz')
     fscore = npscorer.pickle.load(npscorer.gzip.open(filename)) 
     return round(npscorer.scoreMol(mol,fscore=fscore),2)
@@ -931,26 +895,26 @@ def CalculateNPscore(mol):
     
 def GetIFG(mol):
     """
-    ---
-    Ref.: Ertl, Peter.
-          J Cheminform, 9(1), 36.
+    A function to compute functional groups in organic molecules
     
+    Ref.: 
+    -----------
+    Ertl, Peter.
+    J Cheminform, 9(1), 36.
     Based: https://github.com/rdkit/rdkit/tree/master/Contrib/IFG
     
-    ---
-    Brief: A function to compute functional groups in organic molecules
-    
-    ---
     Parameters:
-        >>> mol: dkit.Chem.rdchem.Mol;
+    -----------
+    mol: dkit.Chem.rdchem.Mol;
         
     Return:
-        list of namedtuple, namedtuple('IFG', ['atomIds', 'atoms', 'type'])
-        e.g.:
-            [IFG(atomIds=(2,), atoms='n', type='cnc'),
-             IFG(atomIds=(4, 5, 6, 7), atoms='NS(=O)=O', type='cNS(c)(=O)=O'),
-             IFG(atomIds=(12,), atoms='N', type='cN'),
-             IFG(atomIds=(15,), atoms='n', type='cnc')]
+    -----------
+    list of namedtuple, namedtuple('IFG', ['atomIds', 'atoms', 'type'])
+    e.g.:
+        [IFG(atomIds=(2,), atoms='n', type='cnc'),
+         IFG(atomIds=(4, 5, 6, 7), atoms='NS(=O)=O', type='cNS(c)(=O)=O'),
+         IFG(atomIds=(12,), atoms='N', type='cN'),
+         IFG(atomIds=(15,), atoms='n', type='cnc')]
     ---
     """
     return identify_functional_groups(mol)
@@ -958,18 +922,22 @@ def GetIFG(mol):
 
 def CalculateMolVolume(mol):
     """
-    ---
+    Calculation of Van der Waals Volume of molecule
+    ---->MolVol
+    
     Equation: 
-        for single atom: Vw = 4/3*pi*rw^3, the rw is the Van der Waals radius of atom
-        VvdW = ∑(atom contributions)-5.92NB(Unit in Å^3), NB is the total number of bonds
-        the Van der Waals radius of atom is derived from wikipedia.
+    -----------
+    for single atom: Vw = 4/3*pi*rw^3, the rw is the Van der Waals radius of atom
+    VvdW = ∑(atom contributions)-5.92NB(Unit in Å^3), NB is the total number of bonds
+    the Van der Waals radius of atom is derived from wikipedia.
         
-    ---
     Parameters:
-        >>> mol: dkit.Chem.rdchem.Mol;
-        
-    Rerurn:
-        float 
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    NPscore: float
     """
     from math import pi
     Radii = {'H':1.20,'C':1.70,'N':1.55,
@@ -977,9 +945,27 @@ def CalculateMolVolume(mol):
              'F':1.47,'Cl':1.75,'Br':1.85,
              'I':1.98,'Na':2.27,'Mg':1.73,
              'K':2.75,'Ca':2.31,'Ba':2.68,
-             }
+             'He':140,'Li':182,'Be':153,
+             'B':192,'Ne':154,'Al':184,
+             'Si':210,'Ar':188,'Ni':163,
+             'Cu':140,'Zn':139,'Ga':187,
+             'Ge':211,'As':185,'Se':190,
+             'Kr':202,'Rb':303,'Sr':249,
+             'Pd':163,'Ag':172,'Cd':158,
+             'In':193,'Sn':217,'Sb':206,
+             'Te':206,'Xe':216,'Cs':343,
+             'Pt':175,'Au':166,'U':186,
+             'Hg':155,'Tl':196,'Pb':202,
+             'Bi':207,'Po':197,'At':202,
+             'Rn':220,'Fr':348,'Ra':283}
     mol = Chem.AddHs(mol)
-    contrib = [Radii[atom.GetSymbol()] for atom in mol.GetAtoms()]
+    contrib = []
+    for atom in mol.GetAtoms():
+        try:
+            contrib.append(Radii[atom.GetSymbol()])
+        except:
+            pass
+    # contrib = [Radii[atom.GetSymbol()] for atom in mol.GetAtoms()]
     contrib = [pi*(r**3)*4/3 for r in contrib]
     vol = sum(contrib) - 5.92*len(mol.GetBonds())
     return round(vol,2)
@@ -987,6 +973,16 @@ def CalculateMolVolume(mol):
 
 def CalculateMolDensity(mol):
     """
+    Calculation of Density of molecule
+    ---->Dense
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    Dense: float
     """
     MW = CalculateMolWeight(mol)
     Vol = CalculateMolVolume(mol)
@@ -995,6 +991,16 @@ def CalculateMolDensity(mol):
 
 def CalculateMolFCharge(mol):
     """
+    Calculation of formal charge of molecule
+    ---->fChar
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    fChar: float
     """
     mol = Chem.AddHs(mol)
     FChar = [atom.GetFormalCharge() for atom in mol.GetAtoms()]
@@ -1002,6 +1008,10 @@ def CalculateMolFCharge(mol):
 
 
 def _CalculateNumBond(mol,btype):
+    """
+    **Internal used only**
+    Calculation of specific type of bond number in a molecule
+    """
     if btype == 'SINGLE':
         return len([bond for bond in mol.GetBonds() 
                     if bond.GetBondType() == Chem.rdchem.BondType.SINGLE])
@@ -1015,21 +1025,48 @@ def _CalculateNumBond(mol,btype):
 
 def CalculateNumSinBond(mol):
     """
+    Calculation of single bond number of molecule
     ---> nSingle
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    nSingle: int
     """
     return _CalculateNumBond(mol,btype='SINGLE')
 
 
 def CalculateNumDouBond(mol):
     """
-    ---> nDouble
+    Calculation of double bond number of molecule
+    --->nDouble
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    nDouble: int
     """
     return _CalculateNumBond(mol,btype='DOUBLE')
 
 
 def CalculateNumTriBond(mol,btype='TRIPLE'):
     """
+    Calculation of triple bond number of molecule
     ---> nTriple
+    
+    Parameters:
+    -----------
+    mol: rdkit.Chem.rdchem.Mol
+    
+    Return:
+    -----------
+    nTriple: int
     """
     return _CalculateNumBond(mol,btype='TRIPLE')
 
@@ -1046,7 +1083,7 @@ def GetProperties(mol):
     nBond = CalculateNumBonds(mol)
     nAtom = CalculateNumAtoms(mol)
     nCarbon = CalculateCarbonNumber(mol)
-    nHet = CalculateHeteroNumber(mol)
+    nHet = CalculateNumHetero(mol)
     nRot = CalculateNumRotatableBonds(mol)
     nRig = CalculateNumRigidBonds(mol)
     nRing = CalculateNumRing(mol)
@@ -1065,8 +1102,10 @@ def GetProperties(mol):
     tPSA = CalculateTPSA(mol)
     MaxRing = CalculateMaxSizeSystemRing(mol)
     nStero = CalculateNumberStereocenters(mol)
-    HetRation = CalculateHetCarbonRatio(mol)
-    QED = CalculateQED(mol)
+    HetRatio = CalculateHetCarbonRatio(mol)
+    QEDmean = CalculateQEDmean(mol)
+    QEDmax = CalculateQEDmax(mol)
+    QEDnone = CalculateQEDnone(mol)
     SAscore = CalculateSAscore(mol)
     NPscore = CalculateNPscore(mol)
     nSingle = CalculateNumSinBond(mol)
@@ -1086,13 +1125,13 @@ def GetProperties(mol):
     res = namedtuple('Properties',['MW','Vol','Dense','fChar','nBond','nAtom','nCarbon','nHD','nHA','nHB',
                                    'nHet','nStero','nHev','nRot','nRig','nRing',
                                    'logP','logD','pKa','logSw','ab','MR','tPSA','AP','HetRatio',
-                                   'Fsp3','MaxRing','QED','SAscore','NPscore',
+                                   'Fsp3','MaxRing','QEDmean','QEDmax','QEDnone','SAscore','NPscore',
                                    'nSingle','nDouble','nTriple','nC','nB','nF','nCl','nBr','nI',
                                    'nP','nS','nO','nN'])
     checkres = res(MW,Vol,Dense,fChar,nBond,nAtom,nCarbon,nHD,nHA,nHB,
                    nHet,nStero,nHev,nRot,nRig,nRing,
-                   logP,logD,pKa,logSw,ab,MR,tPSA,AP,HetRation,
-                   Fsp3,MaxRing,QED,SAscore,NPscore,
+                   logP,logD,pKa,logSw,ab,MR,tPSA,AP,HetRatio,
+                   Fsp3,MaxRing,QEDmean,QEDmax,QEDnone,SAscore,NPscore,
                    nSingle,nDouble,nTriple,nC,nB,nF,nCl,nBr,nI,
                    nP,nS,nO,nN)  
     return checkres
@@ -1107,7 +1146,7 @@ if __name__ =='__main__':
     for index, smi in enumerate(smis):
         mol = Chem.MolFromSmiles(smi)
         print('Index:{}'.format(index))
-        res = GetProperties(mol)
+        res = GetIFG(mol)
         print(res)
     
 #    smi = 'CC(=O)OCOC(=O)C'

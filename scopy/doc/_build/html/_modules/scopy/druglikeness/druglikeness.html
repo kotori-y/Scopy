@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>scopy.druglikeness.druglikeness &#8212; Scopy 1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for scopy.druglikeness.druglikeness</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Mon Jul  8 10:03:32 2019</span>
+
+<span class="sd">@Author: Zhi-Jiang Yang, Dong-Sheng Cao</span>
+<span class="sd">@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，</span>
+<span class="sd">@Homepage: http://www.scbdd.com</span>
+<span class="sd">@Mail: yzjkid9@gmail.com; oriental-cds@163.com</span>
+<span class="sd">@Blog: https://blog.moyule.me</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">rulesfilter</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">rulesfilter</span>
+
+<div class="viewcode-block" id="Druglikeness"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness">[docs]</a><span class="k">class</span> <span class="nc">Druglikeness</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mols</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">tolist</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mols</span> <span class="o">=</span> <span class="n">mols</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detail</span> <span class="o">=</span> <span class="n">detail</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tolist</span> <span class="o">=</span> <span class="n">tolist</span>
+    
+<div class="viewcode-block" id="Druglikeness.CheckEganRule"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckEganRule">[docs]</a>    <span class="k">def</span> <span class="nf">CheckEganRule</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">EganRule</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckEganRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tolist</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">EganRule</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">EganRule</span><span class="p">)</span></div>
+            
+<div class="viewcode-block" id="Druglikeness.CheckVeberRule"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckVeberRule">[docs]</a>    <span class="k">def</span> <span class="nf">CheckVeberRule</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">VeberRule</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckEganRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">))</span></div>
+        
+<div class="viewcode-block" id="Druglikeness.CheckLipinskiRule"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckLipinskiRule">[docs]</a>    <span class="k">def</span> <span class="nf">CheckLipinskiRule</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Lipinski</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckLipinskiRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="Druglikeness.CheckBeyondRo5"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckBeyondRo5">[docs]</a>    <span class="k">def</span> <span class="nf">CheckBeyondRo5</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Lipinski</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckLipinskiRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="Druglikeness.CheckPfizerRule"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckPfizerRule">[docs]</a>    <span class="k">def</span> <span class="nf">CheckPfizerRule</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">PfizerRule</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckPfizerRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">))</span></div>
+        
+<div class="viewcode-block" id="Druglikeness.CheckGSKRule"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckGSKRule">[docs]</a>    <span class="k">def</span> <span class="nf">CheckGSKRule</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">GSKRule</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckGSKRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">))</span></div>
+        
+<div class="viewcode-block" id="Druglikeness.CheckOralMacrocycles"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckOralMacrocycles">[docs]</a>    <span class="k">def</span> <span class="nf">CheckOralMacrocycles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">OralMacrocycles</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckOralMacrocycles</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">))</span></div>
+        
+<div class="viewcode-block" id="Druglikeness.CheckOpreaRule"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckOpreaRule">[docs]</a>    <span class="k">def</span> <span class="nf">CheckOpreaRule</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">OpreaRule</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckOpreaRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="Druglikeness.CheckGhoseRule"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckGhoseRule">[docs]</a>    <span class="k">def</span> <span class="nf">CheckGhoseRule</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">GhoseRule</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckGhoseRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">))</span></div>
+     
+<div class="viewcode-block" id="Druglikeness.CheckREOS"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckREOS">[docs]</a>    <span class="k">def</span> <span class="nf">CheckREOS</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">REOS</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckREOS</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">))</span></div>
+     
+<div class="viewcode-block" id="Druglikeness.CheckGoldenTriangle"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckGoldenTriangle">[docs]</a>    <span class="k">def</span> <span class="nf">CheckGoldenTriangle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">GoldenTriangle</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckGoldenTriangle</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="Druglikeness.CheckXuRule"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckXuRule">[docs]</a>    <span class="k">def</span> <span class="nf">CheckXuRule</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">XuRule</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckXuRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">))</span></div>
+        
+<div class="viewcode-block" id="Druglikeness.CheckSchneiderRule"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckSchneiderRule">[docs]</a>    <span class="k">def</span> <span class="nf">CheckSchneiderRule</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SchneiderRule</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckSchneiderRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="n">mols</span><span class="p">))</span></div>
+        
+<div class="viewcode-block" id="Druglikeness.CheckRo4"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckRo4">[docs]</a>    <span class="k">def</span> <span class="nf">CheckRo4</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ro4</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckRo4</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="n">mols</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="Druglikeness.CheckRo3"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckRo3">[docs]</a>    <span class="k">def</span> <span class="nf">CheckRo3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ro3</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckRo3</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="n">mols</span><span class="p">))</span></div>
+        
+<div class="viewcode-block" id="Druglikeness.CheckRo2"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckRo2">[docs]</a>    <span class="k">def</span> <span class="nf">CheckRo2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ro2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckRo2</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="n">mols</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="Druglikeness.CheckCNS"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckCNS">[docs]</a>    <span class="k">def</span> <span class="nf">CheckCNS</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">CNS</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckCNS</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="n">mols</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="Druglikeness.CheckRespiratory"><a class="viewcode-back" href="../../../refernces/scopy.druglikeness.html#scopy.druglikeness.druglikeness.Druglikeness.CheckRespiratory">[docs]</a>    <span class="k">def</span> <span class="nf">CheckRespiratory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Respiratory</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">mol</span><span class="p">:</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckRespiratory</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">),</span> <span class="n">mols</span><span class="p">))</span></div></div>
+    
+        
+        
+        
+    
+<span class="k">if</span> <span class="s1">&#39;__main__&#39;</span> <span class="o">==</span> <span class="vm">__name__</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">rdkit</span> <span class="k">import</span> <span class="n">Chem</span>
+    <span class="n">smis</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;C1=CC=CC(C(Br)C)=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=NC(CCN)=CN1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1CCCC(CCO)C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=CC=C2N=C(O)C=CC2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C(OC)1=C(C)C=C2OC[C@]([H])3OC4C(C)=C(OC)C=CC=4C(=O)[C@@]3([H])C2=C1C&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C2N=CC=NC2=C2N=CNC2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C(O)C=CC(O)=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;CCC1(c2ccccc2)C(=O)NC(=O)NC1=O&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;N1=CN=CN=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C2C=CC=CC2=CC2C=CC=CC1=2&#39;</span><span class="p">,</span> <span class="c1">#NonGenotoxic_Carcinogenicity</span>
+            <span class="s1">&#39;C1=CC=C2C(=O)CC(=O)C2=C1&#39;</span><span class="p">,</span> <span class="c1">#Pains</span>
+            <span class="s1">&#39;C1=CC=CC(COCO)=C1&#39;</span><span class="p">,</span> <span class="c1">#Potential_Electrophilic</span>
+            <span class="s1">&#39;N1=NC=CN1C=O&#39;</span><span class="p">,</span> <span class="c1">#Promiscuity</span>
+            <span class="s1">&#39;CC(=O)OC(=O)C1C=COC1&#39;</span><span class="p">,</span> <span class="c1">#Skin_Sensitization</span>
+            <span class="s1">&#39;S&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;CCCCC(=O)[H]&#39;</span><span class="p">,</span> <span class="c1">#Biodegradable</span>
+            <span class="s1">&#39;C1=CN=C(C(=O)O)C=C1&#39;</span><span class="p">,</span> <span class="c1">#Chelating</span>
+            <span class="s1">&#39;C(OC)1=CC=C2OCC3OC4C=C(OC)C=CC=4C(=O)C3C2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C2N=CC=NC2=C2N=CNC2=C1&#39;</span><span class="p">,</span> <span class="c1">#Genotoxic_Carcinogenicity_Mutagenicity</span>
+            <span class="s1">&#39;N(CC)(CCCCC)C(=S)N&#39;</span><span class="p">,</span> <span class="c1">#Idiosyncratic</span>
+            <span class="p">]</span>
+    <span class="n">mols</span> <span class="o">=</span> <span class="p">(</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smi</span><span class="p">)</span> <span class="k">for</span> <span class="n">smi</span> <span class="ow">in</span> <span class="n">smis</span><span class="p">)</span>
+    <span class="n">rule</span> <span class="o">=</span> <span class="n">Druglikeness</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">rule</span><span class="o">.</span><span class="n">CheckRo3</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">Ro3</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Kotori.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>
