@@ -103,4 +103,4 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-scopy/data/SMARTS/*
+scopy/data/SMARTS/*.txt
