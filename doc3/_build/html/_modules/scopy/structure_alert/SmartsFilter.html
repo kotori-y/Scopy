@@ -1,0 +1,637 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>scopy.structure_alert.SmartsFilter &#8212; Scopy 1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for scopy.structure_alert.SmartsFilter</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1">#Created on Mon Aug 12 14:48:23 2019</span>
+<span class="c1">#</span>
+<span class="c1">#@Author: Zhi-Jiang Yang, Dong-Sheng Cao</span>
+<span class="c1">#@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China</span>
+<span class="c1">#@Homepage: http://www.scbdd.com</span>
+<span class="c1">#@Mail: yzjkid9@gmail.com; oriental-cds@163.com</span>
+<span class="c1">#@Blog: https://blog.moyule.me</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+	<span class="kn">from</span> <span class="nn">.FilterWithSmarts</span> <span class="k">import</span> <span class="n">_Filter</span>
+<span class="k">except</span><span class="p">:</span>
+	<span class="kn">from</span> <span class="nn">FilterWithSmarts</span> <span class="k">import</span> <span class="n">_Filter</span>
+
+<span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="k">import</span> <span class="n">AllChem</span> <span class="k">as</span> <span class="n">Chem</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">Pool</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+
+    
+<div class="viewcode-block" id="Filter"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter">[docs]</a><span class="k">class</span> <span class="nc">Filter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Here, we comdat the whole function that check endpoint retrieved from module FilterWithSmarts</span>
+<span class="sd">    </span>
+<span class="sd">    :param mols: the molecule to be scanned.</span>
+<span class="sd">    :type mols: Iterable object, each element is rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param n_jobs: The number of CPUs to use to do the computation, defaults to 1</span>
+<span class="sd">    :type n_jobs: int, optional</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mols</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialization</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mols</span> <span class="o">=</span> <span class="n">mols</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">=</span> <span class="n">n_jobs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detail</span> <span class="o">=</span> <span class="n">detail</span>
+        
+<div class="viewcode-block" id="Filter.Check_Acute_Aquatic_Toxicity"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Acute_Aquatic_Toxicity">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Acute_Aquatic_Toxicity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check molecule under Acute_Aquatic_Toxicity Filter,</span>
+<span class="sd">        which presents a compound may cause toxicity to liquid(water).</span>
+<span class="sd">        There are 99 SMARTS in this endpoint.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Aquatic</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Acute_Aquatic_Toxicity&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">Aquatic</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Acute_Aquatic_Toxicity</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">Aquatic</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Acute_Aquatic_Toxicity</span></div>
+        
+<div class="viewcode-block" id="Filter.Check_AlphaScreen_FHs"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_AlphaScreen_FHs">[docs]</a>    <span class="k">def</span> <span class="nf">Check_AlphaScreen_FHs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Check_AlphaScreen_FHs Filter,</span>
+<span class="sd">        which presents a compound may be alphascreen frequent hitters.</span>
+<span class="sd">        There are 6 SMARTS in this endpoint.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">AlphaScreen</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;AlphaScreen_FHs&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">AlphaScreen</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">AlphaScreen_FHs</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">AlphaScreen</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">AlphaScreen_FHs</span></div>
+        
+<div class="viewcode-block" id="Filter.Check_AlphaScreen_GST_FHs"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_AlphaScreen_GST_FHs">[docs]</a>    <span class="k">def</span> <span class="nf">Check_AlphaScreen_GST_FHs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Check_AlphaScreen_GST_FHs Filter,</span>
+<span class="sd">        which presents a compound may prevent GST/GSH interaction during HTS.</span>
+<span class="sd">        There are 34 SMARTS in this endpoint.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">GST</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;AlphaScreen_GST_FHs&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">GST</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">AlphaScreen_GST_FHs</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">GST</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">AlphaScreen_GST_FHs</span></div>
+    
+<div class="viewcode-block" id="Filter.Check_AlphaScreen_HIS_FHs"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_AlphaScreen_HIS_FHs">[docs]</a>    <span class="k">def</span> <span class="nf">Check_AlphaScreen_HIS_FHs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Check_AlphaScreen_HIS_FHs Filter,</span>
+<span class="sd">        which presents a compound prevents the binding of the protein His-tag moiety to nickel chelate.</span>
+<span class="sd">        There are 19 SMARTS in this endpoint.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">HIS</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;AlphaScreen_HIS_FHs&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">HIS</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">AlphaScreen_HIS_FHs</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">HIS</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">AlphaScreen_HIS_FHs</span></div>
+        
+<div class="viewcode-block" id="Filter.Check_Biodegradable"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Biodegradable">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Biodegradable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Biodegradable Filter,</span>
+<span class="sd">        which presents a compound may be Biodegradable.</span>
+<span class="sd">        There are 9 SMARTS in this enpoint</span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Biode</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Biodegradable&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">Biode</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Biodegradable</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">Biode</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Biodegradable</span></div>
+        
+<div class="viewcode-block" id="Filter.Check_Chelating"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Chelating">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Chelating</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Chelating Filter,</span>
+<span class="sd">        which presents a compound may inhibit metalloproteins.</span>
+<span class="sd">        Thers are 55 SMARTS in this endpoint</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Che</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Chelating&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">Che</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Chelating</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">Che</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Chelating</span></div>
+        
+<div class="viewcode-block" id="Filter.Check_Developmental_Mitochondrial"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Developmental_Mitochondrial">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Developmental_Mitochondrial</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Developmental_Mitochondrial Filter,</span>
+<span class="sd">        which presents a compound may casue Developmental Toxicity and Mitochondrial Toxicity.</span>
+<span class="sd">        There are 12 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Deve</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Developmental_Mitochondrial&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">Deve</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Developmental_Mitochondrial</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">Deve</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Developmental_Mitochondrial</span></div>
+                
+<div class="viewcode-block" id="Filter.Check_Genotoxic_Carcinogenicity_Mutagenicity"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Genotoxic_Carcinogenicity_Mutagenicity">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Genotoxic_Carcinogenicity_Mutagenicity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Developmental_Mitochondrial Filter,</span>
+<span class="sd">        which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms.</span>
+<span class="sd">        There are 117 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Geno</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Genotoxic_Carcinogenicity_Mutagenicity&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">Geno</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Genotoxic_Carcinogenicity_Mutagenicity</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">Geno</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Genotoxic_Carcinogenicity_Mutagenicity</span></div>
+                
+<div class="viewcode-block" id="Filter.Check_Idiosyncratic"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Idiosyncratic">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Idiosyncratic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Idiosyncratic Filter,</span>
+<span class="sd">        which presents a compound may has diosyncratic toxicity.</span>
+<span class="sd">        There are 35 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Idi</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Idiosyncratic&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">Idi</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Idiosyncratic</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">Idi</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Idiosyncratic</span></div>
+        
+<div class="viewcode-block" id="Filter.Check_LD50_Oral"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_LD50_Oral">[docs]</a>    <span class="k">def</span> <span class="nf">Check_LD50_Oral</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under LD50_Oral Filter,</span>
+<span class="sd">        which presents a compound may cause acute toxicity during oral administration;</span>
+<span class="sd">        There are 20 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ld</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;LD50_Oral&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">ld</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">LD50_Oral</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">ld</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">LD50_Oral</span></div>
+                
+<div class="viewcode-block" id="Filter.Check_Luciferase_Inhibitory"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Luciferase_Inhibitory">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Luciferase_Inhibitory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        There 3 SMARTS in Luciferase_Inhibitory Filter</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">luc</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Luciferase_Inhibitory&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">luc</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Luciferase_Inhibitory</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">luc</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Luciferase_Inhibitory</span></div>
+                
+<div class="viewcode-block" id="Filter.Check_NonBiodegradable"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_NonBiodegradable">[docs]</a>    <span class="k">def</span> <span class="nf">Check_NonBiodegradable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under NonBiodegradable Filter,</span>
+<span class="sd">        which presents a compound may be non-biodegradable.</span>
+<span class="sd">        There are 19 SMARTS in this enpoint.</span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nonbi</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;NonBiodegradable&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">nonbi</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">NonBiodegradable</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">nonbi</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">NonBiodegradable</span></div>
+             
+<div class="viewcode-block" id="Filter.Check_NonGenotoxic_Carcinogenicity"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_NonGenotoxic_Carcinogenicity">[docs]</a>    <span class="k">def</span> <span class="nf">Check_NonGenotoxic_Carcinogenicity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under NonGenotoxic_Carcinogenicity Filter,</span>
+<span class="sd">        which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms。</span>
+<span class="sd">        There are 23 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nonge</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;NonGenotoxic_Carcinogenicity&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">nonge</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">NonGenotoxic_Carcinogenicity</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">nonge</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">NonGenotoxic_Carcinogenicity</span></div>
+                
+<div class="viewcode-block" id="Filter.Check_PAINS"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_PAINS">[docs]</a>    <span class="k">def</span> <span class="nf">Check_PAINS</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under PAINS Filter,</span>
+<span class="sd">        which presents a type of compounds tend to be hitted in HTS.</span>
+<span class="sd">        There are 480 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pai</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Pains&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">pai</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Pains</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">pai</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Pains</span></div>
+                
+<div class="viewcode-block" id="Filter.Check_Potential_Electrophilic"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Potential_Electrophilic">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Potential_Electrophilic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Potential_Electrophilic Filter,</span>
+<span class="sd">        which presents a compound would be more probably take part in electrophilic reaction, </span>
+<span class="sd">        and the electrophilic reaction is strongly assosiated with protein binding.</span>
+<span class="sd">        There are 119 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ele</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Potential_Electrophilic&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">ele</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Potential_Electrophilic</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">ele</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Potential_Electrophilic</span></div>
+        
+<div class="viewcode-block" id="Filter.Check_Promiscuity"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Promiscuity">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Promiscuity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Promiscuity Filter,</span>
+<span class="sd">        There are 177 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">prom</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Promiscuity&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">prom</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Promiscuity</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">prom</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Promiscuity</span></div>
+            
+<div class="viewcode-block" id="Filter.Check_Reactive_Unstable_Toxic"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Reactive_Unstable_Toxic">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Reactive_Unstable_Toxic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Reactive_Unstable_Toxic Filter.</span>
+<span class="sd">        There are 335 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">reac</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Reactive_Unstable_Toxic&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">reac</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Reactive_Unstable_Toxic</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">reac</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Reactive_Unstable_Toxic</span></div>
+            
+<div class="viewcode-block" id="Filter.Check_Skin_Sensitization"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Skin_Sensitization">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Skin_Sensitization</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Skin_Sensitization Filter,</span>
+<span class="sd">        There are 155 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">skin</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Skin_Sensitization&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">skin</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Skin_Sensitization</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">skin</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Skin_Sensitization</span></div>
+                
+<div class="viewcode-block" id="Filter.Check_DNA_Binding"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_DNA_Binding">[docs]</a>    <span class="k">def</span> <span class="nf">Check_DNA_Binding</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under DNA_Binding Filter,</span>
+<span class="sd">        There are 78 SMARTS in this endpoint.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dna</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;DNA_Binding&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">dna</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">DNA_Binding</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">dna</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">DNA_Binding</span></div>
+                
+<div class="viewcode-block" id="Filter.Check_SureChEMBL"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_SureChEMBL">[docs]</a>    <span class="k">def</span> <span class="nf">Check_SureChEMBL</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under SureChEMBL Filter,</span>
+<span class="sd">        which presents a compound would match one or more structural alerts and hence considered to have a MedChem unfriendly status.  </span>
+<span class="sd">        There are 164 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">chembl</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;SureChEMBL&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">chembl</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">SureChEMBL</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">chembl</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">SureChEMBL</span></div>
+               
+<div class="viewcode-block" id="Filter.Check_BMS"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_BMS">[docs]</a>    <span class="k">def</span> <span class="nf">Check_BMS</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under BMS Filter.</span>
+<span class="sd">        Pearce has proposed a Functional Group Compound Filters(FG Filters).</span>
+<span class="sd">        The FG filters are consisted of two part, Exclusion FG filters and informational filters.</span>
+<span class="sd">        Exclusion FG filters are those intended for compound removal from screening decks;</span>
+<span class="sd">        Informational filters are useful for compound annotation.</span>
+<span class="sd">        There are 176 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bms</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;BMS&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">bms</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">BMS</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">bms</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">BMS</span></div>
+                
+<div class="viewcode-block" id="Filter.Check_NTD"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_NTD">[docs]</a>    <span class="k">def</span> <span class="nf">Check_NTD</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Brenk has proposed 105 unwanted groups in HTS</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ntd</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;NTD&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">ntd</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">NTD</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">ntd</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">NTD</span></div>
+            
+<div class="viewcode-block" id="Filter.Check_Alarm_NMR"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Alarm_NMR">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Alarm_NMR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        There are 75 SMARTS in alarm_nmr</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nmr</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Alarm_NMR&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">nmr</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Alarm_NMR</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">nmr</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Alarm_NMR</span></div>
+            
+<div class="viewcode-block" id="Filter.Check_Frequent_Hitters"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Frequent_Hitters">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Frequent_Hitters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        There are 15 SMARTS in Frequent_Hitters</span>
+
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fh</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Frequent_Hitters&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">fh</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Frequent_Hitters</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">fh</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Frequent_Hitters</span></div>
+        
+<div class="viewcode-block" id="Filter.Check_Aggregators"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Aggregators">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Aggregators</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        There are 311 SMARTS in Aggregators</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">agg</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Aggregators&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">agg</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Aggregators</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">agg</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Aggregators</span></div>
+             
+<div class="viewcode-block" id="Filter.Check_Toxicophores"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Toxicophores">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Toxicophores</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        There 154 SMARTS in Toxicophres</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tox</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Toxicophores&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+        <span class="n">tox</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Toxicophores</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">tox</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Toxicophores</span></div></div>
+        
+        
+<span class="k">if</span> <span class="s1">&#39;__main__&#39;</span> <span class="o">==</span> <span class="vm">__name__</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">time</span>
+    <span class="kn">import</span> <span class="nn">warnings</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+    
+<span class="c1">#    smis = [</span>
+<span class="c1">#            &#39;C1=CC=CC(C(Br)C)=C1&#39;,</span>
+<span class="c1">#            &#39;C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1&#39;,</span>
+<span class="c1">#            &#39;C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1&#39;,</span>
+<span class="c1">#            &#39;C1=NC(CCN)=CN1&#39;,</span>
+<span class="c1">#            &#39;C1CCCC(CCO)C1&#39;,</span>
+<span class="c1">#            &#39;C1=CC=C2N=C(O)C=CC2=C1&#39;,</span>
+<span class="c1">#            &#39;C(OC)1=C(C)C=C2OC[C@]([H])3OC4C(C)=C(OC)C=CC=4C(=O)[C@@]3([H])C2=C1C&#39;,</span>
+<span class="c1">#            &#39;C1=C2N=CC=NC2=C2N=CNC2=C1&#39;,</span>
+<span class="c1">#            &#39;C1=C(O)C=CC(O)=C1&#39;,</span>
+<span class="c1">#            &#39;CCC1(c2ccccc2)C(=O)NC(=O)NC1=O&#39;,</span>
+<span class="c1">#            &#39;N1=CN=CN=C1&#39;,</span>
+<span class="c1">#            &#39;C1=C2C=CC=CC2=CC2C=CC=CC1=2&#39;, #NonGenotoxic_Carcinogenicity</span>
+<span class="c1">#            &#39;C1=CC=C2C(=O)CC(=O)C2=C1&#39;, #Pains</span>
+<span class="c1">#            &#39;C1=CC=CC(COCO)=C1&#39;, #Potential_Electrophilic</span>
+<span class="c1">#            &#39;N1=NC=CN1C=O&#39;, #Promiscuity</span>
+<span class="c1">#            &#39;CC(=O)OC(=O)C1C=COC1&#39;, #Skin_Sensitization</span>
+<span class="c1">#            &#39;S&#39;,</span>
+<span class="c1">#            &#39;CCCCC(=O)[H]&#39;, #Biodegradable</span>
+<span class="c1">#            &#39;C1=CN=C(C(=O)O)C=C1&#39;, #Chelating</span>
+<span class="c1">#            &#39;C(OC)1=CC=C2OCC3OC4C=C(OC)C=CC=4C(=O)C3C2=C1&#39;,</span>
+<span class="c1">#            &#39;C1=C2N=CC=NC2=C2N=CNC2=C1&#39;, #Genotoxic_Carcinogenicity_Mutagenicity</span>
+<span class="c1">#            &#39;N(CC)(CCCCC)C(=S)N&#39;, #Idiosyncratic</span>
+<span class="c1">#            ]</span>
+<span class="c1">#    mols = [Chem.MolFromSmiles(smi) for smi in smis]*76</span>
+    <span class="kn">from</span> <span class="nn">scopy</span> <span class="k">import</span> <span class="n">ScoConfig</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="n">suppl</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">SDMolSupplier</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ScoConfig</span><span class="o">.</span><span class="n">DemoDir</span><span class="p">,</span><span class="s1">&#39;760.sdf&#39;</span><span class="p">))</span>
+    <span class="n">mols</span> <span class="o">=</span> <span class="p">(</span><span class="n">mol</span> <span class="k">for</span> <span class="n">mol</span> <span class="ow">in</span> <span class="n">suppl</span> <span class="k">if</span> <span class="n">mol</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;------start------&#39;</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">Check_PAINS</span><span class="p">()</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Time cost: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">Samples: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)))</span>
+<span class="c1">#    F.Check_Alarm_NMR()</span>
+<span class="c1">#    print(F.Aggregators)</span>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Zhijiang Yang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

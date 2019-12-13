@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Sep  2 17:31:14 2019
 
-@Author: Zhi-Jiang Yang, Dong-Sheng Cao
-@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，
-@Homepage: http://www.scbdd.com
-@Mail: yzjkid9@gmail.com; oriental-cds@163.com
-@Blog: https://blog.moyule.me
+#Created on Mon Sep  2 17:31:14 2019
+#
+#@Author: Zhi-Jiang Yang, Dong-Sheng Cao
+#@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，
+#@Homepage: http://www.scbdd.com
+#@Mail: yzjkid9@gmail.com; oriental-cds@163.com
+#@Blog: https://blog.moyule.me
 
-"""
+
 
 from rdkit.Chem.rdMolDescriptors import GetMorganFingerprintAsBitVect
 from rdkit.Chem import AllChem as Chem
@@ -16,55 +16,52 @@ from rdkit.Chem import AllChem as Chem
 
 
 class Morgan(object):
-    """
-    Brief:
-    -----------
-    This family of fingerprints, better known as circular fingerprints, 
+    """This family of fingerprints, better known as circular fingerprints, 
     is built by applying the Morgan algorithm to a set of user-supplied atom invariants.
     2^n bits
     
-    Ref.:
-    -----------
-    Rogers, David, and Mathew Hahn.
-    J Chem Inf Model, 50(5), 742-754.
+    Reference:
+        (1) `Rogers, David and Mathew Hahn (2010)`_.
     
-    Parameters:
-    -----------
-    radius: int(optional, defailt: 2)
-        the radius of circle
-    nBits: int(optional, default:1024)
-        number of bits in the fingerprint
-    useFeatures: bool(optional, default:False)
-        to control generate FCFP if True, else ECFP
+    :param radius: the radius of circle, defaults to 2
+    :type rafius: int, optional
+    :param nBits: number of bits in the fingerprint, defaults to 1024
+    :type nBits: int,optional
+    :param useFeatures: to control generate FCFP if True, else ECFP, defaults to False
+    :type useFeatures: bool, optional
+    
+    .. _Rogers, David and Mathew Hahn (2010):
+        https://pubs.acs.org/doi/abs/10.1021/ci100050t
+        
     """
     def __init__(self, radius, nBits):
+        """Initialization
+        
+        """
         self.radius = radius
         self.nBits = nBits
         
     def CalculateECFP(self, mol):
-        """
-        Parameters:
-        -----------
-        mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
+        """Function to compute ECFP fingerprint under useFeatures is True
         
-        Return:
-        -----------
-        fps: list
+        :param mol: molecule
+        :type mol: rdkit.Chem.rdchem.Mol
+        :return: fingerprint
+        :rtype: list
+        
         """
         fp = GetMorganFingerprintAsBitVect(mol, radius=self.radius, nBits=self.nBits)
         fp = list(fp)
         return fp
     
     def CalculateFCFP(self, mol):
-        """
-        Parameters:
-        -----------
-        mols: rdkit.Chem.rdchem.Mol
+        """Function to compute ECFP fingerprint under useFeatures is False
         
-        Return:
-        -----------
-        fps: list
+        :param mol: molecule
+        :type mol: rdkit.Chem.rdchem.Mol
+        :return: fingerprint
+        :rtype: list
+        
         """
         fp = GetMorganFingerprintAsBitVect(mol, radius=self.radius, nBits=self.nBits, useFeatures=True)
         fp = list(fp)

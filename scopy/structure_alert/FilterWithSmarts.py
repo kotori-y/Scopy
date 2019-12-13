@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Jun 25 21:59:42 2019
 
-@Author: Zhi-Jiang Yang, Dong-Sheng Cao
-@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，
-@Homepage: http://www.scbdd.com
-@Mail: yzjkid9@gmail.com; oriental-cds@163.com
-@Blog: https://blog.moyule.me
+#Created on Tue Jun 25 21:59:42 2019
+#
+#@Author: Zhi-Jiang Yang, Dong-Sheng Cao
+#@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，
+#@Homepage: http://www.scbdd.com
+#@Mail: yzjkid9@gmail.com; oriental-cds@163.com
+#@Blog: https://blog.moyule.me
 
-"""
 
 from rdkit.Chem import AllChem as Chem
 try:
@@ -23,16 +22,15 @@ class _Filter(object):
     the tool to check molecule(s) whether matched some unexpected endpoints.
     based on module SmartProcess
     
-    Parameters:
-    -----------
-    endpoint: string
-        The name of endpoint for scanning molecule(s).
-    detail: bool
-        Whether return more specific infomation.
-        
-    Return:
-    -----------
-    A namedtuple, 
+    :param endpoint: The name of endpoint for scanning molecule
+    :type endpoint: str
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
+    
+     
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+    
     """
     
     def __init__(self,endpoint,detail):
@@ -46,1020 +44,688 @@ class _Filter(object):
         return SmartProcess._CheckWithSmarts(mol,self.pattl,self.endpoint,self.detail)
     
     
-def Check_Acute_Aquatic_Toxicity(mols, detail=False):
-    """
-    Ref.:
-    -----------
-    (1) Hermens, J. L.
-    Environ Health Perspect, 87 (1990): 219-225.
-    (2) Verhaar, Henk JM, Cees J. Van Leeuwen, and Joop LM Hermens.
-    Chemosphere, 25.4 (1992): 471-491.
-    
-    Brief:
-    ----------- 
-    The endpoint, Acute_Aquatic_Toxicity presents
-    a compound may cause toxicity to liquid(water).
+def Check_Acute_Aquatic_Toxicity(mol, detail=False):
+    """Check molecule under Acute_Aquatic_Toxicity Filter,
+    which presents a compound may cause toxicity to liquid(water).
     There are 99 SMARTS in this endpoint.
-   
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
     
-    Return:
-    -----------
-    a list of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    Reference:
+        (1) `Hermens, J. L. (1990)`_;
+        (2) `Verhaar, Henk JM, Cees J. Van Leeuwen (1992)`_.
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Acute_Aquatic_Toxicity(mols, detail=True)
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
+    
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+    
+    .. _Hermens, J. L. (1990):
+        https://ehp.niehs.nih.gov/doi/abs/10.1289/ehp.9087219
+    .. _Verhaar, Henk JM, Cees J. Van Leeuwen (1992):
+        https://www.sciencedirect.com/science/article/pii/0045653592902805
+        
     """
     Aquatic = _Filter('Acute_Aquatic_Toxicity',detail)
     Aquatic.get_pattl()
-    res = list(map(Aquatic.scan,mols))
+    res = Aquatic.scan(mol)
     return res
 
 
-def Check_AlphaScreen_FHs(mols, detail=False):
+def Check_AlphaScreen_FHs(mol, detail=False):
     """
-    Ref.:
-    -----------
-    Schorpp, Kenji, et al.
-    J Biomol Screen, 19.5 (2014): 715-726.
+    Check molecule under Check_AlphaScreen_FHs Filter,
+    which presents a compound may be alphascreen frequent hitters.
+    There are 6 SMARTS in this endpoint.
+    
+    Reference:
+        (1) `Schorpp, Kenji. (2014)`_.
         
-    Brief:
-    -----------
-    The endpoint, AlphaScreen_FHs presents
-    a compound may be alphascreen frequent hitters
-    There are 6 SMARTS in this endpoint
-   
-    Parameters:
-    -----------         
-    mol: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_AlphaScreen_FHs(mols, detail=True)
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+    
+    .. _Schorpp, Kenji (2014):
+        https://journals.sagepub.com/doi/full/10.1177/1087057113516861
+        
     """
     AlphaScreen = _Filter('AlphaScreen_FHs',detail)
     AlphaScreen.get_pattl()
-    res = list(map(AlphaScreen.scan,mols))
+    res = AlphaScreen.scan(mol)
     return res
 
 
-def Check_AlphaScreen_GST_FHs(mols, detail=False):
+def Check_AlphaScreen_GST_FHs(mol, detail=False):
     """
-    Ref.:
-    -----------
-    Brenke, Jara K., et al.
-    J Biomol Screen, 21.6 (2016): 596-607.
+    Check molecule under Check_AlphaScreen_GST_FHs Filter,
+    which presents a compound may prevent GST/GSH interaction during HTS.
+    There are 34 SMARTS in this endpoint.
     
-    Brief:
-    -----------
-    The endpoint GST_FHs presents
-    a compound may prevent GST/GSH interaction during HTS.
-    There are 34 SMARTS in this endpoint
+    References:
+        (1) `Brenke, Jara K. (2016)`_.
+    
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
+    
+    
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+    
+    .. _Brenke, Jara K. (2016):
+        https://journals.sagepub.com/doi/abs/10.1177/1087057116639992
         
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-    
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
-    
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_AlphaScreen_GST_FHs(mols, detail=True)
     """
     GST = _Filter('AlphaScreen_GST_FHs',detail)
     GST.get_pattl()
-    res = list(map(GST.scan,mols))
+    res = GST.scan(mol)
     return res
 
 
-def Check_AlphaScreen_HIS_FHs(mols, detail=False):
+def Check_AlphaScreen_HIS_FHs(mol, detail=False):
     """
-    Ref.:
-    -----------
-    Schorpp, Kenji, et al.
-    J Biomol Screen, 19.5 (2014): 715-726.
-        
-    Brief:
-    -----------
-    The endpoint HIS_FHs presents
-    a compound prevents the binding of the protein His-tag moiety to nickel chelate
-    There are 19 SMARTS in this endpoint
-        
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    Check molecule under Check_AlphaScreen_HIS_FHs Filter,
+    which presents a compound prevents the binding of the protein His-tag moiety to nickel chelate.
+    There are 19 SMARTS in this endpoint.
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    Reference:
+        (1) `Schorpp, Kenji. (2014)`_.
+        
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_AlphaScreen_HIS_FHs(mols, detail=True)
+    
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+        
+    .. _Schorpp, Kenji. (2014):
+        https://journals.sagepub.com/doi/abs/10.1177/1087057113516861
+        
     """
-    HIS = _Filter('AlphaScreen_HIS_FHs',detail)
+    HIS = _Filter('AlphaScreen_HIS_FHs', detail)
     HIS.get_pattl()
-    res = list(map(HIS.scan,mols))
+    res = HIS.scan(mol)
     return res
 
 
-def Check_Biodegradable(mols, detail=False):
+def Check_Biodegradable(mol, detail=False):
     """
-    Ref:
-    -----------
-    Environment Canada.
-    Existing Substances Program (CD-ROM), released April, 2004 (2003).
-        
-    Brief:
-    -----------
-    The endpoint Biodegradable presents
-    a compound may be Biodegradable.
+    Check molecule under Biodegradable Filter,
+    which presents a compound may be Biodegradable.
     There are 9 SMARTS in this enpoint
     
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    Reference:          
+        (1) Existing Substances Program (CD-ROM), released April, 2004 (2003).
+        
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Biodegradable(mols, detail=True)
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+    
     """
     Biodegradable = _Filter('Biodegradable',detail)
     Biodegradable.get_pattl()
-    res = list(map(Biodegradable.scan,mols))
+    res = Biodegradable.scan(mol)
     return res
     
 
-def Check_Chelating(mols, detail=False):
+def Check_Chelating(mol, detail=False):
     """
-    Ref.:
-    -----------
-    Agrawal, Arpita, et al.
-    ChemMedChem, 5.2 (2010): 195-199.
-    
-    Brief:
-    -----------
-    The endpoint Chelating presents
-    a compound may inhibit metalloproteins.
+    Check molecule under Chelating Filter,
+    which presents a compound may inhibit metalloproteins.
     Thers are 55 SMARTS in this endpoint
     
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    Reference.:
+        (1) `Agrawal, Arpita. (2010)`_.
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Chelating(mols, detail=True)
+    
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+        
+    .. _Agrawal, Arpita. (2010):
+        https://onlinelibrary.wiley.com/doi/abs/10.1002/cmdc.200900516
+    
     """
     Chelating = _Filter('Chelating',detail)
     Chelating.get_pattl()
-    res = list(map(Chelating.scan,mols))
+    res = Chelating.scan(mol)
     return res
 
 
-def Check_Developmental_Mitochondrial(mols, detail=False):
+def Check_Developmental_Mitochondrial(mol, detail=False):
     """
-    Ref.:
-    -----------
-    Mukesh, P.
-    Structural Alerts for Developmental Toxicity and 
-    Mitochondrial Toxicity Molecular Initiating Events (Lhasa Limited)
-        
-    Brief:
-    -----------
-    The endpoint Developmental_Mitochondrial present
-    a compound may casue Developmental Toxicity and Mitochondrial Toxicity
-    There are 12 SMARTS in this endpoint
+    Check molecule under Developmental_Mitochondrial Filter,
+    which presents a compound may casue Developmental Toxicity and Mitochondrial Toxicity.
+    There are 12 SMARTS in this endpoint.
     
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    Reference:
+        (1) Structural Alerts for Developmental Toxicity and Mitochondrial Toxicity Molecular Initiating Events (Lhasa Limited)
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Developmental_Mitochondrial(mols, detail=True)
+    
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+    
     """
     Developmental_Mitochondrial = _Filter('Developmental_Mitochondrial',detail)
     Developmental_Mitochondrial.get_pattl()
-    res = list(map(Developmental_Mitochondrial.scan,mols))
+    res = Developmental_Mitochondrial.scan(mol)
     return res
 
 
-def Check_Genotoxic_Carcinogenicity_Mutagenicity(mols, detail=False):
+def Check_Genotoxic_Carcinogenicity_Mutagenicity(mol, detail=False):
     """
-    Ref.:
-    -----------
-    (1) Benigni, Romualdo, and Cecilia Bossa. 
-        Mutat Res Rev Mutat Res, 659.3 (2008): 248-261.
-    (2) Ashby, John, and Raymond W. Tennant.
-        Mutat Res Rev Mutat Res, 204.1 (1988): 17-115.
-    (3) Kazius, Jeroen, Ross McGuire, and Roberta Bursi.
-        J Med Chem, 48.1 (2005): 312-320.
-    (4) Bailey, Allan B., et al.
-        Regul Toxicol Pharmacol, 42.2 (2005): 225-235.
+    Check molecule under Developmental_Mitochondrial Filter,
+    which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms.
+    There are 117 SMARTS in this endpoint.
+       
+    Reference:
+        (1) `Benigni, Romualdo and Cecilia Bossa. (2008)`_;
+        (2) `Ashby, John and Raymond W. Tennant. (1988)`_;
+        (3) `Kazius, Jeroen, Ross McGuire, Roberta Bursi. (2005)`_;
+        (4) `Bailey, Allan B. (2005)`_.
+                
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Brief:
-    -----------
-    The endpoint Genotoxic_Carcinogenicity_Mutagenicity present
-    a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms;
-    There are 117 SMARTS in this endpoint
-        
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Genotoxic_Carcinogenicity_Mutagenicity(mols, detail=True)
+    .. _Benigni, Romualdo and Cecilia Bossa. (2008):
+        https://www.sciencedirect.com/science/article/pii/S1383574208000781
+    .. _Ashby, John and Raymond W. Tennant. (1988):
+        https://www.sciencedirect.com/science/article/pii/0165121888901140
+    .. _Kazius, Jeroen, Ross McGuire, Roberta Bursi. (2005):
+        https://pubs.acs.org/doi/abs/10.1021/jm040835a
+    .. _Bailey, Allan B. (2005):
+        https://www.sciencedirect.com/science/article/pii/S0273230005000553
+    
     """
     Genotoxic_Carcinogenicity_Mutagenicity = _Filter('Genotoxic_Carcinogenicity_Mutagenicity',detail)
     Genotoxic_Carcinogenicity_Mutagenicity.get_pattl()
-    res = list(map(Genotoxic_Carcinogenicity_Mutagenicity.scan,mols))
+    res = Genotoxic_Carcinogenicity_Mutagenicity.scan(mol)
     return res
     
     
-def Check_Idiosyncratic(mols, detail=False):
+def Check_Idiosyncratic(mol, detail=False):
     """
-    Ref.:
-    -----------
-    Kalgutkar, Amit S., and John R. Soglia. 
-    Expert Opin Drug Metab Toxicol, 1.1 (2005): 91-142
-        
-    Brief:
-    -----------
-    The endpoit Idiosyncratic presents
-    a compound may has diosyncratic toxicity
+    Check molecule under Idiosyncratic Filter,
+    which presents a compound may has diosyncratic toxicity.
     There are 35 SMARTS in this endpoint.
+    
+    Refercence:
+        (1) `Kalgutkar, Amit S. and John R. Soglia. (2005)`_.
         
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Idiosyncratic(mols, detail=True)
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+    
+    .. _Kalgutkar, Amit S. and John R. Soglia. (2005):
+        https://www.tandfonline.com/doi/abs/10.1517/17425255.1.1.91
+    
     """
     Idiosyncratic = _Filter('Idiosyncratic',detail)
     Idiosyncratic.get_pattl()
-    res = list(map(Idiosyncratic.scan,mols))
+    res = Idiosyncratic.scan(mol)
     return res
 
 
 def Check_LD50_Oral(mol, detail=False):
     """
-    Ref.:
-    -----------
-    Tinkov OV
-    Biomed Khim, 65.2 (2019): 123-132.
-       
-    Brief:
-    -----------
-    The endpoint LD50_Oral presentshh
-    a compound may cause acute toxicity during oral administration;
-    There are 20 SMARTS in this endpoint
+    Check molecule under LD50_Oral Filter,
+    which presents a compound may cause acute toxicity during oral administration;
+    There are 20 SMARTS in this endpoint.
+    
+    Reference:
+        (1) Tinkov OV (2019).
          
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_LD50_Oral(mols, detail=True)
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+    
     """
     LD50_Oral = _Filter('LD50_Oral',detail)
     LD50_Oral.get_pattl()
-    res = list(map(LD50_Oral.scan,mols))
+    res = LD50_Oral.scan(mol)
     return res
     
 
-def Check_Luciferase_Inhibitory(mols, detail=False):
+def Check_Luciferase_Inhibitory(mol, detail=False):
     """
-    Ref.:
-    -----------
-    An unpublished parper
+    There 3 SMARTS in Luciferase_Inhibitory Filter
     
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Luciferase_Inhibitory(mols, detail=True)
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+    
     """
     Luciferase_Inhibitory = _Filter('Luciferase_Inhibitory',detail)
     Luciferase_Inhibitory.get_pattl()
-    res = list(map(Luciferase_Inhibitory.scan,mols))
+    res = Luciferase_Inhibitory.scan(mol)
     return res
     
 
-def Check_NonBiodegradable(mols, detail=False):
+def Check_NonBiodegradable(mol, detail=False):
     """
-    Ref:
-    -----------
-    Environment Canada.
-    Existing Substances Program (CD-ROM), released April, 2004 (2003).
+    Check molecule under NonBiodegradable Filter,
+    which presents a compound may be non-biodegradable.
+    There are 19 SMARTS in this enpoint.
+    
+    Reference:
+        (1) Environment Canada. Existing Substances Program (CD-ROM), released April, 2004 (2003).
         
-    Brief:
-    -----------
-    The endpoint Biodegradable presents
-    a compound may be non-biodegradable.
-    There are 19 SMARTS in this enpoint
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_NonBiodegradable(mols, detail=True)
     """
     NonBiodegradable = _Filter('NonBiodegradable',detail)
     NonBiodegradable.get_pattl()
-    list(map(NonBiodegradable.scan,mols))
+    res = NonBiodegradable.scan(mol)
     return res
     
 
-def Check_NonGenotoxic_Carcinogenicity(mols, detail=False):
+def Check_NonGenotoxic_Carcinogenicity(mol, detail=False):
     """
-    Ref.:
-    -----------
-    (1) Benigni, Romualdo, and Cecilia Bossa. 
-        Mutat Res Rev Mutat Res, 659.3 (2008): 248-261.
-    (2) Benigni, Romualdo, Cecilia Bossa, and Olga Tcheremenskaia.
-        Chem Rev, 113.5 (2013): 2940-2957.
+    Check molecule under NonGenotoxic_Carcinogenicity Filter,
+    which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms。
+    There are 23 SMARTS in this endpoint.
     
-    Brief:
-    -----------
-    The endpoint Genotoxic_Carcinogenicity_Mutagenicity present
-    a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms;
-    There are 23 SMARTS in this endpoint
-        
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    Reference:
+        (1) `Benigni, Romualdo and Cecilia Bossa (2008)`_;
+        (2) `Benigni, Romualdo, Cecilia Bossa and Olga Tcheremenskaia (2013)`_.
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_NonGenotoxic_Carcinogenicity(mols, detail=True)
+    
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+    
+    .. _Benigni, Romualdo and Cecilia Bossa (2008):
+        https://www.sciencedirect.com/science/article/pii/S1383574208000781
+    .. _Benigni, Romualdo, Cecilia Bossa and Olga Tcheremenskaia (2013):
+        https://pubs.acs.org/doi/abs/10.1021/cr300206t
+      
     """
     NonGenotoxic_Carcinogenicity = _Filter('NonGenotoxic_Carcinogenicity',detail)
     NonGenotoxic_Carcinogenicity.get_pattl()
-    res = list(map(NonGenotoxic_Carcinogenicity.scan,mols))
+    res = NonGenotoxic_Carcinogenicity.scan(mol)
     return res
 
 
-def Check_PAINS(mols, detail=False):
+def Check_PAINS(mol, detail=False):
     """
-    Ref.:
-    -----------
-    Baell, Jonathan B., and Georgina A. Holloway.
-    J Med Chem, 53.7 (2010): 2719-2740.
+    Check molecule under PAINS Filter,
+    which presents a type of compounds tend to be hitted in HTS.
+    There are 480 SMARTS in this endpoint.
     
-    Brief:
-    -----------
-    PAINS i.e.,Pan Assay Interference Compounds, presents a type of
-    compounds tend to be hitted in HTS. The article, J Med Chem, 53.7 (2010): 2719-2740,
-    proposed 480 substructures to demonstrated PAINS.
-           
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    Reference:
+        (1) `Baell, Jonathan B. and Georgina A. Holloway (2010)`_.
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_PAINS(mols, detail=True)
+
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+    
+    .. _Baell, Jonathan B. and Georgina A. Holloway (2010):
+        https://pubs.acs.org/doi/abs/10.1021/jm901137j
+    
     """
     PAINS = _Filter('Pains',detail)
     PAINS.get_pattl()
-    res = list(map(PAINS.scan,mols))
+    res = PAINS.scan(mol)
     return res
 
 
-def Check_Potential_Electrophilic(mols, detail=False):
+def Check_Potential_Electrophilic(mol, detail=False):
     """
-    Ref.:
-    -----------
-    Enoch, S. J., et al.
-    Crit Rev Toxicol, 41.9 (2011): 783-802.
-        
-    Brief:
-    -----------
-    The point Potential_Electrophilic presents
-    a compound would be more probably take part in electrophilic reaction,
+    Check molecule under Potential_Electrophilic Filter,
+    which presents a compound would be more probably take part in electrophilic reaction, 
     and the electrophilic reaction is strongly assosiated with protein binding.
-    There are 119 SMARTS in this endpoint
+    There are 119 SMARTS in this endpoint.
+    
+    Reference:
+        (1) `Enoch, S. J (2011)`_.
         
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Potential_Electrophilic(mols, detail=True)
+    .. _Enoch, S. J (2011):
+        https://www.tandfonline.com/doi/abs/10.3109/10408444.2011.598141
+    
     """
     Potential_Electrophilic = _Filter('Potential_Electrophilic',detail)
     Potential_Electrophilic.get_pattl()
-    res = list(map(Potential_Electrophilic.scan,mols))
+    res = Potential_Electrophilic.scan(mol)
     return res
 
-def Check_Promiscuity(mols, detail=False):
+def Check_Promiscuity(mol, detail=False):
     """
-    Ref.:
-    -----------
-    Pearce, Bradley C., et al.
-    J Chem Inf Model, 46.3 (2006): 1060-1068.
+    Check molecule under Promiscuity Filter,
+    There are 177 SMARTS in this endpoint.
+    
+    Reference:
+        (1) `Pearce, Bradley C (2016)`_.
         
-    Brief:
-    -----------
-    There are 119
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    .. _Pearce, Bradley C (2016):
+        https://pubs.acs.org/doi/abs/10.1021/ci050504m
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Promiscuity(mols, detail=True)
     """
     Promiscuity = _Filter('Promiscuity',detail)
     Promiscuity.get_pattl()
-    res = list(map(Promiscuity.scan,mols))
+    res = Promiscuity.scan(mol)
     return res
     
 
-def Check_Reactive_Unstable_Toxic(mols, detail=False):
+def Check_Reactive_Unstable_Toxic(mol, detail=False):
     """
-    Ref.:
-    -----------
-    ChemDiv
+    Check molecule under Reactive_Unstable_Toxic Filter.
+    There are 335 SMARTS in this endpoint.
     
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    Reference:
+        (1) `ChemDiv`_.
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Reactive_Unstable_Toxic(mols, detail=True)
+
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+    
+    .. _ChemDiv:
+        https://www.chemdiv.com/
+    
     """
     Reactive_Unstable_Toxic = _Filter('Reactive_Unstable_Toxic',detail)
     Reactive_Unstable_Toxic.get_pattl()
-    res = list(map(Reactive_Unstable_Toxic.scan,mols))
+    res = Reactive_Unstable_Toxic.scan(mol)
     return res
 
 
-def Check_Skin_Sensitization(mols, detail=False):
+def Check_Skin_Sensitization(mol, detail=False):
     """
-    Ref.:
-    -----------
-    (1) Payne, M. P., and P. T. Walsh
-        J Chem Inf Comput Sci, 34.1 (1994): 154-161.
-    (2) Enoch, S. J., J. C. Madden, and M. T. D. Cronin
-        SAR QSAR Environ Res, 19.5-6 (2008): 555-578.
-    (3) Barratt, M. D., et al.
-        Toxicol In Vitro, 8.5 (1994): 1053-1060.
+    Check molecule under Skin_Sensitization Filter,
+    There are 155 SMARTS in this endpoint.
+    
+    Reference:
+        (1) `Payne, M. P. and P. T. Walsh (1994)`_.
+        (2) `Enoch, S. J., J. C. Madden and M. T. D. Cronin (2008)`_.
+        (3) `Barratt, M. D (1994)`_.
             
-    Brief:
-    -----------
-    There are 155 SMARTS in this endpoint
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    .. _Payne, M. P. and P. T. Walsh (1994):
+        https://pubs.acs.org/doi/pdf/10.1021/ci00017a019
+    .. _Enoch, S. J., J. C. Madden and M. T. D. Cronin (2008):
+        https://www.tandfonline.com/doi/abs/10.1080/10629360802348985
+    .. _Barratt, M. D (1994):
+        https://www.sciencedirect.com/science/article/pii/0887233394902445
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Reactive_Skin_Sensitization(mols, detail=True)
     """
     Skin_Sensitization = _Filter('Skin_Sensitization',detail)
     Skin_Sensitization.get_pattl()
-    res = list(map(Skin_Sensitization.scan,mols))
+    res = Skin_Sensitization.scan(mol)
     return res
     
 
-def Check_DNA_Binding(mols, detail=False):
+def Check_DNA_Binding(mol, detail=False):
     """
-    Ref.:
-    -----------   
+    Check molecule under DNA_Binding Filter,
+    There are 78 SMARTS in this endpoint.
+    
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
+    
 
-    Brief:
-    -----------
-    There are 78 SMARTS in this endpoint
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
     
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-    
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
-    
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Reactive_DNA_Binding(mols, detail=True)
     """
     DNA_Binding = _Filter('DNA_Binding',detail)
     DNA_Binding.get_pattl()
-    res = list(map(DNA_Binding.scan,mols))
+    res = DNA_Binding.scan(mol)
     return res
 
 
 def Check_SureChEMBL(mol, detail=False):
     """
-    Ref.: https://www.surechembl.org/knowledgebase/169485   
-    -----------
+    Check molecule under SureChEMBL Filter,
+    which presents a compound would match one or more structural alerts and hence considered to have a MedChem unfriendly status.  
+    There are 164 SMARTS in this endpoint.
     
-    Brief:
-    -----------
-    SMARTS descriptions used by SureChEMBL that would indicate whether 
-    a compound would match one or more structural alerts and
-    hence considered to have a MedChem unfriendly status.  
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    .. _SureChEMBL:
+        https://www.surechembl.org/knowledgebase/169485
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_SureChEMBL(mols, detail=True)
     """
     SureChEMBL = _Filter('SureChEMBL',detail)
     SureChEMBL.get_pattl()
-    res = list(map(SureChEMBL.scan,mols))
+    res = SureChEMBL.scan(mol)
     return res
     
     
-def Check_BMS(mols, detail=False):
+def Check_BMS(mol, detail=False):
     """
-    Ref.:
-    -----------
-    Pearce, Bradley C., et al.
-    J Chem Inf Model, 46.3 (2006): 1060-1068.
-    
-    Brief:
-    -----------
+    Check molecule under BMS Filter.
     Pearce has proposed a Functional Group Compound Filters(FG Filters).
     The FG filters are consisted of two part, Exclusion FG filters and informational filters.
     Exclusion FG filters are those intended for compound removal from screening decks;
     Informational filters are useful for compound annotation.
+    There are 176 SMARTS in this endpoint.
     
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    Reference:
+        (1) `Pearce, Bradley C (2006)`_.
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_BMS(mols, detail=True)
+
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+    
+    .. _Pearce, Bradley C (2006):
+        https://pubs.acs.org/doi/abs/10.1021/ci050504m
+    
     """
     BMS = _Filter('BMS',detail)
     BMS.get_pattl()
-    res = list(map(BMS.scan,mols))
+    res = BMS.scan(mol)
     return res
 
 
-def Check_NTD(mols, detail=False):
+def Check_NTD(mol, detail=False):
     """
-    Ref.:
-    -----------
-    Brenk, Ruth, et al.
-    ChemMedChem, 3(3), 435-444.
-          
-    Brief:
-    -----------
     Brenk has proposed 105 unwanted groups in HTS
     
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    Reference:
+        (1) `Brenk, Ruth (2008)`_.
+          
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
+
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
     
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_NTD(mols, detail=True)
+    .. _Brenk, Ruth (2008):
+        https://onlinelibrary.wiley.com/doi/abs/10.1002/cmdc.200700139
+        
     """        
     NTD = _Filter('NTD',detail)
     NTD.get_pattl()
-    res = list(map(NTD.scan,mols))
+    res = NTD.scan(mol)
     return res
 
 
-def Check_Alarm_NMR(mols, detail=False):
+def Check_Alarm_NMR(mol, detail=False):
     """
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    There are 75 SMARTS in alarm_nmr 
+
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
-    
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Alarm_NMR(mols, detail=True)
+
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+         
     """
     Alarm_NMR = _Filter('Alarm_NMR',detail)
     Alarm_NMR.get_pattl()
-    res = list(map(Alarm_NMR.scan,mols))
+    res = Alarm_NMR.scan(mol)
     return res
     
 
-def Check_Frequent_Hitters(mols, detail=False):
+def Check_Frequent_Hitters(mol, detail=False):
     """
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    There are 15 SMARTS in Frequent_Hitters
+
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
-    
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Alarm_NMR(mols, detail=True)
+
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+         
     """
     Frequent_Hitters = _Filter('Frequent_Hitters',detail)
     Frequent_Hitters.get_pattl()
-    res = list(map(Frequent_Hitters.scan,mols))
+    res = Frequent_Hitters.scan(mol)
     return res
     
 
-def Check_Aggregators(mols, detail=False):
+def Check_Aggregators(mol, detail=False):
     """
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    There are 311 SMARTS in Aggregators
+
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
-    
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Aggregators(mols, detail=True)
+
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+         
     """
     Aggregators = _Filter('Aggregators',detail)
     Aggregators.get_pattl()
-    res = list(map(Aggregators.scan,mols))
+    res = Aggregators.scan(mol)
     return res
 
 
-def Check_Toxicophores(mols, stype='single', detail=False):
+def Check_Toxicophores(mol, stype='single', detail=False):
     """
-    Parameters:
-    -----------         
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
-    detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+    There 154 SMARTS in Toxicophres
+
+    :param mol: The molecule to be scanned
+    :type mol: rdkit.Chem.rdchem.Mol
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
     
-    Return:
-    -----------
-    a lisf of namedtuple            
-    namedtuple('CheckRes',['Disposed','MatchedAtoms','MatchedNames','Endpoint']), for detail=True;
-    and namedtuple('CheckRes',['Disposed','Endpoint']) for False
-    
-    Usage:
-    -----------
-    smis = ['C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1']
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_Alarm_NMR(mols, detail=True)
+
+    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
+    :rtype: namedtuple
+         
     """
     Toxicophores = _Filter('Toxicophores',detail)
     Toxicophores.get_pattl()
-    res = list(map(Toxicophores.scan,mols))
+    res = Toxicophores.scan(mol)
     return res
     
-
-
-
 
 if __name__ == '__main__':
     smis = [
@@ -1074,8 +740,9 @@ if __name__ == '__main__':
             'C1=C2N=CC=NC2=C2N=CNC2=C1', #Genotoxic_Carcinogenicity_Mutagenicity
             'N(CC)(CCCCC)C(=S)N', #Idiosyncratic
             ]     
-    mols = (Chem.MolFromSmiles(smi) for smi in smis)
-    res = Check_PAINS(mols,detail=True)
+    mol = Chem.MolFromSmiles(smis[0])
+    res = Check_Acute_Aquatic_Toxicity(mol,detail=True)
+    print(res)
     
     
     

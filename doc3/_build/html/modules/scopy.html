@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>scopy package &#8212; Scopy 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">scopy package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-scopy.ScoConfig">scopy.ScoConfig module</a></li>
+<li><a class="reference internal" href="#module-scopy">Module contents</a><ul>
+<li><a class="reference internal" href="#main-features">Main Features</a></li>
+<li><a class="reference internal" href="#future-works">Future works</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/scopy.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="scopy-package">
+<h1>scopy package<a class="headerlink" href="#scopy-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="scopy.druglikeness.html">scopy.druglikeness package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scopy.druglikeness.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.druglikeness.html#module-scopy.druglikeness.druglikeness">scopy.druglikeness.druglikeness module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.druglikeness.html#module-scopy.druglikeness.molproperty">scopy.druglikeness.molproperty module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.druglikeness.html#module-scopy.druglikeness.rulesfilter">scopy.druglikeness.rulesfilter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.druglikeness.html#module-scopy.druglikeness.visualize">scopy.druglikeness.visualize module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.druglikeness.html#module-scopy.druglikeness">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scopy.fingerprint.html">scopy.fingerprint package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scopy.fingerprint.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.fingerprint.html#module-scopy.fingerprint.daylight">scopy.fingerprint.daylight module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.fingerprint.html#module-scopy.fingerprint.efg">scopy.fingerprint.efg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.fingerprint.html#module-scopy.fingerprint.estate">scopy.fingerprint.estate module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.fingerprint.html#module-scopy.fingerprint.fingerprints">scopy.fingerprint.fingerprints module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.fingerprint.html#module-scopy.fingerprint.ghosecrippen">scopy.fingerprint.ghosecrippen module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.fingerprint.html#module-scopy.fingerprint.maccs">scopy.fingerprint.maccs module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.fingerprint.html#module-scopy.fingerprint.morgan">scopy.fingerprint.morgan module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.fingerprint.html#module-scopy.fingerprint.pubchem">scopy.fingerprint.pubchem module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.fingerprint.html#module-scopy.fingerprint">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scopy.structure_alert.html">scopy.structure_alert package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scopy.structure_alert.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.structure_alert.html#module-scopy.structure_alert.FilterWithSmarts">scopy.structure_alert.FilterWithSmarts module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.structure_alert.html#module-scopy.structure_alert.SmartProcess">scopy.structure_alert.SmartProcess module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.structure_alert.html#module-scopy.structure_alert.SmartsFilter">scopy.structure_alert.SmartsFilter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.structure_alert.html#module-scopy.structure_alert">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-scopy.ScoConfig">
+<span id="scopy-scoconfig-module"></span><h2>scopy.ScoConfig module<a class="headerlink" href="#module-scopy.ScoConfig" title="Permalink to this headline">¶</a></h2>
+<p>Created on Tue Jun 25 21:59:42 2019</p>
+<p>&#64;Author: Zhi-Jiang Yang, Dong-Sheng Cao
+&#64;Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，
+&#64;Homepage: <a class="reference external" href="http://www.scbdd.com">http://www.scbdd.com</a>
+&#64;Mail: <a class="reference external" href="mailto:yzjkid9&#37;&#52;&#48;gmail&#46;com">yzjkid9<span>&#64;</span>gmail<span>&#46;</span>com</a>; <a class="reference external" href="mailto:oriental-cds&#37;&#52;&#48;163&#46;com">oriental-cds<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Blog: <a class="reference external" href="https://blog.moyule.me">https://blog.moyule.me</a></p>
+</div>
+<div class="section" id="module-scopy">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scopy" title="Permalink to this headline">¶</a></h2>
+<p>ScoPy(provisional), which based on rdkit and openbabel, 
+has been designed for checking molecule(s) wheather or not 
+has(have) some toxic substructure(s) through comparing the 
+SMILES of molecule(s) and the SMARTS of toxic substructure(s) 
+which obtained from ToxAlerts Database(<a class="reference external" href="https://ochem.eu/alerts/home.do">https://ochem.eu/alerts/home.do</a>).
+========================================================================</p>
+<div class="section" id="main-features">
+<h3>Main Features<a class="headerlink" href="#main-features" title="Permalink to this headline">¶</a></h3>
+<p>Here are just some slight works that we have done:</p>
+<blockquote>
+<div><dl>
+<dt>-Checking molecule with different formats under the supporting of rdkit, </dt><dd><p>including: SMILES, MolFile, SDMolSupplier.</p>
+</dd>
+<dt>-If the SMILES cannot be recognized by rdkit, the SMILES will be converted to</dt><dd><p>Canonical SMILES through a function, based on openbabel module, 
+which contributed by CatKin(<a class="reference external" href="https://blog.catkin.moe/">https://blog.catkin.moe/</a>).</p>
+</dd>
+<dt>-Here you can check structural alerts for various toxicological endpoints</dt><dd><p>Endpoints including: 
+0:Acute_Aquatic_Toxicity                       1:AlphaScreen-FHs
+2:AlphaScreen-GST-FHs                          3:AlphaScreen-HIS-FHs
+4:Biodegradable_compounds                      5:Chelating_agents
+<a href="#id1"><span class="problematic" id="id2">6:Custom_filters_</span></a>                              7:Developmental_and_mitochondrial_toxicity
+8:Extended_Functional_Groups_(EFG)             9:Genotoxic_carcinogenicity,_mutagenicity
+10:Idiosyncratic_toxicity_(RM_formation)       11:LD50_mo_oral
+12:Luciferase_Inhibitory_Activity              13:Nonbiodegradable_compounds
+14:Non-genotoxic_carcinogenicity               15:PAINS_compounds
+16:Potential_electrophilic_agents              17:Promiscuity
+18:Reactive,_unstable,_toxic                   19:Skin_sensitization
+20:UNIFAC                                      21:All
+you could directly pass the index of endpoint as the parameter, the default parameter is “All”.
+-The result will be output in the format: “The XXX matched the SMARTS: YYY, endpoint: ZZZ”,</p>
+<blockquote>
+<div><p>the some function could show which part match the SMARTS, used in Ipython console.</p>
+</div></blockquote>
+</dd>
+</dl>
+</div></blockquote>
+</div>
+<div class="section" id="future-works">
+<h3>Future works<a class="headerlink" href="#future-works" title="Permalink to this headline">¶</a></h3>
+<p>Here some problems we do not resolve yet, and some works need we to finish:</p>
+<blockquote>
+<div><p>-Some SMARTS cannot be recognized.
+-Correcting the SMARTS.
+-Improving codes.
+-Giving a probability value of output.</p>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Zhijiang Yang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

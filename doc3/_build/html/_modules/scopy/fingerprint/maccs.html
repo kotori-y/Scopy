@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>scopy.fingerprint.maccs &#8212; Scopy 1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for scopy.fingerprint.maccs</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1">#Created on Thu Nov 28 16:42:49 2019</span>
+<span class="c1">#</span>
+<span class="c1">#@Author: Zhi-Jiang Yang, Dong-Sheng Cao</span>
+<span class="c1">#@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China</span>
+<span class="c1">#@Homepage: http://www.scbdd.com</span>
+<span class="c1">#@Mail: yzjkid9@gmail.com; oriental-cds@163.com</span>
+<span class="c1">#@Blog: https://blog.moyule.me</span>
+<span class="c1">#</span>
+<span class="c1">#♥I love Princess Zelda forever♥</span>
+
+
+<span class="kn">from</span> <span class="nn">rdkit.Chem.rdMolDescriptors</span> <span class="k">import</span> <span class="n">GetMACCSKeysFingerprint</span>
+
+
+<div class="viewcode-block" id="MACCS"><a class="viewcode-back" href="../../../modules/scopy.fingerprint.html#scopy.fingerprint.maccs.MACCS">[docs]</a><span class="k">class</span> <span class="nc">MACCS</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;There is a SMARTS-based implementation of the 166 public MACCS keys.</span>
+<span class="sd">    167 bits</span>
+<span class="sd">    </span>
+<span class="sd">    Note:</span>
+<span class="sd">        (1) Most of the differences have to do with aromaticity</span>
+<span class="sd">        (2) There’s a discrepancy sometimes because the current RDKit definitions do not require multiple matches to be distinct. e.g. the SMILES C(=O)CC(=O) can match the (hypothetical) key O=CC twice in my definition. It’s not clear to me what the correct behavior is.</span>
+<span class="sd">        (3) Some keys are not fully defined in the MDL documentation.</span>
+<span class="sd">        (4) Two keys, 125 and 166, have to be done outside of SMARTS. </span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialization</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+    
+<div class="viewcode-block" id="MACCS.CalculateMACCS"><a class="viewcode-back" href="../../../modules/scopy.fingerprint.html#scopy.fingerprint.maccs.MACCS.CalculateMACCS">[docs]</a>    <span class="k">def</span> <span class="nf">CalculateMACCS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mol</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;There is a SMARTS-based implementation of the 166 public MACCS keys.</span>
+<span class="sd">        167 bits</span>
+<span class="sd">        </span>
+<span class="sd">        :param mol: molecule</span>
+<span class="sd">        :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">        :return: fingerprint</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">GetMACCSKeysFingerprint</span><span class="p">(</span><span class="n">mol</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">fp</span></div></div>
+
+
+
+
+<span class="k">if</span> <span class="s1">&#39;__main__&#39;</span> <span class="o">==</span> <span class="vm">__name__</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="k">import</span> <span class="n">AllChem</span> <span class="k">as</span> <span class="n">Chem</span>
+    <span class="n">smis</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;C1=CC=CC(C(Br)C)=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=NC(CCN)=CN1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1CCCC(CCO)C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=CC=C2N=C(O)C=CC2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C(OC)1=C(C)C=C2OC[C@]([H])3OC4C(C)=C(OC)C=CC=4C(=O)[C@@]3([H])C2=C1C&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C2N=CC=NC2=C2N=CNC2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C(O)C=CC(O)=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;CCC1(c2ccccc2)C(=O)NC(=O)NC1=O&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;N1=CN=CN=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C2C=CC=CC2=CC2C=CC=CC1=2&#39;</span><span class="p">,</span> <span class="c1">#NonGenotoxic_Carcinogenicity</span>
+            <span class="s1">&#39;C1=CC=C2C(=O)CC(=O)C2=C1&#39;</span><span class="p">,</span> <span class="c1">#Pains</span>
+            <span class="s1">&#39;C1=CC=CC(COCO)=C1&#39;</span><span class="p">,</span> <span class="c1">#Potential_Electrophilic</span>
+            <span class="s1">&#39;N1=NC=CN1C=O&#39;</span><span class="p">,</span> <span class="c1">#Promiscuity</span>
+            <span class="s1">&#39;CC(=O)OC(=O)C1C=COC1&#39;</span><span class="p">,</span> <span class="c1">#Skin_Sensitization</span>
+            <span class="s1">&#39;S&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;CCCCC(=O)[H]&#39;</span><span class="p">,</span> <span class="c1">#Biodegradable</span>
+            <span class="s1">&#39;C1=CN=C(C(=O)O)C=C1&#39;</span><span class="p">,</span> <span class="c1">#Chelating</span>
+            <span class="s1">&#39;C(OC)1=CC=C2OCC3OC4C=C(OC)C=CC=4C(=O)C3C2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C2N=CC=NC2=C2N=CNC2=C1&#39;</span><span class="p">,</span> <span class="c1">#Genotoxic_Carcinogenicity_Mutagenicity</span>
+            <span class="s1">&#39;N(CC)(CCCCC)C(=S)N&#39;</span><span class="p">,</span> <span class="c1">#Idiosyncratic</span>
+            <span class="p">]</span>
+
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smis</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">MACCS</span><span class="p">()</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">CalculateMACCS</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Zhijiang Yang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

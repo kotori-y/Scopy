@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>scopy.test.test_StructureAlert &#8212; Scopy 1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for scopy.test.test_StructureAlert</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Wed Jun 26 17:29:42 2019</span>
+
+<span class="sd">@Author: CBDD Group, CSU, China</span>
+<span class="sd">@Homepage: http://www.scbdd.com</span>
+<span class="sd">@Mail: yzjkid9@gmail.com</span>
+<span class="sd">@Blog: https://blog.moyule.me</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">scopy.StructureAlert</span> <span class="k">import</span> <span class="n">FliterWithSmarts</span>
+<span class="kn">from</span> <span class="nn">scopy.StructureAlert</span> <span class="k">import</span> <span class="n">ComputeEFG</span>
+<span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="k">import</span> <span class="n">AllChem</span> <span class="k">as</span> <span class="n">Chem</span>
+
+<div class="viewcode-block" id="test_FliterWithSmarts"><a class="viewcode-back" href="../../../modules/scopy.test.html#scopy.test.test_StructureAlert.test_FliterWithSmarts">[docs]</a><span class="k">def</span> <span class="nf">test_FliterWithSmarts</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;Testing FliterWithSmarts module</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">smis</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;CCCCCC&#39;</span><span class="p">,</span><span class="s1">&#39;CCC(C)CC&#39;</span><span class="p">,</span><span class="s1">&#39;CC(C)CCC&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2&#39;</span><span class="p">,</span><span class="s1">&#39;CCCCCN&#39;</span><span class="p">,</span><span class="s1">&#39;c1ccccc1N&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span><span class="n">smi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">smis</span><span class="p">):</span>
+        <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smi</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> The SMILES </span><span class="si">{}</span><span class="s1">:&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">smi</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">FliterWithSmarts</span><span class="o">.</span><span class="n">Check_Acute_Aquatic_Toxicity</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">The all properties are: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">res</span><span class="p">))</span></div>
+
+
+
+
+
+
+
+<span class="k">if</span> <span class="s1">&#39;__main__&#39;</span> <span class="o">==</span> <span class="vm">__name__</span><span class="p">:</span>
+    <span class="n">test_FliterWithSmarts</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Zhijiang Yang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

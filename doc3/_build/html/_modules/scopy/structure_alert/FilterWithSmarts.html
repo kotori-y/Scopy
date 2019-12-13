@@ -1,0 +1,826 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>scopy.structure_alert.FilterWithSmarts &#8212; Scopy 1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for scopy.structure_alert.FilterWithSmarts</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1">#Created on Tue Jun 25 21:59:42 2019</span>
+<span class="c1">#</span>
+<span class="c1">#@Author: Zhi-Jiang Yang, Dong-Sheng Cao</span>
+<span class="c1">#@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，</span>
+<span class="c1">#@Homepage: http://www.scbdd.com</span>
+<span class="c1">#@Mail: yzjkid9@gmail.com; oriental-cds@163.com</span>
+<span class="c1">#@Blog: https://blog.moyule.me</span>
+
+
+<span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="k">import</span> <span class="n">AllChem</span> <span class="k">as</span> <span class="n">Chem</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">SmartProcess</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">SmartProcess</span>
+
+
+<span class="k">class</span> <span class="nc">_Filter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    *Internal Use Only*</span>
+<span class="sd">    the tool to check molecule(s) whether matched some unexpected endpoints.</span>
+<span class="sd">    based on module SmartProcess</span>
+<span class="sd">    </span>
+<span class="sd">    :param endpoint: The name of endpoint for scanning molecule</span>
+<span class="sd">    :type endpoint: str</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">     </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">endpoint</span><span class="p">,</span><span class="n">detail</span><span class="p">):</span>
+         <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">=</span> <span class="n">endpoint</span>   
+         <span class="bp">self</span><span class="o">.</span><span class="n">detail</span> <span class="o">=</span> <span class="n">detail</span>
+    
+    <span class="k">def</span> <span class="nf">get_pattl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pattl</span> <span class="o">=</span> <span class="n">SmartProcess</span><span class="o">.</span><span class="n">_Loadpkl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">scan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">SmartProcess</span><span class="o">.</span><span class="n">_CheckWithSmarts</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">pattl</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span>
+    
+    
+<div class="viewcode-block" id="Check_Acute_Aquatic_Toxicity"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Acute_Aquatic_Toxicity">[docs]</a><span class="k">def</span> <span class="nf">Check_Acute_Aquatic_Toxicity</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check molecule under Acute_Aquatic_Toxicity Filter,</span>
+<span class="sd">    which presents a compound may cause toxicity to liquid(water).</span>
+<span class="sd">    There are 99 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) `Hermens, J. L. (1990)`_;</span>
+<span class="sd">        (2) `Verhaar, Henk JM, Cees J. Van Leeuwen (1992)`_.</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    .. _Hermens, J. L. (1990):</span>
+<span class="sd">        https://ehp.niehs.nih.gov/doi/abs/10.1289/ehp.9087219</span>
+<span class="sd">    .. _Verhaar, Henk JM, Cees J. Van Leeuwen (1992):</span>
+<span class="sd">        https://www.sciencedirect.com/science/article/pii/0045653592902805</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Aquatic</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Acute_Aquatic_Toxicity&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">Aquatic</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Aquatic</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="Check_AlphaScreen_FHs"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_FHs">[docs]</a><span class="k">def</span> <span class="nf">Check_AlphaScreen_FHs</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under Check_AlphaScreen_FHs Filter,</span>
+<span class="sd">    which presents a compound may be alphascreen frequent hitters.</span>
+<span class="sd">    There are 6 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) `Schorpp, Kenji. (2014)`_.</span>
+<span class="sd">        </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    .. _Schorpp, Kenji (2014):</span>
+<span class="sd">        https://journals.sagepub.com/doi/full/10.1177/1087057113516861</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">AlphaScreen</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;AlphaScreen_FHs&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">AlphaScreen</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">AlphaScreen</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="Check_AlphaScreen_GST_FHs"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_GST_FHs">[docs]</a><span class="k">def</span> <span class="nf">Check_AlphaScreen_GST_FHs</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under Check_AlphaScreen_GST_FHs Filter,</span>
+<span class="sd">    which presents a compound may prevent GST/GSH interaction during HTS.</span>
+<span class="sd">    There are 34 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    References:</span>
+<span class="sd">        (1) `Brenke, Jara K. (2016)`_.</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    .. _Brenke, Jara K. (2016):</span>
+<span class="sd">        https://journals.sagepub.com/doi/abs/10.1177/1087057116639992</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">GST</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;AlphaScreen_GST_FHs&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">GST</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">GST</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="Check_AlphaScreen_HIS_FHs"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_HIS_FHs">[docs]</a><span class="k">def</span> <span class="nf">Check_AlphaScreen_HIS_FHs</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under Check_AlphaScreen_HIS_FHs Filter,</span>
+<span class="sd">    which presents a compound prevents the binding of the protein His-tag moiety to nickel chelate.</span>
+<span class="sd">    There are 19 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) `Schorpp, Kenji. (2014)`_.</span>
+<span class="sd">        </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">        </span>
+<span class="sd">    .. _Schorpp, Kenji. (2014):</span>
+<span class="sd">        https://journals.sagepub.com/doi/abs/10.1177/1087057113516861</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">HIS</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;AlphaScreen_HIS_FHs&#39;</span><span class="p">,</span> <span class="n">detail</span><span class="p">)</span>
+    <span class="n">HIS</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">HIS</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="Check_Biodegradable"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Biodegradable">[docs]</a><span class="k">def</span> <span class="nf">Check_Biodegradable</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under Biodegradable Filter,</span>
+<span class="sd">    which presents a compound may be Biodegradable.</span>
+<span class="sd">    There are 9 SMARTS in this enpoint</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:          </span>
+<span class="sd">        (1) Existing Substances Program (CD-ROM), released April, 2004 (2003).</span>
+<span class="sd">        </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Biodegradable</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Biodegradable&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">Biodegradable</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Biodegradable</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+    
+
+<div class="viewcode-block" id="Check_Chelating"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Chelating">[docs]</a><span class="k">def</span> <span class="nf">Check_Chelating</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under Chelating Filter,</span>
+<span class="sd">    which presents a compound may inhibit metalloproteins.</span>
+<span class="sd">    Thers are 55 SMARTS in this endpoint</span>
+<span class="sd">    </span>
+<span class="sd">    Reference.:</span>
+<span class="sd">        (1) `Agrawal, Arpita. (2010)`_.</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">        </span>
+<span class="sd">    .. _Agrawal, Arpita. (2010):</span>
+<span class="sd">        https://onlinelibrary.wiley.com/doi/abs/10.1002/cmdc.200900516</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Chelating</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Chelating&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">Chelating</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Chelating</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="Check_Developmental_Mitochondrial"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Developmental_Mitochondrial">[docs]</a><span class="k">def</span> <span class="nf">Check_Developmental_Mitochondrial</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under Developmental_Mitochondrial Filter,</span>
+<span class="sd">    which presents a compound may casue Developmental Toxicity and Mitochondrial Toxicity.</span>
+<span class="sd">    There are 12 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) Structural Alerts for Developmental Toxicity and Mitochondrial Toxicity Molecular Initiating Events (Lhasa Limited)</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Developmental_Mitochondrial</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Developmental_Mitochondrial&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">Developmental_Mitochondrial</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Developmental_Mitochondrial</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="Check_Genotoxic_Carcinogenicity_Mutagenicity"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Genotoxic_Carcinogenicity_Mutagenicity">[docs]</a><span class="k">def</span> <span class="nf">Check_Genotoxic_Carcinogenicity_Mutagenicity</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under Developmental_Mitochondrial Filter,</span>
+<span class="sd">    which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms.</span>
+<span class="sd">    There are 117 SMARTS in this endpoint.</span>
+<span class="sd">       </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) `Benigni, Romualdo and Cecilia Bossa. (2008)`_;</span>
+<span class="sd">        (2) `Ashby, John and Raymond W. Tennant. (1988)`_;</span>
+<span class="sd">        (3) `Kazius, Jeroen, Ross McGuire, Roberta Bursi. (2005)`_;</span>
+<span class="sd">        (4) `Bailey, Allan B. (2005)`_.</span>
+<span class="sd">                </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    .. _Benigni, Romualdo and Cecilia Bossa. (2008):</span>
+<span class="sd">        https://www.sciencedirect.com/science/article/pii/S1383574208000781</span>
+<span class="sd">    .. _Ashby, John and Raymond W. Tennant. (1988):</span>
+<span class="sd">        https://www.sciencedirect.com/science/article/pii/0165121888901140</span>
+<span class="sd">    .. _Kazius, Jeroen, Ross McGuire, Roberta Bursi. (2005):</span>
+<span class="sd">        https://pubs.acs.org/doi/abs/10.1021/jm040835a</span>
+<span class="sd">    .. _Bailey, Allan B. (2005):</span>
+<span class="sd">        https://www.sciencedirect.com/science/article/pii/S0273230005000553</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Genotoxic_Carcinogenicity_Mutagenicity</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Genotoxic_Carcinogenicity_Mutagenicity&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">Genotoxic_Carcinogenicity_Mutagenicity</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Genotoxic_Carcinogenicity_Mutagenicity</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+    
+    
+<div class="viewcode-block" id="Check_Idiosyncratic"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Idiosyncratic">[docs]</a><span class="k">def</span> <span class="nf">Check_Idiosyncratic</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under Idiosyncratic Filter,</span>
+<span class="sd">    which presents a compound may has diosyncratic toxicity.</span>
+<span class="sd">    There are 35 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    Refercence:</span>
+<span class="sd">        (1) `Kalgutkar, Amit S. and John R. Soglia. (2005)`_.</span>
+<span class="sd">        </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    .. _Kalgutkar, Amit S. and John R. Soglia. (2005):</span>
+<span class="sd">        https://www.tandfonline.com/doi/abs/10.1517/17425255.1.1.91</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Idiosyncratic</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Idiosyncratic&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">Idiosyncratic</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Idiosyncratic</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="Check_LD50_Oral"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_LD50_Oral">[docs]</a><span class="k">def</span> <span class="nf">Check_LD50_Oral</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under LD50_Oral Filter,</span>
+<span class="sd">    which presents a compound may cause acute toxicity during oral administration;</span>
+<span class="sd">    There are 20 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) Tinkov OV (2019).</span>
+<span class="sd">         </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LD50_Oral</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;LD50_Oral&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">LD50_Oral</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">LD50_Oral</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+    
+
+<div class="viewcode-block" id="Check_Luciferase_Inhibitory"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Luciferase_Inhibitory">[docs]</a><span class="k">def</span> <span class="nf">Check_Luciferase_Inhibitory</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    There 3 SMARTS in Luciferase_Inhibitory Filter</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Luciferase_Inhibitory</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Luciferase_Inhibitory&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">Luciferase_Inhibitory</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Luciferase_Inhibitory</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+    
+
+<div class="viewcode-block" id="Check_NonBiodegradable"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_NonBiodegradable">[docs]</a><span class="k">def</span> <span class="nf">Check_NonBiodegradable</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under NonBiodegradable Filter,</span>
+<span class="sd">    which presents a compound may be non-biodegradable.</span>
+<span class="sd">    There are 19 SMARTS in this enpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) Environment Canada. Existing Substances Program (CD-ROM), released April, 2004 (2003).</span>
+<span class="sd">        </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">NonBiodegradable</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;NonBiodegradable&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">NonBiodegradable</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">NonBiodegradable</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+    
+
+<div class="viewcode-block" id="Check_NonGenotoxic_Carcinogenicity"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_NonGenotoxic_Carcinogenicity">[docs]</a><span class="k">def</span> <span class="nf">Check_NonGenotoxic_Carcinogenicity</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under NonGenotoxic_Carcinogenicity Filter,</span>
+<span class="sd">    which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms。</span>
+<span class="sd">    There are 23 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) `Benigni, Romualdo and Cecilia Bossa (2008)`_;</span>
+<span class="sd">        (2) `Benigni, Romualdo, Cecilia Bossa and Olga Tcheremenskaia (2013)`_.</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    .. _Benigni, Romualdo and Cecilia Bossa (2008):</span>
+<span class="sd">        https://www.sciencedirect.com/science/article/pii/S1383574208000781</span>
+<span class="sd">    .. _Benigni, Romualdo, Cecilia Bossa and Olga Tcheremenskaia (2013):</span>
+<span class="sd">        https://pubs.acs.org/doi/abs/10.1021/cr300206t</span>
+<span class="sd">      </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">NonGenotoxic_Carcinogenicity</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;NonGenotoxic_Carcinogenicity&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">NonGenotoxic_Carcinogenicity</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">NonGenotoxic_Carcinogenicity</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="Check_PAINS"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_PAINS">[docs]</a><span class="k">def</span> <span class="nf">Check_PAINS</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under PAINS Filter,</span>
+<span class="sd">    which presents a type of compounds tend to be hitted in HTS.</span>
+<span class="sd">    There are 480 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) `Baell, Jonathan B. and Georgina A. Holloway (2010)`_.</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    .. _Baell, Jonathan B. and Georgina A. Holloway (2010):</span>
+<span class="sd">        https://pubs.acs.org/doi/abs/10.1021/jm901137j</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PAINS</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Pains&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">PAINS</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">PAINS</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="Check_Potential_Electrophilic"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Potential_Electrophilic">[docs]</a><span class="k">def</span> <span class="nf">Check_Potential_Electrophilic</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under Potential_Electrophilic Filter,</span>
+<span class="sd">    which presents a compound would be more probably take part in electrophilic reaction, </span>
+<span class="sd">    and the electrophilic reaction is strongly assosiated with protein binding.</span>
+<span class="sd">    There are 119 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) `Enoch, S. J (2011)`_.</span>
+<span class="sd">        </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    .. _Enoch, S. J (2011):</span>
+<span class="sd">        https://www.tandfonline.com/doi/abs/10.3109/10408444.2011.598141</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Potential_Electrophilic</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Potential_Electrophilic&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">Potential_Electrophilic</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Potential_Electrophilic</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="Check_Promiscuity"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Promiscuity">[docs]</a><span class="k">def</span> <span class="nf">Check_Promiscuity</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under Promiscuity Filter,</span>
+<span class="sd">    There are 177 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) `Pearce, Bradley C (2016)`_.</span>
+<span class="sd">        </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    .. _Pearce, Bradley C (2016):</span>
+<span class="sd">        https://pubs.acs.org/doi/abs/10.1021/ci050504m</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Promiscuity</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Promiscuity&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">Promiscuity</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Promiscuity</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+    
+
+<div class="viewcode-block" id="Check_Reactive_Unstable_Toxic"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Reactive_Unstable_Toxic">[docs]</a><span class="k">def</span> <span class="nf">Check_Reactive_Unstable_Toxic</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under Reactive_Unstable_Toxic Filter.</span>
+<span class="sd">    There are 335 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) `ChemDiv`_.</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    .. _ChemDiv:</span>
+<span class="sd">        https://www.chemdiv.com/</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Reactive_Unstable_Toxic</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Reactive_Unstable_Toxic&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">Reactive_Unstable_Toxic</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Reactive_Unstable_Toxic</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="Check_Skin_Sensitization"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Skin_Sensitization">[docs]</a><span class="k">def</span> <span class="nf">Check_Skin_Sensitization</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under Skin_Sensitization Filter,</span>
+<span class="sd">    There are 155 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) `Payne, M. P. and P. T. Walsh (1994)`_.</span>
+<span class="sd">        (2) `Enoch, S. J., J. C. Madden and M. T. D. Cronin (2008)`_.</span>
+<span class="sd">        (3) `Barratt, M. D (1994)`_.</span>
+<span class="sd">            </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    .. _Payne, M. P. and P. T. Walsh (1994):</span>
+<span class="sd">        https://pubs.acs.org/doi/pdf/10.1021/ci00017a019</span>
+<span class="sd">    .. _Enoch, S. J., J. C. Madden and M. T. D. Cronin (2008):</span>
+<span class="sd">        https://www.tandfonline.com/doi/abs/10.1080/10629360802348985</span>
+<span class="sd">    .. _Barratt, M. D (1994):</span>
+<span class="sd">        https://www.sciencedirect.com/science/article/pii/0887233394902445</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Skin_Sensitization</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Skin_Sensitization&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">Skin_Sensitization</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Skin_Sensitization</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+    
+
+<div class="viewcode-block" id="Check_DNA_Binding"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_DNA_Binding">[docs]</a><span class="k">def</span> <span class="nf">Check_DNA_Binding</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under DNA_Binding Filter,</span>
+<span class="sd">    There are 78 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">DNA_Binding</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;DNA_Binding&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">DNA_Binding</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">DNA_Binding</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="Check_SureChEMBL"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_SureChEMBL">[docs]</a><span class="k">def</span> <span class="nf">Check_SureChEMBL</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under SureChEMBL Filter,</span>
+<span class="sd">    which presents a compound would match one or more structural alerts and hence considered to have a MedChem unfriendly status.  </span>
+<span class="sd">    There are 164 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    .. _SureChEMBL:</span>
+<span class="sd">        https://www.surechembl.org/knowledgebase/169485</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SureChEMBL</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;SureChEMBL&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">SureChEMBL</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">SureChEMBL</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+    
+    
+<div class="viewcode-block" id="Check_BMS"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_BMS">[docs]</a><span class="k">def</span> <span class="nf">Check_BMS</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecule under BMS Filter.</span>
+<span class="sd">    Pearce has proposed a Functional Group Compound Filters(FG Filters).</span>
+<span class="sd">    The FG filters are consisted of two part, Exclusion FG filters and informational filters.</span>
+<span class="sd">    Exclusion FG filters are those intended for compound removal from screening decks;</span>
+<span class="sd">    Informational filters are useful for compound annotation.</span>
+<span class="sd">    There are 176 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) `Pearce, Bradley C (2006)`_.</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    .. _Pearce, Bradley C (2006):</span>
+<span class="sd">        https://pubs.acs.org/doi/abs/10.1021/ci050504m</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">BMS</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;BMS&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">BMS</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">BMS</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="Check_NTD"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_NTD">[docs]</a><span class="k">def</span> <span class="nf">Check_NTD</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Brenk has proposed 105 unwanted groups in HTS</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) `Brenk, Ruth (2008)`_.</span>
+<span class="sd">          </span>
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    .. _Brenk, Ruth (2008):</span>
+<span class="sd">        https://onlinelibrary.wiley.com/doi/abs/10.1002/cmdc.200700139</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>        
+    <span class="n">NTD</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;NTD&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">NTD</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">NTD</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="Check_Alarm_NMR"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Alarm_NMR">[docs]</a><span class="k">def</span> <span class="nf">Check_Alarm_NMR</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    There are 75 SMARTS in alarm_nmr </span>
+
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">         </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Alarm_NMR</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Alarm_NMR&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">Alarm_NMR</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Alarm_NMR</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+    
+
+<div class="viewcode-block" id="Check_Frequent_Hitters"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Frequent_Hitters">[docs]</a><span class="k">def</span> <span class="nf">Check_Frequent_Hitters</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    There are 15 SMARTS in Frequent_Hitters</span>
+
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">         </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Frequent_Hitters</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Frequent_Hitters&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">Frequent_Hitters</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Frequent_Hitters</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+    
+
+<div class="viewcode-block" id="Check_Aggregators"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Aggregators">[docs]</a><span class="k">def</span> <span class="nf">Check_Aggregators</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    There are 311 SMARTS in Aggregators</span>
+
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">         </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Aggregators</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Aggregators&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">Aggregators</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Aggregators</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="Check_Toxicophores"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Toxicophores">[docs]</a><span class="k">def</span> <span class="nf">Check_Toxicophores</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">stype</span><span class="o">=</span><span class="s1">&#39;single&#39;</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    There 154 SMARTS in Toxicophres</span>
+
+<span class="sd">    :param mol: The molecule to be scanned</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">         </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Toxicophores</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Toxicophores&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">)</span>
+    <span class="n">Toxicophores</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Toxicophores</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+    
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">smis</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;C1=CC=C2C(=O)CC(=O)C2=C1&#39;</span><span class="p">,</span> <span class="c1">#Pains</span>
+            <span class="s1">&#39;C1=CC=CC(COCO)=C1&#39;</span><span class="p">,</span> <span class="c1">#Potential_Electrophilic</span>
+            <span class="s1">&#39;N1=NC=CN1C=O&#39;</span><span class="p">,</span> <span class="c1">#Promiscuity</span>
+            <span class="s1">&#39;CC(=O)OC(=O)C1C=COC1&#39;</span><span class="p">,</span> <span class="c1">#Skin_Sensitization</span>
+            <span class="s1">&#39;S&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;CCCCC(=O)[H]&#39;</span><span class="p">,</span> <span class="c1">#Biodegradable</span>
+            <span class="s1">&#39;C1=CN=C(C(=O)O)C=C1&#39;</span><span class="p">,</span> <span class="c1">#Chelating</span>
+            <span class="s1">&#39;C(OC)1=CC=C2OCC3OC4C=C(OC)C=CC=4C(=O)C3C2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C2N=CC=NC2=C2N=CNC2=C1&#39;</span><span class="p">,</span> <span class="c1">#Genotoxic_Carcinogenicity_Mutagenicity</span>
+            <span class="s1">&#39;N(CC)(CCCCC)C(=S)N&#39;</span><span class="p">,</span> <span class="c1">#Idiosyncratic</span>
+            <span class="p">]</span>     
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smis</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Check_Acute_Aquatic_Toxicity</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    
+    
+    
+    
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Zhijiang Yang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

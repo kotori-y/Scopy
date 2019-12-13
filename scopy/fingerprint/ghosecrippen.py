@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Sep  2 09:24:41 2019
 
-@Author: Zhi-Jiang Yang, Dong-Sheng Cao
-@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，
-@Homepage: http://www.scbdd.com
-@Mail: yzjkid9@gmail.com; oriental-cds@163.com
-@Blog: https://blog.moyule.me
+#Created on Mon Sep  2 09:24:41 2019
+#
+#@Author: Zhi-Jiang Yang, Dong-Sheng Cao
+#@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，
+#@Homepage: http://www.scbdd.com
+#@Mail: yzjkid9@gmail.com; oriental-cds@163.com
+#@Blog: https://blog.moyule.me
 
-"""
+
 
 import sys
 try:
@@ -20,40 +20,38 @@ import csv
 from rdkit.Chem import AllChem as Chem
 
 class GCfp(object):
-    """
-    Brief:
-    -----------
-    Atom-based calculation of LogP and MR using Crippen’s approach, it's 110 bits
+    """Atom-based calculation of LogP and MR using Crippen’s approach.
+    110 bits
     
-    Ref.:
-    -----------
-    Wildman, Scott A., and Gordon M. Crippen.
-    JCICS, 39(5), 868-873.
+    Reference:
+        (1) `Wildman, Scott A., and Gordon M. Crippen (1999)`_.
     
-    Parameters:
-    -----------
-    counter: bool
-        If set to True, the fingerprint will presented in the format of counter(not only 1 and 0)
-        else, would be binary
+    :param useCount: If set to True, the fingerprint will presented in the format of counter(not only 1 and 0) else, would be binary, defaults to True
+    :type useCounter: bool, optional
+    
+    .. _Wildman, Scott A., and Gordon M. Crippen (1999):
+        https://pubs.acs.org/doi/abs/10.1021/ci990307l
+        
     """   
-    def __init__(self, counter):
+    def __init__(self, useCount=True):
+        """Initialization
+        
+        """
         with open(ScoConfig.CrippenDir + '\\Crippen.txt') as f_obj:
             lines = csv.reader(f_obj,delimiter='\t')
             next(lines)
             self.pattl = tuple(map(lambda line: Chem.MolFromSmarts(line[1]), lines))
         f_obj.close()        
-        self.counter = counter
+        self.useCount = useCount
 
     def CalculateGCfp(self,mol):
-        """
-        Parameters:
-        -----------
-        mol: rdkit.Chem.rdchem.Mol.
+        """Calculate GC fingerprint
         
-        Return:
-        -----------
-        fp: list
-            fingerprint in binary if counter was false.
+        :param mol: molecule
+        :type mol: rdkit.Chem.rdchem.Mol
+        :return: fingerprint
+        :rtype: list
+        
         """
         nAtom = len(mol.GetAtoms())
         doneAtoms = [0]*nAtom
@@ -76,7 +74,7 @@ class GCfp(object):
                         break
             fp[idx] = count
             if flag:
-                if not self.counter:
+                if not self.useCount:
                     fp = [0 if not int(bit) else 1 for bit in fp]
                 return fp
 
@@ -107,7 +105,7 @@ if '__main__' == __name__:
             'N(CC)(CCCCC)C(=S)N', #Idiosyncratic
             ]
 
-    fp = GCfp(counter=False)
+    fp = GCfp(useCount=False)
     mol = Chem.MolFromSmiles(smis[3])
     fp = fp.CalculateGCfp(mol)
 #    fps = np.array(fps)

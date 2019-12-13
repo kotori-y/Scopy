@@ -1,324 +1,544 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Aug 12 14:48:23 2019
 
-@Author: Zhi-Jiang Yang, Dong-Sheng Cao
-@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China
-@Homepage: http://www.scbdd.com
-@Mail: yzjkid9@gmail.com; oriental-cds@163.com
-@Blog: https://blog.moyule.me
+#Created on Mon Aug 12 14:48:23 2019
+#
+#@Author: Zhi-Jiang Yang, Dong-Sheng Cao
+#@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China
+#@Homepage: http://www.scbdd.com
+#@Mail: yzjkid9@gmail.com; oriental-cds@163.com
+#@Blog: https://blog.moyule.me
 
-"""
 
 try:
-	from . import FilterWithSmarts
+	from .FilterWithSmarts import _Filter
 except:
-	import FilterWithSmarts
+	from FilterWithSmarts import _Filter
+
 from rdkit.Chem import AllChem as Chem
+from multiprocessing import Pool
+from functools import partial
 
-
+    
 class Filter(object):
     """
-    Here, we comdat the whole function that check endpoint retrieved  from module FilterWithSmarts
+    Here, we comdat the whole function that check endpoint retrieved from module FilterWithSmarts
     
-    Parameters:
-    -----------
-    mols: Iterable object, each element is a rdkit.Chem.rdchem.Mol
-        The molecule(s) to be scanned
+    :param mols: the molecule to be scanned.
+    :type mols: Iterable object, each element is rdkit.Chem.rdchem.Mol
+    :param n_jobs: The number of CPUs to use to do the computation, defaults to 1
+    :type n_jobs: int, optional
+    :param detail: Control returning specific infomation or not, defaults to False
+    :type detail: bool, optional
+    
     """
-    def __init__(self, mols):
+    def __init__(self, mols, n_jobs=1, detail=False):
+        """Initialization
+        
+        """
         self.mols = mols
+        self.n_jobs = n_jobs
+        self.detail = detail
         
-    def Check_Acute_Aquatic_Toxicity(self, detail=False):
-        """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-        """
-        self.Acute_Aquatic_Toxicity = FilterWithSmarts.Check_Acute_Aquatic_Toxicity(self.mols, detail)
+    def Check_Acute_Aquatic_Toxicity(self):
+        """Check molecule under Acute_Aquatic_Toxicity Filter,
+        which presents a compound may cause toxicity to liquid(water).
+        There are 99 SMARTS in this endpoint.
         
-    def Check_Check_AlphaScreen_FHs(self, detail=False):
-        """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-        """
-        self.AlphaScreen_FHs = FilterWithSmarts.Check_AlphaScreen_FHs(self.mols, detail)
+        :return: a list of dictionary
+        :rtype: list
         
-    def Check_AlphaScreen_GST_FHs(self, detail=False):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+        Aquatic = _Filter('Acute_Aquatic_Toxicity', self.detail)
+        Aquatic.get_pattl()
+        pool = Pool(self.n_jobs)
+        Acute_Aquatic_Toxicity = pool.map_async(Aquatic.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Acute_Aquatic_Toxicity
+        
+    def Check_AlphaScreen_FHs(self):
         """
-        self.AlphaScreen_GST_FHs = FilterWithSmarts.Check_AlphaScreen_GST_FHs(self.mols, detail)
+        Check molecule under Check_AlphaScreen_FHs Filter,
+        which presents a compound may be alphascreen frequent hitters.
+        There are 6 SMARTS in this endpoint.
+        
+        :return: a list of dictionary
+        :rtype: list
+        
+        """
+        AlphaScreen = _Filter('AlphaScreen_FHs', self.detail)
+        AlphaScreen.get_pattl()
+        pool = Pool(self.n_jobs)
+        AlphaScreen_FHs = pool.map_async(AlphaScreen.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return AlphaScreen_FHs
+        
+    def Check_AlphaScreen_GST_FHs(self):
+        """
+        Check molecule under Check_AlphaScreen_GST_FHs Filter,
+        which presents a compound may prevent GST/GSH interaction during HTS.
+        There are 34 SMARTS in this endpoint.
+        
+        :return: a list of dictionary
+        :rtype: list
+        
+        """
+        GST = _Filter('AlphaScreen_GST_FHs', self.detail)
+        GST.get_pattl()
+        pool = Pool(self.n_jobs)
+        AlphaScreen_GST_FHs = pool.map_async(GST.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return AlphaScreen_GST_FHs
     
-    def Check_AlphaScreen_HIS_FHs(self, detail=False):
+    def Check_AlphaScreen_HIS_FHs(self):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-        """
-        self.AlphaScreen_HIS_FHs = FilterWithSmarts.Check_AlphaScreen_HIS_FHs(self.mols, detail)
+        Check molecule under Check_AlphaScreen_HIS_FHs Filter,
+        which presents a compound prevents the binding of the protein His-tag moiety to nickel chelate.
+        There are 19 SMARTS in this endpoint.
         
-    def Check_Biodegradable(self, detail=False):
-        """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-        """
-        self.Biodegradable = FilterWithSmarts.Check_Biodegradable(self.mols, detail)
+        :return: a list of dictionary
+        :rtype: list
         
-    def Check_Chelating(self, detail=False):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-        """
-        self.Chelating = FilterWithSmarts.Check_Chelating(self.mols, detail)
+        HIS = _Filter('AlphaScreen_HIS_FHs', self.detail)
+        HIS.get_pattl()
+        pool = Pool(self.n_jobs)
+        AlphaScreen_HIS_FHs = pool.map_async(HIS.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return AlphaScreen_HIS_FHs
         
-    def Check_Developmental_Mitochondrial(self, detail=False):
+    def Check_Biodegradable(self):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-        """
-        self.Developmental_Mitochondrial = FilterWithSmarts.Check_Developmental_Mitochondrial(self.mols, detail)
+        Check molecule under Biodegradable Filter,
+        which presents a compound may be Biodegradable.
+        There are 9 SMARTS in this enpoint
+    
+        :return: a list of dictionary
+        :rtype: list
         
-    def Check_Genotoxic_Carcinogenicity_Mutagenicity(self, detail=False):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-        """
-        self.Genotoxic_Carcinogenicity_Mutagenicity = FilterWithSmarts.Check_Genotoxic_Carcinogenicity_Mutagenicity(self.mols, detail)
+        Biode = _Filter('Biodegradable', self.detail)
+        Biode.get_pattl()
+        pool = Pool(self.n_jobs)
+        Biodegradable = pool.map_async(Biode.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Biodegradable
         
-    def Check_Idiosyncratic(self, detail=False):
+    def Check_Chelating(self):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-        """
-        self.Check_Idiosyncratic = FilterWithSmarts.Check_Idiosyncratic(self.mols, detail)
+        Check molecule under Chelating Filter,
+        which presents a compound may inhibit metalloproteins.
+        Thers are 55 SMARTS in this endpoint
         
-    def Check_LD50_Oral(self, detail=False):
-        """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-        """
-        self.Check_LD50_Oral = FilterWithSmarts.Check_LD50_Oral(self.mols, detail)
+        :return: a list of dictionary
+        :rtype: list
         
-    def Check_Luciferase_Inhibitory(self, detail=False):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-        """
-        self.Luciferase_Inhibitory = FilterWithSmarts.Check_Luciferase_Inhibitory(self.mols, detail)
+        Che = _Filter('Chelating', self.detail)
+        Che.get_pattl()
+        pool = Pool(self.n_jobs)
+        Chelating = pool.map_async(Che.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Chelating
         
-    def Check_NonBiodegradable(self, detail=False):
+    def Check_Developmental_Mitochondrial(self):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-        """
-        self.NonBiodegradable = FilterWithSmarts.Check_NonBiodegradable(self.mols, detail)
+        Check molecule under Developmental_Mitochondrial Filter,
+        which presents a compound may casue Developmental Toxicity and Mitochondrial Toxicity.
+        There are 12 SMARTS in this endpoint.
+    
+        :return: a list of dictionary
+        :rtype: list
         
-    def Check_NonGenotoxic_Carcinogenicity(self, detail=False):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+        Deve = _Filter('Developmental_Mitochondrial', self.detail)
+        Deve.get_pattl()
+        pool = Pool(self.n_jobs)
+        Developmental_Mitochondrial = pool.map_async(Deve.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Developmental_Mitochondrial
+                
+    def Check_Genotoxic_Carcinogenicity_Mutagenicity(self):
         """
-        self.NonGenotoxic_Carcinogenicity = FilterWithSmarts.Check_NonGenotoxic_Carcinogenicity(self.mols, detail)
+        Check molecule under Developmental_Mitochondrial Filter,
+        which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms.
+        There are 117 SMARTS in this endpoint.
+    
+        :return: a list of dictionary
+        :rtype: list
         
-    def Check_PAINS(self, detail=False):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+        Geno = _Filter('Genotoxic_Carcinogenicity_Mutagenicity', self.detail)
+        Geno.get_pattl()
+        pool = Pool(self.n_jobs)
+        Genotoxic_Carcinogenicity_Mutagenicity = pool.map_async(Geno.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Genotoxic_Carcinogenicity_Mutagenicity
+                
+    def Check_Idiosyncratic(self):
         """
-        self.PAINS = FilterWithSmarts.Check_PAINS(self.mols, detail)
+        Check molecule under Idiosyncratic Filter,
+        which presents a compound may has diosyncratic toxicity.
+        There are 35 SMARTS in this endpoint.
+    
+    
+        :return: a list of dictionary
+        :rtype: list
         
-    def Check_Potential_Electrophilic(self, detail=False):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+        Idi = _Filter('Idiosyncratic', self.detail)
+        Idi.get_pattl()
+        pool = Pool(self.n_jobs)
+        Idiosyncratic = pool.map_async(Idi.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Idiosyncratic
+        
+    def Check_LD50_Oral(self):
         """
-        self.Potential_Electrophilic = FilterWithSmarts.Check_PAINS(self.mols, detail)
+        Check molecule under LD50_Oral Filter,
+        which presents a compound may cause acute toxicity during oral administration;
+        There are 20 SMARTS in this endpoint.
+    
+        :return: a list of dictionary
+        :rtype: list
+        
+        """
+        ld = _Filter('LD50_Oral', self.detail)
+        ld.get_pattl()
+        pool = Pool(self.n_jobs)
+        LD50_Oral = pool.map_async(ld.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return LD50_Oral
+                
+    def Check_Luciferase_Inhibitory(self):
+        """
+        There 3 SMARTS in Luciferase_Inhibitory Filter
+        
+        :return: a list of dictionary
+        :rtype: list
+        
+        """
+        luc = _Filter('Luciferase_Inhibitory', self.detail)
+        luc.get_pattl()
+        pool = Pool(self.n_jobs)
+        Luciferase_Inhibitory = pool.map_async(luc.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Luciferase_Inhibitory
+                
+    def Check_NonBiodegradable(self):
+        """
+        Check molecule under NonBiodegradable Filter,
+        which presents a compound may be non-biodegradable.
+        There are 19 SMARTS in this enpoint.
+    
+        :return: a list of dictionary
+        :rtype: list
+        
+        """
+        nonbi = _Filter('NonBiodegradable', self.detail)
+        nonbi.get_pattl()
+        pool = Pool(self.n_jobs)
+        NonBiodegradable = pool.map_async(nonbi.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return NonBiodegradable
+             
+    def Check_NonGenotoxic_Carcinogenicity(self):
+        """
+        Check molecule under NonGenotoxic_Carcinogenicity Filter,
+        which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms。
+        There are 23 SMARTS in this endpoint.
+    
+        :return: a list of dictionary
+        :rtype: list
+        
+        """
+        nonge = _Filter('NonGenotoxic_Carcinogenicity', self.detail)
+        nonge.get_pattl()
+        pool = Pool(self.n_jobs)
+        NonGenotoxic_Carcinogenicity = pool.map_async(nonge.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return NonGenotoxic_Carcinogenicity
+                
+    def Check_PAINS(self):
+        """
+        Check molecule under PAINS Filter,
+        which presents a type of compounds tend to be hitted in HTS.
+        There are 480 SMARTS in this endpoint.
+    
+        :return: a list of dictionary
+        :rtype: list
+        
+        """
+        pai = _Filter('Pains', self.detail)
+        pai.get_pattl()
+        pool = Pool(self.n_jobs)
+        Pains = pool.map_async(pai.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Pains
+                
+    def Check_Potential_Electrophilic(self):
+        """
+        Check molecule under Potential_Electrophilic Filter,
+        which presents a compound would be more probably take part in electrophilic reaction, 
+        and the electrophilic reaction is strongly assosiated with protein binding.
+        There are 119 SMARTS in this endpoint.
+    
+        :return: a list of dictionary
+        :rtype: list
+        
+        """
+        ele = _Filter('Potential_Electrophilic', self.detail)
+        ele.get_pattl()
+        pool = Pool(self.n_jobs)
+        Potential_Electrophilic = pool.map_async(ele.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Potential_Electrophilic
         
     def Check_Promiscuity(self, detail=False):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-        """
-        self.Promiscuity = FilterWithSmarts.Check_Promiscuity(self.mols, detail)
+        Check molecule under Promiscuity Filter,
+        There are 177 SMARTS in this endpoint.
     
-    def Check_Reactive_Unstable_Toxic(self, detail=False):
+        :return: a list of dictionary
+        :rtype: list
+        
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+        prom = _Filter('Promiscuity', self.detail)
+        prom.get_pattl()
+        pool = Pool(self.n_jobs)
+        Promiscuity = pool.map_async(prom.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Promiscuity
+            
+    def Check_Reactive_Unstable_Toxic(self):
         """
-        self.Reactive_Unstable_Toxic = FilterWithSmarts.Check_Reactive_Unstable_Toxic(self.mols, detail)
+        Check molecule under Reactive_Unstable_Toxic Filter.
+        There are 335 SMARTS in this endpoint.
     
-    def Check_Skin_Sensitization(self, detail=False):
-        """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-        """
-        self.Skin_Sensitization = FilterWithSmarts.Check_Skin_Sensitization(self.mols, detail)
+        :return: a list of dictionary
+        :rtype: list
         
-    def Check_DNA_Binding(self, detail=False):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+        reac = _Filter('Reactive_Unstable_Toxic', self.detail)
+        reac.get_pattl()
+        pool = Pool(self.n_jobs)
+        Reactive_Unstable_Toxic = pool.map_async(reac.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Reactive_Unstable_Toxic
+            
+    def Check_Skin_Sensitization(self):
         """
-        self.DNA_Binding = FilterWithSmarts.Check_DNA_Binding(self.mols, detail)
+        Check molecule under Skin_Sensitization Filter,
+        There are 155 SMARTS in this endpoint.
+    
+        :return: a list of dictionary
+        :rtype: list
         
-    def Check_SureChEMBL(self, detail=False):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+        skin = _Filter('Skin_Sensitization', self.detail)
+        skin.get_pattl()
+        pool = Pool(self.n_jobs)
+        Skin_Sensitization = pool.map_async(skin.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Skin_Sensitization
+                
+    def Check_DNA_Binding(self):
         """
-        self.SureChEMBL = FilterWithSmarts.Check_SureChEMBL(self, detail)
-       
-    def Check_BMS(self, detail=False):
-        """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-        """
-        self.BMS = FilterWithSmarts.Check_BMS(self.mols, detail)
+        Check molecule under DNA_Binding Filter,
+        There are 78 SMARTS in this endpoint.
         
+        :return: a list of dictionary
+        :rtype: list
+        
+        """
+        dna = _Filter('DNA_Binding', self.detail)
+        dna.get_pattl()
+        pool = Pool(self.n_jobs)
+        DNA_Binding = pool.map_async(dna.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return DNA_Binding
+                
+    def Check_SureChEMBL(self):
+        """
+        Check molecule under SureChEMBL Filter,
+        which presents a compound would match one or more structural alerts and hence considered to have a MedChem unfriendly status.  
+        There are 164 SMARTS in this endpoint.
+    
+        :return: a list of dictionary
+        :rtype: list
+        
+        """
+        chembl = _Filter('SureChEMBL', self.detail)
+        chembl.get_pattl()
+        pool = Pool(self.n_jobs)
+        SureChEMBL = pool.map_async(chembl.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return SureChEMBL
+               
+    def Check_BMS(self):
+        """
+        Check molecule under BMS Filter.
+        Pearce has proposed a Functional Group Compound Filters(FG Filters).
+        The FG filters are consisted of two part, Exclusion FG filters and informational filters.
+        Exclusion FG filters are those intended for compound removal from screening decks;
+        Informational filters are useful for compound annotation.
+        There are 176 SMARTS in this endpoint.
+    
+        :return: a list of dictionary
+        :rtype: list
+        
+        """
+        bms = _Filter('BMS', self.detail)
+        bms.get_pattl()
+        pool = Pool(self.n_jobs)
+        BMS = pool.map_async(bms.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return BMS
+                
     def Check_NTD(self, detail=False):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+        Brenk has proposed 105 unwanted groups in HTS
+        
+        :return: a list of dictionary
+        :rtype: list
+        
         """
-        self.NTD = FilterWithSmarts.Check_NTD(self.mols, detail)
-    
-    def Check_Alarm_NMR(self, detail=False):
+        ntd = _Filter('NTD', self.detail)
+        ntd.get_pattl()
+        pool = Pool(self.n_jobs)
+        NTD = pool.map_async(ntd.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return NTD
+            
+    def Check_Alarm_NMR(self):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+        There are 75 SMARTS in alarm_nmr
+        
+        :return: a list of dictionary
+        :rtype: list
+        
         """
-        self.Alarm_NMR = FilterWithSmarts.Check_Alarm_NMR(self.mols, detail)
-    
-    def Check_Frequent_Hitters(self, detail=False):
+        nmr = _Filter('Alarm_NMR', self.detail)
+        nmr.get_pattl()
+        pool = Pool(self.n_jobs)
+        Alarm_NMR = pool.map_async(nmr.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Alarm_NMR
+            
+    def Check_Frequent_Hitters(self):
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
-        """
-        self.Frequent_Hitters = FilterWithSmarts.Check_Frequent_Hitters(self.mols, detail)
+        There are 15 SMARTS in Frequent_Hitters
 
-    def Check_Aggregators(self, detail=False):
+        :return: a list of dictionary
+        :rtype: list
+        
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+        fh = _Filter('Frequent_Hitters', self.detail)
+        fh.get_pattl()
+        pool = Pool(self.n_jobs)
+        Frequent_Hitters = pool.map_async(fh.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Frequent_Hitters
+        
+    def Check_Aggregators(self):
         """
-        self.Aggregators = FilterWithSmarts.Check_Aggregators(self.mols, detail)
-     
-    def Check_Toxicophores(self, detail=False):
+        There are 311 SMARTS in Aggregators
+        
+        :return: a list of dictionary
+        :rtype: list
+        
         """
-        Parameters:
-        -----------
-        detail: bool, optional(default=True), 
-        When set to True, function will return more information(MatchedAtoms,MatchedNames)
-        else, only return Disposed and Endpoint
+        agg = _Filter('Aggregators', self.detail)
+        agg.get_pattl()
+        pool = Pool(self.n_jobs)
+        Aggregators = pool.map_async(agg.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Aggregators
+             
+    def Check_Toxicophores(self):
         """
-        self.Toxicophores = FilterWithSmarts.Check_Toxicophores(self.mols, detail)
+        There 154 SMARTS in Toxicophres
+        
+        :return: a list of dictionary
+        :rtype: list
+        
+        """
+        tox = _Filter('Toxicophores', self.detail)
+        tox.get_pattl()
+        pool = Pool(self.n_jobs)
+        Toxicophores = pool.map_async(tox.scan, self.mols).get()
+        pool.close()
+        pool.join()
+        return Toxicophores
+        
         
 if '__main__' == __name__:
-    smis = [
-            'C1=CC=CC(C(Br)C)=C1',
-            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
-            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1',
-            'C1=NC(CCN)=CN1',
-            'C1CCCC(CCO)C1',
-            'C1=CC=C2N=C(O)C=CC2=C1',
-            'C(OC)1=C(C)C=C2OC[C@]([H])3OC4C(C)=C(OC)C=CC=4C(=O)[C@@]3([H])C2=C1C',
-            'C1=C2N=CC=NC2=C2N=CNC2=C1',
-            'C1=C(O)C=CC(O)=C1',
-            'CCC1(c2ccccc2)C(=O)NC(=O)NC1=O',
-            'N1=CN=CN=C1',
-            'C1=C2C=CC=CC2=CC2C=CC=CC1=2', #NonGenotoxic_Carcinogenicity
-            'C1=CC=C2C(=O)CC(=O)C2=C1', #Pains
-            'C1=CC=CC(COCO)=C1', #Potential_Electrophilic
-            'N1=NC=CN1C=O', #Promiscuity
-            'CC(=O)OC(=O)C1C=COC1', #Skin_Sensitization
-            'S',
-            'CCCCC(=O)[H]', #Biodegradable
-            'C1=CN=C(C(=O)O)C=C1', #Chelating
-            'C(OC)1=CC=C2OCC3OC4C=C(OC)C=CC=4C(=O)C3C2=C1',
-            'C1=C2N=CC=NC2=C2N=CNC2=C1', #Genotoxic_Carcinogenicity_Mutagenicity
-            'N(CC)(CCCCC)C(=S)N', #Idiosyncratic
-            ]
-    mols = [Chem.MolFromSmiles(smi) for smi in smis]
-    F = Filter(mols)
-    F.Check_Aggregators()
-    F.Check_Alarm_NMR()
-    print(F.Aggregators)
+    import time
+    import warnings
+    warnings.filterwarnings('ignore')
+
+    
+#    smis = [
+#            'C1=CC=CC(C(Br)C)=C1',
+#            'C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1',
+#            'C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1',
+#            'C1=NC(CCN)=CN1',
+#            'C1CCCC(CCO)C1',
+#            'C1=CC=C2N=C(O)C=CC2=C1',
+#            'C(OC)1=C(C)C=C2OC[C@]([H])3OC4C(C)=C(OC)C=CC=4C(=O)[C@@]3([H])C2=C1C',
+#            'C1=C2N=CC=NC2=C2N=CNC2=C1',
+#            'C1=C(O)C=CC(O)=C1',
+#            'CCC1(c2ccccc2)C(=O)NC(=O)NC1=O',
+#            'N1=CN=CN=C1',
+#            'C1=C2C=CC=CC2=CC2C=CC=CC1=2', #NonGenotoxic_Carcinogenicity
+#            'C1=CC=C2C(=O)CC(=O)C2=C1', #Pains
+#            'C1=CC=CC(COCO)=C1', #Potential_Electrophilic
+#            'N1=NC=CN1C=O', #Promiscuity
+#            'CC(=O)OC(=O)C1C=COC1', #Skin_Sensitization
+#            'S',
+#            'CCCCC(=O)[H]', #Biodegradable
+#            'C1=CN=C(C(=O)O)C=C1', #Chelating
+#            'C(OC)1=CC=C2OCC3OC4C=C(OC)C=CC=4C(=O)C3C2=C1',
+#            'C1=C2N=CC=NC2=C2N=CNC2=C1', #Genotoxic_Carcinogenicity_Mutagenicity
+#            'N(CC)(CCCCC)C(=S)N', #Idiosyncratic
+#            ]
+#    mols = [Chem.MolFromSmiles(smi) for smi in smis]*76
+    from scopy import ScoConfig
+    import os
+    suppl = Chem.SDMolSupplier(os.path.join(ScoConfig.DemoDir,'760.sdf'))
+    mols = (mol for mol in suppl if mol)
+    print('------start------')
+    start = time.process_time()
+    F = Filter(mols, n_jobs=4, detail=True)
+    res = F.Check_PAINS()
+    end = time.process_time()
+    print('Time cost: {}\nSamples: {}'.format((end-start), len(res)))
+#    F.Check_Alarm_NMR()
+#    print(F.Aggregators)
     
     
     

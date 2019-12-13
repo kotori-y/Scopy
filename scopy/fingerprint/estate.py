@@ -1,12 +1,14 @@
-"""
-Created on Wed Jul 17 10:15:43 2019
+# -*- coding: utf-8 -*-
 
-@Author: Zhi-Jiang Yang, Dong-Sheng Cao
-@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China
-@Homepage: http://www.scbdd.com
-@Mail: yzjkid9@gmail.com; oriental-cds@163.com
-@Blog: https://blog.moyule.me
-"""
+#Created on Wed Jul 17 10:15:43 2019
+#
+#@Author: Zhi-Jiang Yang, Dong-Sheng Cao
+#@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China
+#@Homepage: http://www.scbdd.com
+#@Mail: yzjkid9@gmail.com; oriental-cds@163.com
+#@Blog: https://blog.moyule.me
+
+
 
 from rdkit.Chem.EState import EState
 from rdkit.Chem.EState import Fingerprinter as ESFP
@@ -18,35 +20,32 @@ Version=1.0
 ################################################################
 
 class EStateFP(object):
-    """ 
-    Brief:
-    -----------
-    Atom-based calculation of LogP and MR using Crippen’s approach, 79 bits
+    """ Atom-based calculation of LogP and MR using Crippen’s approach. 
+    79 bits
     
-    Ref.:
-    -----------
-    Kier, Lemont Burwell, and Lowell H. Hall.
-    Academic, 1999
+    Reference:
+        (1) L.B. Kier and L.H. Hall _Molecular Structure Description: The Electrotopological State_ Academic Press (1999)
     
-    Parameters:
-    -----------
-    val: bool(optional, default:True)
-        If set to True, the fingerprint will presented in the format of vaule of estate
-        else, would be binary
+    :param mols: the molecule to be scanned.
+    :type mols: Iterable object, each element is rdkit.Chem.rdchem.Mol
+    :param val: If set to True, the fingerprint will presented in the format of vaule of estate, else, would be binary, defauls to True
+    :type val: bool, optional
+    
     """
-    def __init__(self,val):
+    def __init__(self,val=True):
+        """Initialization
+        
+        """
         self.val = val
     
     def CalculateEState(self,mol):
-        """
-        Parameters:
-        -----------
-        mol: rdkit.Chem.rdchem.Mol.
+        """Calculate EState fingerprint
         
-        Return:
-        -----------
-        fp: list
-            fingerprint in binary if val was false.
+        :param mol: molecule
+        :type mol: rdkit.Chem.rdchem.Mol
+        :return: fingerprint
+        :rtype: list
+        
         """
         if self.val:
             fp = ESFP.FingerprintMol(mol)[1]
@@ -62,6 +61,7 @@ def _CalculateEState(mol,skipH=1):
     """
     res = EState.EStateIndices(mol)
     return res
+
 
 if __name__=='__main__':
     smis = [

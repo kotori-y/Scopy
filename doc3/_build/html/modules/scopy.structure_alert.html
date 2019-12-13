@@ -1,0 +1,1218 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>scopy.structure_alert package &#8212; Scopy 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">scopy.structure_alert package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-scopy.structure_alert.FilterWithSmarts">scopy.structure_alert.FilterWithSmarts module</a></li>
+<li><a class="reference internal" href="#module-scopy.structure_alert.SmartProcess">scopy.structure_alert.SmartProcess module</a></li>
+<li><a class="reference internal" href="#module-scopy.structure_alert.SmartsFilter">scopy.structure_alert.SmartsFilter module</a></li>
+<li><a class="reference internal" href="#module-scopy.structure_alert">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/scopy.structure_alert.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="scopy-structure-alert-package">
+<h1>scopy.structure_alert package<a class="headerlink" href="#scopy-structure-alert-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-scopy.structure_alert.FilterWithSmarts">
+<span id="scopy-structure-alert-filterwithsmarts-module"></span><h2>scopy.structure_alert.FilterWithSmarts module<a class="headerlink" href="#module-scopy.structure_alert.FilterWithSmarts" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Acute_Aquatic_Toxicity">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Acute_Aquatic_Toxicity</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Acute_Aquatic_Toxicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Acute_Aquatic_Toxicity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Acute_Aquatic_Toxicity Filter,
+which presents a compound may cause toxicity to liquid(water).
+There are 99 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://ehp.niehs.nih.gov/doi/abs/10.1289/ehp.9087219">Hermens, J. L. (1990)</a>;</p></li>
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/0045653592902805">Verhaar, Henk JM, Cees J. Van Leeuwen (1992)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Aggregators">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Aggregators</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Aggregators"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Aggregators" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are 311 SMARTS in Aggregators</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Alarm_NMR">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Alarm_NMR</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Alarm_NMR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Alarm_NMR" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are 75 SMARTS in alarm_nmr</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_FHs">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_AlphaScreen_FHs</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_AlphaScreen_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_FHs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Check_AlphaScreen_FHs Filter,
+which presents a compound may be alphascreen frequent hitters.
+There are 6 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://journals.sagepub.com/doi/abs/10.1177/1087057113516861">Schorpp, Kenji. (2014)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_GST_FHs">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_AlphaScreen_GST_FHs</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_AlphaScreen_GST_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_GST_FHs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Check_AlphaScreen_GST_FHs Filter,
+which presents a compound may prevent GST/GSH interaction during HTS.
+There are 34 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>References:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://journals.sagepub.com/doi/abs/10.1177/1087057116639992">Brenke, Jara K. (2016)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_HIS_FHs">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_AlphaScreen_HIS_FHs</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_AlphaScreen_HIS_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_HIS_FHs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Check_AlphaScreen_HIS_FHs Filter,
+which presents a compound prevents the binding of the protein His-tag moiety to nickel chelate.
+There are 19 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://journals.sagepub.com/doi/abs/10.1177/1087057113516861">Schorpp, Kenji. (2014)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_BMS">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_BMS</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_BMS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_BMS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under BMS Filter.
+Pearce has proposed a Functional Group Compound Filters(FG Filters).
+The FG filters are consisted of two part, Exclusion FG filters and informational filters.
+Exclusion FG filters are those intended for compound removal from screening decks;
+Informational filters are useful for compound annotation.
+There are 176 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/ci050504m">Pearce, Bradley C (2006)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Biodegradable">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Biodegradable</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Biodegradable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Biodegradable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Biodegradable Filter,
+which presents a compound may be Biodegradable.
+There are 9 SMARTS in this enpoint</p>
+<dl class="simple">
+<dt>Reference:          </dt><dd><ol class="arabic simple">
+<li><p>Existing Substances Program (CD-ROM), released April, 2004 (2003).</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Chelating">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Chelating</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Chelating"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Chelating" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Chelating Filter,
+which presents a compound may inhibit metalloproteins.
+Thers are 55 SMARTS in this endpoint</p>
+<dl class="simple">
+<dt>Reference.:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://onlinelibrary.wiley.com/doi/abs/10.1002/cmdc.200900516">Agrawal, Arpita. (2010)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_DNA_Binding">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_DNA_Binding</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_DNA_Binding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_DNA_Binding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under DNA_Binding Filter,
+There are 78 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Developmental_Mitochondrial">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Developmental_Mitochondrial</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Developmental_Mitochondrial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Developmental_Mitochondrial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Developmental_Mitochondrial Filter,
+which presents a compound may casue Developmental Toxicity and Mitochondrial Toxicity.
+There are 12 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p>Structural Alerts for Developmental Toxicity and Mitochondrial Toxicity Molecular Initiating Events (Lhasa Limited)</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Frequent_Hitters">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Frequent_Hitters</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Frequent_Hitters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Frequent_Hitters" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are 15 SMARTS in Frequent_Hitters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Genotoxic_Carcinogenicity_Mutagenicity">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Genotoxic_Carcinogenicity_Mutagenicity</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Genotoxic_Carcinogenicity_Mutagenicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Genotoxic_Carcinogenicity_Mutagenicity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Developmental_Mitochondrial Filter,
+which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms.
+There are 117 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S1383574208000781">Benigni, Romualdo and Cecilia Bossa. (2008)</a>;</p></li>
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/0165121888901140">Ashby, John and Raymond W. Tennant. (1988)</a>;</p></li>
+<li><p><a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/jm040835a">Kazius, Jeroen, Ross McGuire, Roberta Bursi. (2005)</a>;</p></li>
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0273230005000553">Bailey, Allan B. (2005)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Idiosyncratic">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Idiosyncratic</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Idiosyncratic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Idiosyncratic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Idiosyncratic Filter,
+which presents a compound may has diosyncratic toxicity.
+There are 35 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Refercence:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://www.tandfonline.com/doi/abs/10.1517/17425255.1.1.91">Kalgutkar, Amit S. and John R. Soglia. (2005)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_LD50_Oral">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_LD50_Oral</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_LD50_Oral"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_LD50_Oral" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under LD50_Oral Filter,
+which presents a compound may cause acute toxicity during oral administration;
+There are 20 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p>Tinkov OV (2019).</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Luciferase_Inhibitory">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Luciferase_Inhibitory</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Luciferase_Inhibitory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Luciferase_Inhibitory" title="Permalink to this definition">¶</a></dt>
+<dd><p>There 3 SMARTS in Luciferase_Inhibitory Filter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_NTD">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_NTD</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_NTD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_NTD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brenk has proposed 105 unwanted groups in HTS</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://onlinelibrary.wiley.com/doi/abs/10.1002/cmdc.200700139">Brenk, Ruth (2008)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_NonBiodegradable">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_NonBiodegradable</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_NonBiodegradable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_NonBiodegradable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under NonBiodegradable Filter,
+which presents a compound may be non-biodegradable.
+There are 19 SMARTS in this enpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p>Environment Canada. Existing Substances Program (CD-ROM), released April, 2004 (2003).</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_NonGenotoxic_Carcinogenicity">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_NonGenotoxic_Carcinogenicity</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_NonGenotoxic_Carcinogenicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_NonGenotoxic_Carcinogenicity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under NonGenotoxic_Carcinogenicity Filter,
+which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms。
+There are 23 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S1383574208000781">Benigni, Romualdo and Cecilia Bossa (2008)</a>;</p></li>
+<li><p><a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/cr300206t">Benigni, Romualdo, Cecilia Bossa and Olga Tcheremenskaia (2013)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_PAINS">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_PAINS</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_PAINS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_PAINS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under PAINS Filter,
+which presents a type of compounds tend to be hitted in HTS.
+There are 480 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/jm901137j">Baell, Jonathan B. and Georgina A. Holloway (2010)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Potential_Electrophilic">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Potential_Electrophilic</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Potential_Electrophilic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Potential_Electrophilic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Potential_Electrophilic Filter,
+which presents a compound would be more probably take part in electrophilic reaction, 
+and the electrophilic reaction is strongly assosiated with protein binding.
+There are 119 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://www.tandfonline.com/doi/abs/10.3109/10408444.2011.598141">Enoch, S. J (2011)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Promiscuity">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Promiscuity</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Promiscuity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Promiscuity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Promiscuity Filter,
+There are 177 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/ci050504m">Pearce, Bradley C (2016)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Reactive_Unstable_Toxic">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Reactive_Unstable_Toxic</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Reactive_Unstable_Toxic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Reactive_Unstable_Toxic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Reactive_Unstable_Toxic Filter.
+There are 335 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://www.chemdiv.com/">ChemDiv</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Skin_Sensitization">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Skin_Sensitization</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Skin_Sensitization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Skin_Sensitization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Skin_Sensitization Filter,
+There are 155 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://pubs.acs.org/doi/pdf/10.1021/ci00017a019">Payne, M. P. and P. T. Walsh (1994)</a>.</p></li>
+<li><p><a class="reference external" href="https://www.tandfonline.com/doi/abs/10.1080/10629360802348985">Enoch, S. J., J. C. Madden and M. T. D. Cronin (2008)</a>.</p></li>
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/0887233394902445">Barratt, M. D (1994)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_SureChEMBL">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_SureChEMBL</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_SureChEMBL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_SureChEMBL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under SureChEMBL Filter,
+which presents a compound would match one or more structural alerts and hence considered to have a MedChem unfriendly status.  
+There are 164 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.structure_alert.FilterWithSmarts.Check_Toxicophores">
+<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Toxicophores</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">stype='single'</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Toxicophores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Toxicophores" title="Permalink to this definition">¶</a></dt>
+<dd><p>There 154 SMARTS in Toxicophres</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scopy.structure_alert.SmartProcess">
+<span id="scopy-structure-alert-smartprocess-module"></span><h2>scopy.structure_alert.SmartProcess module<a class="headerlink" href="#module-scopy.structure_alert.SmartProcess" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-scopy.structure_alert.SmartsFilter">
+<span id="scopy-structure-alert-smartsfilter-module"></span><h2>scopy.structure_alert.SmartsFilter module<a class="headerlink" href="#module-scopy.structure_alert.SmartsFilter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scopy.structure_alert.SmartsFilter.Filter">
+<em class="property">class </em><code class="sig-prename descclassname">scopy.structure_alert.SmartsFilter.</code><code class="sig-name descname">Filter</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">n_jobs=1</em>, <em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Here, we comdat the whole function that check endpoint retrieved from module FilterWithSmarts</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mols</strong> (<em>Iterable object</em><em>, </em><em>each element is rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The number of CPUs to use to do the computation, defaults to 1</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Acute_Aquatic_Toxicity">
+<code class="sig-name descname">Check_Acute_Aquatic_Toxicity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Acute_Aquatic_Toxicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Acute_Aquatic_Toxicity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Acute_Aquatic_Toxicity Filter,
+which presents a compound may cause toxicity to liquid(water).
+There are 99 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Aggregators">
+<code class="sig-name descname">Check_Aggregators</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Aggregators"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Aggregators" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are 311 SMARTS in Aggregators</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Alarm_NMR">
+<code class="sig-name descname">Check_Alarm_NMR</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Alarm_NMR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Alarm_NMR" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are 75 SMARTS in alarm_nmr</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_AlphaScreen_FHs">
+<code class="sig-name descname">Check_AlphaScreen_FHs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_AlphaScreen_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_AlphaScreen_FHs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Check_AlphaScreen_FHs Filter,
+which presents a compound may be alphascreen frequent hitters.
+There are 6 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_AlphaScreen_GST_FHs">
+<code class="sig-name descname">Check_AlphaScreen_GST_FHs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_AlphaScreen_GST_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_AlphaScreen_GST_FHs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Check_AlphaScreen_GST_FHs Filter,
+which presents a compound may prevent GST/GSH interaction during HTS.
+There are 34 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_AlphaScreen_HIS_FHs">
+<code class="sig-name descname">Check_AlphaScreen_HIS_FHs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_AlphaScreen_HIS_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_AlphaScreen_HIS_FHs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Check_AlphaScreen_HIS_FHs Filter,
+which presents a compound prevents the binding of the protein His-tag moiety to nickel chelate.
+There are 19 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_BMS">
+<code class="sig-name descname">Check_BMS</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_BMS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_BMS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under BMS Filter.
+Pearce has proposed a Functional Group Compound Filters(FG Filters).
+The FG filters are consisted of two part, Exclusion FG filters and informational filters.
+Exclusion FG filters are those intended for compound removal from screening decks;
+Informational filters are useful for compound annotation.
+There are 176 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Biodegradable">
+<code class="sig-name descname">Check_Biodegradable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Biodegradable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Biodegradable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Biodegradable Filter,
+which presents a compound may be Biodegradable.
+There are 9 SMARTS in this enpoint</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Chelating">
+<code class="sig-name descname">Check_Chelating</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Chelating"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Chelating" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Chelating Filter,
+which presents a compound may inhibit metalloproteins.
+Thers are 55 SMARTS in this endpoint</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_DNA_Binding">
+<code class="sig-name descname">Check_DNA_Binding</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_DNA_Binding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_DNA_Binding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under DNA_Binding Filter,
+There are 78 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Developmental_Mitochondrial">
+<code class="sig-name descname">Check_Developmental_Mitochondrial</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Developmental_Mitochondrial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Developmental_Mitochondrial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Developmental_Mitochondrial Filter,
+which presents a compound may casue Developmental Toxicity and Mitochondrial Toxicity.
+There are 12 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Frequent_Hitters">
+<code class="sig-name descname">Check_Frequent_Hitters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Frequent_Hitters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Frequent_Hitters" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are 15 SMARTS in Frequent_Hitters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Genotoxic_Carcinogenicity_Mutagenicity">
+<code class="sig-name descname">Check_Genotoxic_Carcinogenicity_Mutagenicity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Genotoxic_Carcinogenicity_Mutagenicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Genotoxic_Carcinogenicity_Mutagenicity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Developmental_Mitochondrial Filter,
+which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms.
+There are 117 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Idiosyncratic">
+<code class="sig-name descname">Check_Idiosyncratic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Idiosyncratic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Idiosyncratic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Idiosyncratic Filter,
+which presents a compound may has diosyncratic toxicity.
+There are 35 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_LD50_Oral">
+<code class="sig-name descname">Check_LD50_Oral</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_LD50_Oral"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_LD50_Oral" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under LD50_Oral Filter,
+which presents a compound may cause acute toxicity during oral administration;
+There are 20 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Luciferase_Inhibitory">
+<code class="sig-name descname">Check_Luciferase_Inhibitory</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Luciferase_Inhibitory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Luciferase_Inhibitory" title="Permalink to this definition">¶</a></dt>
+<dd><p>There 3 SMARTS in Luciferase_Inhibitory Filter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_NTD">
+<code class="sig-name descname">Check_NTD</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_NTD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_NTD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brenk has proposed 105 unwanted groups in HTS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_NonBiodegradable">
+<code class="sig-name descname">Check_NonBiodegradable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_NonBiodegradable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_NonBiodegradable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under NonBiodegradable Filter,
+which presents a compound may be non-biodegradable.
+There are 19 SMARTS in this enpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_NonGenotoxic_Carcinogenicity">
+<code class="sig-name descname">Check_NonGenotoxic_Carcinogenicity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_NonGenotoxic_Carcinogenicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_NonGenotoxic_Carcinogenicity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under NonGenotoxic_Carcinogenicity Filter,
+which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms。
+There are 23 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_PAINS">
+<code class="sig-name descname">Check_PAINS</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_PAINS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_PAINS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under PAINS Filter,
+which presents a type of compounds tend to be hitted in HTS.
+There are 480 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Potential_Electrophilic">
+<code class="sig-name descname">Check_Potential_Electrophilic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Potential_Electrophilic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Potential_Electrophilic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Potential_Electrophilic Filter,
+which presents a compound would be more probably take part in electrophilic reaction, 
+and the electrophilic reaction is strongly assosiated with protein binding.
+There are 119 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Promiscuity">
+<code class="sig-name descname">Check_Promiscuity</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Promiscuity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Promiscuity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Promiscuity Filter,
+There are 177 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Reactive_Unstable_Toxic">
+<code class="sig-name descname">Check_Reactive_Unstable_Toxic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Reactive_Unstable_Toxic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Reactive_Unstable_Toxic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Reactive_Unstable_Toxic Filter.
+There are 335 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Skin_Sensitization">
+<code class="sig-name descname">Check_Skin_Sensitization</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Skin_Sensitization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Skin_Sensitization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Skin_Sensitization Filter,
+There are 155 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_SureChEMBL">
+<code class="sig-name descname">Check_SureChEMBL</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_SureChEMBL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_SureChEMBL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under SureChEMBL Filter,
+which presents a compound would match one or more structural alerts and hence considered to have a MedChem unfriendly status.  
+There are 164 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Toxicophores">
+<code class="sig-name descname">Check_Toxicophores</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Toxicophores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Toxicophores" title="Permalink to this definition">¶</a></dt>
+<dd><p>There 154 SMARTS in Toxicophres</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scopy.structure_alert">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scopy.structure_alert" title="Permalink to this headline">¶</a></h2>
+<p>Created on Tue Jun 25 21:59:42 2019</p>
+<p>&#64;Author: Zhi-Jiang Yang, Dong-Sheng Cao
+&#64;Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，
+&#64;Homepage: <a class="reference external" href="http://www.scbdd.com">http://www.scbdd.com</a>
+&#64;Mail: <a class="reference external" href="mailto:yzjkid9&#37;&#52;&#48;gmail&#46;com">yzjkid9<span>&#64;</span>gmail<span>&#46;</span>com</a>; <a class="reference external" href="mailto:oriental-cds&#37;&#52;&#48;163&#46;com">oriental-cds<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Blog: <a class="reference external" href="https://blog.moyule.me">https://blog.moyule.me</a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Zhijiang Yang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

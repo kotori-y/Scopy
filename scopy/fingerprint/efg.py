@@ -1,20 +1,27 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Sep  3 10:31:34 2019
 
-@Author: Zhi-Jiang Yang, Dong-Sheng Cao
-@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，
-@Homepage: http://www.scbdd.com
-@Mail: yzjkid9@gmail.com; oriental-cds@163.com
-@Blog: https://blog.moyule.me
+#Created on Tue Sep  3 10:31:34 2019
+#
+#@Author: Zhi-Jiang Yang, Dong-Sheng Cao
+#@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，
+#@Homepage: http://www.scbdd.com
+#@Mail: yzjkid9@gmail.com; oriental-cds@163.com
+#@Blog: https://blog.moyule.me
+#
+#♥I love Princess Zelda forever♥
 
-♥I love Princess Zelda forever♥
-"""
 
-import pickle, gzip, os, csv, sys
-# sys.path.append('..')
-from ..structure_alert.SmartProcess import _CheckPattl
-from .. import ScoConfig
+
+import pickle, gzip, os, csv
+try:
+    from ..structure_alert.SmartProcess import _CheckPattl
+    from .. import ScoConfig
+except:
+    import sys
+    sys.path.append('..')
+    from structure_alert.SmartProcess import _CheckPattl
+    import ScoConfig
+    
 from rdkit import Chem
 
 
@@ -27,14 +34,9 @@ def _Generatepkl(endpoint):
     Since, the file may can't be successfully loaded. This function is designed for
     re-generating a pkl file under this situation.
     
-    Parameters:
-    -----------
-    endpoint: str
-        the name of file
-        
-    Return:
-    -----------
-    None
+    :param endpoint: the name of file
+    :return: None
+    
     """
     file = os.path.join(ScoConfig.EFGDir,'{}'.txt.format(endpoint))
     with open(file,'r',encoding='utf-8') as f_obj:
@@ -61,27 +63,26 @@ def _Generatepkl(endpoint):
 
 
 class EFG(object):
-    """
-    Brief:
-    -----------
-    classification system termed “extended functional groups” (EFG),
+    """classification system termed “extended functional groups” (EFG),
     which are an extension of a set previously used by the CheckMol software, 
     that covers in addition heterocyclic compound classes and periodic table groups. 
     583 bits
     
-    Ref.:
-    -----------
-    Salmina, Elena, Norbert Haider, and Igor Tetko.
-    Molecules, 21(1), 1.
+    Reference:
+        (1) `Salmina, Elena, Norbert Haider and Igor Tetko (2016)`_.
     
-    Parameters:
-    -----------
-    counter: bool(optional, default:True)
-        If set to True, the fingerprint will presented in the format of counter(not only 1 and 0)
-        else, would be binary
+    :param useCount: If set to True, the fingerprint will presented in the format of counter(not only 1 and 0) else, would be binary, defaults to True
+    :type useCounter: bool, optional
+    
+    .. _Salmina, Elena, Norbert Haider and Igor Tetko (2016):
+        https://www.mdpi.com/1420-3049/21/1/1
+    
     """
-    def __init__(self, counter):
-        self.counter = counter
+    def __init__(self, useCount):
+        """Initialization
+        
+        """
+        self.useCount = useCount
         file = os.path.join(ScoConfig.EFGDir,'Extended_Functional_Groups.pkl.gz')
         try:
             pattl = pickle.load(gzip.open(file,'rb'))
@@ -94,23 +95,20 @@ class EFG(object):
         
     
     def CalculateEFG(self,mol):
-        """
-        Parameters:
-        -----------
-        mol: rdkit.Chem.rdchem.Mol
-        
-        Return:
-        -----------
-        fp: list
+        """Calulating EFG fingerprint
         
         Note:
-        -----------
-        following bits are always to be set as 1 or 0:
-        bit0, bit1, bit2, bit59, bit60, bit61, bit62, bit209, bit218, bit544, bit545
-        It's diffcult to counter them like others bits, because these bits contain "not"
+            following bits are always to be set as 1 or 0: bit0, bit1, bit2, bit59, bit60, bit61, bit62, bit209, bit218, bit544, bit545.
+            It's diffcult to counter them like others bits, because these bits contain "not"
+        
+        :param mol: molecule
+        :type mol: rdkit.Chem.rdchem.Mol
+        :return: fingerprint
+        :rtype: list
+        
         """
         Bool = _CheckPattl(mol, self.rejected, self.accepted)
-        if not self.counter:
+        if not self.useCount:
             fp = [x+0 for x in Bool]
         else:
             fp = [0]*583
@@ -151,7 +149,7 @@ if '__main__' == __name__:
             'C1=C2N=CC=NC2=C2N=CNC2=C1', #Genotoxic_Carcinogenicity_Mutagenicity
             'N(CC)(CCCCC)C(=S)N', #Idiosyncratic
             ]
-    fp = EFG(counter=0)
+    fp = EFG(useCount=0)
     mol = Chem.MolFromSmiles(smis[3])
     fp = fp.CalculateEFG(mol)
 #    fps = np.array(fps)

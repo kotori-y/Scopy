@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Overview &#8212; Scopy 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started with Scopy" href="user_guide.html" />
+    <link rel="prev" title="The Scopy’s documentation" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="user_guide.html" title="Getting Started with Scopy"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The Scopy’s documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Overview</a><ul>
+<li><a class="reference internal" href="#who-uses-scopy">Who uses Scopy?</a></li>
+<li><a class="reference internal" href="#motivation">Motivation</a></li>
+<li><a class="reference internal" href="#feature-overview">Feature overview</a></li>
+<li><a class="reference internal" href="#the-python-programming-language">The Python programming language</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">The Scopy’s documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="user_guide.html"
+                        title="next chapter">Getting Started with Scopy</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/overview.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>The python package Scopy(Screnning COmpounds in PYthon) is designed by <a class="reference external" href="http://home.scbdd.com/index.php?s=/Home/Index.html&amp;t=english">CBDD Group</a> (Computational Biology &amp; Drug Design Group), Xiangya School of Pharmaceutical Sciences, Central South University. The noise, existed in compound library, may interfere the screening result, so called False Positive. To help select quality hit compounds, a filter is necessary before screenig and(or) purchasing. Scopy is a such filter that can not only analyse the physicochemical (PC) properties and filter compounds based on PC-derived rules, but search for the presence of toxicophores (potentially toxic chemical groups). Scopy can also flag unwanted reactive chemical groups, e.g. Pan Assay Interference Compounds (PAINS) or aggregators Our aims at enhancing the chances of finding compounds with an acceptable absorption, distribution, metabolism, excretion and toxicity (ADMET) profile. Roughly, there are 41 PC properties and 15 PC-derived rules to be analysed. Besides, Scopy also contains 2,167 unexpected groups  covering 21 endpoints. In addtion, 7 fingerprints retrieved from fragments are supplied.</p>
+<div class="section" id="who-uses-scopy">
+<h2>Who uses Scopy?<a class="headerlink" href="#who-uses-scopy" title="Permalink to this headline">¶</a></h2>
+<p>For those researchers from different biomedical fields, the Scopy package can be used to enhance the chance of finding compounds with an acceptable ADMET profile. Scopy will be helpful when finding the method to reduce the space of compound space.</p>
+</div>
+<div class="section" id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<p>Scopy is intended to provide</p>
+<ul class="simple">
+<li><p>Analyse the physicochemical (PC) properties and filter compounds based on PC-derived rules</p></li>
+<li><p>Search for the presence of toxicophores</p></li>
+<li><p>Flag unwanted reactive chemical groups</p></li>
+<li><p>Compute fingerprints retrieved from fragments</p></li>
+<li><p>Provide an intuitive visualization</p></li>
+</ul>
+</div>
+<div class="section" id="feature-overview">
+<h2>Feature overview<a class="headerlink" href="#feature-overview" title="Permalink to this headline">¶</a></h2>
+<p>Scopy cantain five parts: <strong>drug-likeness filter</strong> to analyse the physicochemical (PC) properties and filter compounds based on PC-derived rules, <strong>structure alert filter</strong> to search for the presence of toxicophores and flag unwanted reactive chemical groups, <strong>fingerprints calulater</strong> to compute fingerprints retrieved from fragments, <strong>visualization tool</strong> to provide an intuitive visualization, <strong>pretreat</strong> to solve some molecules can not be recognize. The table beblow shows each the detail of each part. Roughly, there are 41 PC properties and 15 PC-derived rules to be analysed. Besides, Scopy also contains 2,167 unexpected groups  covering 21 endpoints. In addtion, 7 fingerprints retrieved from fragments are supplied.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 66%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Detail</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td rowspan="2"><p>Drug-likeness filter</p></td>
+<td><dl class="simple">
+<dt>PC Properties</dt><dd><ul class="simple">
+<li><p>Molcular Weight &gt;&gt;&gt; MW</p></li>
+<li><p>Molcular Volume &gt;&gt;&gt; MolVol</p></li>
+<li><p>Molcular Density &gt;&gt;&gt; Dense</p></li>
+<li><p>Formal Charge &gt;&gt;&gt; fChar</p></li>
+<li><p>Number of bonds &gt;&gt;&gt; nBond</p></li>
+<li><p>Number of atoms &gt;&gt;&gt; nAtom</p></li>
+<li><p>Number of heteroatoms &gt;&gt;&gt; nHet</p></li>
+<li><p>Number of heavy atom &gt;&gt;&gt; nHev</p></li>
+<li><p>Number of rotable bonds &gt;&gt;&gt; nRot</p></li>
+<li><p>Number of rigid bonds &gt;&gt;&gt; nRig</p></li>
+<li><p>Number of SSSR &gt;&gt;&gt; nRing</p></li>
+<li><p>logP &gt;&gt;&gt; logP</p></li>
+<li><p>logD &gt;&gt;&gt; logD</p></li>
+<li><p>logSw &gt;&gt;&gt; logSw</p></li>
+<li><p>Acid or Base &gt;&gt;&gt; ab</p></li>
+<li><p>pKa &gt;&gt;&gt; pKa</p></li>
+<li><p>QED with average descriptor weights &gt;&gt;&gt; QEDmean</p></li>
+<li><p>QED with maximal descriptor weights &gt;&gt;&gt; QEDmax</p></li>
+<li><p>QED with using unit weights &gt;&gt;&gt; QEDnone</p></li>
+<li><p>Molecular refraction &gt;&gt;&gt;MR</p></li>
+<li><p>Number of hydrogen bond donors &gt;&gt;&gt; nHD</p></li>
+<li><p>Number of hydrogen bond acceptors &gt;&gt;&gt; nHA</p></li>
+<li><p>Number of hydrogen bond donors&amp; acceptors &gt;&gt;&gt; nHB</p></li>
+<li><p>Aromatic proportion &gt;&gt;&gt; AP</p></li>
+<li><p>Sp3 hybridized carbons/total carbon count &gt;&gt;&gt; Fsp3</p></li>
+<li><p>TPSA &gt;&gt;&gt; TPSA</p></li>
+<li><p>Number of atoms involved in the biggest system ring &gt;&gt;&gt; MaxRing</p></li>
+<li><p>Number of Sterocenterss &gt;&gt;&gt; nStero</p></li>
+<li><p>HetCarbonRatio &gt;&gt;&gt; HetRatio</p></li>
+<li><p>synthetic accessibility score &gt;&gt;&gt; SAscore</p></li>
+<li><p>Natural product- likeness score &gt;&gt;&gt; NPscore</p></li>
+<li><p>Number of single bonds &gt;&gt;&gt; nSingle</p></li>
+<li><p>Number of double bobds &gt;&gt;&gt; nDouble</p></li>
+<li><p>Number of triple bonds &gt;&gt;&gt; nTriple</p></li>
+<li><p>Number of Carbon atoms &gt;&gt;&gt; nC</p></li>
+<li><p>Number of Boron atoms &gt;&gt;&gt; nB</p></li>
+<li><p>Number of Chlorin atoms &gt;&gt;&gt; nCl</p></li>
+<li><p>Number of Bromine atoms &gt;&gt;&gt; nBr</p></li>
+<li><p>Number of Iodine atoms &gt;&gt;&gt; nI</p></li>
+<li><p>Number of Phosphor atoms &gt;&gt;&gt; P</p></li>
+<li><p>Number of Sulfur atoms &gt;&gt;&gt; nS</p></li>
+<li><p>Number of Oxygen atoms &gt;&gt;&gt; nO</p></li>
+<li><p>Number of Nitrogen atoms &gt;&gt;&gt; nN</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td rowspan="2"><p><a href="#id1"><span class="problematic" id="id2">`druglikeness`_</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><dl class="simple">
+<dt>PC- derived RRules</dt><dd><ul class="simple">
+<li><p>Egan Rule     0&lt;=tPSA&lt;=132; -1&lt;=logP&lt;=6</p></li>
+<li><p>Veber Rule    nRot&lt;= 10; TPSA&lt;=140; nHB&lt;=12</p></li>
+<li><p>LipinskiRule  MW&lt;=500; logP&lt;=5, nHD&lt;=5, nHA&lt;=10</p></li>
+<li><p>BeyondRo5   MW&lt;=1000; -2&lt;=logP&lt;=10; nHD&lt;=6, nHA&lt;=15; tPSA&lt;=250; nRot&lt;=20</p></li>
+<li><p>Pfizer Rule     logP&gt;3; TPSA&lt;75</p></li>
+<li><p>GSK Rule        MW&lt;=400; logP&lt;=4</p></li>
+<li><p>OralMacrocycles     MW&lt;1000; logP&lt;10; nHD&lt;5; PSA&lt;250</p></li>
+<li><p>Oprea Rule   nRing&gt;=3,nRig&gt;=18,nRot&gt;=6</p></li>
+<li><p>Ghose Rule      -0.4&lt;logP&lt;5.6; 160&lt;MW&lt;480; 40&lt;MR&lt;130; 20&lt;nAtom&lt;70</p></li>
+<li><p>Xu Rule     nHD&lt;=5; nHA&lt;=10; 3&lt;=nRot&lt;= 35; 1&lt;=nring&lt;=7; 10&lt;=nhev&lt;=50</p></li>
+<li><p>Ro4 Rule    MW&lt;=400; logP&lt;=4; nHDv=4; NHA&lt;=8; PSAv=120</p></li>
+<li><p>Ro3 Rule    MW&lt;=300; -3&lt;=logP&lt;=3; nHD&lt;=3; nHA&lt;=6; PSA&lt;=60</p></li>
+<li><p>Ro2 Rule    MWv=200; logP&lt;=2; nHD&lt;=2; nHA&lt;=4</p></li>
+<li><p>REOS Rule    200&lt;=MW&lt;=500; -5&lt;=logP&lt;=5; nHD&lt;=5; nHA&lt;=10; nRot&lt;=8; TPSA&lt;=150; -4&lt;=fChar&lt;=4</p></li>
+<li><p>GoldenTriangle 200&lt;=MW&lt;=500; -2&lt;=logD&lt;=5</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-even"><td><p>Structure alert filter</p></td>
+<td><dl class="simple">
+<dt>Unwanted fragments</dt><dd><ul class="simple">
+<li><p>Acute_Aquatic_Toxicity(99)</p></li>
+<li><p>AlphaScreen_FHs(6)</p></li>
+<li><p>AlphaScreen_GST_FHs(34)</p></li>
+<li><p>AlphaScreen_HIS_FHs(19)</p></li>
+<li><p>Biodegradable(9)</p></li>
+<li><p>BMS(180)</p></li>
+<li><p>Chelating(55)</p></li>
+<li><p>Developmental_Mitochondrial(12)</p></li>
+<li><p>Genotoxic_Carcinogenicity_Mutagenicity(117)</p></li>
+<li><p>Idiosyncratic(35)</p></li>
+<li><p>LD50_oral(20)</p></li>
+<li><p>Luciferase_Inhibitory(3)</p></li>
+<li><p>NonBiodegradable(19)</p></li>
+<li><p>NonGenotoxic_Carcinogenicity(23)</p></li>
+<li><p>NTD(105)</p></li>
+<li><p>Pains(480)</p></li>
+<li><p>Potential_Electrophilic(119)</p></li>
+<li><p>Promiscuity(177)</p></li>
+<li><p>Reactive_Unstable_Toxic(335)</p></li>
+<li><p>Skin_Sensitization(155)</p></li>
+<li><p>SureChEMBL(165)</p></li>
+<li><p>BMS(176)</p></li>
+<li><p>NTD(105)</p></li>
+<li><p>Alarm_NMR(75</p></li>
+<li><p>Frequent_Hitters(15)</p></li>
+<li><p>Aggregators(311)</p></li>
+<li><p>Toxicophores(154)</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><p><a href="#id3"><span class="problematic" id="id4">`structure_alert`_</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Fingerprints Calculater</p></td>
+<td><ul class="simple">
+<li><p>MACCS(167- bits)</p></li>
+<li><p>Morgan(2^n- bits,- 1024- set- as- default)</p></li>
+<li><p><strong>EFG(583- bits)</strong></p></li>
+<li><p>Daylight(2^n- bits,- 2048- set- as- default)</p></li>
+<li><p><strong>PubChem(881- bits)</strong></p></li>
+<li><p>EState(79- bits)</p></li>
+<li><p><strong>GhoseCrippen(110- bits)</strong></p></li>
+</ul>
+</td>
+<td><p><a href="#id5"><span class="problematic" id="id6">`fingerprints`_</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="the-python-programming-language">
+<h2>The Python programming language<a class="headerlink" href="#the-python-programming-language" title="Permalink to this headline">¶</a></h2>
+<p>Python is a powerful programming language that allows simple and flexible representations of biochemical molecules, and clear and concise expressions of bioinformatics algorithms. Python has a vibrant and growing ecosystem of packages that PyBioMed uses to provide more features such as RDkit and Pybel. In addition, Python is also an excellent “glue” language for putting together pieces of software from other languages which allows reuse of legacy code and engineering of high-performance algorithms. Equally important, Python is free, well-supported, and a joy to use. In order to make full use of PyBioMed, you will want to know how to write basic programs in Python. Among the many guides to Python, we recommend the documentation at <a class="reference external" href="http://www.python.org">http://www.python.org</a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="user_guide.html" title="Getting Started with Scopy"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The Scopy’s documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Zhijiang Yang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

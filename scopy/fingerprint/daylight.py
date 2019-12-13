@@ -1,53 +1,51 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Sep  3 09:53:13 2019
 
-@Author: Zhi-Jiang Yang, Dong-Sheng Cao
-@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，
-@Homepage: http://www.scbdd.com
-@Mail: yzjkid9@gmail.com; oriental-cds@163.com
-@Blog: https://blog.moyule.me
+#Created on Tue Sep  3 09:53:13 2019
+#
+#@Author: Zhi-Jiang Yang, Dong-Sheng Cao
+#@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，
+#@Homepage: http://www.scbdd.com
+#@Mail: yzjkid9@gmail.com; oriental-cds@163.com
+#@Blog: https://blog.moyule.me
 
-"""
+
 
 from rdkit.Chem.rdmolops import RDKFingerprint
 from rdkit.Chem import AllChem as Chem
 
 class Daylight(object):
-    """
-    Brief:
-    -----------
-    a Daylight-like fingerprint based on hashing molecular subgraphs
+    """a Daylight-like fingerprint based on hashing molecular subgraphs
+    2^n bits
     
-    Parameters:
-    -----------
-    minPath: int(optional, default:1)
-        minimum number of bonds to include in the subgraphs
-    maxPath: int(optional, default:7)
-        maximum number of bonds to include in the subgraphs
-    nBits: int(optional, default:2048)
-        number of bits in the fingerprint
+    :param minPath: minimum number of bonds to include in the subgraphs, defaults to 1
+    :type minPath: int, optional
+    :param maxPath: maximum number of bonds to include in the subgraphs, defaults to 7
+    :type maxPath: int, optional
+    :param nBits: number of bits in the fingerprint, defaults to 2048
+    :type nBits: int, optional
+    
     """
     def __init__(self, minPath, maxPath, nBits):
+        """Initialization
+        
+        """
         self.minPath = minPath
         self.maxPath = maxPath
         self.nBits = nBits
         
     def CalculateDaylight(self,mol):
         """
-        Parameters:
-        -----------
-        mol: rdkit.Chem.rdchem.Mol
-            
-        Return:
-        -----------
-        fp: list
+        
+        :param mol: molecule
+        :type mol: rdkit.Chem.rdchem.Mol
+        :return: fingerprint
+        :rtype: list
+        
         """
         fp = RDKFingerprint(mol, minPath=self.minPath, maxPath=self.maxPath, fpSize=self.nBits)
         fp = list(fp)
         return fp
     
-
 
 if '__main__' == __name__:
     smis = [

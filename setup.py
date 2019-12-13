@@ -14,13 +14,10 @@ I love my senpai forerver!:P
 from __future__ import absolute_import
 from distutils.core import setup
 
+package_data= {'scopy':['structure_alert/*','druglikeness/*','data/SMARTS/*','data/PATT/*','data/ACID/*','data/*','data/Crippen/*','data/EFG/*','data/Demo/*','data/MC/*','data/MOL/*','data/PubChem/*','fingerprint/*','visualize/*']}
 
+#package_data= {'scopy':['structure_alert/*','druglikeness/*','test/*','data/SMARTS/*','data/PATT/*','data/ACID/*','data/*','data/Crippen/*','fingerprint/*']}
 
-<<<<<<< HEAD
-package_data= {'scopy':['structure_alert/*','druglikeness/*','test/*','data/SMARTS/*','data/PATT/*','data/ACID/*','data/*','data/Crippen/*','data/EFG/*','fingerprint/*','visualize/*','pretreat/*']}
-=======
-package_data= {'scopy':['structure_alert/*','druglikeness/*','test/*','data/SMARTS/*','data/PATT/*','data/ACID/*','data/*','data/Crippen/*','fingerprint/*']}
->>>>>>> d9ae338fbdfa8b3e677463b33d5e8237a5528729
 
 setup(name="scopy",  
       version="1.1", 
