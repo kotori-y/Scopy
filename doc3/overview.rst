@@ -2,8 +2,9 @@
 
 Overview
 ========
-
-The python package Scopy(Screnning COmpounds in PYthon) is designed by `CBDD Group`_ (Computational Biology & Drug Design Group), Xiangya School of Pharmaceutical Sciences, Central South University. The noise, existed in compound library, may interfere the screening result, so called False Positive. To help select quality hit compounds, a filter is necessary before screenig and(or) purchasing. Scopy is a such filter that can not only analyse the physicochemical (PC) properties and filter compounds based on PC-derived rules, but search for the presence of toxicophores (potentially toxic chemical groups). Scopy can also flag unwanted reactive chemical groups, e.g. Pan Assay Interference Compounds (PAINS) or aggregators Our aims at enhancing the chances of finding compounds with an acceptable absorption, distribution, metabolism, excretion and toxicity (ADMET) profile. Roughly, there are 41 PC properties and 15 PC-derived rules to be analysed. Besides, Scopy also contains 2,167 unexpected groups  covering 21 endpoints. In addtion, 7 fingerprints retrieved from fragments are supplied.
+To decrease the four major problems existed in high-throughput screening (HTS), we have designed and develpoed the package Scopy(Screnning COmpounds in PYthon). Firstly, the poor drug-likeness of most hitters will increase workload for future work. Besides, the potential toxic compounds and frequent hitters (FH) would stain the screening result. Lastly, The chemical space of hitters may be narrow which may not involve the compound we intended.
+Scopy supplied three filters: drug-likeness, toxicity and FH filter, but also a space analyser to explore chemical space of library and a visualizer to intuitively depict screening result. In drug-likeness filter, **43** physicochemical (PC) properties and **15** PC-driven rules, so called drug-likeness rules, were collected and implemented. In toxicity filter could screen **x** endpoints related to toxicity, and FH filter involves **x** endpoint. As to chemical space exploration, besides analyse framework, **7** fingerprins used to assess space from different angle.
+The python package Scopy(Screnning COmpounds in PYthon) is designed by `CBDD Group`_ (Computational Biology & Drug Design Group), Xiangya School of Pharmaceutical Sciences, Central South University. 
 
 .. _`CBDD Group`: http://home.scbdd.com/index.php?s=/Home/Index.html&t=english
 
@@ -141,8 +142,4 @@ Scopy cantain five parts: **drug-likeness filter** to analyse the physicochemica
 The Python programming language
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Python is a powerful programming language that allows simple and flexible representations of biochemical molecules, and clear and concise expressions of bioinformatics algorithms. Python has a vibrant and growing ecosystem of packages that PyBioMed uses to provide more features such as RDkit and Pybel. In addition, Python is also an excellent “glue” language for putting together pieces of software from other languages which allows reuse of legacy code and engineering of high-performance algorithms. Equally important, Python is free, well-supported, and a joy to use. In order to make full use of PyBioMed, you will want to know how to write basic programs in Python. Among the many guides to Python, we recommend the documentation at http://www.python.org.
-
-
-
-
+Python is a powerful programming language that allows simple and flexible representations of biochemical molecules, and clear and concise expressions of bioinformatics algorithms. Python has a vibrant and growing ecosystem of packages that Scopy uses to provide more features such as RDkit. In addition, Python is also an excellent “glue” language for putting together pieces of software from other languages which allows reuse of legacy code and engineering of high-performance algorithms. Equally important, Python is free, well-supported, and a joy to use. In order to make full use of Scopy, you will want to know how to write basic programs in Python. Among the many guides to Python, we recommend the documentation at https://www.python.org/

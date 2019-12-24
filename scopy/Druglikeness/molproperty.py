@@ -351,6 +351,34 @@ def CalculateNumHyBond(mol):
     return nHB
 
 
+def CalculateNumAromaAtom(mol):
+    """
+    Calculation of aromatic atom counts in a molecule
+    --->nAAtom
+    
+    :param mol: molecular
+    :type mol: rdkit.Chem.rdchem.Mol
+    :return: the aromatic atom counts in a molecule
+    :rtype: int
+    
+    """
+    aroma = len(mol.GetSubstructMatches(Chem.MolFromSmarts('[a]')))
+    return aroma
+
+
+def CalculateNumAromaRing(mol):
+    n = 0
+    aatom = mol.GetSubstructMatches(Chem.MolFromSmarts('[a]'))
+    aatom = sum(aatom,())
+    if aatom:
+        ringinfo = mol.GetRingInfo()
+        for info in ringinfo.AtomRings():
+            n += 1 if set(info) == set(info)&set(aatom) else 0
+    else:
+        pass
+    return n
+
+
 def CalculateAromaticProportion(mol):
     """
     The proportion of heavy atoms in the molecule that are in an aromatic ring  
@@ -362,7 +390,7 @@ def CalculateAromaticProportion(mol):
     :rtype: float
     
     """
-    aroma = len(mol.GetSubstructMatches(Chem.MolFromSmarts('[a]')))
+    aroma = CalculateNumAromaAtom(mol)
     total = CalculateNumHeavyAtom(mol)
     AP = round(aroma/total,2) 
     return AP  
