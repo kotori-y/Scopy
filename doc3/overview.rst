@@ -31,12 +31,14 @@ Scopy is intended to provide
 Feature overview
 ~~~~~~~~~~~~~~~~
 
+Scopy conain five parts: **Drug-likeness Filter** to analyse the physicochemical (PC) properties and filter compounds based on PC-derived rules; **Frequent Hitters Filter** and **Toxicity**
+*
 Scopy cantain five parts: **drug-likeness filter** to analyse the physicochemical (PC) properties and filter compounds based on PC-derived rules, **structure alert filter** to search for the presence of toxicophores and flag unwanted reactive chemical groups, **fingerprints calulater** to compute fingerprints retrieved from fragments, **visualization tool** to provide an intuitive visualization, **pretreat** to solve some molecules can not be recognize. The table beblow shows each the detail of each part. Roughly, there are 41 PC properties and 15 PC-derived rules to be analysed. Besides, Scopy also contains 2,167 unexpected groups  covering 21 endpoints. In addtion, 7 fingerprints retrieved from fragments are supplied.
 
 +-------------------------+-----------------------------------------------------------------------------------------------+-----------------------+
 |Type                     |Detail                                                                                         |Description            |
 +=========================+===============================================================================================+=======================+
-|Drug-likeness filter     |PC Properties                                                                                  |                       |
+|Drug-likeness filter     |Basic PC Properties                                                                            |                       |
 |                         | - Molcular Weight >>> MW                                                                      |                       |
 |                         | - Molcular Volume >>> MolVol                                                                  |                       |
 |                         | - Molcular Density >>> Dense                                                                  |                       |
@@ -53,9 +55,6 @@ Scopy cantain five parts: **drug-likeness filter** to analyse the physicochemica
 |                         | - logSw >>> logSw                                                                             |                       |
 |                         | - Acid or Base >>> ab                                                                         |                       |
 |                         | - pKa >>> pKa                                                                                 |                       |
-|                         | - QED with average descriptor weights >>> QEDmean                                             |                       |
-|                         | - QED with maximal descriptor weights >>> QEDmax                                              |                       |
-|                         | - QED with using unit weights >>> QEDnone                                                     |                       |
 |                         | - Molecular refraction >>>MR                                                                  |                       |
 |                         | - Number of hydrogen bond donors >>> nHD                                                      |                       |
 |                         | - Number of hydrogen bond acceptors >>> nHA                                                   |                       |
@@ -66,8 +65,6 @@ Scopy cantain five parts: **drug-likeness filter** to analyse the physicochemica
 |                         | - Number of atoms involved in the biggest system ring >>> MaxRing                             |                       |
 |                         | - Number of Sterocenterss >>> nStero                                                          |`druglikeness`_        |
 |                         | - HetCarbonRatio >>> HetRatio                                                                 |                       |
-|                         | - synthetic accessibility score >>> SAscore                                                   |                       |
-|                         | - Natural product- likeness score >>> NPscore                                                 |                       |
 |                         | - Number of single bonds >>> nSingle                                                          |                       |
 |                         | - Number of double bobds >>> nDouble                                                          |                       |
 |                         | - Number of triple bonds >>> nTriple                                                          |                       |
@@ -80,8 +77,14 @@ Scopy cantain five parts: **drug-likeness filter** to analyse the physicochemica
 |                         | - Number of Sulfur atoms >>> nS                                                               |                       |
 |                         | - Number of Oxygen atoms >>> nO                                                               |                       |
 |                         | - Number of Nitrogen atoms >>> nN                                                             |                       |
+|                         | Specific PC Properties                                                                        |                       |
+|                         | - QED with average descriptor weights >>> QEDmean                                             |                       |
+|                         | - QED with maximal descriptor weights >>> QEDmax                                              |                       |
+|                         | - QED with using unit weights >>> QEDnone                                                     |                       |
+|                         | - synthetic accessibility score >>> SAscore                                                   |                       |
+|                         | - Natural product- likeness score >>> NPscore                                                 |                       |
 +                         +-----------------------------------------------------------------------------------------------+                       +
-|                         |PC- derived RRules                                                                             |                       |
+|                         |Drug-likeness Rules                                                                            |                       |
 |                         | - Egan Rule     0<=tPSA<=132; -1<=logP<=6                                                     |                       |
 |                         | - Veber Rule    nRot<= 10; TPSA<=140; nHB<=12                                                 |                       |
 |                         | - LipinskiRule  MW<=500; logP<=5, nHD<=5, nHA<=10                                             |                       |
@@ -98,34 +101,34 @@ Scopy cantain five parts: **drug-likeness filter** to analyse the physicochemica
 |                         | - REOS Rule    200<=MW<=500; -5<=logP<=5; nHD<=5; nHA<=10; nRot<=8; TPSA<=150; -4<=fChar<=4   |                       |
 |                         | - GoldenTriangle 200<=MW<=500; -2<=logD<=5                                                    |                       |
 +-------------------------+-----------------------------------------------------------------------------------------------+-----------------------+
-|Structure alert filter   |Unwanted fragments                                                                             |                       |
+|Structure alert filter   |Toxicity                                                                                       |                       |
 |                         | - Acute_Aquatic_Toxicity(99)                                                                  |                       |
-|                         | - AlphaScreen_FHs(6)                                                                          |                       |
-|                         | - AlphaScreen_GST_FHs(34)                                                                     |                       |
-|                         | - AlphaScreen_HIS_FHs(19)                                                                     |                       |
 |                         | - Biodegradable(9)                                                                            |                       |
-|                         | - BMS(180)                                                                                    |                       |
-|                         | - Chelating(55)                                                                               |                       |
 |                         | - Developmental_Mitochondrial(12)                                                             |                       |
 |                         | - Genotoxic_Carcinogenicity_Mutagenicity(117)                                                 |                       |
 |                         | - Idiosyncratic(35)                                                                           |                       |
 |                         | - LD50_oral(20)                                                                               |                       |
-|                         | - Luciferase_Inhibitory(3)                                                                    |                       |
 |                         | - NonBiodegradable(19)                                                                        |`structure_alert`_     |
 |                         | - NonGenotoxic_Carcinogenicity(23)                                                            |                       |
 |                         | - NTD(105)                                                                                    |                       |
-|                         | - Pains(480)                                                                                  |                       |
 |                         | - Potential_Electrophilic(119)                                                                |                       |
-|                         | - Promiscuity(177)                                                                            |                       |
-|                         | - Reactive_Unstable_Toxic(335)                                                                |                       |
 |                         | - Skin_Sensitization(155)                                                                     |                       |
 |                         | - SureChEMBL(165)                                                                             |                       |
-|                         | - BMS(176)                                                                                    |                       |
 |                         | - NTD(105)                                                                                    |                       |
-|                         | - Alarm_NMR(75                                                                                |                       |
+|                         | - Alarm_NMR(75)                                                                               |                       |
+|                         | - Toxicophores(154)                                                                           |                       |
++                         +-----------------------------------------------------------------------------------------------+                       +
+|                         |Frequent Hitters                                                                               |                       |
+|                         | - AlphaScreen_FHs(6)                                                                          |                       |
+|                         | - AlphaScreen_GST_FHs(34)                                                                     |                       |
+|                         | - AlphaScreen_HIS_FHs(19)                                                                     |                       |
+|                         | - Chelating(55)                                                                               |                       |
+|                         | - Luciferase_Inhibitory(3)                                                                    |                       |
+|                         | - PAINS(480)                                                                                  |                       |
+|                         | - Reactive_Unstable_Toxic(335)                                                                |                       |
+|                         | - BMS(176)                                                                                    |                       |
 |                         | - Frequent_Hitters(15)                                                                        |                       |
 |                         | - Aggregators(311)                                                                            |                       |
-|                         | - Toxicophores(154)                                                                           |                       |
 +-------------------------+-----------------------------------------------------------------------------------------------+-----------------------+
 |Fingerprints Calculater  | - MACCS(167- bits)                                                                            |                       |
 |                         | - Morgan(2^n- bits,- 1024- set- as- default)                                                  |                       |
