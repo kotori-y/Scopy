@@ -57,9 +57,10 @@ def prop_matrix(mols,n_jobs=1,items=['logP','TPSA','MW','nRot','nHD','nHA']):
         axes[col][row].tick_params(length=2)
         axes[col][row].tick_params(direction='in', which='both')
         if col == row:
-            axes[col][row].hist(props[x_label], ec='black',fc='#66cdaa')
+            axes[col][row].hist(props[x_label], ec='black',fc='#DA3B2B')
         else:
-            axes[col][row].scatter(props[x_label], props[y_label], edgecolors='black', alpha=0.8, color='#66cdaa')
+            axes[col][row].scatter(props[x_label], props[y_label], 
+                edgecolors='black', alpha=0.8, s=23, color='#DA3B2B')
         if col == length-1:
             axes[col][row].set_xlabel(x_label, fontdict={'family':'arial','size':16})
         else:
@@ -92,15 +93,30 @@ def rule_radar(mol,
         http://fafdrugs4.mti.univ-paris-diderot.fr/filters.html
 
     """
+    def _disposedNone(dtype,num_a,num_b):
+        if dtype == 'MIN':
+            NUM = min([num_a,num_b])
+            return NUM - 1.2*abs(NUM)
+        else:
+            NUM = max([num_a,num_b])
+            return NUM + 1.2*abs(NUM)
+        
     items = list(prop_kws.keys())
     props = molproperty.GetProperties(mol,items=items)
     num_prop = len(props)
     
+    for item in items:
+        assert (prop_kws[item][0] is not None or 
+                prop_kws[item][1] is not None
+                ), "You need to enter at least an upper or lower limit"
+        
     rule_ceil = np.array([prop_kws[item][1] 
-    if prop_kws[item][1] is not None else props[item] for item in items])
+    if prop_kws[item][1] is not None else _disposedNone('MAX',prop_kws[item][0],props[item]) 
+    for item in items])
     
     rule_floor = np.array([prop_kws[item][0]
-    if prop_kws[item][0] is not None else props[item] for item in items])
+    if prop_kws[item][0] is not None else _disposedNone('MIN',prop_kws[item][1],props[item]) 
+    for item in items])
     
     props = np.array(list(props.values()))
 
@@ -123,8 +139,8 @@ def rule_radar(mol,
     ax.plot(X_ticks, Y[0])
     ax.plot(X_ticks, Y[1],color='#FF7B9A')
     ax.fill(X_ticks, Y[1], alpha=0.25,color='#FF7B9A')
-    ax.plot(X_ticks, Y[2],color='#66B9EF')
-    ax.fill(X_ticks, Y[2], alpha=0.25,color='#66B9EF')
+    ax.plot(X_ticks, Y[2],color='#EDB035')
+    ax.fill(X_ticks, Y[2], alpha=0.20,color='#EDB035')
     ax.set_xticks(X_ticks)
     ax.set_xticklabels(items) 
     ax.set_yticks([])
@@ -151,7 +167,27 @@ def oral_absorption_radar(mol):
     return fig
     
     
-
+def PfizerPositioning(mol=None, PfizerRule=None):
+    if mol:
+        PfizerRule = rulesfilter.CheckPfizerRule(mol, detail=True)
+    else:
+        pass
+    f,ax = plt.subplots()
+    res = [x for x in PfizerRule[:-2]]
+    ax.scatter(*res,s=30,color='black')
+    
+    ax.fill([-10,3,3,-10,-10],[0,0,75,75,0],'#D7FCCB',
+            [3,10,10,3,3],[0,0,75,75,0],'#FF7B9A',
+            [3,10,10,3,3],[75,75,200,200,75],'#D7FCCB',
+            [-10,3,3,-10,-10],[75,75,200,200,75],'#93FFA3',zorder=0)    
+    ax.set_xticks([-10,3,10])
+    ax.set_yticks([0,75,200])
+    ax.set_xlim([-10,10])
+    ax.set_ylim([0,200])
+    ax.set_xlabel('LogP')
+    ax.set_ylabel('tPSA')
+    plt.show()
+    
 if '__main__'==__name__:
     from rdkit import Chem
     

@@ -11,10 +11,12 @@
 
 from rdkit.Chem.Draw import rdMolDraw2D
 from IPython.display import SVG
+from rdkit import Chem
 from rdkit.Chem import rdDepictor
-    
 
-def HighlightAtoms(mol,highlightAtoms,figsize=[400,200]):
+
+
+def HighlightAtoms(mol,highlightAtoms,figsize=[400,200],kekulize=True):
     """This function is used for showing which part of fragment matched the SMARTS by the id of atoms.
     
     :param mol: The molecule to be visualized
@@ -26,15 +28,32 @@ def HighlightAtoms(mol,highlightAtoms,figsize=[400,200]):
     :return: a figure with highlighted molecule
     :rtype: IPython.core.display.SVG
     
-    """    
-    rdDepictor.Compute2DCoords(mol)
+    """
+    def _revised(svg_words):
+        """
+        """
+        return svg_words.replace('stroke-width:2px','stroke-width:1px'
+                                 ).replace('font-size:17px','font-size:15px'
+                                 ).replace('stroke-linecap:butt','stroke-linecap:square'
+                                 ).replace('svg:','')
+    
+    mc = Chem.Mol(mol.ToBinary())
+    if kekulize:
+        try:
+            Chem.Kekulize(mc)
+        except:
+            mc = Chem.Mol(mol.ToBinary())
+    if not mc.GetNumConformers():
+        rdDepictor.Compute2DCoords(mc)
     drawer = rdMolDraw2D.MolDraw2DSVG(*figsize)
-    drawer.DrawMolecule(mol,highlightAtoms=highlightAtoms)
+    drawer.DrawMolecule(mc,highlightAtoms=highlightAtoms)
     drawer.FinishDrawing()
-    svg = drawer.GetDrawingText().replace('svg:','')
-    fig = SVG(svg)
-    return fig
-
+    svg = drawer.GetDrawingText()
+    # It seems that the svg renderer used doesn't quite hit the spec.
+    # Here are some fixes to make it work in the notebook, although I think
+    # the underlying issue needs to be resolved at the generation step
+    return SVG(_revised(svg))
+    
 
 if '__main__' == __name__:
     from rdkit import Chem

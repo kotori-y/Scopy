@@ -7,11 +7,13 @@
 #@Homepage: http://www.scbdd.com
 #@Mail: yzjkid9@gmail.com; oriental-cds@163.com
 #@Blog: https://blog.moyule.me
-#
 
 
 
+import os
 import shutil
+from functools import partial
+from multiprocessing import Pool
 from collections import Counter
 from subprocess import run
 from rdkit import Chem
@@ -24,20 +26,26 @@ except:
     import ScoConfig
     
 
+def _getscaffold(mol,stype='Murcko'):
+    core = MurckoScaffold.GetScaffoldForMol(mol)
+    core = core if stype=='Murcko' else MurckoScaffold.MakeScaffoldGeneric(core)
+    return Chem.MolToSmiles(core, isomericSmiles=False)
 
 def CountScaffold(mols,stype='Murcko'):
     """
     """
-    def _getscaffold(mol):
-        core = MurckoScaffold.GetScaffoldForMol(mol)
-        core = core if stype=='Murcko' else MurckoScaffold.MakeScaffoldGeneric(core)
-        return Chem.MolToSmiles(core, isomericSmiles=False)
-    
-    scaffolds = list(map(_getscaffold, mols))
+    fn = partial(_getscaffold,stype=stype)
+    ps = Pool(4)
+    scaffolds = ps.map_async(fn, mols).get()
+    ps.close()
+    ps.join()
     count = dict(Counter(scaffolds))
-    del count['']
+    try:
+        del count['']
+    except KeyError:
+        pass
     
-    return scaffolds
+    return count
     
      
 def ShowMcloud(file, number=150, skip=0, savedir=None, hidden=False):
@@ -73,9 +81,12 @@ def ShowMcloud(file, number=150, skip=0, savedir=None, hidden=False):
           
     run(command,shell=True)
     
-    try:
-        shutil.move('.\data\mcloud\mcloud.png',savedir)
-    except FileNotFoundError:
+    if savedir is not None:
+        try:
+            shutil.move(os.path.join(ScoConfig.MCDir,'mcloud\mcloud.png'), savedir)
+        except:
+            pass
+    else:
         pass
     
 if '__main__'==__name__:

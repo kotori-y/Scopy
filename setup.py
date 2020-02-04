@@ -14,18 +14,20 @@ I love my senpai forerver!:P
 from __future__ import absolute_import
 from distutils.core import setup
 
-package_data= {'scopy':['structure_alert/*','druglikeness/*','data/SMARTS/*','data/PATT/*','data/ACID/*','data/*','data/Crippen/*','data/EFG/*','data/Demo/*','data/MC/*','data/MOL/*','data/PubChem/*','fingerprint/*','visualize/*']}
+# print（__doc__）
+
+package_data= {'scopy':['structure_alert/*','druglikeness/*','fingerprint/*','visualize/*','pretreat/*','data/SMARTS/*','data/PATT/*','data/ACID/*','data/*','data/Crippen/*','data/EFG/*','data/Demo/*','data/MC/*','data/MOL/*','data/PubChem/*',]}
 
 #package_data= {'scopy':['structure_alert/*','druglikeness/*','test/*','data/SMARTS/*','data/PATT/*','data/ACID/*','data/*','data/Crippen/*','fingerprint/*']}
 
 
 setup(name="scopy",  
       version="1.1", 
-      description="",
-      long_description="",
-      author="Orient&Kotori_Y",
+      description="A filter tool for HTS",
+      long_description="A tool to filter poor drug-likeness, frequent hitters and potential toxic compounds before taking HTS.",
+      author="Zhi-Jiang Yang (Kotori_Y), Dong-Sheng Cao",
       author_email="yzjkid9@gmail.com",
-      url="blog.moyule.me",
+      url="https://github.com/kotori-y/Scopy",
       package_data=package_data,
       package_dir={'scopy':'scopy'},
       py_modules = ['scopy.ScoConfig'],
