@@ -11,46 +11,66 @@
 #♥I love Princess Zelda forever♥
 
 
-from rdkit import Chem
 import pandas as pd #This package should be installed
+from rdkit import Chem
 from scopy.structure_alert.SmartsFilter import Filter
 
 
-def main():
-    import os
-    os.chdir(r'C:\Users\0720\Desktop\Project\scopy_ref\data\Scopy_databases\Molecules\Withdraw_drug')
-    
-    data = pd.read_csv(r"withdrawn_drug.csv")    
-    mols = [Chem.MolFromSmiles(smi) for smi in data.mol.values]
-    
-    _filter = Filter(mols,n_jobs=4,detail=True)
-    
-    #=========================================================================
-    # Toxicity
-    #=========================================================================
-    ele_res = pd.DataFrame(_filter.Check_Potential_Electrophilic())
-    ld50_res = pd.DataFrame(_filter.Check_LD50_Oral())
-    gene_res = pd.DataFrame(_filter.Check_Genotoxic_Carcinogenicity_Mutagenicity())
-    no_gene = pd.DataFrame(_filter.Check_NonGenotoxic_Carcinogenicity())
-    
-    #=========================================================================
-    # Comprhenesive
-    #=========================================================================
-    ntd_res = pd.DataFrame(_filter.Check_NTD())
-    toxci = pd.DataFrame(_filter.Check_Toxicophores())
-    chemble = pd.DataFrame(_filter.Check_SureChEMBL())
-    
-    ele_res.to_csv('Potential_Electrophilic.csv',index=False)
-    ld50_res.to_csv('LD50_Oral.csv',index=False)
-    gene_res.to_csv('Genotoxic_Carcinogenicity_Mutagenicity.csv',index=False)
-    no_gene.to_csv('NonGenotoxic_Carcinogenicity.csv',index=False)
-    
-    ntd_res.to_csv('NTD.csv',index=False)
-    toxci.to_csv('Toxicophores.csv',index=False)
-    chemble.to_csv('SureChEMBL.csv',index=False)
-    
+data = pd.read_csv(r"withdrawn_drug.csv")    
+mols = [Chem.MolFromSmiles(smi) for smi in data.mol.values]
+
+screener= Filter(mols,n_jobs=4,detail=True)#Instantiate
+
+#=========================================================================
+# Broad Toxicity
+#=========================================================================
+ele_res = pd.DataFrame(screener.Check_Potential_Electrophilic()) #Potential_Electrophilic
+
+#=========================================================================
+# Acute Toxicity
+#=========================================================================
+ld50_res = pd.DataFrame(screener.Check_LD50_Oral()) #LD50_Oral
+gene_res = pd.DataFrame(screener.Check_Genotoxic_Carcinogenicity_Mutagenicity()) #Genotoxic_Carcinogenicity_Mutagenicity
+nogene_res = pd.DataFrame(screener.Check_NonGenotoxic_Carcinogenicity()) #NonGenotoxic_Carcinogenicity
+
+#=========================================================================
+# Comprhenesive
+#=========================================================================
+ntd_res = pd.DataFrame(screener.Check_NTD()) #NTD
+toxci_res = pd.DataFrame(screener.Check_NonGenotoxic_Carcinogenicity()) #Toxicophores
+chemble_res = pd.DataFrame(screener.Check_SureChEMBL()) #NonGenotoxic_Carcinogenicity
+
+#=========================================================================
+# Get Summary Result
+#=========================================================================
+summary = pd.DataFrame({'SMILES': data.mol.values,
+                        'Potential_Electrophilic': ele_res.Disposed,
+                        'LD50_Oral': ld50_res.Disposed,
+                        'Genotoxic_Carcinogenicity_Mutagenicity': gene_res.Disposed,
+                        'NonGenotoxic_Carcinogenicity': nogene_res.Disposed,
+                        'NTD': ntd_res.Disposed,
+                        'Toxicophores': toxci_res.Disposed,
+                        'SureChEMBL': chemble_res.Disposed})
+summary['Rejected_Num'] = (summary == 'Rejected').sum(axis=1)
+
+summary_2 = pd.DataFrame((summary.iloc[:,1:-1] == 'Rejected').sum(axis=0), columns=['Rejected'])
 
 
-if '__main__'==__name__:
-    main()
-    
+
+import matplotlib.pyplot as plt
+
+f,axes = plt.subplots()
+
+labels = ['six-filter','five-filter','four-filter','three-filter','two-filter','one-filter','zero-filter']
+res = summary.Rejected_Num.value_counts().sort_index(ascending=False)
+sizes = res.values
+explode = (0,0,0,0,0,0,0.1)
+
+ax.pie(sizes,explode=explode,labels=labels,autopct='%1.1f%%',shadow=False,startangle=150)
+plt.show()  
+
+
+
+
+
+

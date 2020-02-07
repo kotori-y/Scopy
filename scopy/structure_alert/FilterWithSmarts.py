@@ -26,6 +26,8 @@ class _Filter(object):
     :type endpoint: str
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
      
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -33,18 +35,21 @@ class _Filter(object):
     
     """
     
-    def __init__(self,endpoint,detail):
+    def __init__(self, endpoint, detail=False, showSMILES=False):
          self.endpoint = endpoint   
          self.detail = detail
-    
+         self.showSMILES = showSMILES
+         
     def get_pattl(self):
         self.pattl = SmartProcess._Loadpkl(self.endpoint)
     
     def scan(self,mol):
-        return SmartProcess._CheckWithSmarts(mol,self.pattl,self.endpoint,self.detail)
+        return SmartProcess._CheckWithSmarts(mol,
+                                             self.pattl, self.endpoint,
+                                             self.detail, self.showSMILES)
     
     
-def Check_Acute_Aquatic_Toxicity(mol, detail=False):
+def Check_Acute_Aquatic_Toxicity(mol, detail=False, showSMILES=False):
     """Check molecule under Acute_Aquatic_Toxicity Filter,
     which presents a compound may cause toxicity to liquid(water).
     There are 99 SMARTS in this endpoint.
@@ -57,6 +62,9 @@ def Check_Acute_Aquatic_Toxicity(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
+    
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
     :rtype: namedtuple
@@ -67,13 +75,13 @@ def Check_Acute_Aquatic_Toxicity(mol, detail=False):
         https://www.sciencedirect.com/science/article/pii/0045653592902805
         
     """
-    Aquatic = _Filter('Acute_Aquatic_Toxicity',detail)
+    Aquatic = _Filter('Acute_Aquatic_Toxicity',detail, showSMILES)
     Aquatic.get_pattl()
     res = Aquatic.scan(mol)
     return res
 
 
-def Check_AlphaScreen_FHs(mol, detail=False):
+def Check_AlphaScreen_FHs(mol, detail=False, showSMILES=False):
     """
     Check molecule under Check_AlphaScreen_FHs Filter,
     which presents a compound may be alphascreen frequent hitters.
@@ -86,6 +94,8 @@ def Check_AlphaScreen_FHs(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -95,13 +105,13 @@ def Check_AlphaScreen_FHs(mol, detail=False):
         https://journals.sagepub.com/doi/full/10.1177/1087057113516861
         
     """
-    AlphaScreen = _Filter('AlphaScreen_FHs',detail)
+    AlphaScreen = _Filter('AlphaScreen_FHs',detail, showSMILES)
     AlphaScreen.get_pattl()
     res = AlphaScreen.scan(mol)
     return res
 
 
-def Check_AlphaScreen_GST_FHs(mol, detail=False):
+def Check_AlphaScreen_GST_FHs(mol, detail=False, showSMILES=False):
     """
     Check molecule under Check_AlphaScreen_GST_FHs Filter,
     which presents a compound may prevent GST/GSH interaction during HTS.
@@ -114,6 +124,8 @@ def Check_AlphaScreen_GST_FHs(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -123,13 +135,13 @@ def Check_AlphaScreen_GST_FHs(mol, detail=False):
         https://journals.sagepub.com/doi/abs/10.1177/1087057116639992
         
     """
-    GST = _Filter('AlphaScreen_GST_FHs',detail)
+    GST = _Filter('AlphaScreen_GST_FHs',detail, showSMILES)
     GST.get_pattl()
     res = GST.scan(mol)
     return res
 
 
-def Check_AlphaScreen_HIS_FHs(mol, detail=False):
+def Check_AlphaScreen_HIS_FHs(mol, detail=False, showSMILES=False):
     """
     Check molecule under Check_AlphaScreen_HIS_FHs Filter,
     which presents a compound prevents the binding of the protein His-tag moiety to nickel chelate.
@@ -142,6 +154,8 @@ def Check_AlphaScreen_HIS_FHs(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -151,13 +165,13 @@ def Check_AlphaScreen_HIS_FHs(mol, detail=False):
         https://journals.sagepub.com/doi/abs/10.1177/1087057113516861
         
     """
-    HIS = _Filter('AlphaScreen_HIS_FHs', detail)
+    HIS = _Filter('AlphaScreen_HIS_FHs', detail, showSMILES)
     HIS.get_pattl()
     res = HIS.scan(mol)
     return res
 
 
-def Check_Biodegradable(mol, detail=False):
+def Check_Biodegradable(mol, detail=False, showSMILES=False):
     """
     Check molecule under Biodegradable Filter,
     which presents a compound may be Biodegradable.
@@ -170,19 +184,21 @@ def Check_Biodegradable(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
     :rtype: namedtuple
     
     """
-    Biodegradable = _Filter('Biodegradable',detail)
+    Biodegradable = _Filter('Biodegradable',detail, showSMILES)
     Biodegradable.get_pattl()
     res = Biodegradable.scan(mol)
     return res
     
 
-def Check_Chelating(mol, detail=False):
+def Check_Chelating(mol, detail=False, showSMILES=False):
     """
     Check molecule under Chelating Filter,
     which presents a compound may inhibit metalloproteins.
@@ -195,6 +211,8 @@ def Check_Chelating(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -204,13 +222,13 @@ def Check_Chelating(mol, detail=False):
         https://onlinelibrary.wiley.com/doi/abs/10.1002/cmdc.200900516
     
     """
-    Chelating = _Filter('Chelating',detail)
+    Chelating = _Filter('Chelating', detail, showSMILES)
     Chelating.get_pattl()
     res = Chelating.scan(mol)
     return res
 
 
-def Check_Developmental_Mitochondrial(mol, detail=False):
+def Check_Developmental_Mitochondrial(mol, detail=False, showSMILES=False):
     """
     Check molecule under Developmental_Mitochondrial Filter,
     which presents a compound may casue Developmental Toxicity and Mitochondrial Toxicity.
@@ -223,19 +241,21 @@ def Check_Developmental_Mitochondrial(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
     :rtype: namedtuple
     
     """
-    Developmental_Mitochondrial = _Filter('Developmental_Mitochondrial',detail)
+    Developmental_Mitochondrial = _Filter('Developmental_Mitochondrial',detail, showSMILES)
     Developmental_Mitochondrial.get_pattl()
     res = Developmental_Mitochondrial.scan(mol)
     return res
 
 
-def Check_Genotoxic_Carcinogenicity_Mutagenicity(mol, detail=False):
+def Check_Genotoxic_Carcinogenicity_Mutagenicity(mol, detail=False, showSMILES=False):
     """
     Check molecule under Developmental_Mitochondrial Filter,
     which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms.
@@ -251,6 +271,8 @@ def Check_Genotoxic_Carcinogenicity_Mutagenicity(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -266,13 +288,13 @@ def Check_Genotoxic_Carcinogenicity_Mutagenicity(mol, detail=False):
         https://www.sciencedirect.com/science/article/pii/S0273230005000553
     
     """
-    Genotoxic_Carcinogenicity_Mutagenicity = _Filter('Genotoxic_Carcinogenicity_Mutagenicity',detail)
+    Genotoxic_Carcinogenicity_Mutagenicity = _Filter('Genotoxic_Carcinogenicity_Mutagenicity',detail, showSMILES)
     Genotoxic_Carcinogenicity_Mutagenicity.get_pattl()
     res = Genotoxic_Carcinogenicity_Mutagenicity.scan(mol)
     return res
     
     
-def Check_Idiosyncratic(mol, detail=False):
+def Check_Idiosyncratic(mol, detail=False, showSMILES=False):
     """
     Check molecule under Idiosyncratic Filter,
     which presents a compound may has diosyncratic toxicity.
@@ -285,6 +307,8 @@ def Check_Idiosyncratic(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -294,13 +318,13 @@ def Check_Idiosyncratic(mol, detail=False):
         https://www.tandfonline.com/doi/abs/10.1517/17425255.1.1.91
     
     """
-    Idiosyncratic = _Filter('Idiosyncratic',detail)
+    Idiosyncratic = _Filter('Idiosyncratic',detail, showSMILES)
     Idiosyncratic.get_pattl()
     res = Idiosyncratic.scan(mol)
     return res
 
 
-def Check_LD50_Oral(mol, detail=False):
+def Check_LD50_Oral(mol, detail=False, showSMILES=False):
     """
     Check molecule under LD50_Oral Filter,
     which presents a compound may cause acute toxicity during oral administration;
@@ -313,19 +337,21 @@ def Check_LD50_Oral(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
     :rtype: namedtuple
     
     """
-    LD50_Oral = _Filter('LD50_Oral',detail)
+    LD50_Oral = _Filter('LD50_Oral',detail, showSMILES)
     LD50_Oral.get_pattl()
     res = LD50_Oral.scan(mol)
     return res
     
 
-def Check_Luciferase_Inhibitory(mol, detail=False):
+def Check_Luciferase_Inhibitory(mol, detail=False, showSMILES=False):
     """
     There 3 SMARTS in Luciferase_Inhibitory Filter
     
@@ -333,19 +359,21 @@ def Check_Luciferase_Inhibitory(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
     :rtype: namedtuple
     
     """
-    Luciferase_Inhibitory = _Filter('Luciferase_Inhibitory',detail)
+    Luciferase_Inhibitory = _Filter('Luciferase_Inhibitory',detail, showSMILES)
     Luciferase_Inhibitory.get_pattl()
     res = Luciferase_Inhibitory.scan(mol)
     return res
     
 
-def Check_NonBiodegradable(mol, detail=False):
+def Check_NonBiodegradable(mol, detail=False, showSMILES=False):
     """
     Check molecule under NonBiodegradable Filter,
     which presents a compound may be non-biodegradable.
@@ -358,19 +386,21 @@ def Check_NonBiodegradable(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
     :rtype: namedtuple
     
     """
-    NonBiodegradable = _Filter('NonBiodegradable',detail)
+    NonBiodegradable = _Filter('NonBiodegradable',detail, showSMILES)
     NonBiodegradable.get_pattl()
     res = NonBiodegradable.scan(mol)
     return res
     
 
-def Check_NonGenotoxic_Carcinogenicity(mol, detail=False):
+def Check_NonGenotoxic_Carcinogenicity(mol, detail=False, showSMILES=False):
     """
     Check molecule under NonGenotoxic_Carcinogenicity Filter,
     which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms。
@@ -384,6 +414,8 @@ def Check_NonGenotoxic_Carcinogenicity(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -395,13 +427,13 @@ def Check_NonGenotoxic_Carcinogenicity(mol, detail=False):
         https://pubs.acs.org/doi/abs/10.1021/cr300206t
       
     """
-    NonGenotoxic_Carcinogenicity = _Filter('NonGenotoxic_Carcinogenicity',detail)
+    NonGenotoxic_Carcinogenicity = _Filter('NonGenotoxic_Carcinogenicity',detail, showSMILES)
     NonGenotoxic_Carcinogenicity.get_pattl()
     res = NonGenotoxic_Carcinogenicity.scan(mol)
     return res
 
 
-def Check_PAINS(mol, detail=False):
+def Check_PAINS(mol, detail=False, showSMILES=False):
     """
     Check molecule under PAINS Filter,
     which presents a type of compounds tend to be hitted in HTS.
@@ -414,6 +446,8 @@ def Check_PAINS(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
 
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -423,13 +457,13 @@ def Check_PAINS(mol, detail=False):
         https://pubs.acs.org/doi/abs/10.1021/jm901137j
     
     """
-    PAINS = _Filter('Pains',detail)
+    PAINS = _Filter('Pains',detail, showSMILES)
     PAINS.get_pattl()
     res = PAINS.scan(mol)
     return res
 
 
-def Check_Potential_Electrophilic(mol, detail=False):
+def Check_Potential_Electrophilic(mol, detail=False, showSMILES=False):
     """
     Check molecule under Potential_Electrophilic Filter,
     which presents a compound would be more probably take part in electrophilic reaction, 
@@ -443,6 +477,8 @@ def Check_Potential_Electrophilic(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
 
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -452,12 +488,12 @@ def Check_Potential_Electrophilic(mol, detail=False):
         https://www.tandfonline.com/doi/abs/10.3109/10408444.2011.598141
     
     """
-    Potential_Electrophilic = _Filter('Potential_Electrophilic',detail)
+    Potential_Electrophilic = _Filter('Potential_Electrophilic',detail, showSMILES)
     Potential_Electrophilic.get_pattl()
     res = Potential_Electrophilic.scan(mol)
     return res
 
-def Check_Promiscuity(mol, detail=False):
+def Check_Promiscuity(mol, detail=False, showSMILES=False):
     """
     Check molecule under Promiscuity Filter,
     There are 177 SMARTS in this endpoint.
@@ -469,6 +505,8 @@ def Check_Promiscuity(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
 
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -478,13 +516,13 @@ def Check_Promiscuity(mol, detail=False):
         https://pubs.acs.org/doi/abs/10.1021/ci050504m
     
     """
-    Promiscuity = _Filter('Promiscuity',detail)
+    Promiscuity = _Filter('Promiscuity',detail, showSMILES)
     Promiscuity.get_pattl()
     res = Promiscuity.scan(mol)
     return res
     
 
-def Check_Reactive_Unstable_Toxic(mol, detail=False):
+def Check_Reactive_Unstable_Toxic(mol, detail=False, showSMILES=False):
     """
     Check molecule under Reactive_Unstable_Toxic Filter.
     There are 335 SMARTS in this endpoint.
@@ -496,6 +534,8 @@ def Check_Reactive_Unstable_Toxic(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
 
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -505,13 +545,13 @@ def Check_Reactive_Unstable_Toxic(mol, detail=False):
         https://www.chemdiv.com/
     
     """
-    Reactive_Unstable_Toxic = _Filter('Reactive_Unstable_Toxic',detail)
+    Reactive_Unstable_Toxic = _Filter('Reactive_Unstable_Toxic',detail, showSMILES)
     Reactive_Unstable_Toxic.get_pattl()
     res = Reactive_Unstable_Toxic.scan(mol)
     return res
 
 
-def Check_Skin_Sensitization(mol, detail=False):
+def Check_Skin_Sensitization(mol, detail=False, showSMILES=False):
     """
     Check molecule under Skin_Sensitization Filter,
     There are 155 SMARTS in this endpoint.
@@ -525,6 +565,8 @@ def Check_Skin_Sensitization(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
 
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -538,13 +580,13 @@ def Check_Skin_Sensitization(mol, detail=False):
         https://www.sciencedirect.com/science/article/pii/0887233394902445
     
     """
-    Skin_Sensitization = _Filter('Skin_Sensitization',detail)
+    Skin_Sensitization = _Filter('Skin_Sensitization',detail, showSMILES)
     Skin_Sensitization.get_pattl()
     res = Skin_Sensitization.scan(mol)
     return res
     
 
-def Check_DNA_Binding(mol, detail=False):
+def Check_DNA_Binding(mol, detail=False, showSMILES=False):
     """
     Check molecule under DNA_Binding Filter,
     There are 78 SMARTS in this endpoint.
@@ -553,19 +595,21 @@ def Check_DNA_Binding(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
 
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
     :rtype: namedtuple
     
     """
-    DNA_Binding = _Filter('DNA_Binding',detail)
+    DNA_Binding = _Filter('DNA_Binding',detail, showSMILES)
     DNA_Binding.get_pattl()
     res = DNA_Binding.scan(mol)
     return res
 
 
-def Check_SureChEMBL(mol, detail=False):
+def Check_SureChEMBL(mol, detail=False, showSMILES=False):
     """
     Check molecule under SureChEMBL Filter,
     which presents a compound would match one or more structural alerts and hence considered to have a MedChem unfriendly status.  
@@ -575,6 +619,8 @@ def Check_SureChEMBL(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
 
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -584,13 +630,13 @@ def Check_SureChEMBL(mol, detail=False):
         https://www.surechembl.org/knowledgebase/169485
     
     """
-    SureChEMBL = _Filter('SureChEMBL',detail)
+    SureChEMBL = _Filter('SureChEMBL',detail, showSMILES)
     SureChEMBL.get_pattl()
     res = SureChEMBL.scan(mol)
     return res
     
     
-def Check_BMS(mol, detail=False):
+def Check_BMS(mol, detail=False, showSMILES=False):
     """
     Check molecule under BMS Filter.
     Pearce has proposed a Functional Group Compound Filters(FG Filters).
@@ -606,6 +652,8 @@ def Check_BMS(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
 
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -615,13 +663,13 @@ def Check_BMS(mol, detail=False):
         https://pubs.acs.org/doi/abs/10.1021/ci050504m
     
     """
-    BMS = _Filter('BMS',detail)
+    BMS = _Filter('BMS',detail, showSMILES)
     BMS.get_pattl()
     res = BMS.scan(mol)
     return res
 
 
-def Check_NTD(mol, detail=False):
+def Check_NTD(mol, detail=False, showSMILES=False):
     """
     Brenk has proposed 105 unwanted groups in HTS
     
@@ -632,6 +680,8 @@ def Check_NTD(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
 
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
@@ -641,13 +691,13 @@ def Check_NTD(mol, detail=False):
         https://onlinelibrary.wiley.com/doi/abs/10.1002/cmdc.200700139
         
     """        
-    NTD = _Filter('NTD',detail)
+    NTD = _Filter('NTD',detail, showSMILES)
     NTD.get_pattl()
     res = NTD.scan(mol)
     return res
 
 
-def Check_Alarm_NMR(mol, detail=False):
+def Check_Alarm_NMR(mol, detail=False, showSMILES=False):
     """
     There are 75 SMARTS in alarm_nmr 
 
@@ -655,19 +705,21 @@ def Check_Alarm_NMR(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
 
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
     :rtype: namedtuple
          
     """
-    Alarm_NMR = _Filter('Alarm_NMR',detail)
+    Alarm_NMR = _Filter('Alarm_NMR',detail, showSMILES)
     Alarm_NMR.get_pattl()
     res = Alarm_NMR.scan(mol)
     return res
     
 
-def Check_Frequent_Hitters(mol, detail=False):
+def Check_Frequent_Hitters(mol, detail=False, showSMILES=False):
     """
     There are 15 SMARTS in Frequent_Hitters
 
@@ -675,19 +727,21 @@ def Check_Frequent_Hitters(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
 
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
     :rtype: namedtuple
          
     """
-    Frequent_Hitters = _Filter('Frequent_Hitters',detail)
+    Frequent_Hitters = _Filter('Frequent_Hitters',detail, showSMILES)
     Frequent_Hitters.get_pattl()
     res = Frequent_Hitters.scan(mol)
     return res
     
 
-def Check_Aggregators(mol, detail=False):
+def Check_Aggregators(mol, detail=False, showSMILES=False):
     """
     There are 311 SMARTS in Aggregators
 
@@ -695,19 +749,21 @@ def Check_Aggregators(mol, detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
 
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
     :rtype: namedtuple
          
     """
-    Aggregators = _Filter('Aggregators',detail)
+    Aggregators = _Filter('Aggregators',detail, showSMILES)
     Aggregators.get_pattl()
     res = Aggregators.scan(mol)
     return res
 
 
-def Check_Toxicophores(mol, stype='single', detail=False):
+def Check_Toxicophores(mol, detail=False, showSMILES=False):
     """
     There 154 SMARTS in Toxicophres
 
@@ -715,13 +771,15 @@ def Check_Toxicophores(mol, stype='single', detail=False):
     :type mol: rdkit.Chem.rdchem.Mol
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
 
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
     :rtype: namedtuple
          
     """
-    Toxicophores = _Filter('Toxicophores',detail)
+    Toxicophores = _Filter('Toxicophores',detail, showSMILES)
     Toxicophores.get_pattl()
     res = Toxicophores.scan(mol)
     return res

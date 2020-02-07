@@ -1,0 +1,1309 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>scopy.druglikeness.rulesfilter &#8212; Scopy 1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/Scopy.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for scopy.druglikeness.rulesfilter</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1">#Created on Tue Jun 25 21:59:42 2019</span>
+<span class="c1">#</span>
+<span class="c1">#@Author: Zhi-Jiang Yang, Dong-Sheng Cao</span>
+<span class="c1">#@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China，</span>
+<span class="c1">#@Homepage: http://www.scbdd.com</span>
+<span class="c1">#@Mail: yzjkid9@gmail.com; oriental-cds@163.com</span>
+<span class="c1">#@Blog: https://blog.moyule.me</span>
+
+
+
+<span class="kn">from</span> <span class="nn">rdkit</span> <span class="k">import</span> <span class="n">Chem</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">molproperty</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">sys</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">molproperty</span>
+
+
+<div class="viewcode-block" id="CheckEganRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckEganRule">[docs]</a><span class="k">def</span> <span class="nf">CheckEganRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Bad or Good oral biovailability rule</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        Egan, William J., Kenneth M. Merz, and John J. Baldwin. </span>
+<span class="sd">        J Med Chem, 43.21 (2000): 3867-3877.</span>
+<span class="sd">    </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        0 &lt;= TPSA &lt;= 132</span>
+<span class="sd">        -1 &lt;= logP &lt;=6</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties of Egan&#39;s rule</span>
+    <span class="n">TPSA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateTPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">atPSA</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">TPSA</span> <span class="o">&lt;=</span> <span class="mi">132</span><span class="p">)</span>
+    <span class="n">alogP</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">logP</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="c1">#Give the advice</span>
+    <span class="k">if</span> <span class="n">atPSA</span><span class="o">&amp;</span><span class="n">alogP</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="c1">#Count the number of violsted rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">atPSA</span> <span class="o">+</span> <span class="n">alogP</span><span class="p">)</span>
+    <span class="c1">#res</span>
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tPSA&#39;</span><span class="p">,</span> <span class="s1">&#39;logP&#39;</span><span class="p">,</span> <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span><span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">TPSA</span><span class="p">,</span> <span class="n">logP</span><span class="p">,</span> <span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">]</span>
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+
+
+<div class="viewcode-block" id="CheckVeberRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckVeberRule">[docs]</a><span class="k">def</span> <span class="nf">CheckVeberRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Bad or Good oral biovailability rule</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        Veber, Daniel F., et al.</span>
+<span class="sd">        Journal of medicinal chemistry 45.12 (2002): 2615-2623.</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        nRot &lt;= 10</span>
+<span class="sd">        TPSA &lt;= 140</span>
+<span class="sd">        nHB &lt;= 12</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties of Veber&#39;s rule</span>
+    <span class="n">nRot</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumRotatableBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">tPSA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateTPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHB</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHyBond</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>   
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">anRot</span> <span class="o">=</span> <span class="p">(</span><span class="n">nRot</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">atPSA</span> <span class="o">=</span> <span class="p">(</span><span class="n">tPSA</span> <span class="o">&lt;=</span> <span class="mi">140</span><span class="p">)</span>
+    <span class="n">anHB</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHB</span> <span class="o">&lt;=</span> <span class="mi">12</span><span class="p">)</span>    
+    <span class="c1">#Give the advice</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">anRot</span><span class="o">&amp;</span><span class="n">atPSA</span><span class="o">&amp;</span><span class="n">anHB</span><span class="p">):</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="c1">#Count the number of violated rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">-</span> <span class="p">(</span><span class="n">anRot</span> <span class="o">+</span> <span class="n">atPSA</span> <span class="o">+</span> <span class="n">anHB</span><span class="p">)</span>
+    <span class="c1">#res</span>
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nRot&#39;</span><span class="p">,</span> <span class="s1">&#39;tPSA&#39;</span><span class="p">,</span> <span class="s1">&#39;nHB&#39;</span><span class="p">,</span> <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span><span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">nRot</span><span class="p">,</span> <span class="n">tPSA</span><span class="p">,</span> <span class="n">nHB</span><span class="p">,</span> <span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">]</span>   
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+
+
+<div class="viewcode-block" id="CheckLipinskiRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckLipinskiRule">[docs]</a><span class="k">def</span> <span class="nf">CheckLipinskiRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecular under Lipinski&#39;s rule</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        Lipinski, Christopher A., et al.</span>
+<span class="sd">        Advanced drug delivery reviews 23.1-3 (1997): 3-25.</span>
+<span class="sd">    </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        MW &lt;= 500(Da)</span>
+<span class="sd">        logP &lt;= 5</span>
+<span class="sd">        nHD &lt;= 5</span>
+<span class="sd">        nHA &lt;= 10</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties of Lipinskin&#39;s rule</span>
+    <span class="n">MW</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHD</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHDonors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHAcceptors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>   
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">aw</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span> <span class="o">&lt;=</span> <span class="mi">500</span><span class="p">)</span>
+    <span class="n">alogp</span> <span class="o">=</span> <span class="p">(</span><span class="n">logP</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">anhd</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHD</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">anha</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHA</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="c1">#Count the number of matched rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">-</span> <span class="p">(</span><span class="n">aw</span> <span class="o">+</span> <span class="n">alogp</span> <span class="o">+</span> <span class="n">anhd</span> <span class="o">+</span> <span class="n">anha</span><span class="p">)</span>
+    <span class="c1">#Give the disposed</span>
+    <span class="k">if</span> <span class="n">nviolate</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+        
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span> <span class="s1">&#39;logP&#39;</span><span class="p">,</span> <span class="s1">&#39;nHD&#39;</span><span class="p">,</span> <span class="s1">&#39;nHA&#39;</span><span class="p">,</span> <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">MW</span><span class="p">,</span> <span class="n">logP</span><span class="p">,</span> <span class="n">nHD</span><span class="p">,</span> <span class="n">nHA</span><span class="p">,</span> <span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>    
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span>   </div>
+    
+
+<div class="viewcode-block" id="CheckBeyondRo5"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckBeyondRo5">[docs]</a><span class="k">def</span> <span class="nf">CheckBeyondRo5</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecular under beyond Ro5</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        Doak, Bradley C., et al.</span>
+<span class="sd">        journal of medicinal chemistry 59.6 (2015): 2312-2327.</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        MW &lt;= 1000</span>
+<span class="sd">        -2 &lt;= logP &lt;= 10</span>
+<span class="sd">        nHD &lt;= 6</span>
+<span class="sd">        nHA &lt;= 15</span>
+<span class="sd">        PSA &lt;= 250</span>
+<span class="sd">        nRot &lt;= 20</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties of Lipinskin&#39;s rule</span>
+    <span class="n">MW</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHD</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHDonors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHAcceptors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">PSA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateTPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nRot</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumRotatableBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">aMW</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span><span class="o">&lt;=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">alogP</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">&lt;=</span><span class="n">logP</span><span class="o">&lt;=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">anHD</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHD</span><span class="o">&lt;=</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">anHA</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHA</span><span class="o">&lt;=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">aPSA</span> <span class="o">=</span> <span class="p">(</span><span class="n">PSA</span><span class="o">&lt;=</span><span class="mi">250</span><span class="p">)</span>
+    <span class="n">aRot</span> <span class="o">=</span> <span class="p">(</span><span class="n">nRot</span><span class="o">&lt;=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="c1">#Check whether mol pass the whole rules</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">aMW</span><span class="o">&amp;</span><span class="n">alogP</span><span class="o">&amp;</span><span class="n">anHD</span><span class="o">&amp;</span><span class="n">anHA</span><span class="o">&amp;</span><span class="n">aRot</span><span class="o">&amp;</span><span class="n">aPSA</span><span class="p">):</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>   
+    <span class="c1">#Count the number of violated rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">-</span> <span class="p">(</span><span class="n">aMW</span> <span class="o">+</span> <span class="n">alogP</span> <span class="o">+</span> <span class="n">anHD</span> <span class="o">+</span> <span class="n">anHA</span> <span class="o">+</span> <span class="n">aRot</span> <span class="o">+</span> <span class="n">aPSA</span><span class="p">)</span>    
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span> <span class="s1">&#39;logP&#39;</span><span class="p">,</span> <span class="s1">&#39;nHD&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;nHA&#39;</span><span class="p">,</span> <span class="s1">&#39;PSA&#39;</span><span class="p">,</span><span class="s1">&#39;nRot&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span><span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span><span class="p">,</span> <span class="n">logP</span><span class="p">,</span> <span class="n">nHD</span><span class="p">,</span> <span class="n">nHA</span><span class="p">,</span> <span class="n">PSA</span><span class="p">,</span> <span class="n">nRot</span><span class="p">,</span> <span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>        
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span>   </div>
+
+
+<div class="viewcode-block" id="CheckPfizerRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckPfizerRule">[docs]</a><span class="k">def</span> <span class="nf">CheckPfizerRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecular under Rfizer Rule(3/75 Rule)</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        Hughes, Jason D., et al. </span>
+<span class="sd">        Bioorganic &amp; medicinal chemistry letters 18.17 (2008): 4872-4875.</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        logp &gt; 3</span>
+<span class="sd">        TPSA &lt; 75</span>
+<span class="sd">        </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">PSA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateTPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">alogP</span> <span class="o">=</span> <span class="p">(</span><span class="n">logP</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">aPSA</span> <span class="o">=</span> <span class="p">(</span><span class="n">PSA</span> <span class="o">&lt;</span> <span class="mi">75</span><span class="p">)</span>    
+    <span class="c1">#Give the advice</span>
+    <span class="k">if</span> <span class="n">alogP</span><span class="o">&amp;</span><span class="n">aPSA</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="c1">#Count the number of violated rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">alogP</span> <span class="o">+</span> <span class="n">aPSA</span><span class="p">)</span>
+    <span class="c1">#res</span>
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;logP&#39;</span><span class="p">,</span> <span class="s1">&#39;PSA&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">logP</span><span class="p">,</span><span class="n">PSA</span><span class="p">,</span><span class="n">disposed</span><span class="p">,</span><span class="n">nviolate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">disposed</span><span class="p">,</span><span class="n">nviolate</span><span class="p">)</span>    
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+    
+
+<div class="viewcode-block" id="CheckGSKRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckGSKRule">[docs]</a><span class="k">def</span> <span class="nf">CheckGSKRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecular under GSK rule(4/400 Rule)</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        Gleeson, M. Paul.</span>
+<span class="sd">        Journal of medicinal chemistry 51.4 (2008): 817-834.</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        MW &lt;= 400</span>
+<span class="sd">        logP &lt;= 4</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties</span>
+    <span class="n">MW</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>   
+    <span class="c1">#Determine whether the molecular match each rule    </span>
+    <span class="n">aMW</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span> <span class="o">&lt;=</span> <span class="mi">400</span><span class="p">)</span>
+    <span class="n">alogP</span> <span class="o">=</span> <span class="p">(</span><span class="n">logP</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">)</span>    
+    <span class="c1">#Give the advice</span>
+    <span class="k">if</span> <span class="n">aMW</span><span class="o">&amp;</span><span class="n">alogP</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="c1">#Count the number of violated rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">aMW</span><span class="o">+</span><span class="n">alogP</span><span class="p">)</span>
+    <span class="c1">#res</span>
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span> <span class="s1">&#39;logP&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span><span class="p">,</span> <span class="n">logP</span><span class="p">,</span> <span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+
+
+<div class="viewcode-block" id="CheckOralMacrocycles"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckOralMacrocycles">[docs]</a><span class="k">def</span> <span class="nf">CheckOralMacrocycles</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecular under oral macrocycles rules</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        Giordanetto, Fabrizio, and Jan Kihlberg.</span>
+<span class="sd">        Journal of medicinal chemistry 57.2 (2013): 278-295.        </span>
+
+<span class="sd">    Rule details:</span>
+<span class="sd">        MW &lt; 1000</span>
+<span class="sd">        logP &lt; 10</span>
+<span class="sd">        nHD &lt; 5</span>
+<span class="sd">        TPSA &lt; 250</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties of Lipinskin&#39;s rule</span>
+    <span class="n">MW</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHD</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHDonors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">tPSA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateTPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>   
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">aMW</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">alogP</span> <span class="o">=</span> <span class="p">(</span><span class="n">logP</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">anHD</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHD</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">aPSA</span> <span class="o">=</span> <span class="p">(</span><span class="n">tPSA</span> <span class="o">&lt;</span> <span class="mi">250</span><span class="p">)</span>  
+    <span class="c1">#Give the advice</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">aMW</span><span class="o">&amp;</span><span class="n">alogP</span><span class="o">&amp;</span><span class="n">anHD</span><span class="o">&amp;</span><span class="n">aPSA</span><span class="p">):</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="c1">#Count the number of violate rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">-</span> <span class="p">(</span><span class="n">aMW</span> <span class="o">+</span> <span class="n">alogP</span> <span class="o">+</span> <span class="n">anHD</span> <span class="o">+</span> <span class="n">aPSA</span><span class="p">)</span>
+    <span class="c1">#res</span>
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span> <span class="s1">&#39;logP&#39;</span><span class="p">,</span> <span class="s1">&#39;nHD&#39;</span><span class="p">,</span> <span class="s1">&#39;tPSA&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span><span class="p">,</span> <span class="n">logP</span><span class="p">,</span> <span class="n">nHD</span><span class="p">,</span> <span class="n">tPSA</span><span class="p">,</span> <span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span> 
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+
+
+<div class="viewcode-block" id="CheckOpreaRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckOpreaRule">[docs]</a><span class="k">def</span> <span class="nf">CheckOpreaRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reference:</span>
+<span class="sd">        Oprea, Tudor I.</span>
+<span class="sd">        Journal of computer-aided molecular design 14.3 (2000): 251-264.</span>
+<span class="sd">        </span>
+<span class="sd">    Rules details:</span>
+<span class="sd">        nRing &gt;= 3</span>
+<span class="sd">        nRig &gt;= 18</span>
+<span class="sd">        nRot &gt;=6</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties of Oprea</span>
+    <span class="n">nRing</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumRing</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nRig</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumRigidBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nRot</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumRotatableBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">anRing</span> <span class="o">=</span> <span class="p">(</span><span class="n">nRing</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">anRig</span> <span class="o">=</span> <span class="p">(</span><span class="n">nRig</span> <span class="o">&gt;=</span> <span class="mi">18</span><span class="p">)</span>
+    <span class="n">anRot</span> <span class="o">=</span> <span class="p">(</span><span class="n">nRot</span> <span class="o">&gt;=</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="c1">#Give the advice</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">anRing</span><span class="o">&amp;</span><span class="n">anRig</span><span class="o">&amp;</span><span class="n">anRot</span><span class="p">):</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="c1">#Count the number of violated rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">-</span> <span class="p">(</span><span class="n">anRing</span> <span class="o">+</span> <span class="n">anRig</span> <span class="o">+</span> <span class="n">anRot</span><span class="p">)</span>
+    <span class="c1">#Res</span>
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nRing&#39;</span><span class="p">,</span> <span class="s1">&#39;nRig&#39;</span><span class="p">,</span> <span class="s1">&#39;nRot&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span><span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">nRing</span><span class="p">,</span> <span class="n">nRig</span><span class="p">,</span> <span class="n">nRot</span><span class="p">,</span> <span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+
+    
+
+<div class="viewcode-block" id="CheckOpreaTwoRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckOpreaTwoRule">[docs]</a><span class="k">def</span> <span class="nf">CheckOpreaTwoRule</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reference.:</span>
+<span class="sd">               </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        mw &lt;= 450</span>
+<span class="sd">        -3.5 &lt;= clogP &lt;= 4.5</span>
+<span class="sd">        -4 &lt;= logD &lt;= 4</span>
+<span class="sd">        nring &lt;= 4</span>
+<span class="sd">        no. of nonterminal single bonds&lt;=10 #this property should be realized</span>
+<span class="sd">        NHD &lt;= 5</span>
+<span class="sd">        NHA &lt;= 8</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span> </div>
+
+
+<div class="viewcode-block" id="CheckGhoseRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckGhoseRule">[docs]</a><span class="k">def</span> <span class="nf">CheckGhoseRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecular under Ghose rule</span>
+<span class="sd">    </span>
+<span class="sd">    Reference.:</span>
+<span class="sd">        Ghose, Arup K., Vellarkad N. Viswanadhan, and John J. Wendoloski. </span>
+<span class="sd">        Journal of combinatorial chemistry 1.1 (1999): 55-68.</span>
+<span class="sd">    </span>
+<span class="sd">    Rules details:</span>
+<span class="sd">        -0.4 &lt; logP &lt; 5.6</span>
+<span class="sd">        160 &lt; MW &lt; 480</span>
+<span class="sd">        40 &lt; MR&lt; 130</span>
+<span class="sd">        20 &lt; nAtom &lt; 70</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties of Oprea</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">MW</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">MR</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolMR</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nAtom</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumAtoms</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>    
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">alogP</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.4</span> <span class="o">&lt;</span> <span class="n">logP</span> <span class="o">&lt;</span> <span class="mf">5.6</span><span class="p">)</span>
+    <span class="n">aMW</span> <span class="o">=</span> <span class="p">(</span><span class="mi">160</span> <span class="o">&lt;</span> <span class="n">MW</span> <span class="o">&lt;</span> <span class="mi">480</span><span class="p">)</span>
+    <span class="n">aMR</span> <span class="o">=</span> <span class="p">(</span><span class="mi">40</span> <span class="o">&lt;</span> <span class="n">MR</span><span class="o">&lt;</span> <span class="mi">130</span><span class="p">)</span>
+    <span class="n">anAtom</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span> <span class="o">&lt;</span> <span class="n">nAtom</span><span class="o">&lt;</span>  <span class="mi">70</span><span class="p">)</span>
+    <span class="c1">#Give the advice</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">alogP</span><span class="o">&amp;</span><span class="n">aMW</span><span class="o">&amp;</span><span class="n">aMR</span><span class="o">&amp;</span><span class="n">anAtom</span><span class="p">):</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="c1">#Count the number of violated rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">-</span> <span class="p">(</span><span class="n">alogP</span> <span class="o">+</span> <span class="n">aMW</span> <span class="o">+</span> <span class="n">aMR</span> <span class="o">+</span> <span class="n">anAtom</span><span class="p">)</span>
+    <span class="c1">#Res</span>
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;logP&#39;</span><span class="p">,</span> <span class="s1">&#39;MW&#39;</span><span class="p">,</span> <span class="s1">&#39;MR&#39;</span><span class="p">,</span> <span class="s1">&#39;nAtom&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">logP</span><span class="p">,</span> <span class="n">MW</span><span class="p">,</span> <span class="n">MR</span><span class="p">,</span> <span class="n">nAtom</span><span class="p">,</span> <span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+
+
+<div class="viewcode-block" id="CheckKelderRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckKelderRule">[docs]</a><span class="k">def</span> <span class="nf">CheckKelderRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check moleculars under Kelder rules</span>
+<span class="sd">    </span>
+<span class="sd">    Ref.:</span>
+<span class="sd">        Kelder, Jan, et al.</span>
+<span class="sd">        Pharm Res, 16.10 (1999): 1514-1519.</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        tpsa &lt;120 for orally active;</span>
+<span class="sd">        tpsa &lt; 60-70 for brain penetration</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="CheckREOS"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckREOS">[docs]</a><span class="k">def</span> <span class="nf">CheckREOS</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecular under REOS program</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        Walters, W. Patrick, and Mark Namchuk.</span>
+<span class="sd">        Nat Rev Drug Discov, 2.4 (2003): 259.</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        200 &lt;= MW &lt;= 500</span>
+<span class="sd">        -5 &lt;= logP &lt;= 5</span>
+<span class="sd">        nHD &lt;= 5</span>
+<span class="sd">        nHA &lt;= 10</span>
+<span class="sd">        nRot &lt;= 8</span>
+<span class="sd">        TPSA &lt;= 150</span>
+<span class="sd">        -4 &lt;= fChar &lt;= 4</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties of REOS</span>
+    <span class="n">MW</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHD</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHDonors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHAcceptors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nRot</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumRotatableBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">TPSA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateTPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">fChar</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolFCharge</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span> 
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">amw</span> <span class="o">=</span> <span class="p">(</span><span class="mi">200</span> <span class="o">&lt;=</span> <span class="n">MW</span> <span class="o">&lt;=</span> <span class="mi">500</span><span class="p">)</span>
+    <span class="n">alogP</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">5</span> <span class="o">&lt;=</span> <span class="n">logP</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">anhd</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHD</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">anha</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHA</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">anrot</span> <span class="o">=</span> <span class="p">(</span><span class="n">nRot</span> <span class="o">&lt;=</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="n">atpsa</span> <span class="o">=</span> <span class="p">(</span><span class="n">TPSA</span> <span class="o">&lt;=</span> <span class="mi">150</span><span class="p">)</span>
+    <span class="n">afchar</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span> <span class="o">&lt;=</span> <span class="n">fChar</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="c1">#Give the advice</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">amw</span><span class="o">&amp;</span><span class="n">alogP</span><span class="o">&amp;</span><span class="n">anhd</span><span class="o">&amp;</span><span class="n">anha</span><span class="o">&amp;</span><span class="n">anrot</span><span class="o">&amp;</span><span class="n">atpsa</span><span class="o">&amp;</span><span class="n">afchar</span><span class="p">):</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="c1">#Count the number of violated rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">-</span> <span class="p">(</span><span class="n">amw</span> <span class="o">+</span> <span class="n">alogP</span> <span class="o">+</span> <span class="n">anhd</span> <span class="o">+</span> <span class="n">anha</span> <span class="o">+</span> <span class="n">anrot</span> <span class="o">+</span> <span class="n">atpsa</span> <span class="o">+</span> <span class="n">afchar</span><span class="p">)</span>
+    <span class="c1">#Res</span>
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span> <span class="s1">&#39;logP&#39;</span><span class="p">,</span> <span class="s1">&#39;nHD&#39;</span><span class="p">,</span> <span class="s1">&#39;nHA&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;nRot&#39;</span><span class="p">,</span> <span class="s1">&#39;TPSA&#39;</span><span class="p">,</span> <span class="s1">&#39;fChar&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span><span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span><span class="p">,</span> <span class="n">logP</span><span class="p">,</span> <span class="n">nHD</span><span class="p">,</span> <span class="n">nHA</span><span class="p">,</span> <span class="n">nRot</span><span class="p">,</span> <span class="n">TPSA</span><span class="p">,</span> <span class="n">fChar</span><span class="p">,</span> <span class="n">disposed</span><span class="p">,</span><span class="n">nviolate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+
+
+<div class="viewcode-block" id="CheckGoldenTriangle"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckGoldenTriangle">[docs]</a><span class="k">def</span> <span class="nf">CheckGoldenTriangle</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecular under &#39;Golden Triangle&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        Johnson, Ted W., Klaus R. Dress, and Martin Edwards.</span>
+<span class="sd">        Bioorg Med Chem Lett, 19.19 (2009): 5560-5564.</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        200 &lt;= MW &lt;= 500</span>
+<span class="sd">        -2 &lt;= logD &lt;= 5</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties of REOS</span>
+    <span class="n">MW</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logD</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateLogD</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">amw</span> <span class="o">=</span> <span class="p">(</span><span class="mi">200</span> <span class="o">&lt;=</span> <span class="n">MW</span> <span class="o">&lt;=</span> <span class="mi">500</span><span class="p">)</span>
+    <span class="n">alogd</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">logD</span> <span class="o">&lt;=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="c1">#Give the advice</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">amw</span><span class="o">&amp;</span><span class="n">alogd</span><span class="p">):</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="c1">#Count the number of violated rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">amw</span> <span class="o">+</span> <span class="n">alogd</span><span class="p">)</span>
+    <span class="c1">#Res</span>
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span> <span class="s1">&#39;logD&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span><span class="p">,</span> <span class="n">logD</span><span class="p">,</span> <span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+
+
+<div class="viewcode-block" id="CheckXuRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckXuRule">[docs]</a><span class="k">def</span> <span class="nf">CheckXuRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecular under Xu&#39;s rule</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        </span>
+<span class="sd">    </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        nhd &lt;= 5</span>
+<span class="sd">        nha &lt;= 10</span>
+<span class="sd">        3 &lt;= rot &lt;= 35</span>
+<span class="sd">        1 &lt;= nring &lt;= 7</span>
+<span class="sd">        10 &lt;= nhev &lt;= 50</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties of Xu&#39;s rule</span>
+    <span class="n">nHD</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHDonors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHAcceptors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nRot</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumRotatableBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nRing</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumRing</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHev</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHeavyAtom</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>   
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">anHD</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHD</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">anHA</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHA</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">anRot</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span> <span class="o">&lt;=</span> <span class="n">nRot</span> <span class="o">&lt;=</span> <span class="mi">35</span><span class="p">)</span>
+    <span class="n">anRing</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">nRing</span> <span class="o">&lt;=</span> <span class="mi">7</span><span class="p">)</span>
+    <span class="n">anHev</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span> <span class="o">&lt;=</span> <span class="n">nHev</span> <span class="o">&lt;=</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="c1">#Give the advice</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">anHD</span><span class="o">&amp;</span><span class="n">anHA</span><span class="o">&amp;</span><span class="n">anRot</span><span class="o">&amp;</span><span class="n">anRing</span><span class="o">&amp;</span><span class="n">anHev</span><span class="p">):</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="c1">#Count the number of violated rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">-</span> <span class="p">(</span><span class="n">anHD</span> <span class="o">+</span> <span class="n">anHA</span> <span class="o">+</span> <span class="n">anRot</span> <span class="o">+</span> <span class="n">anRing</span> <span class="o">+</span> <span class="n">anHev</span><span class="p">)</span>
+    <span class="c1">#res</span>
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nHD&#39;</span><span class="p">,</span> <span class="s1">&#39;nHA&#39;</span><span class="p">,</span> <span class="s1">&#39;nRot&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;nRing&#39;</span><span class="p">,</span> <span class="s1">&#39;nHev&#39;</span><span class="p">,</span> <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHD</span><span class="p">,</span> <span class="n">nHA</span><span class="p">,</span> <span class="n">nRot</span><span class="p">,</span> <span class="n">nRing</span><span class="p">,</span> <span class="n">nHev</span><span class="p">,</span> <span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+
+
+<div class="viewcode-block" id="CheckSchneiderRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckSchneiderRule">[docs]</a><span class="k">def</span> <span class="nf">CheckSchneiderRule</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check  molecular under Schneider rule</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        Schneider, Nadine, et al.</span>
+<span class="sd">        J Chem Inf Model, 48.3 (2008): 613-628.</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        mw &gt; 230</span>
+<span class="sd">        nhd &gt; 0</span>
+<span class="sd">        nha &gt; 0</span>
+<span class="sd">        nrot &gt; 0</span>
+<span class="sd">        nring &gt; 0</span>
+<span class="sd">        mr &gt; 40</span>
+<span class="sd">        functional groups &gt; 0</span>
+<span class="sd">        molecular volume &gt; 191</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="CheckRo4"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckRo4">[docs]</a><span class="k">def</span> <span class="nf">CheckRo4</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Referenece:</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        MW &lt;= 400</span>
+<span class="sd">        logP &lt;= 4</span>
+<span class="sd">        nHD &lt;= 4</span>
+<span class="sd">        nHA &lt;= 8</span>
+<span class="sd">        TPSA &lt;= 120</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties of REOS</span>
+    <span class="n">MW</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHD</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHDonors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHAcceptors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">tPSA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateTPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>    
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">aMW</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span> <span class="o">&lt;=</span> <span class="mi">400</span><span class="p">)</span>
+    <span class="n">alogP</span> <span class="o">=</span> <span class="p">(</span><span class="n">logP</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">anHD</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHD</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">anHA</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHA</span> <span class="o">&lt;=</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="n">atPSA</span> <span class="o">=</span> <span class="p">(</span><span class="n">tPSA</span> <span class="o">&lt;=</span> <span class="mi">120</span><span class="p">)</span>   
+    <span class="c1">#Give the advice</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">aMW</span><span class="o">&amp;</span><span class="n">alogP</span><span class="o">&amp;</span><span class="n">anHD</span><span class="o">&amp;</span><span class="n">anHA</span><span class="o">&amp;</span><span class="n">atPSA</span><span class="p">):</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="c1">#Count the number of violated rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">-</span> <span class="p">(</span><span class="n">anHD</span> <span class="o">+</span> <span class="n">anHA</span> <span class="o">+</span> <span class="n">aMW</span> <span class="o">+</span> <span class="n">alogP</span> <span class="o">+</span> <span class="n">atPSA</span><span class="p">)</span>
+    <span class="c1">#res</span>
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span> <span class="s1">&#39;logP&#39;</span><span class="p">,</span> <span class="s1">&#39;nHD&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;nHA&#39;</span><span class="p">,</span> <span class="s1">&#39;tPSA&#39;</span><span class="p">,</span> <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span><span class="p">,</span> <span class="n">logP</span><span class="p">,</span> <span class="n">nHD</span><span class="p">,</span> <span class="n">nHA</span><span class="p">,</span> <span class="n">tPSA</span> <span class="p">,</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span><span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">disposed</span><span class="p">,</span><span class="n">nviolate</span><span class="p">)</span>
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+
+
+<div class="viewcode-block" id="CheckRo3"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckRo3">[docs]</a><span class="k">def</span> <span class="nf">CheckRo3</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecular under Ro3</span>
+<span class="sd">    </span>
+<span class="sd">    Ref.:</span>
+<span class="sd">        Congreve, Miles, et al.</span>
+<span class="sd">        Drug discovery today 19.8 (2003): 876-877.</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        MW &lt;= 300</span>
+<span class="sd">        -3 &lt;= logP &lt;= 3</span>
+<span class="sd">        NHD &lt;= 3</span>
+<span class="sd">        NHA &lt;= 6</span>
+<span class="sd">        PSA &lt;= 60</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties of REOS</span>
+    <span class="n">MW</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHD</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHDonors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHAcceptors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">tPSA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateTPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nRot</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumRotatableBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>    
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">aMW</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span> <span class="o">&lt;=</span> <span class="mi">300</span><span class="p">)</span>
+    <span class="n">alogP</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span> <span class="o">&lt;=</span> <span class="n">logP</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">anHD</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHD</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">anHA</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHA</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">atPSA</span> <span class="o">=</span> <span class="p">(</span><span class="n">tPSA</span> <span class="o">&lt;=</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="n">anRot</span> <span class="o">=</span> <span class="p">(</span><span class="n">nRot</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="c1">#Give the advice</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">aMW</span><span class="o">&amp;</span><span class="n">alogP</span><span class="o">&amp;</span><span class="n">anHD</span><span class="o">&amp;</span><span class="n">anHA</span><span class="o">&amp;</span><span class="n">atPSA</span><span class="o">&amp;</span><span class="n">anRot</span><span class="p">):</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="c1">#Count the number of violated rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">-</span> <span class="p">(</span><span class="n">aMW</span> <span class="o">+</span> <span class="n">alogP</span> <span class="o">+</span> <span class="n">anHD</span> <span class="o">+</span> <span class="n">anHA</span> <span class="o">+</span> <span class="n">atPSA</span> <span class="o">+</span> <span class="n">anRot</span><span class="p">)</span>
+    <span class="c1">#res</span>
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span> <span class="s1">&#39;logP&#39;</span><span class="p">,</span> <span class="s1">&#39;nHD&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;nHA&#39;</span><span class="p">,</span><span class="s1">&#39;tPSA&#39;</span><span class="p">,</span><span class="s1">&#39;nRot&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span><span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span><span class="p">,</span> <span class="n">logP</span><span class="p">,</span> <span class="n">nHD</span><span class="p">,</span> <span class="n">nHA</span><span class="p">,</span> <span class="n">tPSA</span><span class="p">,</span> <span class="n">nRot</span><span class="p">,</span> <span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>    
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+
+
+<div class="viewcode-block" id="CheckRo2"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckRo2">[docs]</a><span class="k">def</span> <span class="nf">CheckRo2</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check molecular under RO2</span>
+<span class="sd">    </span>
+<span class="sd">    Ref.:</span>
+<span class="sd">        Goldberg, Frederick W., et al.</span>
+<span class="sd">        Drug Discovery Today 20.1 (2015): 11-17.</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        MW &lt;= 200</span>
+<span class="sd">        Logp &lt;= 2</span>
+<span class="sd">        NHD &lt;= 2</span>
+<span class="sd">        NHA &lt;= 4</span>
+
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties of REOS</span>
+    <span class="n">MW</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHD</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHDonors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHAcceptors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>    
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">aMW</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span> <span class="o">&lt;=</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="n">alogP</span> <span class="o">=</span> <span class="p">(</span><span class="n">logP</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">anHD</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHD</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">anHA</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHA</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">)</span>    
+    <span class="c1">#Give the advice</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">aMW</span><span class="o">&amp;</span><span class="n">alogP</span><span class="o">&amp;</span><span class="n">anHD</span><span class="o">&amp;</span><span class="n">anHA</span><span class="p">):</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="c1">#Count the number of violated rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">-</span> <span class="p">(</span><span class="n">aMW</span> <span class="o">+</span> <span class="n">alogP</span> <span class="o">+</span> <span class="n">anHD</span> <span class="o">+</span> <span class="n">anHA</span><span class="p">)</span>
+    <span class="c1">#res</span>
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span> <span class="s1">&#39;logP&#39;</span><span class="p">,</span> <span class="s1">&#39;nHD&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;nHA&#39;</span><span class="p">,</span> <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span><span class="p">,</span> <span class="n">logP</span><span class="p">,</span> <span class="n">nHD</span><span class="p">,</span> <span class="n">nHA</span><span class="p">,</span> <span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+
+
+<div class="viewcode-block" id="DrugLikeOne"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.DrugLikeOne">[docs]</a><span class="k">def</span> <span class="nf">DrugLikeOne</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Based on Drug-Like Soft designed by FAFDrugs4(http://fafdrugs4.mti.univ-paris-diderot.fr/index.html)</span>
+<span class="sd">    </span>
+<span class="sd">    Through combining several articles describing drugs&#39; physico-chemical properties </span>
+<span class="sd">    and an in-house statistical analysis of drugs.</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        (1) Lipinski, Christopher A., et al.</span>
+<span class="sd">        Adv Drug Deliv Rev, 223.1-3 (1997): 3-25.</span>
+<span class="sd">        (2) Oprea, Tudor I.</span>
+<span class="sd">        J Comput Aided Mol Des, 14.3 (2000): 251-264.</span>
+<span class="sd">        (3) Irwin, John J., and Brian K. Shoichet.</span>
+<span class="sd">        J Chem Inf Model, 45.1 (2005): 177-182.</span>
+<span class="sd">        (4) Oprea, Tudor I., et al.</span>
+<span class="sd">        J Chem Inf Comput Sci, 41.5 (2001): 1308-1315.</span>
+<span class="sd">        (5) Pihan, Emilie, et al.</span>
+<span class="sd">        Bioinformatics, 28.11 (2012): 1540-1541.</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        100 &lt;= weight &lt;= 600</span>
+<span class="sd">        -3 &lt;= logP &lt;= 6</span>
+<span class="sd">        nha &lt;= 12</span>
+<span class="sd">        nhd &lt;= 7</span>
+<span class="sd">        TPSA &lt;= 180</span>
+<span class="sd">        nrot &lt;= 11</span>
+<span class="sd">        nrig &lt;= 30</span>
+<span class="sd">        nring &lt;= 6</span>
+<span class="sd">        maxring &lt;= 18</span>
+<span class="sd">        3 &lt;= ncarb &lt;=35</span>
+<span class="sd">        1 &lt;= nhet &lt;= 15</span>
+<span class="sd">        0.1 &lt;= hetcar &lt;=1.1</span>
+<span class="sd">        ncharged &lt;= 4</span>
+<span class="sd">        -4 &lt;= totalchar &lt;= 4</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="DrugLikeTwo"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.DrugLikeTwo">[docs]</a><span class="k">def</span> <span class="nf">DrugLikeTwo</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Based on Drug-Like Soft designed by FAFDrugs4(http://fafdrugs4.mti.univ-paris-diderot.fr/index.html)</span>
+<span class="sd">    </span>
+<span class="sd">    Through combining several articles describing drugs&#39; physico-chemical properties </span>
+<span class="sd">    and an in-house statistical analysis of drugs.</span>
+<span class="sd">    </span>
+<span class="sd">    Reference.:</span>
+<span class="sd">        (1) Oprea, Tudor I., et al.</span>
+<span class="sd">        J Comput Aided Mol Des, 14.3 (2000): 251-264.</span>
+<span class="sd">        (2) Workman, Paul, and Ian Collins.</span>
+<span class="sd">        Chem Biol, 17.6 (2010): 561-577.</span>
+<span class="sd">        (3) Baell, Jonathan B.</span>
+<span class="sd">        J Chem Inf Model, 53.1 (2012): 39-55.</span>
+<span class="sd">        (4) Brenk, Ruth, et al.</span>
+<span class="sd">        ChemMedChem 3.3 (2008): 435-444.</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        150 &lt;= weight &lt;= 400</span>
+<span class="sd">        -3 &lt;= logP &lt;= 4</span>
+<span class="sd">        nha &lt;= 7</span>
+<span class="sd">        nhd &lt;= 4</span>
+<span class="sd">        TPSA &lt;= 160</span>
+<span class="sd">        nrot &lt;= 9</span>
+<span class="sd">        nrig &lt;= 30</span>
+<span class="sd">        nring &lt;= 4</span>
+<span class="sd">        maxring &lt;= 18</span>
+<span class="sd">        3 &lt;= ncarb &lt;=35</span>
+<span class="sd">        1 &lt;= nhet &lt;= 15</span>
+<span class="sd">        0.1 &lt;= hetcar &lt;=1.1</span>
+<span class="sd">        ncharged &lt;= 4</span>
+<span class="sd">        -4 &lt;= totalchar &lt;= 4</span>
+<span class="sd">        nstero &lt;= 2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="CheckZinc"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckZinc">[docs]</a><span class="k">def</span> <span class="nf">CheckZinc</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check mol under ZINC</span>
+<span class="sd">    </span>
+<span class="sd">    Reference.:</span>
+<span class="sd">        Irwin, John J., and Brian K. Shoichet. </span>
+<span class="sd">        J Chem Inf Model, 45.1 (2005): 177-182.</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        60 &lt;= weight &lt;= 100</span>
+<span class="sd">        -4 &lt;= logP &lt;= 6</span>
+<span class="sd">        nha &lt;= 11</span>
+<span class="sd">        nhd &lt;= 6</span>
+<span class="sd">        TPSA &lt;= 150</span>
+<span class="sd">        nrot &lt;= 12</span>
+<span class="sd">        nrig &lt;= 50</span>
+<span class="sd">        nring &lt;= 7</span>
+<span class="sd">        maxring &lt;= 12</span>
+<span class="sd">        ncarb &gt;= 3</span>
+<span class="sd">        nhet &gt;= 0</span>
+<span class="sd">        hetcar &lt;= 2.0</span>
+<span class="sd">        ncharged &lt;= 4</span>
+<span class="sd">        -4 &lt;= totalchar &lt;= 4</span>
+<span class="sd">        nstero &lt;= 2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="CheckCNS"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckCNS">[docs]</a><span class="k">def</span> <span class="nf">CheckCNS</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check mol under CNS</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        Jeffrey, Phil, and Scott Summerfield.</span>
+<span class="sd">        Neurobiol Dis, 37.1 (2010): 33-37.</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        135 &lt;= weight &lt;= 582</span>
+<span class="sd">        -0.2 &lt;= logP &lt;= 6.1</span>
+<span class="sd">        nha &lt;= 5</span>
+<span class="sd">        nhd &lt;= 3</span>
+<span class="sd">        3 &lt;= TPSA &lt;= 118</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties of REOS</span>
+    <span class="n">MW</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHD</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHDonors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHAcceptors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">tPSA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateTPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">aMW</span> <span class="o">=</span> <span class="p">(</span><span class="mi">135</span> <span class="o">&lt;=</span> <span class="n">MW</span> <span class="o">&lt;=</span> <span class="mi">582</span><span class="p">)</span>
+    <span class="n">alogP</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.2</span> <span class="o">&lt;=</span> <span class="n">logP</span> <span class="o">&lt;=</span> <span class="mf">6.1</span><span class="p">)</span>
+    <span class="n">anHD</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHD</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">anHA</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHA</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">)</span>  
+    <span class="n">atPSA</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span> <span class="o">&lt;=</span> <span class="n">tPSA</span> <span class="o">&lt;=</span> <span class="mi">118</span><span class="p">)</span>
+    <span class="c1">#Give the advice</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">aMW</span><span class="o">&amp;</span><span class="n">alogP</span><span class="o">&amp;</span><span class="n">anHD</span><span class="o">&amp;</span><span class="n">anHA</span><span class="o">&amp;</span><span class="n">atPSA</span><span class="p">):</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="c1">#Count the number of violated rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">-</span> <span class="p">(</span><span class="n">aMW</span> <span class="o">+</span> <span class="n">alogP</span> <span class="o">+</span> <span class="n">anHD</span> <span class="o">+</span> <span class="n">anHA</span> <span class="o">+</span> <span class="n">atPSA</span><span class="p">)</span>
+    <span class="c1">#res</span>
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span> <span class="s1">&#39;logP&#39;</span><span class="p">,</span> <span class="s1">&#39;nHD&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;nHA&#39;</span><span class="p">,</span> <span class="s1">&#39;tPSA&#39;</span><span class="p">,</span> <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span><span class="p">,</span> <span class="n">logP</span><span class="p">,</span> <span class="n">nHD</span><span class="p">,</span> <span class="n">nHA</span><span class="p">,</span> <span class="n">tPSA</span><span class="p">,</span> <span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+
+
+<div class="viewcode-block" id="CheckRespiratory"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckRespiratory">[docs]</a><span class="k">def</span> <span class="nf">CheckRespiratory</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check mol under Respiratory</span>
+<span class="sd">    </span>
+<span class="sd">    Reference:</span>
+<span class="sd">        Ritchie, Timothy J., Christopher N. Luscombe, and Simon JF Macdonald. </span>
+<span class="sd">        J Chem Inf Model, 49.4 (2009): 1025-1032.</span>
+<span class="sd">        </span>
+<span class="sd">    Rule details:</span>
+<span class="sd">        240&lt;=MW&lt;= 520</span>
+<span class="sd">        -2.0&lt;=logP&lt;=4.7</span>
+<span class="sd">        6&lt;=nHB&lt;=12</span>
+<span class="sd">        51&lt;=tPSA&lt;=135</span>
+<span class="sd">        3&lt;=nRot&lt;=8</span>
+<span class="sd">        1&lt;=nRing&lt;=5</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Calculate required properties of REOS</span>
+    <span class="n">MW</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">logP</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nHB</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHyBond</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">tPSA</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateTPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nRot</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumRotatableBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">nRing</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumRing</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="c1">#Determine whether the molecular match each rule</span>
+    <span class="n">aMW</span> <span class="o">=</span> <span class="p">(</span><span class="mi">240</span> <span class="o">&lt;=</span> <span class="n">MW</span> <span class="o">&lt;=</span> <span class="mi">520</span><span class="p">)</span>
+    <span class="n">alogP</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.2</span> <span class="o">&lt;=</span> <span class="n">logP</span> <span class="o">&lt;=</span> <span class="mf">4.7</span><span class="p">)</span>
+    <span class="n">anHB</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span> <span class="o">&lt;=</span> <span class="n">nHB</span> <span class="o">&lt;=</span> <span class="mi">12</span><span class="p">)</span>  
+    <span class="n">atPSA</span> <span class="o">=</span> <span class="p">(</span><span class="mi">51</span> <span class="o">&lt;=</span> <span class="n">tPSA</span> <span class="o">&lt;=</span> <span class="mi">135</span><span class="p">)</span>
+    <span class="n">anRot</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span> <span class="o">&lt;=</span> <span class="n">nRot</span> <span class="o">&lt;=</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="n">anRing</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">nRing</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="c1">#Give the advice</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">aMW</span><span class="o">&amp;</span><span class="n">alogP</span><span class="o">&amp;</span><span class="n">anHB</span><span class="o">&amp;</span><span class="n">atPSA</span><span class="o">&amp;</span><span class="n">anRot</span><span class="o">&amp;</span><span class="n">anRing</span><span class="p">):</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+    <span class="c1">#Count the number of violated rules</span>
+    <span class="n">nviolate</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">-</span> <span class="p">(</span><span class="n">aMW</span> <span class="o">+</span> <span class="n">alogP</span> <span class="o">+</span> <span class="n">anHB</span> <span class="o">+</span> <span class="n">atPSA</span> <span class="o">+</span> <span class="n">anRot</span> <span class="o">+</span> <span class="n">anRing</span><span class="p">)</span>
+    <span class="c1">#res</span>
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span> <span class="s1">&#39;logP&#39;</span><span class="p">,</span> <span class="s1">&#39;nHB&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;tPSA&#39;</span><span class="p">,</span> <span class="s1">&#39;nRot&#39;</span><span class="p">,</span> <span class="s1">&#39;nRing&#39;</span><span class="p">,</span> 
+                 <span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">MW</span><span class="p">,</span> <span class="n">logP</span><span class="p">,</span> <span class="n">nHB</span><span class="p">,</span> <span class="n">tPSA</span><span class="p">,</span> <span class="n">nRot</span><span class="p">,</span> <span class="n">nRing</span><span class="p">,</span> <span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span> <span class="s1">&#39;nViolate&#39;</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">disposed</span><span class="p">,</span> <span class="n">nviolate</span><span class="p">)</span>
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">vals</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+
+
+<div class="viewcode-block" id="Check_CustomizeRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.Check_CustomizeRule">[docs]</a><span class="k">def</span> <span class="nf">Check_CustomizeRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">prop_kws</span><span class="p">,</span> <span class="n">closed_interval</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    You could customize the rule with mostly properties ypu want.</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: molecule</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param prop_kws: the keys of dict are properties you want to check; the values should be a tuple or list with two elements,present the left- and right-bounded respectively.</span>
+<span class="sd">    :type prop_kws: `dict`</span>
+<span class="sd">    :param closed_interval: control whether using closed interval, defaults to True</span>
+<span class="sd">    :type closed_interval: `bool`, optional</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: `bool`, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;nViolate&#39;, otherwise exrta returning each property </span>
+<span class="sd">    :rtype: `dict`</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">allowed</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span><span class="s1">&#39;Vol&#39;</span><span class="p">,</span><span class="s1">&#39;Dense&#39;</span><span class="p">,</span><span class="s1">&#39;fChar&#39;</span><span class="p">,</span><span class="s1">&#39;nBond&#39;</span><span class="p">,</span><span class="s1">&#39;nAtom&#39;</span><span class="p">,</span><span class="s1">&#39;nHD&#39;</span><span class="p">,</span><span class="s1">&#39;nHA&#39;</span><span class="p">,</span><span class="s1">&#39;nHB&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;nHet&#39;</span><span class="p">,</span><span class="s1">&#39;nStero&#39;</span><span class="p">,</span><span class="s1">&#39;nHev&#39;</span><span class="p">,</span><span class="s1">&#39;nRot&#39;</span><span class="p">,</span><span class="s1">&#39;nRig&#39;</span><span class="p">,</span><span class="s1">&#39;nRing&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;logP&#39;</span><span class="p">,</span><span class="s1">&#39;logD&#39;</span><span class="p">,</span><span class="s1">&#39;pKa&#39;</span><span class="p">,</span><span class="s1">&#39;logSw&#39;</span><span class="p">,</span><span class="s1">&#39;ab&#39;</span><span class="p">,</span><span class="s1">&#39;MR&#39;</span><span class="p">,</span><span class="s1">&#39;tPSA&#39;</span><span class="p">,</span><span class="s1">&#39;AP&#39;</span><span class="p">,</span><span class="s1">&#39;HetRatio&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;Fsp3&#39;</span><span class="p">,</span><span class="s1">&#39;MaxRing&#39;</span><span class="p">,</span><span class="s1">&#39;QEDmean&#39;</span><span class="p">,</span><span class="s1">&#39;QEDmax&#39;</span><span class="p">,</span><span class="s1">&#39;QEDnone&#39;</span><span class="p">,</span><span class="s1">&#39;SAscore&#39;</span><span class="p">,</span><span class="s1">&#39;NPscore&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;nSingle&#39;</span><span class="p">,</span><span class="s1">&#39;nDouble&#39;</span><span class="p">,</span><span class="s1">&#39;nTriple&#39;</span><span class="p">,</span><span class="s1">&#39;nC&#39;</span><span class="p">,</span><span class="s1">&#39;nB&#39;</span><span class="p">,</span><span class="s1">&#39;nF&#39;</span><span class="p">,</span><span class="s1">&#39;nCl&#39;</span><span class="p">,</span><span class="s1">&#39;nBr&#39;</span><span class="p">,</span><span class="s1">&#39;nI&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;nP&#39;</span><span class="p">,</span><span class="s1">&#39;nS&#39;</span><span class="p">,</span><span class="s1">&#39;nO&#39;</span><span class="p">,</span><span class="s1">&#39;nN&#39;</span><span class="p">]</span>
+    
+    <span class="n">properties</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">GetProperties</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">prop_kws</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">properties</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">closed_interval</span><span class="p">:</span>
+            <span class="n">bo</span> <span class="o">=</span> <span class="p">[((</span><span class="ow">not</span> <span class="n">prop_kws</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">properties</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">prop_kws</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span><span class="ow">and</span>\
+                   <span class="p">(</span><span class="ow">not</span> <span class="n">prop_kws</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="n">properties</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">prop_kws</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>\
+                   <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bo</span> <span class="o">=</span> <span class="p">[((</span><span class="ow">not</span> <span class="n">prop_kws</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">properties</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">prop_kws</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span><span class="ow">and</span>\
+                   <span class="p">(</span><span class="ow">not</span> <span class="n">prop_kws</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="n">properties</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">prop_kws</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>\
+                   <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;the key of prop_kws must a member of </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">allowed</span><span class="p">)))</span>
+    
+    <span class="n">VioProp</span> <span class="o">=</span> <span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span><span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bo</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">item</span><span class="p">]</span>
+    <span class="n">nViolate</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span><span class="o">-</span><span class="nb">sum</span><span class="p">(</span><span class="n">bo</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>       
+        <span class="n">keys</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;nViolate&#39;</span><span class="p">,</span><span class="s1">&#39;VioProp&#39;</span><span class="p">])</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">nViolate</span><span class="p">,</span><span class="n">VioProp</span><span class="p">])</span> 
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nViolate&#39;</span><span class="p">,</span><span class="s1">&#39;VioProp&#39;</span><span class="p">]</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">nViolate</span><span class="p">,</span><span class="n">VioProp</span><span class="p">]</span>
+    
+    <span class="n">dic</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">res</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">showSMILES</span><span class="p">:</span>
+        <span class="n">dic</span><span class="p">[</span><span class="s1">&#39;SMILES&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dic</span></div>
+       
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    
+    <span class="n">smis</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CCCC&#39;</span><span class="p">,</span><span class="s1">&#39;CCCCC&#39;</span><span class="p">,</span><span class="s1">&#39;CCCCCC&#39;</span><span class="p">,</span><span class="s1">&#39;CC(N)C(=O)O&#39;</span><span class="p">,</span><span class="s1">&#39;CC(N)C(=O)[O-].[Na+]&#39;</span><span class="p">,</span><span class="s1">&#39;CC(=O)OC1=CC=CC=C1C(=O)O&#39;</span><span class="p">]</span>
+    <span class="n">smi5</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;CCCCCC&#39;</span><span class="p">,</span><span class="s1">&#39;CCC(C)CC&#39;</span><span class="p">,</span><span class="s1">&#39;CC(C)CCC&#39;</span><span class="p">,</span><span class="s1">&#39;CC(C)C(C)C&#39;</span><span class="p">,</span><span class="s1">&#39;CCCCCN&#39;</span><span class="p">,</span><span class="s1">&#39;c1ccccc1N&#39;</span><span class="p">]</span>
+    <span class="n">smiring</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;C1=CC=CC2C=CC3C4C=CC=CC=4C=CC=3C1=2&#39;</span><span class="p">,</span><span class="s1">&#39;C1CCC2C3CC(C4CCCC5CCCCC45)CCC3CCC2C1&#39;</span><span class="p">,</span><span class="s1">&#39;C1CCC2(CCC3(CCCCC3)CC2)CC1&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">smi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">smis</span><span class="p">):</span>
+        <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smi</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Index:</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
+<span class="c1">#        res = Check_CustomizeRule(mol, prop_kws={&#39;MW&#39;:[0,100],</span>
+<span class="c1">#                                                 &#39;nN&#39;:[0,2]},detail=False, showSMILES=False)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">CheckGoldenTriangle</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Zhijiang Yang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.0.
+    </div>
+  </body>
+</html>

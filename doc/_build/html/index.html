@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>The Scopy’s documentation &#8212; Scopy 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Overview" href="overview.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Scopy 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/Scopy.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="#">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The Scopy’s documentation</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="overview.html"
+                        title="next chapter">Overview</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-scopy-s-documentation">
+<h1>The Scopy’s documentation<a class="headerlink" href="#the-scopy-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>To decrease the four major problems existed in high-throughput screening (HTS), we have designed and develpoed the package Scopy(Screnning COmpounds in PYthon). Firstly, the poor drug-likeness of most hitters will increase workload for future work. Besides, the potential toxic compounds and frequent hitters (FH) would stain the screening result. Lastly, The chemical space of hitters may be narrow which may not involve the compound we intended.
+Scopy supplied three filters: drug-likeness, toxicity and FH filter, but also a space analyser to explore chemical space of library and a visualizer to intuitively depict screening result. In drug-likeness filter, <strong>45</strong> physicochemical (PC) properties and <strong>15</strong> PC-driven rules, so called drug-likeness rules, were collected and implemented. In toxicity filter could screen <strong>13</strong> endpoints related to toxicity, and FH filter involves <strong>11</strong> endpoint. As to chemical space exploration, besides analyse framework, <strong>7</strong> fingerprins used to assess space from different angle.
+The python package Scopy(Screnning COmpounds in PYthon) is designed by <a class="reference external" href="http://home.scbdd.com/index.php?s=/Home/Index.html&amp;t=english">CBDD Group</a> (Computational Biology &amp; Drug Design Group), Xiangya School of Pharmaceutical Sciences, Central South University.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#who-uses-scopy">Who uses Scopy?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#motivation">Motivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#feature-overview">Feature overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#the-python-programming-language">The Python programming language</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">Getting Started with Scopy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide.html#installing-the-scopy-package">Installing the Scopy package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#dependencies">Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#install-from-source">Install from source</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide.html#molecular-pretreater">Molecular Pretreater</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide.html#drug-likeness-filter">Drug-likeness Filter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#calculating-pc-properties">Calculating PC properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#filtering-molecule-under-pc-derived-rules">Filtering molecule under PC-derived rules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide.html#id1">Drug-likeness Filter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#pains">PAINS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#chelating">Chelating</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#promiscuity">Promiscuity</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide.html#toxicity-filter">Toxicity Filter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#acute-toxicity">Acute Toxicity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#environmental-toxicity">Environmental Toxicity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#multiprocessing">Multiprocessing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide.html#chemical-space-analyser">Chemical Space Analyser</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#fingerprint-calculate">Fingerprint Calculate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#framework-analyse">Framework Analyse</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide.html#screening-visualizer">Screening Visualizer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#pc-visualizer">PC Visualizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#fragment-visualizer">Fragment visualizer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="application.html">Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="application.html#application-1-screening-withdrawn-drugs">Application 1. Screening Withdrawn Drugs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application.html#application-2-screening-natural-products">Application 2. Screening Natural Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application.html#application-3-screening-small-molecule-libarary">Application 3. Screening Small Molecule Libarary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application.html#application-4-screening-fragment">Application 4. Screening Fragment</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Scopy API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/scopy.druglikeness.html">scopy.druglikeness package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.druglikeness.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.druglikeness.html#module-scopy.druglikeness.druglikeness">scopy.druglikeness.druglikeness module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.druglikeness.html#module-scopy.druglikeness.molproperty">scopy.druglikeness.molproperty module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.druglikeness.html#module-scopy.druglikeness.rulesfilter">scopy.druglikeness.rulesfilter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.druglikeness.html#module-scopy.druglikeness">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/scopy.fingerprint.html">scopy.fingerprint package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.fingerprint.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.fingerprint.html#module-scopy.fingerprint.daylight">scopy.fingerprint.daylight module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.fingerprint.html#module-scopy.fingerprint.efg">scopy.fingerprint.efg module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.fingerprint.html#module-scopy.fingerprint.estate">scopy.fingerprint.estate module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.fingerprint.html#module-scopy.fingerprint.fingerprints">scopy.fingerprint.fingerprints module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.fingerprint.html#module-scopy.fingerprint.ghosecrippen">scopy.fingerprint.ghosecrippen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.fingerprint.html#module-scopy.fingerprint.ifg">scopy.fingerprint.ifg module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.fingerprint.html#module-scopy.fingerprint.maccs">scopy.fingerprint.maccs module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.fingerprint.html#module-scopy.fingerprint.morgan">scopy.fingerprint.morgan module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.fingerprint.html#module-scopy.fingerprint.pubchem">scopy.fingerprint.pubchem module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.fingerprint.html#module-scopy.fingerprint">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/scopy.pretreat.html">scopy.pretreat package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.pretreat.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.pretreat.html#scopy-pretreat-pretreat-module">scopy.pretreat.pretreat module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.pretreat.html#module-scopy.pretreat.pretreatutil">scopy.pretreat.pretreatutil module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.pretreat.html#module-scopy.pretreat">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/scopy.structure_alert.html">scopy.structure_alert package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.structure_alert.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.structure_alert.html#module-scopy.structure_alert.FilterWithSmarts">scopy.structure_alert.FilterWithSmarts module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.structure_alert.html#module-scopy.structure_alert.SmartProcess">scopy.structure_alert.SmartProcess module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.structure_alert.html#module-scopy.structure_alert.SmartsFilter">scopy.structure_alert.SmartsFilter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.structure_alert.html#module-scopy.structure_alert">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules/scopy.visualize.html">scopy.visualize package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.visualize.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.visualize.html#module-scopy.visualize.highlight">scopy.visualize.highlight module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.visualize.html#module-scopy.visualize.mcloud">scopy.visualize.mcloud module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.visualize.html#module-scopy.visualize.pc_depict">scopy.visualize.pc_depict module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.visualize.html#module-scopy.visualize">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/logocbdd.png"><img alt="_images/logocbdd.png" src="_images/logocbdd.png" style="width: 500px;" /></a>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Scopy 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Zhijiang Yang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.0.
+    </div>
+  </body>
+</html>

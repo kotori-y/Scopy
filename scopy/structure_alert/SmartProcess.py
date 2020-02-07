@@ -121,7 +121,7 @@ def _CheckPattl(mol, rejected_pattl, accepted_pattl):
             yield False
       
 
-def _CheckWithSmarts(mol, pattl, endpoint, detail=False):
+def _CheckWithSmarts(mol, pattl, endpoint, detail=False, showSMILES=False):
     """  
     *Internal Use Only*
     
@@ -178,7 +178,9 @@ def _CheckWithSmarts(mol, pattl, endpoint, detail=False):
         items = ['Disposed','MatchedAtoms','MatchedNames','Endpoint']
         del reject_pattl,accept_pattl
 #        return res(Disposed=disposed,MatchedAtoms=matched_atoms,MatchedNames=matched_names,Endpoint=endpoint)
-        return dict(zip(items,[disposed,matched_atoms,matched_names,endpoint]))
+        dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+        dic.update(dict(zip(items,[disposed,matched_atoms,matched_names,endpoint])))
+        return dic 
     
     else:
         temp = _CheckPattl(mol,reject_pattl,accept_pattl)
@@ -188,8 +190,10 @@ def _CheckWithSmarts(mol, pattl, endpoint, detail=False):
             disposed = 'Rejected'
 #        res = namedtuple('CheckRes',['Disposed','Endpoint'])
         items = ['Disposed','Endpoint']
-#        return res(Disposed=disposed,Endpoint=endpoint)  
-        return dict(zip(items, [disposed,endpoint]))
+#        return res(Disposed=disposed,Endpoint=endpoint)
+        dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+        dic.update(dict(zip(items, [disposed,endpoint])))
+        return dic
                 
 
 if '__main__' == __name__:

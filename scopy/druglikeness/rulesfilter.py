@@ -36,7 +36,7 @@ def CheckEganRule(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -64,9 +64,8 @@ def CheckEganRule(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = [disposed, nviolate]
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic
 
 
@@ -88,7 +87,7 @@ def CheckVeberRule(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -118,9 +117,8 @@ def CheckVeberRule(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = [disposed, nviolate]   
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic
 
 
@@ -143,7 +141,7 @@ def CheckLipinskiRule(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -175,9 +173,8 @@ def CheckLipinskiRule(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = (disposed, nviolate)    
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic   
     
 
@@ -202,7 +199,7 @@ def CheckBeyondRo5(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -239,9 +236,8 @@ def CheckBeyondRo5(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = (disposed, nviolate)        
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic   
 
 
@@ -262,7 +258,7 @@ def CheckPfizerRule(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -291,9 +287,8 @@ def CheckPfizerRule(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = (disposed,nviolate)    
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic
     
 
@@ -314,7 +309,7 @@ def CheckGSKRule(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -343,9 +338,8 @@ def CheckGSKRule(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = (disposed, nviolate)
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic
 
 
@@ -368,7 +362,7 @@ def CheckOralMacrocycles(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -401,9 +395,8 @@ def CheckOralMacrocycles(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = (disposed, nviolate) 
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic
 
 
@@ -423,7 +416,7 @@ def CheckOpreaRule(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -454,9 +447,8 @@ def CheckOpreaRule(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = (disposed, nviolate)
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic
 
     
@@ -496,7 +488,7 @@ def CheckGhoseRule(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -529,9 +521,8 @@ def CheckGhoseRule(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = (disposed, nviolate)
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic
 
 
@@ -573,7 +564,7 @@ def CheckREOS(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -613,9 +604,8 @@ def CheckREOS(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = (disposed, nviolate)
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic
 
 
@@ -636,7 +626,7 @@ def CheckGoldenTriangle(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -665,9 +655,8 @@ def CheckGoldenTriangle(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = (disposed, nviolate)
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic
 
 
@@ -690,7 +679,7 @@ def CheckXuRule(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -725,9 +714,8 @@ def CheckXuRule(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = (disposed, nviolate)
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic
 
 
@@ -768,7 +756,7 @@ def CheckRo4(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -803,9 +791,8 @@ def CheckRo4(mol, detail=False, showSMILES=False):
         items = ['Disposed','nViolate']
         vals = (disposed,nviolate)
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic
 
 
@@ -829,7 +816,7 @@ def CheckRo3(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -867,9 +854,8 @@ def CheckRo3(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = (disposed, nviolate)    
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic
 
 
@@ -892,7 +878,7 @@ def CheckRo2(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -925,9 +911,8 @@ def CheckRo2(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = (disposed, nviolate)
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic
 
 
@@ -1054,7 +1039,7 @@ def CheckCNS(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -1089,9 +1074,8 @@ def CheckCNS(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = (disposed, nviolate)
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic
 
 
@@ -1116,7 +1100,7 @@ def CheckRespiratory(mol, detail=False, showSMILES=False):
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
@@ -1154,9 +1138,8 @@ def CheckRespiratory(mol, detail=False, showSMILES=False):
         items = ['Disposed', 'nViolate']
         vals = (disposed, nviolate)
     
-    dic = dict(zip(items, vals))
-    if showSMILES:
-        dic['SMILES'] = Chem.MolToSmiles(mol)
+    dic = {'SMILES':Chem.MolToSmiles(mol)} if showSMILES else {}
+    dic.update(dict(zip(items, vals)))
     return dic
 
 
@@ -1173,7 +1156,7 @@ def Check_CustomizeRule(mol, prop_kws, closed_interval=True, detail=False, showS
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: `bool`, optional
     :param showSMILES: Control returning SMILES or not, defaults to False
-    :type detail: bool, optional
+    :type showSMILES: bool, optional
     
     :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
     :rtype: `dict`

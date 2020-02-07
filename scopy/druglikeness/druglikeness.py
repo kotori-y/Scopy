@@ -287,7 +287,7 @@ class PC_properties(object):
         """
         *This function should be revised*
         Calculating pKa based on the ralation between logD and logP in specific pH 
-        ---pKa
+        --->pKa
         
         Eq.:
             |pH-pKa| = log10(10^(logP-logD)-1)
@@ -812,8 +812,8 @@ class PC_properties(object):
         :rtype: list
         
         .. _Ertl, Peter, Silvio Roggo, and Ansgar Schuffenhauer (2008):
-            https://pubs.acs.org/doi/abs/10.1021/ci700286x
-        
+            https://jcheminf.biomedcentral.com/articles/10.1186/1758-2946-1-8
+            
         """
         pool = Pool(self.n_jobs)
         NP = pool.map_async(molproperty.CalculateNPscore, self.mols).get()

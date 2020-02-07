@@ -16,7 +16,6 @@ except:
 
 from rdkit.Chem import AllChem as Chem
 from multiprocessing import Pool
-from functools import partial
 
     
 class Filter(object):
@@ -29,15 +28,18 @@ class Filter(object):
     :type n_jobs: int, optional
     :param detail: Control returning specific infomation or not, defaults to False
     :type detail: bool, optional
+    :param showSMILES: Control returning SMILES or not, defaults to False
+    :type showSMILES: bool, optional
     
     """
-    def __init__(self, mols, n_jobs=1, detail=False):
+    def __init__(self, mols, n_jobs=1, detail=False, showSMILES=False):
         """Initialization
         
         """
         self.mols = mols
         self.n_jobs = n_jobs
         self.detail = detail
+        self.showSMILES = showSMILES
         
     def Check_Acute_Aquatic_Toxicity(self):
         """Check molecule under Acute_Aquatic_Toxicity Filter,
@@ -48,7 +50,7 @@ class Filter(object):
         :rtype: list
         
         """
-        Aquatic = _Filter('Acute_Aquatic_Toxicity', self.detail)
+        Aquatic = _Filter('Acute_Aquatic_Toxicity', self.detail, self.showSMILES)
         Aquatic.get_pattl()
         pool = Pool(self.n_jobs)
         Acute_Aquatic_Toxicity = pool.map_async(Aquatic.scan, self.mols).get()
@@ -66,7 +68,7 @@ class Filter(object):
         :rtype: list
         
         """
-        AlphaScreen = _Filter('AlphaScreen_FHs', self.detail)
+        AlphaScreen = _Filter('AlphaScreen_FHs', self.detail, self.showSMILES)
         AlphaScreen.get_pattl()
         pool = Pool(self.n_jobs)
         AlphaScreen_FHs = pool.map_async(AlphaScreen.scan, self.mols).get()
@@ -84,7 +86,7 @@ class Filter(object):
         :rtype: list
         
         """
-        GST = _Filter('AlphaScreen_GST_FHs', self.detail)
+        GST = _Filter('AlphaScreen_GST_FHs', self.detail, self.showSMILES)
         GST.get_pattl()
         pool = Pool(self.n_jobs)
         AlphaScreen_GST_FHs = pool.map_async(GST.scan, self.mols).get()
@@ -102,7 +104,7 @@ class Filter(object):
         :rtype: list
         
         """
-        HIS = _Filter('AlphaScreen_HIS_FHs', self.detail)
+        HIS = _Filter('AlphaScreen_HIS_FHs', self.detail, self.showSMILES)
         HIS.get_pattl()
         pool = Pool(self.n_jobs)
         AlphaScreen_HIS_FHs = pool.map_async(HIS.scan, self.mols).get()
@@ -120,7 +122,7 @@ class Filter(object):
         :rtype: list
         
         """
-        Biode = _Filter('Biodegradable', self.detail)
+        Biode = _Filter('Biodegradable', self.detail, self.showSMILES)
         Biode.get_pattl()
         pool = Pool(self.n_jobs)
         Biodegradable = pool.map_async(Biode.scan, self.mols).get()
@@ -138,7 +140,7 @@ class Filter(object):
         :rtype: list
         
         """
-        Che = _Filter('Chelating', self.detail)
+        Che = _Filter('Chelating', self.detail, self.showSMILES)
         Che.get_pattl()
         pool = Pool(self.n_jobs)
         Chelating = pool.map_async(Che.scan, self.mols).get()
@@ -156,7 +158,7 @@ class Filter(object):
         :rtype: list
         
         """
-        Deve = _Filter('Developmental_Mitochondrial', self.detail)
+        Deve = _Filter('Developmental_Mitochondrial', self.detail, self.showSMILES)
         Deve.get_pattl()
         pool = Pool(self.n_jobs)
         Developmental_Mitochondrial = pool.map_async(Deve.scan, self.mols).get()
@@ -174,7 +176,7 @@ class Filter(object):
         :rtype: list
         
         """
-        Geno = _Filter('Genotoxic_Carcinogenicity_Mutagenicity', self.detail)
+        Geno = _Filter('Genotoxic_Carcinogenicity_Mutagenicity', self.detail, self.showSMILES)
         Geno.get_pattl()
         pool = Pool(self.n_jobs)
         Genotoxic_Carcinogenicity_Mutagenicity = pool.map_async(Geno.scan, self.mols).get()
@@ -193,7 +195,7 @@ class Filter(object):
         :rtype: list
         
         """
-        Idi = _Filter('Idiosyncratic', self.detail)
+        Idi = _Filter('Idiosyncratic', self.detail, self.showSMILES)
         Idi.get_pattl()
         pool = Pool(self.n_jobs)
         Idiosyncratic = pool.map_async(Idi.scan, self.mols).get()
@@ -211,7 +213,7 @@ class Filter(object):
         :rtype: list
         
         """
-        ld = _Filter('LD50_Oral', self.detail)
+        ld = _Filter('LD50_Oral', self.detail, self.showSMILES)
         ld.get_pattl()
         pool = Pool(self.n_jobs)
         LD50_Oral = pool.map_async(ld.scan, self.mols).get()
@@ -227,7 +229,7 @@ class Filter(object):
         :rtype: list
         
         """
-        luc = _Filter('Luciferase_Inhibitory', self.detail)
+        luc = _Filter('Luciferase_Inhibitory', self.detail, self.showSMILES)
         luc.get_pattl()
         pool = Pool(self.n_jobs)
         Luciferase_Inhibitory = pool.map_async(luc.scan, self.mols).get()
@@ -245,7 +247,7 @@ class Filter(object):
         :rtype: list
         
         """
-        nonbi = _Filter('NonBiodegradable', self.detail)
+        nonbi = _Filter('NonBiodegradable', self.detail, self.showSMILES)
         nonbi.get_pattl()
         pool = Pool(self.n_jobs)
         NonBiodegradable = pool.map_async(nonbi.scan, self.mols).get()
@@ -263,7 +265,7 @@ class Filter(object):
         :rtype: list
         
         """
-        nonge = _Filter('NonGenotoxic_Carcinogenicity', self.detail)
+        nonge = _Filter('NonGenotoxic_Carcinogenicity', self.detail, self.showSMILES)
         nonge.get_pattl()
         pool = Pool(self.n_jobs)
         NonGenotoxic_Carcinogenicity = pool.map_async(nonge.scan, self.mols).get()
@@ -281,7 +283,7 @@ class Filter(object):
         :rtype: list
         
         """
-        pai = _Filter('Pains', self.detail)
+        pai = _Filter('Pains', self.detail, self.showSMILES)
         pai.get_pattl()
         pool = Pool(self.n_jobs)
         Pains = pool.map_async(pai.scan, self.mols).get()
@@ -300,7 +302,7 @@ class Filter(object):
         :rtype: list
         
         """
-        ele = _Filter('Potential_Electrophilic', self.detail)
+        ele = _Filter('Potential_Electrophilic', self.detail, self.showSMILES)
         ele.get_pattl()
         pool = Pool(self.n_jobs)
         Potential_Electrophilic = pool.map_async(ele.scan, self.mols).get()
@@ -317,7 +319,7 @@ class Filter(object):
         :rtype: list
         
         """
-        prom = _Filter('Promiscuity', self.detail)
+        prom = _Filter('Promiscuity', self.detail, self.showSMILES)
         prom.get_pattl()
         pool = Pool(self.n_jobs)
         Promiscuity = pool.map_async(prom.scan, self.mols).get()
@@ -334,7 +336,7 @@ class Filter(object):
         :rtype: list
         
         """
-        reac = _Filter('Reactive_Unstable_Toxic', self.detail)
+        reac = _Filter('Reactive_Unstable_Toxic', self.detail, self.showSMILES)
         reac.get_pattl()
         pool = Pool(self.n_jobs)
         Reactive_Unstable_Toxic = pool.map_async(reac.scan, self.mols).get()
@@ -351,7 +353,7 @@ class Filter(object):
         :rtype: list
         
         """
-        skin = _Filter('Skin_Sensitization', self.detail)
+        skin = _Filter('Skin_Sensitization', self.detail, self.showSMILES)
         skin.get_pattl()
         pool = Pool(self.n_jobs)
         Skin_Sensitization = pool.map_async(skin.scan, self.mols).get()
@@ -368,7 +370,7 @@ class Filter(object):
         :rtype: list
         
         """
-        dna = _Filter('DNA_Binding', self.detail)
+        dna = _Filter('DNA_Binding', self.detail, self.showSMILES)
         dna.get_pattl()
         pool = Pool(self.n_jobs)
         DNA_Binding = pool.map_async(dna.scan, self.mols).get()
@@ -386,7 +388,7 @@ class Filter(object):
         :rtype: list
         
         """
-        chembl = _Filter('SureChEMBL', self.detail)
+        chembl = _Filter('SureChEMBL', self.detail, self.showSMILES)
         chembl.get_pattl()
         pool = Pool(self.n_jobs)
         SureChEMBL = pool.map_async(chembl.scan, self.mols).get()
@@ -407,7 +409,7 @@ class Filter(object):
         :rtype: list
         
         """
-        bms = _Filter('BMS', self.detail)
+        bms = _Filter('BMS', self.detail, self.showSMILES)
         bms.get_pattl()
         pool = Pool(self.n_jobs)
         BMS = pool.map_async(bms.scan, self.mols).get()
@@ -423,7 +425,7 @@ class Filter(object):
         :rtype: list
         
         """
-        ntd = _Filter('NTD', self.detail)
+        ntd = _Filter('NTD', self.detail, self.showSMILES)
         ntd.get_pattl()
         pool = Pool(self.n_jobs)
         NTD = pool.map_async(ntd.scan, self.mols).get()
@@ -439,7 +441,7 @@ class Filter(object):
         :rtype: list
         
         """
-        nmr = _Filter('Alarm_NMR', self.detail)
+        nmr = _Filter('Alarm_NMR', self.detail, self.showSMILES)
         nmr.get_pattl()
         pool = Pool(self.n_jobs)
         Alarm_NMR = pool.map_async(nmr.scan, self.mols).get()
@@ -455,7 +457,7 @@ class Filter(object):
         :rtype: list
         
         """
-        fh = _Filter('Frequent_Hitters', self.detail)
+        fh = _Filter('Frequent_Hitters', self.detail, self.showSMILES)
         fh.get_pattl()
         pool = Pool(self.n_jobs)
         Frequent_Hitters = pool.map_async(fh.scan, self.mols).get()
@@ -471,7 +473,7 @@ class Filter(object):
         :rtype: list
         
         """
-        agg = _Filter('Aggregators', self.detail)
+        agg = _Filter('Aggregators', self.detail, self.showSMILES)
         agg.get_pattl()
         pool = Pool(self.n_jobs)
         Aggregators = pool.map_async(agg.scan, self.mols).get()
@@ -487,7 +489,7 @@ class Filter(object):
         :rtype: list
         
         """
-        tox = _Filter('Toxicophores', self.detail)
+        tox = _Filter('Toxicophores', self.detail, self.showSMILES)
         tox.get_pattl()
         pool = Pool(self.n_jobs)
         Toxicophores = pool.map_async(tox.scan, self.mols).get()

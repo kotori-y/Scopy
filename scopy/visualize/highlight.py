@@ -8,7 +8,7 @@
 #@Mail: yzjkid9@gmail.com; oriental-cds@163.com
 #@Blog: https://blog.moyule.me
 
-
+import re
 from rdkit.Chem.Draw import rdMolDraw2D
 from IPython.display import SVG
 from rdkit import Chem
@@ -32,12 +32,17 @@ def HighlightAtoms(mol,highlightAtoms,figsize=[400,200],kekulize=True):
     def _revised(svg_words):
         """
         """
-        return svg_words.replace('stroke-width:2px','stroke-width:1px'
-                                 ).replace('font-size:17px','font-size:15px'
-                                 ).replace('stroke-linecap:butt','stroke-linecap:square'
-                                 ).replace('svg:','')
-    
+        svg_words =  svg_words.replace(
+            'stroke-width:2px','stroke-width:1.5px').replace(
+                'font-size:17px','font-size:15px').replace(
+                    'stroke-linecap:butt','stroke-linecap:square').replace(
+                        'svg:','')
+        svg_words = re.sub('<tspan>H</tspan>(?=<tspan style="baseline-shift:sub;font-size:.*px;">)','<tspan>N</tspan><tspan>H</tspan>',svg_words)
+        svg_words = re.sub('(?<=\d</tspan>)<tspan>N</tspan>','',svg_words)
+        return svg_words
+                                                           
     mc = Chem.Mol(mol.ToBinary())
+    
     if kekulize:
         try:
             Chem.Kekulize(mc)
@@ -56,6 +61,5 @@ def HighlightAtoms(mol,highlightAtoms,figsize=[400,200],kekulize=True):
     
 
 if '__main__' == __name__:
-    from rdkit import Chem
     mol = Chem.MolFromSmiles('C1=CC=C2C(=O)CC(=O)C2=C1')
     svg = HighlightAtoms(mol, highlightAtoms=(0, 1, 2, 6, 8,10))

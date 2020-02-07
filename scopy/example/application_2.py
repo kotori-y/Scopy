@@ -15,68 +15,79 @@ from rdkit import Chem
 import pandas as pd #This package should be installed
 from scopy.structure_alert.SmartsFilter import Filter
 from scopy.druglikeness.druglikeness import PC_properties, PC_rules
+from scopy.visualize import mcloud
 
+data = pd.read_csv(r'Natural_product-NPS20015.csv')
+mols = [Chem.MolFromSmiles(smi) for smi in data.Canonical_SMILES.values]
 
-def main():
-    import os
-    os.chdir(r'C:\Users\0720\Desktop\Project\scopy_ref\data\Scopy_databases\Molecules\Natural_product')
+#=========================================================================
+# Statistics of Murcko's framework frequency
+#=========================================================================
+scount = mcloud.CountScaffold(mols,stype='Murcko')
+scount = pd.DataFrame(scount,index=['Frequency']).T
+#scount.to_csv('scount.txt',sep='\t',header=None)
+	
+props = PC_properties(mols,n_jobs=-1) #Calculate physical and chemical properties
+rules = PC_rules(mols,n_jobs=-1,detail=True) #Screen drug-likeness rules
+screener = Filter(mols,n_jobs=4,detail=True) #Screen Toxicity
+
+#=========================================================================
+# Drug-likeness rule
+#=========================================================================
+bRo5_res = pd.DataFrame(rules.CheckBeyondRo5())
+Macro_res = pd.DataFrame(rules.CheckOralMacrocycles())
+lipiski_res = pd.DataFrame(rules.CheckLipinskiRule())
+xu_res = pd.DataFrame(rules.CheckLipinskiRule())
+
+#=========================================================================
+# Comprhenesive Toxicity
+#=========================================================================
+ntd_res = pd.DataFrame(screener.Check_NTD())
+toxci_res = pd.DataFrame(screener.Check_Toxicophores())
+chemble_res = pd.DataFrame(screener.Check_SureChEMBL())
+
+#=========================================================================
+# PC properties
+#=========================================================================
+MW = props.CalculateMolWeight()
+logP = props.CalculateLogP()
+nHA = props.CalculateNumHAcceptors()
+nHD = props.CalculateNumHDonors()
+tPSA = props.CalculateTPSA()
+nRot = props.CalculateNumRotatableBonds()
+
+#=========================================================================
+# Summary
+#=========================================================================
+
+summary = pd.DataFrame({'mol': data.Canonical_SMILES.values,
+                        'bRo5': bRo5_res.Disposed,
+	                    'Macro': Macro_res.Disposed,
+                        'Lipinski': lipiski_res.Disposed,
+                        'Xu': Xu_res.Disposed,
+                        'NTD': ntd_res.Disposed,
+                        'Toxicophores': toxci_res.Disposed,
+                        'SureChemble': chemble_res.Disposed,
+                        'MW': MW,
+                        'logP':log
+                        'nHA': nHA,
+                        'nHD':nHD,
+                        'TPSA':TPSA,
+                        'nRot':nRot})
+summary['Rejected_Num'] = (summary == 'Rejected').sum(axis=1)
+summary_2 = pd.DataFrame((summary.iloc[:,1:-7] == 'Rejected').sum(axis=0), columns=['Rejected'])
+summary_2['Accepted'] = 20015 - summary_2.Rejected.values
     
-    data = pd.read_csv(r'Natural_product-NPS20015.csv')
-    mols = [Chem.MolFromSmiles(smi) for smi in data.Canonical_SMILES.values]
     
-    props = PC_properties(mols,n_jobs=-1)
-    rules = PC_rules(mols,n_jobs=-1,detail=True)
-    _filter = Filter(mols,n_jobs=4,detail=True)
-    
-    #=========================================================================
-    # Drug-likeness rule
-    #=========================================================================
-    bRo5 = pd.DataFrame(rules.CheckBeyondRo5())
-    Macro = pd.DataFrame(rules.CheckOralMacrocycles())
-    lipiski = pd.DataFrame(rules.CheckLipinskiRule())
-    xu = pd.DataFrame(rules.CheckLipinskiRule())
-    
-    bRo5.to_csv('bRo5.csv',index=False)
-    Macro.to_csv('Macro.csv',index=False)
-    lipiski.to_csv('lipiski.csv',index=False)
-    xu.to_csv('xu.csv',index=False)
-    
-    #=========================================================================
-    # Comprhenesive
-    #=========================================================================
-    ntd_res = pd.DataFrame(_filter.Check_NTD())
-    toxci = pd.DataFrame(_filter.Check_Toxicophores())
-    chemble = pd.DataFrame(_filter.Check_SureChEMBL())
-    
-    ntd_res.to_csv('NTD.csv',index=False)
-    toxci.to_csv('Toxicophores.csv',index=False)
-    chemble.to_csv('SureChEMBL.csv',index=False)
-    
-    #=========================================================================
-    # Summary
-    #=========================================================================
-    
-    out = pd.DataFrame({'mol':data.Canonical_SMILES.values,
-                        'bRo5':bRo5.Disposed,
-                        'Macro':Macro.Disposed,
-                        'Lipinski':lipiski.Disposed,
-                        'Xu':xu.Disposed,
-                        'NTD':ntd_res.Disposed,
-                        'Toxicophores':toxci.Disposed,
-                        'SureChemble':chemble.Disposed,
-                        'MW':props.CalculateMolWeight(),
-                        'logP':props.CalculateLogP(),
-                        'nHA':props.CalculateNumHAcceptors(),
-                        'nHD':props.CalculateNumHDonors(),
-                        'tPSA':props.CalculateTPSA(),
-                        'nRot':props.CalculateNumRotatableBonds()})
-    
-    out.to_csv('Summary.csv',index=False)
-    
-    
-    
-if '__main__'==__name__:
-    main()
+import matplotlib.pyplot as plt
+f,ax = plt.subplots()
+   
+labels = ['seven-filter','six-filter','five-filter','four-filter','three-filter','two-filter','one-filter','zero-filter']
+res = summary.Rejected_Num.value_counts().sort_index(ascending=False)
+sizes = res.values
+explode = (0,0,0,0,0,0,0,0.1)
+ax.pie(sizes,explode=explode,labels=labels,autopct='%1.1f%%',shadow=False,startangle=150)
+plt.show()  
     
     
     
