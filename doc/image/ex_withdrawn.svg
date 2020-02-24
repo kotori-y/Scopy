@@ -1,6 +1,6 @@
 <svg baseProfile="full" height="200px" version="1.1" width="400px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:rdkit="http://www.rdkit.org/xml" xmlns:xlink="http://www.w3.org/1999/xlink">
 <!-- END OF HEADER -->
-<rect height="200" style="opacity:1.0;fill:#FFFFFF;stroke:none" width="400" x="0" y="0"> </rect>
+<rect height="200" style="opacity:1.0;fill:none;stroke:none" width="400" x="0" y="0"> </rect>
 <path d="M 201.642,98.2239 230.124,66.1848" style="fill:none;fill-rule:evenodd;stroke:#FF7F7F;stroke-width:16px;stroke-linecap:square;stroke-linejoin:miter;stroke-opacity:1"/>
 <path d="M 230.124,66.1848 216.618,25.4991" style="fill:none;fill-rule:evenodd;stroke:#FF7F7F;stroke-width:16px;stroke-linecap:square;stroke-linejoin:miter;stroke-opacity:1"/>
 <path d="M 230.124,66.1848 272.111,74.8313" style="fill:none;fill-rule:evenodd;stroke:#FF7F7F;stroke-width:16px;stroke-linecap:square;stroke-linejoin:miter;stroke-opacity:1"/>

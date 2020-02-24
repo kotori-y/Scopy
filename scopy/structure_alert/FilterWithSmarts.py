@@ -493,34 +493,6 @@ def Check_Potential_Electrophilic(mol, detail=False, showSMILES=False):
     res = Potential_Electrophilic.scan(mol)
     return res
 
-def Check_Promiscuity(mol, detail=False, showSMILES=False):
-    """
-    Check molecule under Promiscuity Filter,
-    There are 177 SMARTS in this endpoint.
-    
-    Reference:
-        (1) `Pearce, Bradley C (2016)`_.
-        
-    :param mol: The molecule to be scanned
-    :type mol: rdkit.Chem.rdchem.Mol
-    :param detail: Control returning specific infomation or not, defaults to False
-    :type detail: bool, optional
-    :param showSMILES: Control returning SMILES or not, defaults to False
-    :type showSMILES: bool, optional
-    
-
-    :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'Endpoint', otherwise 'MatchedAtoms' and 'MatchedNames' are also provided.
-    :rtype: namedtuple
-    
-    .. _Pearce, Bradley C (2016):
-        https://pubs.acs.org/doi/abs/10.1021/ci050504m
-    
-    """
-    Promiscuity = _Filter('Promiscuity',detail, showSMILES)
-    Promiscuity.get_pattl()
-    res = Promiscuity.scan(mol)
-    return res
-    
 
 def Check_Reactive_Unstable_Toxic(mol, detail=False, showSMILES=False):
     """

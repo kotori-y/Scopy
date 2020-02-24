@@ -286,11 +286,11 @@ class PC_properties(object):
     def CalculatepKa(self):
         """
         *This function should be revised*
-        Calculating pKa based on the ralation between logD and logP in specific pH 
+        Calculating pKa based on the ralation between logD and logP in specific pH.
         --->pKa
         
         Eq.:
-            |pH-pKa| = log10(10^(logP-logD)-1)
+            abs(pH-pKa) = log10(10^(logP-logD)-1)
             pKa = pH - log10(10^(logP-logD)-1) for acid
             pKa = log10(10^(logP-logD)-1) - pH for base
             
@@ -804,14 +804,14 @@ class PC_properties(object):
         --->NPscore
         
         Reference:
-            (1) `Ertl Peter, Silvio Roggo, and Ansgar Schuffenhauer (2008)`_.
+            (1) `Ertl (2008)`_.
         
         :param mols: molecules
         :type mols: Iterable
         :return: product-likeness score
         :rtype: list
         
-        .. _Ertl, Peter, Silvio Roggo, and Ansgar Schuffenhauer (2008):
+        .. _Ertl (2008):
             https://jcheminf.biomedcentral.com/articles/10.1186/1758-2946-1-8
             
         """

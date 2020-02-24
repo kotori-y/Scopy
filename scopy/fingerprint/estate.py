@@ -24,7 +24,7 @@ class EStateFP(object):
     79 bits
     
     Reference:
-        (1) L.B. Kier and L.H. Hall _Molecular Structure Description: The Electrotopological State_ Academic Press (1999)
+        (1) L.B. Kier and L.H. Hall _Molecular Structure Description: The Electrotopological State Academic Press (1999)
     
     :param mols: the molecule to be scanned.
     :type mols: Iterable object, each element is rdkit.Chem.rdchem.Mol

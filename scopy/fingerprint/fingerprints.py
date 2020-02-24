@@ -101,7 +101,7 @@ def CalculateEState(mols, val=True, n_jobs=1):
     79 bits
   
     Reference:
-        (1) L.B. Kier and L.H. Hall _Molecular Structure Description: The Electrotopological State_ Academic Press (1999)
+        (1) L.B. Kier and L.H. Hall _Molecular Structure Description: The Electrotopological State Academic Press (1999)
     
     :param mols: the molecule to be scanned.
     :type mols: Iterable object, each element is rdkit.Chem.rdchem.Mol
@@ -151,7 +151,7 @@ def CalculateECFP(mols, radius=2, nBits=1024, n_jobs=1):
     2^n bits
     
     Reference:
-        (1) `Rogers, David, and Mathew Hahn (2010)`_.
+        (1) `Rogers (2010)`_.
     
     
     :param mols: the molecule to be scanned.
@@ -167,7 +167,7 @@ def CalculateECFP(mols, radius=2, nBits=1024, n_jobs=1):
     :return: fingerprints
     :rtype: numpy.ndarray
     
-    .. _Rogers, David and Mathew Hahn (2010):
+    .. _Rogers (2010):
         https://pubs.acs.org/doi/abs/10.1021/ci100050t
         
     """
@@ -187,7 +187,7 @@ def CalculateFCFP(mols, radius=2, nBits=1024, n_jobs=1):
     2^n bits
     
     Reference:
-        (1) `Rogers, David, and Mathew Hahn (2010)`_.
+        (1) `Rogers (2010)`_.
     
     
     :param mols: the molecule to be scanned.
@@ -201,7 +201,7 @@ def CalculateFCFP(mols, radius=2, nBits=1024, n_jobs=1):
     :return: fingerprints
     :rtype: numpy.ndarray
     
-    .. _Rogers, David and Mathew Hahn (2010):
+    .. _Rogers (2010):
         https://pubs.acs.org/doi/abs/10.1021/ci100050t
         
     """

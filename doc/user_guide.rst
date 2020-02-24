@@ -2,11 +2,11 @@
 
 Getting Started with Scopy
 ==========================
-This document is intended to provide an overview of how one can use the Scopy functionality from Python. If you find mistakes, or have suggestions for improvements, please either fix them yourselves in the source document (the .py file) or send them to the mailing list: oriental-cds@163.com and yzjkid9@gmail.com.
+This document intends to provide users with the basic operation methods of Scopy. If you find any mistake or have suggestions for improvements, please either fix them in the source document (the .py file) or send to the mailing list: oriental-cds@163.com and kotori@cbdd.me.
 
 Installing the Scopy package
 -----------------------------
-PyBioMed has been successfully tested on Linux and Windows systems under python3 enviroment.
+Scopy has been successfully tested on Linux and Windows systems under python3 enviroment.
 
 Dependencies
 ~~~~~~~~~~~~
@@ -23,7 +23,9 @@ Install from source
 
 Molecular Pretreater
 ---------------------
-The :mod:`scopy.pretreat` can pretreat the molecular structure. The :mod:`scopy.pretreat` proivdes the following functions:
+The check and preparation for molecular structures is the necessary prerequisite for subsequent data analysis, especially for molecular resources downloaded from web sources. Considering its importance, the Scopy library provides scopy.pretreat.pretreat module to realize molecular preparation.
+
+The :mod:`scopy.pretreat.pretreat` proivdes the following functions:
 
 - Normalization of functional groups to a consistent format.
 - Recombination of separated charges.
@@ -36,389 +38,362 @@ The :mod:`scopy.pretreat` can pretreat the molecular structure. The :mod:`scopy.
 - Generation of fragment, isotope, charge, tautomer or stereochemistry insensitive parent structures.
 - Validations to identify molecules with unusual and potentially troublesome characteristics.
 
+Users can diconnect metal ion.
+
+>>> from rdkit import Chem
 >>> from scopy.pretreat import pretreat
+>>>	
 >>> mol = Chem.MolFromSmiles('[Na]OC(=O)c1ccc(C[S+2]([O-])([O-]))cc1')
->>> sdm = StandardizeMol()
->>> mol = sdm.disconnect_metals(mol)
+>>> sdm = pretreat.StandardizeMol()
+>>> mol = sdm.disconnect_metals(mol) # diconnect metal ion.
 >>> Chem.MolToSmiles(mol, isomericSmiles=True)
 O=C([O-])c1ccc(C[S+2]([O-])[O-])cc1.[Na+]
 
+And pretreat the molecular structure using all functions.
+
+>>> stdsmi = pretreat.StandardSmi('[Na]OC(=O)c1ccc(C[S+2]([O-])([O-]))cc1')
+>>> stdsmi
+O=C([O-])c1ccc(C[S](=O)=O)cc1
+
 Drug-likeness Filter
---------------------
-The :mod:`druglikeness` provides the method to analyse the physicochemical (PC) properties and filter compounds based on PC-derived rules. 
+---------------------
+Drug-likeness is a conception that rationalizes the influence of simple physicochemical properties to in vivo molecular behaviors, with particular respect to solubility, absorption, permeability, metabolic stability and transporting effects. The application of drug-likeness rules to database construction will help senior executives more effectively. 
 
-Calculating PC properties
-~~~~~~~~~~~~~~~~~~~~~~~~~
-The :mod:`druglikeness.molproperty` module provides the tool to calculate PC properties.
+The :mod:`scopy.druglikeness` package provides the calculation of physicochemical properties and the screening drug-likeness rules. :mod:`scopy.druglikeness` package can calculate 42 physicochemical properties (39 basic molecular properties and 3 comprehensive molecular evaluation scores), and implement 15 drug-likeness rules (11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules). More details see `overview`_.
 
->>> import os
->>> from rdkit import Chem
->>> from scopy import ScoConfig
->>> from scopy.druglikeness import molproperty
+Calculating Physicochemical Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The :mod:`scopy.druglikeness.molproperty` module provides the calculation of 42 physicochemical properties, including 39 basic molecular properties and 3 comprehensive molecular evaluation scores.
 
->>> mol = Chem.MolFromMolFile(os.path.join(ScoConfig.DemoDir,'mol.sdf'))
+>>> mol = Chem.MolFromSmiles('Cc1cc(O)cc(N=C2C=CC(=O)C(O)=C2)c1')
 >>> mol
 <rdkit.Chem.rdchem.Mol object at 0x0000020879B4E120>
 
-User could calculate different properties respectively
+.. figure:: /image/user_guide/demo_mol.svg
+	:width: 300px
+	:align: center
 
->>> MW = molproperty.CalculateMolWeight(mol)
+	The molecule used as the example in this document.
+
+Users can calculate different properties separately.
+
+>>> from scopy.druglikeness import molproperty
+>>>	
+>>> MW = molproperty.CalculateMolWeight(mol) #Calculate molecular weight.
 >>> MW
-229.24
->>> logP = molproperty.CalculateLogP(mol)
->>> logP
-2.35
->>> nHD = molproperty.CalculateNumHDonors(mol)
->>> nHD
-2
-
-Beside these basic properties, some spcecial properties could also be calculated
-
->>> QEDnone = molproperty.CalculateQEDnone(mol)
+229.07
+>>> QEDnone = molproperty.CalculateQEDnone(mol) #Calculate QED using unit weights.
 >>> QEDnone
 0.79
-
-QED (quantitative estimate of drug-likeness) is a measure of drug-likeness. More datails: `Nat Chem 2012`_
-
->>> SAscore = molproperty.CalculateSAscore(mol)
+>>> SAscore = molproperty.CalculateSAscore(mol) #Calculate Synthetic Accessibility Score
 >>> SAscore
 2.96
-
-SA (Synthetic Accessibility) score measure the synthetic accessibility of a molecule based on molecular complexity and fragment contributions. More details: `J Cheminform 2009`_
-
->>> NPscore = molproperty.CalculateNPscore(mol)
+>>> NPscore = molproperty.CalculateNPscore(mol) #Calculate Natural Product-likeness Score
 >>> NPscore
 0.49
 
-NP (Natural Product-likeness) score measure the natural product-likeness of a molecule. More details: `J Chem Inf Model 2008`_
+Besides, user can also calculate different property simultaneously through `molproperty.GetProperties` function.
 
-.. _`Nat Chem 2012`: https://www.nature.com/nchem/journal/v4/n2/abs/nchem.1243.html
-.. _`J Cheminform 2009`: https://jcheminf.biomedcentral.com/articles/10.1186/1758-2946-1-8
-.. _`J Chem Inf Model 2008`: https://pubs.acs.org/doi/abs/10.1021/ci700286x
-
-User could also calculate multi-property at once through :mod:`molproperty.GetProperties`.
-
->>> props = molproperty.GetProperties(mol, items=['MW','Vol','SAscore'])
+>>> props = molproperty.GetProperties(mol, items=['MW','Vol','SAscore']) #The molecular weight, volume and SAscore to be calulated
 >>> props
 {'MW': 229.07, 'Vol': 235.2, 'SAscore': 2.96}
 
-The function return a `dict`, user could pass properties need to be calculated to parameter `item`, defaults to the whole (45) properties.
+When user needs to calculte properties of a set of molecules, :mod:`scopy.druglikeness.druglikeness` module can be used for the fast implementaiton.
 
-When calculating the property of multiple molecules, in addition to repeatedly calling the function in :mod:`druglikeness.molproperty`, you can also use :mod:`druglikeness.druglikeness` module, which is more time-saveing since using multiprocessing.
-
+>>> import os
+>>> from scopy import ScoConfig
 >>> from scopy.druglikeness import druglikeness
 >>> suppl = Chem.SDMolSupplier(os.path.join(ScoConfig.DemoDir, '760.sdf'))
->>> mols = (mol for mol in suppl if mol)
-
->>> pc = druglikeness.PC_properties(mols=mols, n_jobs=4)
+>>> mols = [mol for mol in suppl]
+>>>	
+>>> pc = druglikeness.PC_properties(mols=mols, n_jobs=4) #4 processors used to do the computation.
 >>> res = pc.CalculateMolWeight()
 >>> len(res)
 760
 >>> type(res)
-<class 'list'>
+list
 >>> res[:10]
-[256.26, 288.25, 182.17, 578.53, 592.55, 286.24, 432.38, 270.24, 448.38, 578.52]
+[256.07, 288.06, 182.08, 578.14, 592.16, 286.05, 432.11, 270.05, 448.1, 578.16]
 
-The function return a `list`. Parameter `mols` should be an iterable object (i.g. `list`, `tuple` or `generator`) and `n_jobs` is the number of CPUs to use to do the computation, -1 means using all processors.
-
-Filtering molecule under PC-derived rules
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The :mod:`druglikeness.rulesfilter` module provides the tool to analyse PC properties
+Screening under Drug-likeness Rules
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The :mod:`scopy.druglikeness.rulesfilter` module provides the screening of drug-likeness rules. In current version, the module can implement 15 drug-likeness rules, including 11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules.
 
 >>> from scopy.druglikeness import rulesfilter
->>> res = rulesfilter.CheckLipinskiRule(mol)
+>>> res = rulesfilter.CheckLipinskiRule(mol) #Check the molecule whether math the requirements of Lipinski's Rule.
 >>> res
 {'Disposed': 'Accepted', 'nViolate': 0}
 
-The function return a `dict`, the field :mod:`Disposed` represents compound state after filter applied (**Rejected** meant the compound rejected by filter, **Accepted** for accepted); :mod:`nViolate` represents the number of PC property violated by compound.
+In above example, the molecule do does not violate any property limited limitations in of Lipinski's Rule. Tthus its status is 'Accepted'.
 
-In above example, the compound do not violate any property limited in Lipinski Rule thus its status is 'Accepted'.
-
-Besides, the specific value of each propety would be returned if the :mod:`detail` has been set as :mod:`True` and the SMILES would be also returned if the :mod:`showSMILES` has been set as :mod:`True`.
+Besides, users can obtain more detailed information about the screening result.
 
 >>> res = rulesfilter.CheckLipinskiRule(mol, detail=True, showSMILES=True)
 >>> res
-{'MW': 229.24, 'logP': 2.35, 'nHD': 2, 'nHA': 4, 'Disposed': 'Accepted', 'nViolate': 0, 'SMILES': 'Cc1cc(O)cc(/N=C2/C=CC(=O)C(O)=C2)c1'}
+{'SMILES': 'Cc1cc(O)cc(N=C2C=CC(=O)C(O)=C2)c1',
+ 'MW': 229.07,
+ 'logP': 2.35,
+ 'nHD': 2,
+ 'nHA': 4,
+ 'Disposed': 'Accepted',
+ 'nViolate': 0}
 
-You also could customize the filter by your experience
+Considering the expert experience and different requirements in practical applications, users can customize their own screening rules through `rulesfilter.Check_CustomizeRule` function.
 
->>> prop_kws = {'MW':[100,500], 'nHB':[5,10], 'QEDmean':[0.8,None]}
+>>> prop_kws = {'MW':[None,500], 'logP':[None, 5], 'nHD':[None,5], 
+... 			'nHA':[None,10], 'TPSA':[None,140]} #The customized rule: MW<=500, logP<=5, nHD<=5, nHA<=10, TPSA<=140
 >>> res = rulesfilter.Check_CustomizeRule(mol, prop_kws=prop_kws, detail=True)
 >>> res
-{'MW': 229.24, 'nHB': 6, 'QEDmean': 0.73, 'nViolate': 1, 'VioProp': ['QEDmean']}
+{'MW': 229.07,
+ 'logP': 2.35,
+ 'nHD': 2,
+ 'nHA': 4,
+ 'TPSA': 69.89,
+ 'nViolate': 0,
+ 'VioProp': []}
 
-The customize rule should be a `dict`, key of `dict` is abbreviation name of property and value is the limited range.
+Scopy provides the visualization function to position the value of the queried compound within the selected drug-likeness rule ranges, which provide a benchmark for molecular assessment. See: `visualize.rule_radar`_ function.
 
-Samely, :mod:`druglikeness.druglikeness` could also be used to analyse multiple molecules, instead of repeatly calling function in `druglikeness.rulesfilter`, to save time
+.. figure:: /image/user_guide/radar_1.png
+	:width: 400px
+	:align: center
 
->>> rule = druglikeness.PC_rules(mols,n_jobs=4,detail=True)
+Similarly, :mod:`scopy.druglikeness.druglikeness` module can be used to evaluate the potential of a group of molecules.
+
+>>> rule = druglikeness.PC_rules(mols, detail=True, n_jobs=4) #4 processors used to do the computation.
 >>> res = rule.CheckLipinskiRule()
 >>> len(res)
 760
 >>> type(res)
-<class 'list'>
+list
 >>> res[:3]
 [{'MW': 256.26, 'logP': 2.83, 'nHD': 3, 'nHA': 3, 'Disposed': 'Accepted', 'nViolate': 0},
  {'MW': 288.25, 'logP': 2.79, 'nHD': 5, 'nHA': 5, 'Disposed': 'Accepted', 'nViolate': 0},
  {'MW': 182.17, 'logP': -3.59, 'nHD': 6, 'nHA': 6, 'Disposed': 'Accepted', 'nViolate': 1}]
 
-Drug-likeness Filter
---------------------
-The :mod:`structure_alert` module provides the tool to filter frequent hitters. This filter contains 11 endpoints
+Frequent hitter Filter
+------------------------
+Frequent hitters refer to compounds which are repetitively identified as active hits in many different and independent biological assays covering a wide range of targets. Frequent hitters can be roughly divided into two categories: (1) compounds that interfere with elements of the assay formats or techniques thus causing undesirable false positive results; and (2) promiscuous compounds that can bind to different target thus triggering adverse reactions and other safety issues.
+
+The :mod:`scopy.structure_alert` package provides 8 substructure filters for screening different types of FHs, including 4 assay interference substructure filters and 4 promiscuous compound substructure filters. More Details see `overview`_.
+
+Assay Interference Substructure Filter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Assay interferences refer to compounds that interfere with elements of the assay formats or techniques thus causing undesirable false positive results. Such compounds will seriously interfere with the progress of drug research. :mod:`scopy.structure_alert.FilterWithSmarts` module provides 4 assay interference substructure filters (AlphaScreen_FHs, Luciferase_Inhibitory, Chelating and Alarm_NMR Filter) for the screening of AlphaScreen detection interferences, spectroscopic interferences, chelators and chemical reactive compounds, respectively.
 
 >>> from scopy.structure_alert import FilterWithSmarts
-
-PAINS
-~~~~~~
->>> res = FilterWithSmarts.Check_PAINS(mol)
+>>> res = FilterWithSmarts.Check_Alarm_NMR(mol) #Here, Alarm_NMR Filter be used for screening the molecule.
 >>> res
-{'Disposed': 'Rejected', 'Endpoint': 'Pains'}
+{'Disposed': 'Rejected', 'Endpoint': 'Alarm_NMR'}
 
-The function return a `dict`, the field :mod:`Disposed` represents compound state after filter applied (**Rejected** meant the compound rejected by filter, **Accepted** for accepted); :mod:`Endpoint` represents the which filter to be used.
+In the above example, the molecule failed the ALARM NMR rule.
 
-Besides, the more specific information would be returned, if the :mod:`detail` has been set as :mod:`True` and the SMILES would be also returned if the :mod:`showSMILES` has been set as :mod:`True`.
+User can also obtain more detailed information about screening result.
 
->>> res = FilterWithSmarts.Check_PAINS(pains_mol, detail=True, showSMILES=True)
+>>> res = FilterWithSmarts.Check_Alarm_NMR(mol, detail=True, showSMILES=True)
 >>> res
-{'SMILES': 'Cc1cc(O)cc(/N=C2/C=CC(=O)C(O)=C2)c1',
+{'SMILES': 'Cc1cc(O)cc(N=C2C=CC(=O)C(O)=C2)c1',
  'Disposed': 'Rejected',
- 'MatchedAtoms': [((3, 2, 1, 0, 15, 16, 13, 12),)],
+ 'MatchedAtoms': [((9, 10, 11, 12, 13), (15, 13, 11, 12, 10)),
+  ((4, 3, 5, 6, 7, 16, 1, 2),),
+  ((7, 6, 5, 3, 2, 1, 16),),
+  ((4, 3, 2, 1, 16, 6, 5),)],
+ 'MatchedNames': ['C=CC(=O)C', '[OH]c1cc(N)ccc1', 'c1ccccc1N', 'c1ccccc1O'],
+ 'Endpoint': 'Alarm_NMR'}
+
+Promiscuous Compound Substructure Filter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The promiscuity is defined as the ability to specifically bind to different macro-molecular targets. These multiple interactions can include unintended targets, thus triggering adverse reactions and other safety issues. :mod:`scopy.structure_alert.FilterWithSmarts` module provides 4 frequently-used promiscuous compound substructure filters, such as PAINS, BMS Filter, AlphaScreen_GST_FHs and AlphaScreen_HIS_FHs.
+
+>>> res = FilterWithSmarts.Check_PAINS(mol, detail=True) #Here, PAINS Filter used for screening the molecule.
+>>> res
+{'Disposed': 'Rejected',
+ 'MatchedAtoms': [((7, 8, 9, 10, 11, 12, 13, 15),)],
  'MatchedNames': ['Quinone_A'],
  'Endpoint': 'Pains'}
 
-The result reveals the compound rejected by PAINS Filter, since the compound has the substructure named 'Quinone_A' which contained in PAINS Filter, more further, the No.3, No.2, No.1, No.0, No.15, No.16, No.13 and No.12 atom constructing this substructure.
+By applying `visualize.HighlightAtoms.highlight`_ function, user conduct further analysis and molecular optimization, which also provide intuitive information about the vigilant alerts.
 
-Chelating
-~~~~~~~~~
->>> res = FilterWithSmarts.Check_Chelating(pains_mol)
->>> res
-{'Disposed': 'Accepted', 'Endpoint': 'Chelating'}
-
-Promiscuity
-~~~~~~~~~~~
->>> res = FilterWithSmarts.Check_BMS(pains_mol)
->>> res
-{'Disposed': 'Accepted', 'Endpoint': 'BMS'}
+.. figure:: /image/user_guide/highlight_1.svg
+	:width: 400px
+	:align: center
 
 Toxicity Filter
 ----------------
-The :mod:`structure_alert.FilterWithSmarts` module also provides the tool to filter toxic compounds.
+Toxicity refers to the measure of poisonous or toxic effect on an organ or a whole organism. Toxicity is one of the main reasons for attrition in the drug development process. It is reported that more than 15% of new approved FDA chemical entitles (between 1975 and 2009) have received more than once black-box warnings, and some of them have been withdrawn from the market due to the toxicity and safety issues. In addition, the requirements for molecular safety are not only limited to the human beings. The environmental influence of drugs has also aroused great concern. 
 
-Acute Toxicity
-~~~~~~~~~~~~~~
->>> res = FilterWithSmarts.Check_Genotoxic_Carcinogenicity_Mutagenicity(pains_mol)
+:mod:`scopy.structure_alert` package provides 11 toxicophore filters, including 5 human related toxicity substructure filters, 3 environment related toxicity substructure filters and 3 comprehensive substructure filters. More details see: `overview`_.
+
+Human Toxic Compound Filter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For toxicity to human beings, 5 credible toxicophore filters are used to evaluate the potential toxicity of query compounds, from broad toxicity and acute toxicity, to carcinogenicity and mutagenicity.
+
+>>> res = FilterWithSmarts.Check_Genotoxic_Carcinogenicity_Mutagenicity(mol) #This Filter related with carcinogenicity and mutagenicity.
 >>> res
 {'Disposed': 'Rejected', 'Endpoint': 'Genotoxic_Carcinogenicity_Mutagenicity'}
 
-Samely, set :mod: `detail` to :mod: `True` to get specific infomation
+User can also check more detailed information.
 
->>> res = FilterWithSmarts.Check_Genotoxic_Carcinogenicity_Mutagenicity(pains_mol, detail=True)
+>>> res = FilterWithSmarts.Check_Genotoxic_Carcinogenicity_Mutagenicity(mol, detail=True)
 >>> res
 {'Disposed': 'Rejected',
- 'MatchedAtoms': [((1, 0, 15, 16, 13), (12, 13, 15, 16, 0))],
+ 'MatchedAtoms': [((1, 0, 15, 16, 13), (12, 13, 15, 16, 0))], #It means there two corresponding substructure in this molecule
  'MatchedNames': ['α, β-Unsaturated carbonyls'],
  'Endpoint': 'Genotoxic_Carcinogenicity_Mutagenicity'}
 
-The molecule has matched the pattern twice
-
-Environmental Toxicity
-~~~~~~~~~~~~~~~~~~~~~~
-Increasing attention to environmental impact of compounds in some regions.
+Environmental Toxic Compound Filter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Given the stringent requirements for environmental safety, the Scopy library provides 3 substructure filters for the evaluation of molecular biodegradability and potential aquatic toxicity.
 
 >>> res = FilterWithSmarts.Check_NonBiodegradable(pains_mol, detail=True)
 >>> res
-{'Disposed': 'Rejected',
- 'MatchedAtoms': [((0, 15, 16, 13),)],
- 'MatchedNames': ['Ketone'],
- 'Endpoint': 'NonBiodegradable'}
+{'Disposed': 'Rejected', 'Endpoint': 'NonBiodegradable'}
 
-Multiprocessing
-~~~~~~~~~~~~~~~
-In reality, we trend to screen the compund library rather than sinlgle molecule. The :mod:`SmartsFilter` module provides the tool to screen multi-molecule under **Frequent Hitters Filter** and (or) **Toxicity Filter** 
+Comprehensive Toxic Compound Filter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To simplify screening process and draw lessons from existing screening tools, the Scopy library has integrated 3 comprehensive filters from FAF-Drugs4, SureChEMBL and Brenk et.al work.
+
+>>> res = FilterWithSmarts.Check_SureChEMBL(mol)
+{'Disposed': 'Accepted', 'Endpoint': 'SureChEMBL'}
+
+Multiprocessing Filter
+-----------------------
+The :mod:`scopy.structure_alert.SmartsFilter` module provides the tool to screen molecule library under `Frequent Hitters Filter`_ and (or) `Toxicity Filter`_ with multiprocess technology.
 
 >>> from scopy.structure_alert import SmartsFilter
-
->>> suppl = Chem.SDMolSupplier(os.path.join(ScoConfig.DemoDir,'760.sdf'))
->>> mols = (mol for mol in suppl if mol)
-
->>> F = SmartsFilter.Filter(mols, n_jobs=4, detail=True)
->>> res = F.Check_PAINS()
+>>>		
+>>> Screener = SmartsFilter.Filter(mols, detail=True, n_jobs=4) #4 processors used to do the screening.
+>>> res = Screener.Check_PAINS() #Here, PAINS Filter used for screening library.
 >>> type(res)
-<class 'list'>
-
-The function return a `list`
-In above example, the PAINS Filter used to screen a library which contains 760 molecules under using four theardings
-
+list
+>>> len(res)
+760
+>>>	
 >>> res[0]
 {'Disposed': 'Accepted', 'MatchedAtoms': ['-'], 'MatchedNames': ['-'], 'Endpoint': 'Pains'}
 >>> res[207]
 {'Disposed': 'Rejected', 'MatchedAtoms': [((7, 16, 15, 17, 18, 19, 20, 21, 14),)], 'MatchedNames': ['Mannich_A'], 'Endpoint': 'Pains'}
 
-Chemical Space Analyser
--------------------------
-To ensure obtaining a varity space of hitters, a Chemical space analysis of library is necessary before taking HTS. Chemical Space analysis could implement by calculating fingerprint (descriptor) and analysing framework (scaffold) of library.
+Chemical Space Exploer
+------------------------
+A desirable database is demanded to own wide chemical space, which will greatly benefits the efficiency and success rate of drug development. To analyze the chemical diversity of screening databases, the Scopy library designs a special module for the calculation of 2 molecular scaffolds, 6 substructure descriptors and 2 fingerprints. 
 
-Fingerprint Calculate
-~~~~~~~~~~~~~~~~~~~~~
-The :mod:`fingerprint` module provides the tool to compute fingerprints and (or) descriptor for chemical space analysis
+Framework Calculation
+~~~~~~~~~~~~~~~~~~~~~~~
+The function `mcloud.CountScaffold` can calculate molecular Murcko scaffold and carbon skeleton and summarize the number of scaffold occurrence in the database. Then the data can be used to generate the cloud gram via `visualize.mcloud`_ function. 
 
-EFG Fingerprints
-"""""""""""""""""
-Classification system termed “extended functional groups” (EFG), which are an extension of a set previously used by the CheckMol software, that covers in addition heterocyclic compound classes and periodic table groups. 
-
->>> from scopy.fingerprint import fingerprints
->>> fps = fingerprints.CalculateEFG(mols, useCount=False, n_jobs=4)
->>> fps.shape
-(760, 583)
->>> fps.sum()
-9473
-
-In the above example, the calculated fingerprint is binary, beside that another type that using count to represent molecule(s)
-
->>> fps = fingerprints.CalculateEFG(mols, useCount=True, n_jobs=4)
->>> fps.shape
-(760, 583)
->>> fps.sum()
-58298
-
-More details: `Salmina, Elena, Norbert Haider and Igor Tetko (2016)`_
-
-.. _Salmina, Elena, Norbert Haider and Igor Tetko (2016):
-	https://www.mdpi.com/1420-3049/21/1/1
-
-IFG Fingerprint
-""""""""""""""""
-A new algorithm to identify all functional groups in organic molecules is presented.
-
->>> fps = fingerprints.CalculateIFG(mol, n_jobs=4)
->>> fps.shape
-(760, 193)
-
-Differ from other fingerprints, the dimension of IFG fingerprint may be variable with different library.
-
-More details: `Peter Ertl (2017)`_.
-
-.. _Peter Ertl (2017):
-	https://jcheminf.springeropen.com/articles/10.1186/s13321-017-0225-z
-
-Total 8 types of fingerprint are implemnted in :mod:`fingerprint`: MACCS, EFG, IFG, EState, Morgan, GhoseCrippen, Daylight and PubChem.
-
-Framework Analyse
-~~~~~~~~~~~~~~~~~
-Beside counting frequency of each framework (scaffold), Scopy also supply a word cloud-like figure, called "Molecule Cloud".
-
-The :mod:`visualize.mcloud` provide tool to implement framework analysis.
+The function `mcloud.CountScaffold` can calculate the framework and count the frequency of corresponding frameworks.
 
 >>> from scopy.visualize import mcloud
-
-Counting Frequency
-""""""""""""""""""
-
+>>>		
 >>> scount = mcloud.CountScaffold(mols)
 >>> type(scount)
 >>> dict
->>> scount['c1ccccc1']
->>> 68
+>>> len(scount)
+>>> 760
+>>> list(scount.keys())[:3]
+['C1=C[C-](c2ccccc2)[OH+]c2ccccc21',
+ 'C1=CC2=CC=C(c3ccccc3)[OH+][C-]2C=C1',
+ 'c1ccc(C2CC(c3cccc4c3OC(c3ccccc3)CC4)c3ccccc3O2)cc1']
+>>> list(scount.values())[:3]
+[1, 3, 3]
 
-The function return a `dict` whose `keys` is the scaffold in SMILES format and `values` is the corresponding frequnecy
-
-Molecule Cloud
-"""""""""""""""
-.. note::
-	This module should run under a Java environment and the script retrived from `Peter Ertl`_
-
->>> scaffolds = os.path.join(ScoConfig.DemoDir, 'scaffolds.txt')
->>> mcloud.ShowMcloud(file=scaffolds, number=200, savedir='./mcloud.png')
-
-.. figure:: /image/mcloud.png
-	:width: 400px
+.. figure:: /image/user_guide/mcloud_1.png
+	:width: 500px
 	:align: center
 	
-	Molecule cloud, more frequent molecule (scaffold) appear, the more bigger and more forward layer got.
 
+Fingerprint Calculation
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+With different definitions, fingerprints (descriptors) can characterize molecules from different angles. Through calculating similarity or distance among molecular fingerprints (descriptors), the spatial density of compound libraries can be evaluated.
+
+The :mod:`scopy.fingerprint` package provides the calculation of 6 descriptors (MACCS, EFG, IFG, EState, GhoseCrippen and PubChem) and 2 fingerprints (Morgan Family and Daylight Fingerprint). More Details see `overview`_.
+
+>>> from scopy.fingerprint import fingerprints
+>>> fps = fingerprints.CalculateEFG(mols, useCount=True, n_jobs=4)
+>>> fps.shape
+(760, 583)
 
 Screening Visualizer
 --------------------
-The :mod:`visualize` module provides the tool to visualize PC properties, PC-drived rules, substructures, fingerprints and molecular scaffolds (see `Molecule Cloud`_).
+In the case of early drug discovery, data visualized as a gram or diagram can provide a simplified view of multidimensional property and ideally reveal correlations. The :mod:`scopy.visualize` module provides four different visualization functions, including basic feature radar charts, feature-feature related scatter diagram, functional group marker gram and cloud gram.
 
 PC Visualizer
 ~~~~~~~~~~~~~
-The :mod:`visualize.pc_depict` module can depict basic properties distribution of molecule(s) and position molecular values within the selected filter range.
+The :mod:`scopy.visualize.pc_depict` module provides the visualization of PC properties distribution and drug-likeness rules.
 
 Proprty Matrix
 """"""""""""""
-The proprty matrix can intuitively show the compounds' distribution in Two-Dimension space, and diagonal of the matrix is the displot of property
+The proprty matrix (feature-feature related scatter diagram) can present the correlation between different features and assessment score.
 
 >>> from scopy.visualize import pc_depict
+>>> #
 >>> fig = pc_depict.prop_matrix()
 >>> fig
 <Figure size 1567x989 with 36 Axes>
 
 .. figure:: /image/760_matrix.png
-	:width: 400px
+	:width: 500px
 	:align: center
 
 	The matrix of logP, TPSA, MW, nRot, nHD and nHA
 
-Default properties of matrix are logP, TPSA, MW, nRot, nHD and nHA. The user could customize proerties to be shown through parament `items`
+Default properties of matrix are logP, TPSA, MW, nRot, nHD and nHA. Users can customize their own features.
 
->>> fig = pc_depict.prop_matrix(mols, n_jobs=4, items=['MW', 'Vol', 'Dense'])
+>>> fig = pc_depict.prop_matrix(mols, n_jobs=4, items=['MW', 'Vol', 'Dense']) #Mw, Vol and Dense to be shown.
 
 .. figure:: /image/760_matrix_2.png
-	:width: 400px
+	:width: 500px
 	:align: center
 
 	The matrix of MW, Vol and Dense
 
 Basic Property Radar
 """"""""""""""""""""
- A radar plot positionning compound's values within the selected filter ranges (pale blue and red). By default, the `drug-like soft`_ filter ranges are visualized.
-
-.. note::
-	The property "Number of Charged Groups" in `drug-like soft`_ has not been implemented
+The radar chart can be used to position the value of the queried compound within the selected drug-likeness rule ranges, which provide a benchmark for molecular assessment.
 
 >>> fig = pc_depict.rule_radar(mol)
 >>> fig
 <Figure size 640x480 with 1 Axes>
 
 .. figure:: /image/mol_basci_rule.png
-	:width: 400px
+	:width: 500px
 	:align: center
-	
-	A radar plot of drug-like soft
-
-.. _`drug-like soft`: http://fafdrugs4.mti.univ-paris-diderot.fr/filters.html
 
 Fragment visualizer
 ~~~~~~~~~~~~~~~~~~~
-The :mod:`visualize.highlight` module can flag the subtructure related to some specific endpoint
+The :mod:`scopy.visualize.highlight` module can highlight the flagged substructures, which help user to conduct further analysis.
 
 >>> from scopy.visualize import highlight
-
->>> fig = highlight.HighlightAtoms(mol,highlightAtoms=[3, 2, 1, 0, 15, 16, 13, 12]) 
+>>> #
+>>> fig = highlight.HighlightAtoms(mol, highlightAtoms=[7, 8, 9, 10, 11, 12, 13, 15]) #highlightAtoms obtained from function Check_PAINS()
 >>> type(fig)
 IPython.core.display.SVG
 
-The atoms highlighted retrieved from module :mod:`structure_alert.FilterWithSmarts` and the function return a SVG object, you may should save it manually.
-
->>> with open(r'PAINS.svg', 'w') as f_obj:
-		f_obj.write(fig.data)
-	f_obj.close()
-
-.. figure:: /image/PAINS.svg
-	:width: 400px
+.. figure:: /image/user_guide/highlight_1.svg
+	:width: 500px
 	:align: center
 
-	A molecule with highlighted substructure in red
+Framework Visualizer
+~~~~~~~~~~~~~~~~~~~~~~
+The function `mcloud.ShowMcloud` can help the evaluation of database diversity and structure characteristics. The frequency of specific scaffold is indicated by the size of the respective structural image. With the application of cloud gram, users can easily explore the top-ranked scaffolds and the whole chemical space of the screening database.
+
+.. note::
+	This module should run under a Java environment and the script retrived from `Peter Ertl`_
+
+>>> scaffolds = os.path.join(ScoConfig.DemoDir, 'scaffolds.txt') #The file storing the frameworks and corresponding frequency.
+>>> mcloud.ShowMcloud(file=scaffolds, number=200, skip=1) #The skip parameter is used to skip the most frequent framework (here skipping benzene ring).
+
+.. figure:: /image/user_guide/mcloud_1.png
+	:width: 500px
+	:align: center
+	
 
 
- 
-
-
-
-
-
-
-
-
-
+.. _`overview`: ./overview.html#feature-overview
+.. _`visualize.HighlightAtoms.highlight`: #fragment-visualizer
+.. _`visualize.rule_radar`: #basic-property-radar
+.. _`visualize.mcloud`: #framework-visualizer
+.. _`Frequent Hitters Filter`: #frequent-hitter-filter
+.. _`Toxicity Filter`: #toxicity-filter
+.. _`Peter Ertl`: https://jcheminf.biomedcentral.com/articles/10.1186/1758-2946-4-12

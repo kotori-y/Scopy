@@ -36,9 +36,8 @@ def HighlightAtoms(mol,highlightAtoms,figsize=[400,200],kekulize=True):
             'stroke-width:2px','stroke-width:1.5px').replace(
                 'font-size:17px','font-size:15px').replace(
                     'stroke-linecap:butt','stroke-linecap:square').replace(
-                        'svg:','')
-        svg_words = re.sub('<tspan>H</tspan>(?=<tspan style="baseline-shift:sub;font-size:.*px;">)','<tspan>N</tspan><tspan>H</tspan>',svg_words)
-        svg_words = re.sub('(?<=\d</tspan>)<tspan>N</tspan>','',svg_words)
+                        'fill:#FFFFFF','fill:none').replace(
+                        'svg:','')                
         return svg_words
                                                            
     mc = Chem.Mol(mol.ToBinary())

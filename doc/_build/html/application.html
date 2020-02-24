@@ -43,10 +43,7 @@
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Application</a><ul>
-<li><a class="reference internal" href="#application-1-screening-withdrawn-drugs">Application 1. Screening Withdrawn Drugs</a></li>
-<li><a class="reference internal" href="#application-2-screening-natural-products">Application 2. Screening Natural Products</a></li>
-<li><a class="reference internal" href="#application-3-screening-small-molecule-libarary">Application 3. Screening Small Molecule Libarary</a></li>
-<li><a class="reference internal" href="#application-4-screening-fragment">Application 4. Screening Fragment</a></li>
+<li><a class="reference internal" href="#application-screening-of-small-molecule-libarary">Application Screening of Small Molecule Libarary</a></li>
 </ul>
 </li>
 </ul>
@@ -84,419 +81,14 @@
             
   <div class="section" id="application">
 <h1>Application<a class="headerlink" href="#application" title="Permalink to this headline">¶</a></h1>
-<p>The Scopy Python package can filter compounds library in three aspects: drug-likeness, frequent hit and potential toxicity. Poor drug-likeness make it difficult for compounds to become drugs, and frequent hitters, including promiscuous ligand and flase positive compounds, would stain our hitters. Besides, the toxic compound should be removed from our lirary before taking HTS. We will introduce <strong>X</strong> examples of Scopy’s applications including ……. to show some plan of pre-screening in different situation before formal HTS screening. You could download these scripts via: xxxx, and data: xxxxx</p>
+<p>In order to obtain a better understanding of Scopy and its application, we introduce an examples to show a regular screening process. The data in this application can be obtain at <a class="reference external" href="https://github.com/kotori-y/Scopy_Data">https://github.com/kotori-y/Scopy_Data</a>.</p>
 <div class="figure align-center" id="id1">
-<a class="reference internal image-reference" href="_images/frame.png"><img alt="_images/frame.png" src="_images/frame.png" style="width: 400px;" /></a>
-<p class="caption"><span class="caption-text">The overview of Scopy python package. Scopy can filter compounds with three filters: drug-likeness, frequent hitters and toxicity filters. Besides, the Chemical Space Analyser provide users with a general understanding of the chemical space of screening libraries. The Visualizer allows users to visually analyze the results.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<a class="reference internal image-reference" href="_images/frame.png"><img alt="_images/frame.png" src="_images/frame.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">The overview of Scopy python package.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<div class="section" id="application-1-screening-withdrawn-drugs">
-<h2>Application 1. Screening Withdrawn Drugs<a class="headerlink" href="#application-1-screening-withdrawn-drugs" title="Permalink to this headline">¶</a></h2>
-<p>Drug withdrawn due to adverse reactions caused by drug toxicity is a huge loss in the drug development process, often accompanied by long legal proceedings and huge compensation. If we colud filter these potential toxic compounds, the withdrawal would be avoided.
-We had obtained <strong>222</strong> withdrawn drugs from <a class="reference external" href="https://www.drugbank.ca/">DrugBank</a> and used filter to screen them, and the toxicity filter has been choosen. We have choosen broad toxicity endpoint (Potential_Electrophilic Filter), acute toxicity endpoint (including LD50_oral, Genotoxic_Carcinogenicity_Mutagenicity and NonGenotoxic_Carcinogenicity Filter) and comprehensive toxicity endpoint (NTD, SureChEMBL and Toxicophores filter)</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span> <span class="c1">#This package should be installed</span>
-<span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">Chem</span>
-<span class="kn">from</span> <span class="nn">scopy.structure_alert.SmartsFilter</span> <span class="kn">import</span> <span class="n">Filter</span>
-
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;withdrawn_drug.csv&quot;</span><span class="p">)</span>
-<span class="n">mols</span> <span class="o">=</span> <span class="p">[</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smi</span><span class="p">)</span> <span class="k">for</span> <span class="n">smi</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">mol</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
-
-<span class="n">screener</span><span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">detail</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="c1">#Instantiate</span>
-
-<span class="c1">#=========================================================================</span>
-<span class="c1"># Broad Toxicity</span>
-<span class="c1">#=========================================================================</span>
-<span class="n">ele_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_Potential_Electrophilic</span><span class="p">())</span> <span class="c1">#Potential_Electrophilic</span>
-
-<span class="c1">#=========================================================================</span>
-<span class="c1"># Acute Toxicity</span>
-<span class="c1">#=========================================================================</span>
-<span class="n">ld50_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_LD50_Oral</span><span class="p">())</span> <span class="c1">#LD50_Oral</span>
-<span class="n">gene_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_Genotoxic_Carcinogenicity_Mutagenicity</span><span class="p">())</span> <span class="c1">#Genotoxic_Carcinogenicity_Mutagenicity</span>
-<span class="n">nogene_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_NonGenotoxic_Carcinogenicity</span><span class="p">())</span> <span class="c1">#NonGenotoxic_Carcinogenicity</span>
-
-<span class="c1">#=========================================================================</span>
-<span class="c1"># Comprhenesive</span>
-<span class="c1">#=========================================================================</span>
-<span class="n">ntd_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_NTD</span><span class="p">())</span> <span class="c1">#NTD</span>
-<span class="n">toxci_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_NonGenotoxic_Carcinogenicity</span><span class="p">())</span> <span class="c1">#Toxicophores</span>
-<span class="n">chemble_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_SureChEMBL</span><span class="p">())</span> <span class="c1">#NonGenotoxic_Carcinogenicity</span>
-
-<span class="c1">#=========================================================================</span>
-<span class="c1"># Get Summary Result</span>
-<span class="c1">#=========================================================================</span>
-<span class="n">summary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">mol</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                        <span class="s1">&#39;Potential_Electrophilic&#39;</span><span class="p">:</span> <span class="n">ele_res</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
-                        <span class="s1">&#39;LD50_Oral&#39;</span><span class="p">:</span> <span class="n">ld50_res</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
-                        <span class="s1">&#39;Genotoxic_Carcinogenicity_Mutagenicity&#39;</span><span class="p">:</span> <span class="n">gene_res</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
-                        <span class="s1">&#39;NonGenotoxic_Carcinogenicity&#39;</span><span class="p">:</span> <span class="n">nogene_res</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
-                        <span class="s1">&#39;NTD&#39;</span><span class="p">:</span> <span class="n">ntd_res</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
-                        <span class="s1">&#39;Toxicophores&#39;</span><span class="p">:</span> <span class="n">toxci_res</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
-                        <span class="s1">&#39;SureChEMBL&#39;</span><span class="p">:</span> <span class="n">chemble_res</span><span class="o">.</span><span class="n">Disposed</span><span class="p">})</span>
-<span class="n">summary</span><span class="p">[</span><span class="s1">&#39;Rejected_Num&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">summary</span> <span class="o">==</span> <span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="n">summary_2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">summary</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Rejected&#39;</span><span class="p">])</span>
-<span class="n">summary_2</span><span class="p">[</span><span class="s1">&#39;Accepted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">222</span> <span class="o">-</span> <span class="n">summary_2</span><span class="o">.</span><span class="n">Rejected</span><span class="o">.</span><span class="n">values</span>
-</pre></div>
-</td></tr></table></div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
-<span class="go">                                                SMILES Genotoxic_Carcinogenicity_Mutagenicity  ... Toxicophores Rejected_Num</span>
-<span class="go">0    OC[C@@H](C(=O)N([C@H](C(=O)N[C@@H](C(=O)N[C@H]...                               Rejected  ...     Rejected            5</span>
-<span class="go">1                      OC(=O)[C@H](Cc1c[nH]c2c1cccc2)N                               Accepted  ...     Rejected            1</span>
-<span class="go">2                                   CCC(C#C)(/C=C\Cl)O                               Rejected  ...     Rejected            5</span>
-<span class="go">3    O=C1NC(=O)C(S1)Cc1ccc(cc1)OCC1(C)CCc2c(O1)c(C)...                               Accepted  ...     Rejected            3</span>
-<span class="go">4        COc1ccc(cc1)C(=C(c1ccc(cc1)OC)Cl)c1ccc(cc1)OC                               Accepted  ...     Rejected            4</span>
-<span class="go">..                                                 ...                                    ...  ...          ...          ...</span>
-<span class="go">217                            CCCCOc1ccc(cc1)CC(=O)NO                               Rejected  ...     Rejected            4</span>
-<span class="go">218     OC[C@H]1O[C@H](C[C@@H]1O)n1cc(CC)c(=O)[nH]c1=O                               Accepted  ...     Accepted            0</span>
-<span class="go">219                   OC(=O)COc1nn(c2c1cccc2)Cc1ccccc1                               Accepted  ...     Rejected            1</span>
-<span class="go">220                   CCN(CCOc1ccc2c(c1)sc(n2)N(C)C)CC                               Rejected  ...     Rejected            2</span>
-<span class="go">221      Oc1cc2O[C@H](c3ccc(c(c3)O)O)[C@H](Cc2c(c1)O)O                               Accepted  ...     Rejected            3</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary_2</span>
-<span class="go">                                   Filter  Rejected  Accepted</span>
-<span class="go">0  Genotoxic_Carcinogenicity_Mutagenicity        94       128</span>
-<span class="go">1                               LD50_Oral        13       209</span>
-<span class="go">2            NonGenotoxic_Carcinogenicity        67       155</span>
-<span class="go">3                                     NTD        99       123</span>
-<span class="go">4                 Potential_Electrophilic        46       176</span>
-<span class="go">5                              SureChEMBL        39       183</span>
-<span class="go">6                            Toxicophores       157        65</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-
-<span class="n">f</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-
-<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;six-filter&#39;</span><span class="p">,</span><span class="s1">&#39;five-filter&#39;</span><span class="p">,</span><span class="s1">&#39;four-filter&#39;</span><span class="p">,</span><span class="s1">&#39;three-filter&#39;</span><span class="p">,</span><span class="s1">&#39;two-filter&#39;</span><span class="p">,</span><span class="s1">&#39;one-filter&#39;</span><span class="p">,</span><span class="s1">&#39;zero-filter&#39;</span><span class="p">]</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">Rejected_Num</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">sizes</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">values</span>
-<span class="n">explode</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)</span>
-
-<span class="n">ax</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span><span class="n">explode</span><span class="o">=</span><span class="n">explode</span><span class="p">,</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span><span class="n">autopct</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%1.1f%%</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">shadow</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">startangle</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</td></tr></table></div>
-<div class="figure align-center" id="id2">
-<a class="reference internal image-reference" href="_images/withdrawn_ratio.png"><img alt="_images/withdrawn_ratio.png" src="_images/withdrawn_ratio.png" style="width: 400px;" /></a>
-<p class="caption"><span class="caption-text">The ratio of the withdrawn drugs detected by specific number filter.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
-</div>
-<p>From the above pie chart, we can see 89.2% of withdrawn drugs has been detected at least one filter, and the <cite>summary_2</cite> presents most drugs could be filtered by Toxicophores endpoint.</p>
-<p>Next, we take Tolrestat (COc1ccc2c(c1C(F)(F)F)cccc2C(=S)N(CC(=O)O)C) and Toxicophores as an example to show which substructure has been regarded as ‘unwanted’ groups</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rdkit</span> <span class="k">import</span> <span class="n">Chem</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.structure_alert</span> <span class="k">import</span> <span class="n">FilterWithSmarts</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="s1">&#39;COc1ccc2c(c1C(F)(F)F)cccc2C(=S)N(CC(=O)O)C&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">FilterWithSmarts</span><span class="o">.</span><span class="n">Check_Toxicophores</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="go">{&#39;Disposed&#39;: &#39;Rejected&#39;,</span>
-<span class="go"> &#39;MatchedAtoms&#39;: [((15, 16, 17, 18, 19, 23),), ((16, 17),), ((17, 16),)],</span>
-<span class="go"> &#39;MatchedNames&#39;: [&#39;thioamide&#39;, &#39;thiocarbonyl_aromatic&#39;, &#39;thioketone&#39;],</span>
-<span class="go"> &#39;Endpoint&#39;: &#39;Toxicophores&#39;}</span>
-</pre></div>
-</div>
-<p>The result shows that the Tolrestat contain three substructures (thioamide, thiocarbonyl_aromatic, thioketone) which be regarded as ‘Toxicophores’ groups, and the ‘thioamide’ substructure was consisted of No.15, 16, 17, 18, 19 and 23 atoms</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.visualize</span> <span class="k">import</span> <span class="n">highlight</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">highlight</span><span class="o">.</span><span class="n">HighlightAtoms</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">highlightAtoms</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">23</span><span class="p">))</span>
-</pre></div>
-</div>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/ex_withdrawn.svg"><img alt="_images/ex_withdrawn.svg" src="_images/ex_withdrawn.svg" width="400px" /></a>
-</div>
-</div>
-<div class="section" id="application-2-screening-natural-products">
-<h2>Application 2. Screening Natural Products<a class="headerlink" href="#application-2-screening-natural-products" title="Permalink to this headline">¶</a></h2>
-<p>Natural products are rich in structure, so if we want to screen natural product libraries, a chemical spatial analysis is necessary. It is then screened for drug-like properties and toxicity.
-We collected 20,015 natural products to form a screening library. First, the molecular library was used for scaffold analysis of the screening library, then four drug-likeness rules (Lipinski Rule, bRo5 Rule, Xu’s Rule and Oral Macrocycle Rule) were used for drug-like analysis, and tree comprehensive toxicity filters (NTD, SureChEMBL and Toxicophores filter) were used for toxicity analysis. Finally calculate six commonly used physical and chemical properties (MW, logP, nHA, nHD, TPSA and nRot) for subsequent analysis.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">Chem</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span> <span class="c1">#This package should be installed</span>
-<span class="kn">from</span> <span class="nn">scopy.structure_alert.SmartsFilter</span> <span class="kn">import</span> <span class="n">Filter</span>
-<span class="kn">from</span> <span class="nn">scopy.druglikeness.druglikeness</span> <span class="kn">import</span> <span class="n">PC_properties</span><span class="p">,</span> <span class="n">PC_rules</span>
-<span class="kn">from</span> <span class="nn">scopy.visualize</span> <span class="kn">import</span> <span class="n">mcloud</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Natural_product-NPS20015.csv&#39;</span><span class="p">)</span>
-<span class="n">mols</span> <span class="o">=</span> <span class="p">[</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smi</span><span class="p">)</span> <span class="k">for</span> <span class="n">smi</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">Canonical_SMILES</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
-
-<span class="c1">#=========================================================================</span>
-<span class="c1"># Statistics of Murcko&#39;s framework frequency</span>
-<span class="c1">#=========================================================================</span>
-<span class="n">scount</span> <span class="o">=</span> <span class="n">mcloud</span><span class="o">.</span><span class="n">CountScaffold</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">stype</span><span class="o">=</span><span class="s1">&#39;Murcko&#39;</span><span class="p">)</span>
-<span class="n">scount</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scount</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Frequency&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
-<span class="c1">#scount.to_csv(&#39;scount.txt&#39;,sep=&#39;\t&#39;,header=None)</span>
-
-<span class="n">props</span> <span class="o">=</span> <span class="n">PC_properties</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#Calculate physical and chemical properties</span>
-<span class="n">rules</span> <span class="o">=</span> <span class="n">PC_rules</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">detail</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c1">#Screen drug-likeness rules</span>
-<span class="n">screener</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">detail</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c1">#Screen Toxicity</span>
-
-<span class="c1">#=========================================================================</span>
-<span class="c1"># Drug-likeness rule</span>
-<span class="c1">#=========================================================================</span>
-<span class="n">bRo5_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rules</span><span class="o">.</span><span class="n">CheckBeyondRo5</span><span class="p">())</span>
-<span class="n">Macro_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rules</span><span class="o">.</span><span class="n">CheckOralMacrocycles</span><span class="p">())</span>
-<span class="n">lipiski_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rules</span><span class="o">.</span><span class="n">CheckLipinskiRule</span><span class="p">())</span>
-<span class="n">xu_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rules</span><span class="o">.</span><span class="n">CheckLipinskiRule</span><span class="p">())</span>
-
-<span class="c1">#=========================================================================</span>
-<span class="c1"># Comprhenesive Toxicity</span>
-<span class="c1">#=========================================================================</span>
-<span class="n">ntd_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_NTD</span><span class="p">())</span>
-<span class="n">toxci_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_Toxicophores</span><span class="p">())</span>
-<span class="n">chemble_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_SureChEMBL</span><span class="p">())</span>
-
-<span class="c1">#=========================================================================</span>
-<span class="c1"># PC properties</span>
-<span class="c1">#=========================================================================</span>
-<span class="n">MW</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">()</span>
-<span class="n">logP</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">CalculateLogP</span><span class="p">()</span>
-<span class="n">nHA</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">CalculateNumHAcceptors</span><span class="p">()</span>
-<span class="n">nHD</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">CalculateNumHDonors</span><span class="p">()</span>
-<span class="n">tPSA</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">CalculateTPSA</span><span class="p">()</span>
-<span class="n">nRot</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">CalculateNumRotatableBonds</span><span class="p">()</span>
-
-<span class="c1">#=========================================================================</span>
-<span class="c1"># Summary</span>
-<span class="c1">#=========================================================================</span>
-
-<span class="n">summary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;mol&#39;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">Canonical_SMILES</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                        <span class="s1">&#39;bRo5&#39;</span><span class="p">:</span> <span class="n">bRo5_res</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
-                            <span class="s1">&#39;Macro&#39;</span><span class="p">:</span> <span class="n">Macro_res</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
-                        <span class="s1">&#39;Lipinski&#39;</span><span class="p">:</span> <span class="n">lipiski_res</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
-                        <span class="s1">&#39;Xu&#39;</span><span class="p">:</span> <span class="n">Xu_res</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
-                        <span class="s1">&#39;NTD&#39;</span><span class="p">:</span> <span class="n">ntd_res</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
-                        <span class="s1">&#39;Toxicophores&#39;</span><span class="p">:</span> <span class="n">toxci_res</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
-                        <span class="s1">&#39;SureChemble&#39;</span><span class="p">:</span> <span class="n">chemble_res</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
-                        <span class="s1">&#39;MW&#39;</span><span class="p">:</span> <span class="n">MW</span><span class="p">,</span>
-                        <span class="s1">&#39;logP&#39;</span><span class="p">:</span><span class="n">log</span>
-                        <span class="s1">&#39;nHA&#39;</span><span class="p">:</span> <span class="n">nHA</span><span class="p">,</span>
-                        <span class="s1">&#39;nHD&#39;</span><span class="p">:</span><span class="n">nHD</span><span class="p">,</span>
-                        <span class="s1">&#39;TPSA&#39;</span><span class="p">:</span><span class="n">TPSA</span><span class="p">,</span>
-                        <span class="s1">&#39;nRot&#39;</span><span class="p">:</span><span class="n">nRot</span><span class="p">})</span>
-<span class="n">summary</span><span class="p">[</span><span class="s1">&#39;Rejected_Num&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">summary</span> <span class="o">==</span> <span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">summary_2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">summary</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">7</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Rejected&#39;</span><span class="p">])</span>
-<span class="n">summary_2</span><span class="p">[</span><span class="s1">&#39;Accepted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20015</span> <span class="o">-</span> <span class="n">summary_2</span><span class="o">.</span><span class="n">Rejected</span><span class="o">.</span><span class="n">values</span>
-</pre></div>
-</td></tr></table></div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scount</span>
-<span class="go">                                                    Frequency</span>
-<span class="go">c1ccccc1                                                 1227</span>
-<span class="go">C1=C2C3CCCCC3CCC2C2CCC3CCCCC3C2C1                         376</span>
-<span class="go">O=c1cc(-c2ccccc2)oc2ccccc12                               333</span>
-<span class="go">C1=CCCCC1                                                 209</span>
-<span class="go">C1CCC2C(C1)CCC1C3CCCC3CCC21                               203</span>
-<span class="go">O=C1CC(c2ccccc2)Oc2ccccc21                                175</span>
-<span class="gp">... </span>                                                      <span class="o">...</span>
-<span class="go">C=C1COC2COC(OCC34CC5CCCC5C5CC3CCC54)CC12                    1</span>
-<span class="go">O=C1CC2CCCC3N4CCCC1C23CCC4                                  1</span>
-<span class="go">O=C1CC2C(CCC3C4C=C(CCCCOC5CCCCO5)OC4CC32)C2CCC(...          1</span>
-<span class="go">O=C1CC2OCC3CCC4C(CCC5C(c6ccoc6)OC(=O)C6OC654)C3...          1</span>
-<span class="go">O=C1OCC2OC(OC(=O)c3ccccc3-c3ccccc31)C1CC2Oc2ccc...          1</span>
-<span class="go">C=C1CCC2C=COCC12                                            1</span>
-</pre></div>
-</div>
-<p>Next we use molecular cloud to visualize the results intuitively</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mcloud</span><span class="o">.</span><span class="n">ShowMcloud</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;scount.txt&quot;</span><span class="p">,</span><span class="n">skip</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">number</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span> <span class="c1">#The skip parameter is used to skip the most frequent skeleton (benzene ring)</span>
-</pre></div>
-</div>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/natural_mcloud.png"><img alt="_images/natural_mcloud.png" src="_images/natural_mcloud.png" style="width: 400px;" /></a>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
-<span class="go">                                                     mol      bRo5     Macro  Lipinski  ... nHD    tPSA nRot Rejected_Num</span>
-<span class="go">0                Oc1cc2[OH+][C-](c3ccccc3)C(=Cc2c(c1)O)O  Accepted  Accepted  Accepted  ...   3   73.49    1            2</span>
-<span class="go">1       OC1=C[C-]2[OH+]C(=C(C=C2C(=C1)O)O)c1ccc(c(c1)O)O  Accepted  Rejected  Accepted  ...   5  113.95    1            4</span>
-<span class="go">2                                   OCC(C(C(C(CO)O)O)O)O  Rejected  Rejected  Accepted  ...   6  121.38    5            2</span>
-<span class="go">3      Oc1cc(O)c2c(c1)OC(C(C2c1c(O)cc(c2c1OC(C(C2)O)c...  Rejected  Rejected  Rejected  ...  10  220.76    3            6</span>
-<span class="go">4      COc1c(O)cc(cc1O)C1Oc2c(CC1O)c(O)cc(c2C1C(O)C(O...  Rejected  Rejected  Rejected  ...   9  209.76    4            5</span>
-<span class="gp">... </span>                                                 <span class="o">...</span>       <span class="o">...</span>       <span class="o">...</span>       <span class="o">...</span>  <span class="o">...</span>   <span class="o">.</span>     <span class="o">...</span>    <span class="o">.</span>            <span class="o">.</span>
-<span class="go">20010  COC12C3NC3CN2C2=C(C1COC(=O)N)C(=O)C(=C(C2=O)C)...  Rejected  Rejected  Rejected  ...  10  375.28   24            7</span>
-<span class="go">20011              COC(=O)c1ccc(cc1F)N1CC(OC1=O)CNC(=S)C  Accepted  Accepted  Accepted  ...   1   67.87    6            3</span>
-<span class="go">20012                                 S=C=NC(=O)c1ccccc1  Accepted  Accepted  Accepted  ...   0   29.43    2            3</span>
-<span class="go">20013                                    S=C=NCCc1ccccc1  Accepted  Accepted  Accepted  ...   0   12.36    3            3</span>
-<span class="go">20014  CN1N=Cc2ccc(cc2)OP2(=NP3(=S)Oc4ccc(cc4)C=NN(C)...  Rejected  Rejected  Rejected  ...   0  223.36    6            6</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary_2</span>
-<span class="go">              Rejected  Accepted</span>
-<span class="go">bRo5              3833     16182</span>
-<span class="go">Macro             5033     14982</span>
-<span class="go">Lipinski          4508     15507</span>
-<span class="go">Xu                4508     15507</span>
-<span class="go">NTD              13032      6983</span>
-<span class="go">Toxicophores     12380      7635</span>
-<span class="go">SureChemble       3013     17002</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-
-<span class="n">f</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-
-<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;seven-filter&#39;</span><span class="p">,</span><span class="s1">&#39;six-filter&#39;</span><span class="p">,</span><span class="s1">&#39;five-filter&#39;</span><span class="p">,</span><span class="s1">&#39;four-filter&#39;</span><span class="p">,</span><span class="s1">&#39;three-filter&#39;</span><span class="p">,</span><span class="s1">&#39;two-filter&#39;</span><span class="p">,</span><span class="s1">&#39;one-filter&#39;</span><span class="p">,</span><span class="s1">&#39;zero-filter&#39;</span><span class="p">]</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">Rejected_Num</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">sizes</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">values</span>
-<span class="n">explode</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span><span class="n">explode</span><span class="o">=</span><span class="n">explode</span><span class="p">,</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span><span class="n">autopct</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%1.1f%%</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">shadow</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">startangle</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</td></tr></table></div>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/natural_ratio.png"><img alt="_images/natural_ratio.png" src="_images/natural_ratio.png" style="width: 400px;" /></a>
-</div>
-<p>From the above pie chart, we can see 88.6% of natural products has been detected at least one filter.</p>
-<p>Next, we take The mol_0 (Oc1cc2[OH+][C-](c3ccccc3)C(=Cc2c(c1)O)O) as axample to show the radar plot</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6
-7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">Chem</span>
-<span class="kn">from</span> <span class="nn">scopy.visualize</span> <span class="kn">import</span> <span class="n">pc_depict</span>
-
-<span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="s1">&#39;Oc1cc2[OH+][C-](c3ccccc3)C(=Cc2c(c1)O)O&#39;</span><span class="p">)</span>
-<span class="n">prop_kws</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;MW&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span><span class="mi">500</span><span class="p">],</span><span class="s1">&#39;logP&#39;</span><span class="p">:[</span><span class="bp">None</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span><span class="s1">&#39;nHD&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>
-            <span class="s1">&#39;nHA&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span><span class="s1">&#39;TPSA&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span><span class="mi">140</span><span class="p">]}</span> <span class="c1">#Linpiski&#39;s Rule and TPSA from Veber&#39;s Rule</span>
-<span class="n">f</span> <span class="o">=</span> <span class="n">pc_depict</span><span class="o">.</span><span class="n">rule_radar</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">prop_kws</span><span class="p">)</span>
-</pre></div>
-</td></tr></table></div>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/natural_radar.png"><img alt="_images/natural_radar.png" src="_images/natural_radar.png" style="width: 400px;" /></a>
-</div>
-</div>
-<div class="section" id="application-3-screening-small-molecule-libarary">
-<h2>Application 3. Screening Small Molecule Libarary<a class="headerlink" href="#application-3-screening-small-molecule-libarary" title="Permalink to this headline">¶</a></h2>
-<p>For small molecule libraries, in addition to screening for drug-like properties and toxicity, frequent hitters are also a focus of screening. Frequent hitters are compounds that show positive results in multiple HTS tests. Most frequently hit compounds are false positives through interference tests, while other promiscuous compounds that actually bind to most targets are difficult to make due to their poor selectivity.
-We collected 408,598 molecules from Zelin’s database. For drug-like screening, we use 3 drug-like rules (Lipinski, Pfizer and GSK) for filtering, and 3 toxicity endpoint filters (Potential_Electrophilic, Skin_Sensitization and LD50_oral Filter) are used for toxicity screening. Finally, 6 frequent hit compound filters (AlphaScreen_FHs, AlphaScreen_GST_FHs, AlphaScreen_HIS_FHs, Chelating, BMS and PAINS Filter) are used to filter potentially frequent hit compounds.</p>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/fh_intro.png"><img alt="_images/fh_intro.png" src="_images/fh_intro.png" style="width: 400px;" /></a>
-</div>
+<div class="section" id="application-screening-of-small-molecule-libarary">
+<h2>Application Screening of Small Molecule Libarary<a class="headerlink" href="#application-screening-of-small-molecule-libarary" title="Permalink to this headline">¶</a></h2>
+<p>We had collected 408,598 molecules from Zelin database. At first, we took a framework analysis of library through molecular cloud, and then 3 drug-likeness filters (Lipinski, Pfizer and GSK), 3 toxicity endpoint filters (Potential_Electrophilic, Skin_Sensitization and LD50_oral Filter) and 6 frequent hit compound filters (AlphaScreen_FHs, AlphaScreen_GST_FHs, AlphaScreen_HIS_FHs, Chelating, BMS and PAINS Filter) were used for screening library.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -565,17 +157,71 @@ We collected 408,598 molecules from Zelin’s database. For drug-like screening,
 66
 67
 68
-69</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">Chem</span>
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">Chem</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span> <span class="c1">#This package should be installed</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scopy.pretreat</span> <span class="kn">import</span> <span class="n">pretreat</span>
+<span class="kn">from</span> <span class="nn">scopy.visualize</span> <span class="kn">import</span> <span class="n">mcloud</span><span class="p">,</span> <span class="n">highlight</span><span class="p">,</span> <span class="n">pc_depict</span>
 <span class="kn">from</span> <span class="nn">scopy.structure_alert.SmartsFilter</span> <span class="kn">import</span> <span class="n">Filter</span>
 <span class="kn">from</span> <span class="nn">scopy.druglikeness.druglikeness</span> <span class="kn">import</span> <span class="n">PC_properties</span><span class="p">,</span> <span class="n">PC_rules</span>
 
+<span class="c1">#=========================================================================</span>
+<span class="c1"># Read library</span>
+<span class="c1">#=========================================================================</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Zelin.csv&#39;</span><span class="p">)</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;mol&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mol</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">obsmitosmile</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 <span class="n">mols</span> <span class="o">=</span> <span class="p">[</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smi</span><span class="p">)</span> <span class="k">for</span> <span class="n">smi</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">mol</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
 
-<span class="n">rules</span> <span class="o">=</span> <span class="n">PC_rules</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">detail</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="c1">#=========================================================================</span>
+<span class="c1"># Standardize molecules</span>
+<span class="c1">#=========================================================================</span>
+<span class="n">mols</span> <span class="o">=</span> <span class="p">[</span><span class="n">pretreat</span><span class="o">.</span><span class="n">StandardMol</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span> <span class="k">for</span> <span class="n">mol</span> <span class="ow">in</span> <span class="n">mols</span><span class="p">]</span>
+
+<span class="c1">#=========================================================================</span>
+<span class="c1"># Instantiate, and 20 processers has been used.</span>
+<span class="c1">#=========================================================================</span>
+<span class="n">props</span> <span class="o">=</span> <span class="n">PC_properties</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">rules</span> <span class="o">=</span> <span class="n">PC_rules</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">detail</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">screener</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">detail</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1">#=========================================================================</span>
+<span class="c1"># Framework analyse</span>
+<span class="c1">#=========================================================================</span>
+<span class="n">scount</span> <span class="o">=</span> <span class="n">mcloud</span><span class="o">.</span><span class="n">CountScaffold</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">stype</span><span class="o">=</span><span class="s1">&#39;Murcko&#39;</span><span class="p">)</span>
+<span class="n">scount</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scount</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Frequency&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+<span class="c1">#scount.to_csv(&#39;scount.txt&#39;,sep=&#39;\t&#39;,header=None)</span>
+
+<span class="c1">#=========================================================================</span>
+<span class="c1"># PC Properties.</span>
+<span class="c1">#=========================================================================</span>
+<span class="n">prop_res</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">GetProperties</span><span class="p">(</span><span class="n">items</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span><span class="s1">&#39;logP&#39;</span><span class="p">,</span><span class="s1">&#39;nHA&#39;</span><span class="p">,</span><span class="s1">&#39;nHD&#39;</span><span class="p">,</span><span class="s1">&#39;TPSA&#39;</span><span class="p">])</span> <span class="c1">#5 propperties are choossen</span>
+<span class="n">prop_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">prop_res</span><span class="p">)</span>
 
 <span class="c1">#=========================================================================</span>
 <span class="c1"># Drug-likeness rule</span>
@@ -585,7 +231,6 @@ We collected 408,598 molecules from Zelin’s database. For drug-like screening,
 <span class="n">lipiski</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rules</span><span class="o">.</span><span class="n">CheckLipinskiRule</span><span class="p">())</span>
 
 <span class="n">summary_druglike</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">mol</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                                 <span class="s1">&#39;Lipinski&#39;</span><span class="p">:</span><span class="n">lipiski</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
                                  <span class="s1">&#39;Pizer&#39;</span><span class="p">:</span><span class="n">pizer</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
                                  <span class="s1">&#39;GSK&#39;</span><span class="p">:</span><span class="n">gsk</span><span class="o">.</span><span class="n">Disposed</span><span class="p">})</span>
 
@@ -622,6 +267,7 @@ We collected 408,598 molecules from Zelin’s database. For drug-like screening,
 <span class="n">bms</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_BMS</span><span class="p">())</span>
 <span class="n">pains</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_PAINS</span><span class="p">())</span>
 
+
 <span class="n">summary_fh</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">mol</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
                            <span class="s1">&#39;AlphaScreen_FHs&#39;</span><span class="p">:</span><span class="n">alapha_fh</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
                            <span class="s1">&#39;AlphaScreen_GST_FHs&#39;</span><span class="p">:</span><span class="n">gst</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
@@ -636,18 +282,74 @@ We collected 408,598 molecules from Zelin’s database. For drug-like screening,
 <span class="n">summary_2_fh</span><span class="p">[</span><span class="s1">&#39;Accepted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">summary_fh</span><span class="p">)</span><span class="o">-</span><span class="n">summary_2_fh</span><span class="o">.</span><span class="n">Rejected</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 </td></tr></table></div>
+<p>The summary of the Murcko scaffolds of the database.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scount</span>
+<span class="go">                                             Frequency</span>
+<span class="go">O=C(Nc1cn[nH]c1)c1cn[nH]c1                          26</span>
+<span class="go">O=C(Nc1ccccc1)c1nc2ncccn2n1                        151</span>
+<span class="go">c1csc(-c2ccc3ccccc3n2)c1                           117</span>
+<span class="go">c1ccccc1                                         13723</span>
+<span class="go">O=C(c1cc[nH]n1)N1CCN(c2ncccn2)CC1                    8</span>
+<span class="gp">... </span>                                               <span class="o">...</span>
+<span class="go">[NH2+]=C(Nc1ncccn1)N(c1ccccc1)S(=O)(=O)c1ccccc1      1</span>
+<span class="go">O=C1C(C=[NH+]Cc2ccccc2)=Cc2ccccc21                   1</span>
+<span class="go">N=C(NC(=O)c1ccccc1)Nc1nc2ccccc2s1                    1</span>
+<span class="go">O=S(=O)(c1cccc2nsnc12)n1c[nH+]c2ccccc21              1</span>
+<span class="go">O=C(C=Cc1cccs1)Nc1nnc[nH]1                           1</span>
+</pre></div>
+</div>
+<p>The cloud gram of the top 200 Murcko scaffolds appeared in the database.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mcloud</span><span class="o">.</span><span class="n">ShowMcloud</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;scount.txt&quot;</span><span class="p">,</span><span class="n">skip</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">number</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span> <span class="c1">#The skip parameter is used to skip the most frequent skeleton (benzene ring)</span>
+</pre></div>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/mcloud.png"><img alt="_images/mcloud.png" src="_images/mcloud.png" style="width: 600px;" /></a>
+</div>
+<p>The values of five physicochemical properties of the database, including MW, logP, nHA, nHD and TPSA.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">prop_res</span>
+<span class="go">            MW  logP  nHA  nHD    TPSA</span>
+<span class="go">0       290.15  0.78    6    2  107.83</span>
+<span class="go">1       355.09  0.95    9    1  124.78</span>
+<span class="go">2       359.97  3.65    4    0   53.02</span>
+<span class="go">3       281.00  3.54    2    1   46.17</span>
+<span class="go">4       272.14  0.17    6    0   67.15</span>
+<span class="gp">... </span>       <span class="o">...</span>   <span class="o">...</span>  <span class="o">...</span>  <span class="o">...</span>     <span class="o">...</span>
+<span class="go">408592  433.05  4.95    3    3   59.37</span>
+<span class="go">408593  273.06  3.20    5    1   55.98</span>
+<span class="go">408594  346.17  1.30    2    2   36.78</span>
+<span class="go">408595  367.21  4.62    4    0   55.73</span>
+<span class="go">408596  433.05  4.95    3    3   59.37</span>
+</pre></div>
+</div>
+<p>The feature-feature related scatter diagram of five features of the database, including MW, logP, nHA, nHD and TPSA.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig_matrix</span> <span class="o">=</span> <span class="n">pc_depict</span><span class="o">.</span><span class="n">prop_matrix</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span><span class="s1">&#39;logP&#39;</span><span class="p">,</span><span class="s1">&#39;nHA&#39;</span><span class="p">,</span><span class="s1">&#39;nHD&#39;</span><span class="p">,</span><span class="s1">&#39;TPSA&#39;</span><span class="p">],</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/matrix.png"><img alt="_images/matrix.png" src="_images/matrix.png" style="width: 500px;" /></a>
+</div>
+<p>The radar plot of molecule 0 (CCn1cc(C(=O)Nc2cn(CC)nc2C(N)=O)c(C)n1).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">prop_kws</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;MW&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span><span class="mi">500</span><span class="p">],</span><span class="s1">&#39;logP&#39;</span><span class="p">:[</span><span class="kc">None</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span><span class="s1">&#39;nHD&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>
+<span class="go">                    &#39;nHA&#39;:[0,10],&#39;TPSA&#39;:[0,140]} #Linpiski&#39;s Rule and TPSA from Veber&#39;s Rule</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig_radar</span> <span class="o">=</span> <span class="n">pc_depict</span><span class="o">.</span><span class="n">rule_radar</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">prop_kws</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/radar.png"><img alt="_images/radar.png" src="_images/radar.png" style="width: 400px;" /></a>
+</div>
+<p>The visualization of the above screening filters results.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary_2_druglike</span>
 <span class="go">     Filter  Rejected  Accepted</span>
 <span class="go">0  Lipinski      8448    400149</span>
 <span class="go">1     Pizer     73193    335404</span>
 <span class="go">2       GSK    200192    208405</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;#</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">summary_2_tox</span>
 <span class="go">                    Filter  Rejected  Accepted</span>
 <span class="go">0  Potential_Electrophilic    111946    296651</span>
 <span class="go">1       Skin_Sensitization    310897     97700</span>
 <span class="go">2                LD50_Oral      9466    399131</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;#</span>
 <span class="go">&gt;&gt;&gt;summary_2_fh</span>
 <span class="go">                Filter  Rejected  Accepted</span>
 <span class="go">0      AlphaScreen_FHs         3    408594</span>
@@ -658,9 +360,7 @@ We collected 408,598 molecules from Zelin’s database. For drug-like screening,
 <span class="go">5                PAINS     19375    389222</span>
 </pre></div>
 </div>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/withdrawn_ratio.png"><img alt="_images/withdrawn_ratio.png" src="_images/withdrawn_ratio.png" style="width: 400px;" /></a>
-</div>
+<p>And the visualization of screening result.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -684,11 +384,7 @@ We collected 408,598 molecules from Zelin’s database. For drug-like screening,
 21
 22
 23
-24
-25
-26</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-
-<span class="n">f</span><span class="p">,</span><span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">))</span>
+24</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span><span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">))</span>
 
 <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;six-filter&#39;</span><span class="p">,</span><span class="s1">&#39;five-filter&#39;</span><span class="p">,</span><span class="s1">&#39;four-filter&#39;</span><span class="p">,</span><span class="s1">&#39;three-filter&#39;</span><span class="p">,</span><span class="s1">&#39;two-filter&#39;</span><span class="p">,</span><span class="s1">&#39;one-filter&#39;</span><span class="p">,</span><span class="s1">&#39;zero-filter&#39;</span><span class="p">]</span>
 
@@ -714,147 +410,34 @@ We collected 408,598 molecules from Zelin’s database. For drug-like screening,
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>From the figure above, we can see that although only 37.6% of small molecules did not pass the drug-like rule filter, most of them were caused by the GSK rule. In the GSK rule, the molecular mass is limited to less than 400 in order to obtain better ADME/T properties, which is a bit strict for small molecules; nearly half of the molecules do not pass the toxicity filter, but some are made by “skin_sensitvity endpoint”, which can be avoided by changing the route of administration; in the end, nearly three-quarters of the molecules passed the frequent hit compound filter.</p>
-</div>
-<div class="section" id="application-4-screening-fragment">
-<h2>Application 4. Screening Fragment<a class="headerlink" href="#application-4-screening-fragment" title="Permalink to this headline">¶</a></h2>
-<p>Fragment-based drug discovery (FBDD) has become mainstream. FBDD has been widely applied in both academia and industry, as evidenced by the large number of papers from universities, non-profit research institutions, biotechnology companies and pharmaceutical companies.
-We collected 2,877 small molecular fragments to build a library of molecular fragments. We use the drug-like rules Ro2 and Ro3 that apply to the fragments for filtering. We also use environmental toxicity filters for filtering.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">Chem</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span> <span class="c1">#This package should be installed</span>
-<span class="kn">from</span> <span class="nn">scopy.structure_alert.SmartsFilter</span> <span class="kn">import</span> <span class="n">Filter</span>
-<span class="kn">from</span> <span class="nn">scopy.druglikeness.druglikeness</span> <span class="kn">import</span> <span class="n">PC_rules</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
-<span class="n">mols</span> <span class="o">=</span> <span class="p">[</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smi</span><span class="p">)</span> <span class="k">for</span> <span class="n">smi</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">mol</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
-
-<span class="n">rules</span> <span class="o">=</span> <span class="n">PC_rules</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span><span class="n">detail</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">screener</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span><span class="n">detail</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-
-<span class="c1">#=========================================================================</span>
-<span class="c1"># Drug-likeness rule</span>
-<span class="c1">#=========================================================================</span>
-<span class="n">ro2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rules</span><span class="o">.</span><span class="n">CheckRo2</span><span class="p">())</span>
-<span class="n">ro3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rules</span><span class="o">.</span><span class="n">CheckRo3</span><span class="p">())</span>
-
-<span class="n">summary_druglike</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">mol</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                                 <span class="s1">&#39;Ro2&#39;</span><span class="p">:</span><span class="n">ro2</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
-                                 <span class="s1">&#39;Ro3&#39;</span><span class="p">:</span><span class="n">ro3</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,})</span>
-
-<span class="n">summary_druglike</span><span class="p">[</span><span class="s1">&#39;Rejected_Num&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">summary_druglike</span><span class="o">==</span><span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">summary_2_druglike</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">summary_druglike</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-<span class="n">summary_2_druglike</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Rejected&#39;</span><span class="p">]</span>
-<span class="n">summary_2_druglike</span><span class="p">[</span><span class="s1">&#39;Accepted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">summary_druglike</span><span class="p">)</span><span class="o">-</span><span class="n">summary_2_druglike</span><span class="o">.</span><span class="n">Rejected</span><span class="o">.</span><span class="n">values</span>
-
-<span class="c1">#=========================================================================</span>
-<span class="c1"># Environment</span>
-<span class="c1">#=========================================================================</span>
-<span class="n">nonbio</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_NonBiodegradable</span><span class="p">())</span>
-<span class="n">acuq</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_Acute_Aquatic_Toxicity</span><span class="p">())</span>
-
-<span class="n">summary_env</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">mol</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                        <span class="s1">&#39;NonBiodegradable&#39;</span><span class="p">:</span><span class="n">nonbio</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
-                        <span class="s1">&#39;Acute_Aquatic_Toxicity&#39;</span><span class="p">:</span><span class="n">acuq</span><span class="o">.</span><span class="n">Disposed</span><span class="p">})</span>
-
-<span class="n">summary_env</span><span class="p">[</span><span class="s1">&#39;Rejected_Num&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">summary_env</span><span class="o">==</span><span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">summary_2_env</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">summary_env</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-<span class="n">summary_2_env</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Rejected&#39;</span><span class="p">]</span>
-<span class="n">summary_2_env</span><span class="p">[</span><span class="s1">&#39;Accepted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">summary_env</span><span class="p">)</span><span class="o">-</span><span class="n">summary_2_env</span><span class="o">.</span><span class="n">Rejected</span><span class="o">.</span><span class="n">values</span>
-</pre></div>
-</td></tr></table></div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary_druglike</span>
-<span class="go">  Filter  Rejected  Accepted</span>
-<span class="go">0    Ro2       833      2043</span>
-<span class="go">1    Ro3       188      2688</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">summary_env</span>
-<span class="go">                   Filter  Rejected  Accepted</span>
-<span class="go">0        NonBiodegradable      1147      1729</span>
-<span class="go">1  Acute_Aquatic_Toxicity      1450      1426</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-
-<span class="n">f</span><span class="p">,</span><span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span><span class="mi">9</span><span class="p">))</span>
-
-<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;two-filter&#39;</span><span class="p">,</span><span class="s1">&#39;one-filter&#39;</span><span class="p">,</span><span class="s1">&#39;zero-filter&#39;</span><span class="p">]</span>
-
-<span class="n">res_druglike</span> <span class="o">=</span> <span class="n">summary_druglike</span><span class="o">.</span><span class="n">Rejected_Num</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">res_env</span> <span class="o">=</span> <span class="n">summary_env</span><span class="o">.</span><span class="n">Rejected_Num</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">res_druglike</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">explode</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span>
-            <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span><span class="n">autopct</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%1.1f%%</span><span class="s1">&#39;</span><span class="p">,</span>
-            <span class="n">shadow</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">startangle</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Drug-likeness Rule Filter&#39;</span><span class="p">)</span>
-
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">res_env</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">explode</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span>
-            <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span><span class="n">autopct</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%1.1f%%</span><span class="s1">&#39;</span><span class="p">,</span>
-            <span class="n">shadow</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">startangle</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Environmental Toxicity Filter&#39;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</td></tr></table></div>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/fragment_ratio.png"><img alt="_images/fragment_ratio.png" src="_images/fragment_ratio.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/small_mol_ratio.png"><img alt="_images/small_mol_ratio.png" src="_images/small_mol_ratio.png" style="width: 600px;" /></a>
+</div>
+<p>From the figure, it is shown that 37.6% of small molecules failed the drug-likeness screening, most of which were filtered by the GSK rule. One of the main reasons is that the MW limitation of the GSK rule is 400, which is strict for commercial molecule database. About 30% of the molecules failed the toxicity filters, such as “skin_sensitvity endpoint”, which can be avoided by changing the route of administration; in the end, nearly three-quarters of the molecules passed the frequent hit compound filter.</p>
+<p>Take molecule_21 (O=C(N/N=C/c1cc(O)c(O)cc1)[C&#64;&#64;H]1[C&#64;H](c2ccc(C(C)(C)C)cc2)C1) as an example to show the functional group marker gram.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.structure_alert</span> <span class="k">import</span> <span class="n">FilterWithSmarts</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="s1">&#39;O=C(N/N=C/c1cc(O)c(O)cc1)[C@@H]1[C@H](c2ccc(C(C)(C)C)cc2)C1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span> <span class="o">=</span> <span class="n">pretreat</span><span class="o">.</span><span class="n">StandardMol</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">FilterWithSmarts</span><span class="o">.</span><span class="n">Check_PAINS</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">{&#39;Disposed&#39;: &#39;Rejected&#39;,</span>
+<span class="go"> &#39;MatchedAtoms&#39;: [((9, 7, 6, 5, 12, 11, 4, 3, 2, 10),),</span>
+<span class="go">  ((5, 12, 11, 9, 7, 6, 8, 10),)],</span>
+<span class="go"> &#39;MatchedNames&#39;: [&#39;Hzone_phenol_B&#39;, &#39;Catechol_A&#39;],</span>
+<span class="go"> &#39;Endpoint&#39;: &#39;Pains&#39;}</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">highlight</span><span class="o">.</span><span class="n">HighlightAtoms</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">highlightAtoms</span><span class="o">=</span><span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/highlight_1.svg"><img alt="_images/highlight_1.svg" src="_images/highlight_1.svg" width="500px" /></a>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">highlight</span><span class="o">.</span><span class="n">HighlightAtoms</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">highlightAtoms</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/highlight_2.svg"><img alt="_images/highlight_2.svg" src="_images/highlight_2.svg" width="500px" /></a>
 </div>
 </div>
 </div>

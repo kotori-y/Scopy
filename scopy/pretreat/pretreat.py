@@ -9,7 +9,7 @@ Created on Mon Sep  9 11:23:53 2019
 @Blog: https://blog.moyule.me
 
 """
-from pretreatutil import *
+from .pretreatutil import *
 from rdkit import Chem
 import logging
 

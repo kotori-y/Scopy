@@ -74,9 +74,7 @@
             
   <div class="section" id="the-scopy-s-documentation">
 <h1>The Scopy’s documentation<a class="headerlink" href="#the-scopy-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>To decrease the four major problems existed in high-throughput screening (HTS), we have designed and develpoed the package Scopy(Screnning COmpounds in PYthon). Firstly, the poor drug-likeness of most hitters will increase workload for future work. Besides, the potential toxic compounds and frequent hitters (FH) would stain the screening result. Lastly, The chemical space of hitters may be narrow which may not involve the compound we intended.
-Scopy supplied three filters: drug-likeness, toxicity and FH filter, but also a space analyser to explore chemical space of library and a visualizer to intuitively depict screening result. In drug-likeness filter, <strong>45</strong> physicochemical (PC) properties and <strong>15</strong> PC-driven rules, so called drug-likeness rules, were collected and implemented. In toxicity filter could screen <strong>13</strong> endpoints related to toxicity, and FH filter involves <strong>11</strong> endpoint. As to chemical space exploration, besides analyse framework, <strong>7</strong> fingerprins used to assess space from different angle.
-The python package Scopy(Screnning COmpounds in PYthon) is designed by <a class="reference external" href="http://home.scbdd.com/index.php?s=/Home/Index.html&amp;t=english">CBDD Group</a> (Computational Biology &amp; Drug Design Group), Xiangya School of Pharmaceutical Sciences, Central South University.</p>
+<p>High-throughput screening (HTS) and virtual screening (VS) are widely applied in compounds screening and lead discovery. However, the frequent appearances of “noisy compounds” in the screening database, such as compounds with poor drug-likeness, compounds with poor selectivity or compounds with potential toxicity, have greatly weakened the efficiency of HTS and VS campaigns. The success of screening results critically depends on the quality of the available screening libraries. To construct a high-quality database, we developed Scopy (Screnning COmpounds in PYthon), an integrated negative design python library designed for screening out undesiable compounds in the early drug discovery. Scopy includes six modules, covering data preparation, screening filters, the calculation of scaffolds and descriptors, and the visualization analysis. The current version of Scopy can calculate 39 basic molecular properties, 3 comprehensive molecular evaluation scores, 2 types of molecular scaffolds, 6 types of substructure descriptors and 2 types of fingerprints. Screening rules such as drug-likeness rules (11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules), frequent hitter rules (4 assay interference substructure filters and 4 promiscuous compound substructure filters) and toxicophore filters (5 human related toxicity substructure filters, 3 environment related toxicity substructure filters and 3 comprehensive substructure filters) are provided in the Scopy library. Moreover, this library realized basic feature radar charts, feature-feature related scatter diagram, functional group marker gram and cloud gram four different visualization functions, which assists users in gaining a better understanding of the screening data. In conclusion, Scopy aims at providing an integrated analysis pipeline for molecule analysis, molecule screening, molecule optimization and model building. The Python package Scopy is designed by <a class="reference external" href="http://home.scbdd.com/index.php?s=/Home/Index.html&amp;t=english">CBDD Group</a> (Computational Biology &amp; Drug Design Group), Xiangya School of Pharmaceutical Sciences, Central South University.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
@@ -94,39 +92,37 @@ The python package Scopy(Screnning COmpounds in PYthon) is designed by <a class=
 </li>
 <li class="toctree-l2"><a class="reference internal" href="user_guide.html#molecular-pretreater">Molecular Pretreater</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user_guide.html#drug-likeness-filter">Drug-likeness Filter</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="user_guide.html#calculating-pc-properties">Calculating PC properties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="user_guide.html#filtering-molecule-under-pc-derived-rules">Filtering molecule under PC-derived rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#calculating-physicochemical-properties">Calculating Physicochemical Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#screening-under-drug-likeness-rules">Screening under Drug-likeness Rules</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide.html#id1">Drug-likeness Filter</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="user_guide.html#pains">PAINS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="user_guide.html#chelating">Chelating</a></li>
-<li class="toctree-l3"><a class="reference internal" href="user_guide.html#promiscuity">Promiscuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide.html#frequent-hitter-filter">Frequent hitter Filter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#assay-interference-substructure-filter">Assay Interference Substructure Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#promiscuous-compound-substructure-filter">Promiscuous Compound Substructure Filter</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="user_guide.html#toxicity-filter">Toxicity Filter</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="user_guide.html#acute-toxicity">Acute Toxicity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="user_guide.html#environmental-toxicity">Environmental Toxicity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="user_guide.html#multiprocessing">Multiprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#human-toxic-compound-filter">Human Toxic Compound Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#environmental-toxic-compound-filter">Environmental Toxic Compound Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#comprehensive-toxic-compound-filter">Comprehensive Toxic Compound Filter</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide.html#chemical-space-analyser">Chemical Space Analyser</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="user_guide.html#fingerprint-calculate">Fingerprint Calculate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="user_guide.html#framework-analyse">Framework Analyse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide.html#multiprocessing-filter">Multiprocessing Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide.html#chemical-space-exploer">Chemical Space Exploer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#framework-calculation">Framework Calculation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#fingerprint-calculation">Fingerprint Calculation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="user_guide.html#screening-visualizer">Screening Visualizer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="user_guide.html#pc-visualizer">PC Visualizer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="user_guide.html#fragment-visualizer">Fragment visualizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_guide.html#framework-visualizer">Framework Visualizer</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="application.html">Application</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="application.html#application-1-screening-withdrawn-drugs">Application 1. Screening Withdrawn Drugs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="application.html#application-2-screening-natural-products">Application 2. Screening Natural Products</a></li>
-<li class="toctree-l2"><a class="reference internal" href="application.html#application-3-screening-small-molecule-libarary">Application 3. Screening Small Molecule Libarary</a></li>
-<li class="toctree-l2"><a class="reference internal" href="application.html#application-4-screening-fragment">Application 4. Screening Fragment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application.html#application-screening-of-small-molecule-libarary">Application Screening of Small Molecule Libarary</a></li>
 </ul>
 </li>
 </ul>
@@ -158,7 +154,7 @@ The python package Scopy(Screnning COmpounds in PYthon) is designed by <a class=
 </li>
 <li class="toctree-l2"><a class="reference internal" href="modules/scopy.pretreat.html">scopy.pretreat package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.pretreat.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/scopy.pretreat.html#scopy-pretreat-pretreat-module">scopy.pretreat.pretreat module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.pretreat.html#module-scopy.pretreat.pretreat">scopy.pretreat.pretreat module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.pretreat.html#module-scopy.pretreat.pretreatutil">scopy.pretreat.pretreatutil module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.pretreat.html#module-scopy.pretreat">Module contents</a></li>
 </ul>

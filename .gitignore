@@ -8,7 +8,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-doc3/
 build/
 develop-eggs/
 dist/
@@ -104,4 +103,5 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-scopy/data/SMARTS/*.txt
+scopy/scopy/data/MOL/Promiscuity.pkl.gz
+scopy/data/SMARTS/Promiscuity.txt

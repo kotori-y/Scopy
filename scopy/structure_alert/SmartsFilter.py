@@ -310,23 +310,6 @@ class Filter(object):
         pool.join()
         return Potential_Electrophilic
         
-    def Check_Promiscuity(self, detail=False):
-        """
-        Check molecule under Promiscuity Filter,
-        There are 177 SMARTS in this endpoint.
-    
-        :return: a list of dictionary
-        :rtype: list
-        
-        """
-        prom = _Filter('Promiscuity', self.detail, self.showSMILES)
-        prom.get_pattl()
-        pool = Pool(self.n_jobs)
-        Promiscuity = pool.map_async(prom.scan, self.mols).get()
-        pool.close()
-        pool.join()
-        return Promiscuity
-            
     def Check_Reactive_Unstable_Toxic(self):
         """
         Check molecule under Reactive_Unstable_Toxic Filter.

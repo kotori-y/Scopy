@@ -267,11 +267,11 @@ def CheckAcid(mol):
 def CalculatepKa(mol):
     from math import log10
     """
-    Calculating pKa based on the ralation between logD and logP in specific pH 
-    ---pKa
+    Calculating pKa based on the ralation between logD and logP in specific pH.
+    --->pKa
     
     Eq.:
-        |pH-pKa| = log10(10^(logP-logD)-1)
+        abs(pH-pKa) = log10(10^(logP-logD)-1)
         pKa = pH - log10(10^(logP-logD)-1) for acid
         pKa = log10(10^(logP-logD)-1) - pH for base
         
@@ -745,18 +745,18 @@ def CalculateNumNitrogen(mol):
     return _CalculateNumElement(mol,AtomicNumber=7)
 
 
-def CalculateNumberChargedGroups(mol):
-    """
-    Number of Charged Groups 
-    --->nChar
+# def CalculateNumberChargedGroups(mol):
+#     """
+#     Number of Charged Groups 
+#     --->nChar
     
-    :param mol: molecular
-    :type mol: rdkit.Chem.rdchem.Mol
-    :return: the number of charged group
-    :rtype: int
+#     :param mol: molecular
+#     :type mol: rdkit.Chem.rdchem.Mol
+#     :return: the number of charged group
+#     :rtype: int
     
-    """
-    pass
+#     """
+#     pass
 
 
 def CalculateHetCarbonRatio(mol):
@@ -781,14 +781,14 @@ def CalculateSAscore(mol):
     --->SAscore
     
     Reference:
-        (1) `Ertl, Peter, and Ansgar Schuffenhauer (2009)`_.
+        (1) `Ertl Peter (2009)`_.
         
     :param mol: molecular
     :type mol: rdkit.Chem.rdchem.Mol
     :return: ease of synthesis
     :rtype: float
     
-    .. _Ertl, Peter, and Ansgar Schuffenhauer (2009):
+    .. _Ertl Peter (2009):
         https://jcheminf.biomedcentral.com/articles/10.1186/1758-2946-1-8
         
     """
@@ -801,14 +801,14 @@ def CalculateNPscore(mol):
     --->NPscore
     
     Reference:
-        (1) `Ertl Peter, Silvio Roggo, and Ansgar Schuffenhauer (2008)`_.
+        (1) `Ertl Peter (2008)`_.
     
     :param mol: molecular
     :type mol: rdkit.Chem.rdchem.Mol
     :return: product-likeness score
     :rtype: float
     
-    .. _Ertl, Peter, Silvio Roggo, and Ansgar Schuffenhauer (2008):
+    .. _Ertl Peter (2008):
         https://pubs.acs.org/doi/abs/10.1021/ci700286x
     
     """

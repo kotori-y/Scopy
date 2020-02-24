@@ -62,7 +62,7 @@
 <span class="c1">#@Mail: yzjkid9@gmail.com; oriental-cds@163.com</span>
 <span class="c1">#@Blog: https://blog.moyule.me</span>
 
-
+<span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">rdkit.Chem.Draw</span> <span class="k">import</span> <span class="n">rdMolDraw2D</span>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">SVG</span>
 <span class="kn">from</span> <span class="nn">rdkit</span> <span class="k">import</span> <span class="n">Chem</span>
@@ -86,12 +86,17 @@
     <span class="k">def</span> <span class="nf">_revised</span><span class="p">(</span><span class="n">svg_words</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">svg_words</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;stroke-width:2px&#39;</span><span class="p">,</span><span class="s1">&#39;stroke-width:1px&#39;</span>
-                                 <span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;font-size:17px&#39;</span><span class="p">,</span><span class="s1">&#39;font-size:15px&#39;</span>
-                                 <span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;stroke-linecap:butt&#39;</span><span class="p">,</span><span class="s1">&#39;stroke-linecap:square&#39;</span>
-                                 <span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;svg:&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-    
+        <span class="n">svg_words</span> <span class="o">=</span>  <span class="n">svg_words</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+            <span class="s1">&#39;stroke-width:2px&#39;</span><span class="p">,</span><span class="s1">&#39;stroke-width:1.5px&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="s1">&#39;font-size:17px&#39;</span><span class="p">,</span><span class="s1">&#39;font-size:15px&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                    <span class="s1">&#39;stroke-linecap:butt&#39;</span><span class="p">,</span><span class="s1">&#39;stroke-linecap:square&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                        <span class="s1">&#39;svg:&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">svg_words</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;(?&lt;=\d&lt;/tspan&gt;)&lt;tspan&gt;N&lt;/tspan&gt;&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">svg_words</span><span class="p">)</span>
+        <span class="n">svg_words</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&lt;tspan&gt;H&lt;/tspan&gt;(?=&lt;tspan style=&quot;baseline-shift:sub;font-size:.*px;&quot;&gt;)&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;tspan&gt;N&lt;/tspan&gt;&lt;tspan&gt;H&lt;/tspan&gt;&#39;</span><span class="p">,</span><span class="n">svg_words</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">svg_words</span>
+                                                           
     <span class="n">mc</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">Mol</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">ToBinary</span><span class="p">())</span>
+    
     <span class="k">if</span> <span class="n">kekulize</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">Chem</span><span class="o">.</span><span class="n">Kekulize</span><span class="p">(</span><span class="n">mc</span><span class="p">)</span>
@@ -110,7 +115,6 @@
     
 
 <span class="k">if</span> <span class="s1">&#39;__main__&#39;</span> <span class="o">==</span> <span class="vm">__name__</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">rdkit</span> <span class="k">import</span> <span class="n">Chem</span>
     <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="s1">&#39;C1=CC=C2C(=O)CC(=O)C2=C1&#39;</span><span class="p">)</span>
     <span class="n">svg</span> <span class="o">=</span> <span class="n">HighlightAtoms</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">highlightAtoms</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
 </pre></div>

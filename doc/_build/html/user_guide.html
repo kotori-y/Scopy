@@ -50,33 +50,25 @@
 </li>
 <li><a class="reference internal" href="#molecular-pretreater">Molecular Pretreater</a></li>
 <li><a class="reference internal" href="#drug-likeness-filter">Drug-likeness Filter</a><ul>
-<li><a class="reference internal" href="#calculating-pc-properties">Calculating PC properties</a></li>
-<li><a class="reference internal" href="#filtering-molecule-under-pc-derived-rules">Filtering molecule under PC-derived rules</a></li>
+<li><a class="reference internal" href="#calculating-physicochemical-properties">Calculating Physicochemical Properties</a></li>
+<li><a class="reference internal" href="#screening-under-drug-likeness-rules">Screening under Drug-likeness Rules</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id1">Drug-likeness Filter</a><ul>
-<li><a class="reference internal" href="#pains">PAINS</a></li>
-<li><a class="reference internal" href="#chelating">Chelating</a></li>
-<li><a class="reference internal" href="#promiscuity">Promiscuity</a></li>
+<li><a class="reference internal" href="#frequent-hitter-filter">Frequent hitter Filter</a><ul>
+<li><a class="reference internal" href="#assay-interference-substructure-filter">Assay Interference Substructure Filter</a></li>
+<li><a class="reference internal" href="#promiscuous-compound-substructure-filter">Promiscuous Compound Substructure Filter</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#toxicity-filter">Toxicity Filter</a><ul>
-<li><a class="reference internal" href="#acute-toxicity">Acute Toxicity</a></li>
-<li><a class="reference internal" href="#environmental-toxicity">Environmental Toxicity</a></li>
-<li><a class="reference internal" href="#multiprocessing">Multiprocessing</a></li>
+<li><a class="reference internal" href="#human-toxic-compound-filter">Human Toxic Compound Filter</a></li>
+<li><a class="reference internal" href="#environmental-toxic-compound-filter">Environmental Toxic Compound Filter</a></li>
+<li><a class="reference internal" href="#comprehensive-toxic-compound-filter">Comprehensive Toxic Compound Filter</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#chemical-space-analyser">Chemical Space Analyser</a><ul>
-<li><a class="reference internal" href="#fingerprint-calculate">Fingerprint Calculate</a><ul>
-<li><a class="reference internal" href="#efg-fingerprints">EFG Fingerprints</a></li>
-<li><a class="reference internal" href="#ifg-fingerprint">IFG Fingerprint</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#framework-analyse">Framework Analyse</a><ul>
-<li><a class="reference internal" href="#counting-frequency">Counting Frequency</a></li>
-<li><a class="reference internal" href="#molecule-cloud">Molecule Cloud</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#multiprocessing-filter">Multiprocessing Filter</a></li>
+<li><a class="reference internal" href="#chemical-space-exploer">Chemical Space Exploer</a><ul>
+<li><a class="reference internal" href="#framework-calculation">Framework Calculation</a></li>
+<li><a class="reference internal" href="#fingerprint-calculation">Fingerprint Calculation</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#screening-visualizer">Screening Visualizer</a><ul>
@@ -86,6 +78,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#fragment-visualizer">Fragment visualizer</a></li>
+<li><a class="reference internal" href="#framework-visualizer">Framework Visualizer</a></li>
 </ul>
 </li>
 </ul>
@@ -125,10 +118,10 @@
             
   <div class="section" id="getting-started-with-scopy">
 <h1>Getting Started with Scopy<a class="headerlink" href="#getting-started-with-scopy" title="Permalink to this headline">¶</a></h1>
-<p>This document is intended to provide an overview of how one can use the Scopy functionality from Python. If you find mistakes, or have suggestions for improvements, please either fix them yourselves in the source document (the .py file) or send them to the mailing list: <a class="reference external" href="mailto:oriental-cds&#37;&#52;&#48;163&#46;com">oriental-cds<span>&#64;</span>163<span>&#46;</span>com</a> and <a class="reference external" href="mailto:yzjkid9&#37;&#52;&#48;gmail&#46;com">yzjkid9<span>&#64;</span>gmail<span>&#46;</span>com</a>.</p>
+<p>This document intends to provide users with the basic operation methods of Scopy. If you find any mistake or have suggestions for improvements, please either fix them in the source document (the .py file) or send to the mailing list: <a class="reference external" href="mailto:oriental-cds&#37;&#52;&#48;163&#46;com">oriental-cds<span>&#64;</span>163<span>&#46;</span>com</a> and <a class="reference external" href="mailto:kotori&#37;&#52;&#48;cbdd&#46;me">kotori<span>&#64;</span>cbdd<span>&#46;</span>me</a>.</p>
 <div class="section" id="installing-the-scopy-package">
 <h2>Installing the Scopy package<a class="headerlink" href="#installing-the-scopy-package" title="Permalink to this headline">¶</a></h2>
-<p>PyBioMed has been successfully tested on Linux and Windows systems under python3 enviroment.</p>
+<p>Scopy has been successfully tested on Linux and Windows systems under python3 enviroment.</p>
 <div class="section" id="dependencies">
 <h3>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">RDkit</span><span class="o">&gt;=</span><span class="mf">2019.03</span><span class="o">.</span><span class="mi">1</span>
@@ -147,7 +140,8 @@
 </div>
 <div class="section" id="molecular-pretreater">
 <h2>Molecular Pretreater<a class="headerlink" href="#molecular-pretreater" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="modules/scopy.pretreat.html#module-scopy.pretreat" title="scopy.pretreat"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.pretreat</span></code></a> can pretreat the molecular structure. The <a class="reference internal" href="modules/scopy.pretreat.html#module-scopy.pretreat" title="scopy.pretreat"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.pretreat</span></code></a> proivdes the following functions:</p>
+<p>The check and preparation for molecular structures is the necessary prerequisite for subsequent data analysis, especially for molecular resources downloaded from web sources. Considering its importance, the Scopy library provides scopy.pretreat.pretreat module to realize molecular preparation.</p>
+<p>The <a class="reference internal" href="modules/scopy.pretreat.html#module-scopy.pretreat.pretreat" title="scopy.pretreat.pretreat"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.pretreat.pretreat</span></code></a> proivdes the following functions:</p>
 <ul class="simple">
 <li><p>Normalization of functional groups to a consistent format.</p></li>
 <li><p>Recombination of separated charges.</p></li>
@@ -160,120 +154,128 @@
 <li><p>Generation of fragment, isotope, charge, tautomer or stereochemistry insensitive parent structures.</p></li>
 <li><p>Validations to identify molecules with unusual and potentially troublesome characteristics.</p></li>
 </ul>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.pretreat</span> <span class="k">import</span> <span class="n">pretreat</span>
+<p>Users can diconnect metal ion.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rdkit</span> <span class="k">import</span> <span class="n">Chem</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.pretreat</span> <span class="k">import</span> <span class="n">pretreat</span>
+<span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="s1">&#39;[Na]OC(=O)c1ccc(C[S+2]([O-])([O-]))cc1&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sdm</span> <span class="o">=</span> <span class="n">StandardizeMol</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span> <span class="o">=</span> <span class="n">sdm</span><span class="o">.</span><span class="n">disconnect_metals</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sdm</span> <span class="o">=</span> <span class="n">pretreat</span><span class="o">.</span><span class="n">StandardizeMol</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span> <span class="o">=</span> <span class="n">sdm</span><span class="o">.</span><span class="n">disconnect_metals</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span> <span class="c1"># diconnect metal ion.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">isomericSmiles</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">O=C([O-])c1ccc(C[S+2]([O-])[O-])cc1.[Na+]</span>
+</pre></div>
+</div>
+<p>And pretreat the molecular structure using all functions.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stdsmi</span> <span class="o">=</span> <span class="n">pretreat</span><span class="o">.</span><span class="n">StandardSmi</span><span class="p">(</span><span class="s1">&#39;[Na]OC(=O)c1ccc(C[S+2]([O-])([O-]))cc1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stdsmi</span>
+<span class="go">O=C([O-])c1ccc(C[S](=O)=O)cc1</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="drug-likeness-filter">
 <h2>Drug-likeness Filter<a class="headerlink" href="#drug-likeness-filter" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">druglikeness</span></code> provides the method to analyse the physicochemical (PC) properties and filter compounds based on PC-derived rules.</p>
-<div class="section" id="calculating-pc-properties">
-<h3>Calculating PC properties<a class="headerlink" href="#calculating-pc-properties" title="Permalink to this headline">¶</a></h3>
-<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">druglikeness.molproperty</span></code> module provides the tool to calculate PC properties.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rdkit</span> <span class="k">import</span> <span class="n">Chem</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy</span> <span class="k">import</span> <span class="n">ScoConfig</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.druglikeness</span> <span class="k">import</span> <span class="n">molproperty</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromMolFile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ScoConfig</span><span class="o">.</span><span class="n">DemoDir</span><span class="p">,</span><span class="s1">&#39;mol.sdf&#39;</span><span class="p">))</span>
+<p>Drug-likeness is a conception that rationalizes the influence of simple physicochemical properties to in vivo molecular behaviors, with particular respect to solubility, absorption, permeability, metabolic stability and transporting effects. The application of drug-likeness rules to database construction will help senior executives more effectively.</p>
+<p>The <a class="reference internal" href="modules/scopy.druglikeness.html#module-scopy.druglikeness" title="scopy.druglikeness"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.druglikeness</span></code></a> package provides the calculation of physicochemical properties and the screening drug-likeness rules. <a class="reference internal" href="modules/scopy.druglikeness.html#module-scopy.druglikeness" title="scopy.druglikeness"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.druglikeness</span></code></a> package can calculate 42 physicochemical properties (39 basic molecular properties and 3 comprehensive molecular evaluation scores), and implement 15 drug-likeness rules (11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules). More details see <a class="reference external" href="./overview.html#feature-overview">overview</a>.</p>
+<div class="section" id="calculating-physicochemical-properties">
+<h3>Calculating Physicochemical Properties<a class="headerlink" href="#calculating-physicochemical-properties" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="modules/scopy.druglikeness.html#module-scopy.druglikeness.molproperty" title="scopy.druglikeness.molproperty"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.druglikeness.molproperty</span></code></a> module provides the calculation of 42 physicochemical properties, including 39 basic molecular properties and 3 comprehensive molecular evaluation scores.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="s1">&#39;Cc1cc(O)cc(N=C2C=CC(=O)C(O)=C2)c1&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mol</span>
 <span class="go">&lt;rdkit.Chem.rdchem.Mol object at 0x0000020879B4E120&gt;</span>
 </pre></div>
 </div>
-<p>User could calculate different properties respectively</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">MW</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">MW</span>
-<span class="go">229.24</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">logP</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">logP</span>
-<span class="go">2.35</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">nHD</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNumHDonors</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">nHD</span>
-<span class="go">2</span>
-</pre></div>
+<div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="_images/demo_mol.svg"><img alt="_images/demo_mol.svg" src="_images/demo_mol.svg" width="300px" /></a>
+<p class="caption"><span class="caption-text">The molecule used as the example in this document.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
-<p>Beside these basic properties, some spcecial properties could also be calculated</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">QEDnone</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateQEDnone</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+<p>Users can calculate different properties separately.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.druglikeness</span> <span class="k">import</span> <span class="n">molproperty</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">MW</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span> <span class="c1">#Calculate molecular weight.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">MW</span>
+<span class="go">229.07</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">QEDnone</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateQEDnone</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span> <span class="c1">#Calculate QED using unit weights.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">QEDnone</span>
 <span class="go">0.79</span>
-</pre></div>
-</div>
-<p>QED (quantitative estimate of drug-likeness) is a measure of drug-likeness. More datails: <a class="reference external" href="https://www.nature.com/nchem/journal/v4/n2/abs/nchem.1243.html">Nat Chem 2012</a></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">SAscore</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateSAscore</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">SAscore</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateSAscore</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span> <span class="c1">#Calculate Synthetic Accessibility Score</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">SAscore</span>
 <span class="go">2.96</span>
-</pre></div>
-</div>
-<p>SA (Synthetic Accessibility) score measure the synthetic accessibility of a molecule based on molecular complexity and fragment contributions. More details: <a class="reference external" href="https://jcheminf.biomedcentral.com/articles/10.1186/1758-2946-1-8">J Cheminform 2009</a></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">NPscore</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNPscore</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">NPscore</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">CalculateNPscore</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span> <span class="c1">#Calculate Natural Product-likeness Score</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">NPscore</span>
 <span class="go">0.49</span>
 </pre></div>
 </div>
-<p>NP (Natural Product-likeness) score measure the natural product-likeness of a molecule. More details: <a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/ci700286x">J Chem Inf Model 2008</a></p>
-<p>User could also calculate multi-property at once through <code class="xref py py-mod docutils literal notranslate"><span class="pre">molproperty.GetProperties</span></code>.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">props</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">GetProperties</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span><span class="s1">&#39;Vol&#39;</span><span class="p">,</span><span class="s1">&#39;SAscore&#39;</span><span class="p">])</span>
+<p>Besides, user can also calculate different property simultaneously through <cite>molproperty.GetProperties</cite> function.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">props</span> <span class="o">=</span> <span class="n">molproperty</span><span class="o">.</span><span class="n">GetProperties</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span><span class="s1">&#39;Vol&#39;</span><span class="p">,</span><span class="s1">&#39;SAscore&#39;</span><span class="p">])</span> <span class="c1">#The molecular weight, volume and SAscore to be calulated</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">props</span>
 <span class="go">{&#39;MW&#39;: 229.07, &#39;Vol&#39;: 235.2, &#39;SAscore&#39;: 2.96}</span>
 </pre></div>
 </div>
-<p>The function return a <cite>dict</cite>, user could pass properties need to be calculated to parameter <cite>item</cite>, defaults to the whole (45) properties.</p>
-<p>When calculating the property of multiple molecules, in addition to repeatedly calling the function in <code class="xref py py-mod docutils literal notranslate"><span class="pre">druglikeness.molproperty</span></code>, you can also use <code class="xref py py-mod docutils literal notranslate"><span class="pre">druglikeness.druglikeness</span></code> module, which is more time-saveing since using multiprocessing.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.druglikeness</span> <span class="k">import</span> <span class="n">druglikeness</span>
+<p>When user needs to calculte properties of a set of molecules, <a class="reference internal" href="modules/scopy.druglikeness.html#module-scopy.druglikeness.druglikeness" title="scopy.druglikeness.druglikeness"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.druglikeness.druglikeness</span></code></a> module can be used for the fast implementaiton.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy</span> <span class="k">import</span> <span class="n">ScoConfig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.druglikeness</span> <span class="k">import</span> <span class="n">druglikeness</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">suppl</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">SDMolSupplier</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ScoConfig</span><span class="o">.</span><span class="n">DemoDir</span><span class="p">,</span> <span class="s1">&#39;760.sdf&#39;</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mols</span> <span class="o">=</span> <span class="p">(</span><span class="n">mol</span> <span class="k">for</span> <span class="n">mol</span> <span class="ow">in</span> <span class="n">suppl</span> <span class="k">if</span> <span class="n">mol</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span> <span class="o">=</span> <span class="n">druglikeness</span><span class="o">.</span><span class="n">PC_properties</span><span class="p">(</span><span class="n">mols</span><span class="o">=</span><span class="n">mols</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mols</span> <span class="o">=</span> <span class="p">[</span><span class="n">mol</span> <span class="k">for</span> <span class="n">mol</span> <span class="ow">in</span> <span class="n">suppl</span><span class="p">]</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pc</span> <span class="o">=</span> <span class="n">druglikeness</span><span class="o">.</span><span class="n">PC_properties</span><span class="p">(</span><span class="n">mols</span><span class="o">=</span><span class="n">mols</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="c1">#4 processors used to do the computation.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">CalculateMolWeight</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="go">760</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<span class="go">&lt;class &#39;list&#39;&gt;</span>
+<span class="go">list</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
-<span class="go">[256.26, 288.25, 182.17, 578.53, 592.55, 286.24, 432.38, 270.24, 448.38, 578.52]</span>
+<span class="go">[256.07, 288.06, 182.08, 578.14, 592.16, 286.05, 432.11, 270.05, 448.1, 578.16]</span>
 </pre></div>
 </div>
-<p>The function return a <cite>list</cite>. Parameter <cite>mols</cite> should be an iterable object (i.g. <cite>list</cite>, <cite>tuple</cite> or <cite>generator</cite>) and <cite>n_jobs</cite> is the number of CPUs to use to do the computation, -1 means using all processors.</p>
 </div>
-<div class="section" id="filtering-molecule-under-pc-derived-rules">
-<h3>Filtering molecule under PC-derived rules<a class="headerlink" href="#filtering-molecule-under-pc-derived-rules" title="Permalink to this headline">¶</a></h3>
-<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">druglikeness.rulesfilter</span></code> module provides the tool to analyse PC properties</p>
+<div class="section" id="screening-under-drug-likeness-rules">
+<h3>Screening under Drug-likeness Rules<a class="headerlink" href="#screening-under-drug-likeness-rules" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="modules/scopy.druglikeness.html#module-scopy.druglikeness.rulesfilter" title="scopy.druglikeness.rulesfilter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.druglikeness.rulesfilter</span></code></a> module provides the screening of drug-likeness rules. In current version, the module can implement 15 drug-likeness rules, including 11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.druglikeness</span> <span class="k">import</span> <span class="n">rulesfilter</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckLipinskiRule</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckLipinskiRule</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span> <span class="c1">#Check the molecule whether math the requirements of Lipinski&#39;s Rule.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span>
 <span class="go">{&#39;Disposed&#39;: &#39;Accepted&#39;, &#39;nViolate&#39;: 0}</span>
 </pre></div>
 </div>
-<p>The function return a <cite>dict</cite>, the field <code class="xref py py-mod docutils literal notranslate"><span class="pre">Disposed</span></code> represents compound state after filter applied (<strong>Rejected</strong> meant the compound rejected by filter, <strong>Accepted</strong> for accepted); <code class="xref py py-mod docutils literal notranslate"><span class="pre">nViolate</span></code> represents the number of PC property violated by compound.</p>
-<p>In above example, the compound do not violate any property limited in Lipinski Rule thus its status is ‘Accepted’.</p>
-<p>Besides, the specific value of each propety would be returned if the <code class="xref py py-mod docutils literal notranslate"><span class="pre">detail</span></code> has been set as <code class="xref py py-mod docutils literal notranslate"><span class="pre">True</span></code> and the SMILES would be also returned if the <code class="xref py py-mod docutils literal notranslate"><span class="pre">showSMILES</span></code> has been set as <code class="xref py py-mod docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<p>In above example, the molecule do does not violate any property limited limitations in of Lipinski’s Rule. Tthus its status is ‘Accepted’.</p>
+<p>Besides, users can obtain more detailed information about the screening result.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">CheckLipinskiRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span>
-<span class="go">{&#39;MW&#39;: 229.24, &#39;logP&#39;: 2.35, &#39;nHD&#39;: 2, &#39;nHA&#39;: 4, &#39;Disposed&#39;: &#39;Accepted&#39;, &#39;nViolate&#39;: 0, &#39;SMILES&#39;: &#39;Cc1cc(O)cc(/N=C2/C=CC(=O)C(O)=C2)c1&#39;}</span>
+<span class="go">{&#39;SMILES&#39;: &#39;Cc1cc(O)cc(N=C2C=CC(=O)C(O)=C2)c1&#39;,</span>
+<span class="go"> &#39;MW&#39;: 229.07,</span>
+<span class="go"> &#39;logP&#39;: 2.35,</span>
+<span class="go"> &#39;nHD&#39;: 2,</span>
+<span class="go"> &#39;nHA&#39;: 4,</span>
+<span class="go"> &#39;Disposed&#39;: &#39;Accepted&#39;,</span>
+<span class="go"> &#39;nViolate&#39;: 0}</span>
 </pre></div>
 </div>
-<p>You also could customize the filter by your experience</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">prop_kws</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;MW&#39;</span><span class="p">:[</span><span class="mi">100</span><span class="p">,</span><span class="mi">500</span><span class="p">],</span> <span class="s1">&#39;nHB&#39;</span><span class="p">:[</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span> <span class="s1">&#39;QEDmean&#39;</span><span class="p">:[</span><span class="mf">0.8</span><span class="p">,</span><span class="kc">None</span><span class="p">]}</span>
+<p>Considering the expert experience and different requirements in practical applications, users can customize their own screening rules through <cite>rulesfilter.Check_CustomizeRule</cite> function.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">prop_kws</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;MW&#39;</span><span class="p">:[</span><span class="kc">None</span><span class="p">,</span><span class="mi">500</span><span class="p">],</span> <span class="s1">&#39;logP&#39;</span><span class="p">:[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="s1">&#39;nHD&#39;</span><span class="p">:[</span><span class="kc">None</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>
+<span class="gp">... </span>                    <span class="s1">&#39;nHA&#39;</span><span class="p">:[</span><span class="kc">None</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span> <span class="s1">&#39;TPSA&#39;</span><span class="p">:[</span><span class="kc">None</span><span class="p">,</span><span class="mi">140</span><span class="p">]}</span> <span class="c1">#The customized rule: MW&lt;=500, logP&lt;=5, nHD&lt;=5, nHA&lt;=10, TPSA&lt;=140</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">rulesfilter</span><span class="o">.</span><span class="n">Check_CustomizeRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">prop_kws</span><span class="o">=</span><span class="n">prop_kws</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span>
-<span class="go">{&#39;MW&#39;: 229.24, &#39;nHB&#39;: 6, &#39;QEDmean&#39;: 0.73, &#39;nViolate&#39;: 1, &#39;VioProp&#39;: [&#39;QEDmean&#39;]}</span>
+<span class="go">{&#39;MW&#39;: 229.07,</span>
+<span class="go"> &#39;logP&#39;: 2.35,</span>
+<span class="go"> &#39;nHD&#39;: 2,</span>
+<span class="go"> &#39;nHA&#39;: 4,</span>
+<span class="go"> &#39;TPSA&#39;: 69.89,</span>
+<span class="go"> &#39;nViolate&#39;: 0,</span>
+<span class="go"> &#39;VioProp&#39;: []}</span>
 </pre></div>
 </div>
-<p>The customize rule should be a <cite>dict</cite>, key of <cite>dict</cite> is abbreviation name of property and value is the limited range.</p>
-<p>Samely, <code class="xref py py-mod docutils literal notranslate"><span class="pre">druglikeness.druglikeness</span></code> could also be used to analyse multiple molecules, instead of repeatly calling function in <cite>druglikeness.rulesfilter</cite>, to save time</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rule</span> <span class="o">=</span> <span class="n">druglikeness</span><span class="o">.</span><span class="n">PC_rules</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<p>Scopy provides the visualization function to position the value of the queried compound within the selected drug-likeness rule ranges, which provide a benchmark for molecular assessment. See: <a class="reference external" href="#basic-property-radar">visualize.rule_radar</a> function.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/radar_1.png"><img alt="_images/radar_1.png" src="_images/radar_1.png" style="width: 400px;" /></a>
+</div>
+<p>Similarly, <a class="reference internal" href="modules/scopy.druglikeness.html#module-scopy.druglikeness.druglikeness" title="scopy.druglikeness.druglikeness"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.druglikeness.druglikeness</span></code></a> module can be used to evaluate the potential of a group of molecules.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rule</span> <span class="o">=</span> <span class="n">druglikeness</span><span class="o">.</span><span class="n">PC_rules</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="c1">#4 processors used to do the computation.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">CheckLipinskiRule</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <span class="go">760</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<span class="go">&lt;class &#39;list&#39;&gt;</span>
+<span class="go">list</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
 <span class="go">[{&#39;MW&#39;: 256.26, &#39;logP&#39;: 2.83, &#39;nHD&#39;: 3, &#39;nHA&#39;: 3, &#39;Disposed&#39;: &#39;Accepted&#39;, &#39;nViolate&#39;: 0},</span>
 <span class="go"> {&#39;MW&#39;: 288.25, &#39;logP&#39;: 2.79, &#39;nHD&#39;: 5, &#39;nHA&#39;: 5, &#39;Disposed&#39;: &#39;Accepted&#39;, &#39;nViolate&#39;: 0},</span>
@@ -282,251 +284,217 @@
 </div>
 </div>
 </div>
-<div class="section" id="id1">
-<h2>Drug-likeness Filter<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">structure_alert</span></code> module provides the tool to filter frequent hitters. This filter contains 11 endpoints</p>
+<div class="section" id="frequent-hitter-filter">
+<h2>Frequent hitter Filter<a class="headerlink" href="#frequent-hitter-filter" title="Permalink to this headline">¶</a></h2>
+<p>Frequent hitters refer to compounds which are repetitively identified as active hits in many different and independent biological assays covering a wide range of targets. Frequent hitters can be roughly divided into two categories: (1) compounds that interfere with elements of the assay formats or techniques thus causing undesirable false positive results; and (2) promiscuous compounds that can bind to different target thus triggering adverse reactions and other safety issues.</p>
+<p>The <a class="reference internal" href="modules/scopy.structure_alert.html#module-scopy.structure_alert" title="scopy.structure_alert"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.structure_alert</span></code></a> package provides 8 substructure filters for screening different types of FHs, including 4 assay interference substructure filters and 4 promiscuous compound substructure filters. More Details see <a class="reference external" href="./overview.html#feature-overview">overview</a>.</p>
+<div class="section" id="assay-interference-substructure-filter">
+<h3>Assay Interference Substructure Filter<a class="headerlink" href="#assay-interference-substructure-filter" title="Permalink to this headline">¶</a></h3>
+<p>Assay interferences refer to compounds that interfere with elements of the assay formats or techniques thus causing undesirable false positive results. Such compounds will seriously interfere with the progress of drug research. <a class="reference internal" href="modules/scopy.structure_alert.html#module-scopy.structure_alert.FilterWithSmarts" title="scopy.structure_alert.FilterWithSmarts"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.structure_alert.FilterWithSmarts</span></code></a> module provides 4 assay interference substructure filters (AlphaScreen_FHs, Luciferase_Inhibitory, Chelating and Alarm_NMR Filter) for the screening of AlphaScreen detection interferences, spectroscopic interferences, chelators and chemical reactive compounds, respectively.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.structure_alert</span> <span class="k">import</span> <span class="n">FilterWithSmarts</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">FilterWithSmarts</span><span class="o">.</span><span class="n">Check_Alarm_NMR</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span> <span class="c1">#Here, Alarm_NMR Filter be used for screening the molecule.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span>
+<span class="go">{&#39;Disposed&#39;: &#39;Rejected&#39;, &#39;Endpoint&#39;: &#39;Alarm_NMR&#39;}</span>
 </pre></div>
 </div>
-<div class="section" id="pains">
-<h3>PAINS<a class="headerlink" href="#pains" title="Permalink to this headline">¶</a></h3>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">FilterWithSmarts</span><span class="o">.</span><span class="n">Check_PAINS</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+<p>In the above example, the molecule failed the ALARM NMR rule.</p>
+<p>User can also obtain more detailed information about screening result.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">FilterWithSmarts</span><span class="o">.</span><span class="n">Check_Alarm_NMR</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span>
-<span class="go">{&#39;Disposed&#39;: &#39;Rejected&#39;, &#39;Endpoint&#39;: &#39;Pains&#39;}</span>
-</pre></div>
-</div>
-<p>The function return a <cite>dict</cite>, the field <code class="xref py py-mod docutils literal notranslate"><span class="pre">Disposed</span></code> represents compound state after filter applied (<strong>Rejected</strong> meant the compound rejected by filter, <strong>Accepted</strong> for accepted); <code class="xref py py-mod docutils literal notranslate"><span class="pre">Endpoint</span></code> represents the which filter to be used.</p>
-<p>Besides, the more specific information would be returned, if the <code class="xref py py-mod docutils literal notranslate"><span class="pre">detail</span></code> has been set as <code class="xref py py-mod docutils literal notranslate"><span class="pre">True</span></code> and the SMILES would be also returned if the <code class="xref py py-mod docutils literal notranslate"><span class="pre">showSMILES</span></code> has been set as <code class="xref py py-mod docutils literal notranslate"><span class="pre">True</span></code>.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">FilterWithSmarts</span><span class="o">.</span><span class="n">Check_PAINS</span><span class="p">(</span><span class="n">pains_mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span>
-<span class="go">{&#39;SMILES&#39;: &#39;Cc1cc(O)cc(/N=C2/C=CC(=O)C(O)=C2)c1&#39;,</span>
+<span class="go">{&#39;SMILES&#39;: &#39;Cc1cc(O)cc(N=C2C=CC(=O)C(O)=C2)c1&#39;,</span>
 <span class="go"> &#39;Disposed&#39;: &#39;Rejected&#39;,</span>
-<span class="go"> &#39;MatchedAtoms&#39;: [((3, 2, 1, 0, 15, 16, 13, 12),)],</span>
+<span class="go"> &#39;MatchedAtoms&#39;: [((9, 10, 11, 12, 13), (15, 13, 11, 12, 10)),</span>
+<span class="go">  ((4, 3, 5, 6, 7, 16, 1, 2),),</span>
+<span class="go">  ((7, 6, 5, 3, 2, 1, 16),),</span>
+<span class="go">  ((4, 3, 2, 1, 16, 6, 5),)],</span>
+<span class="go"> &#39;MatchedNames&#39;: [&#39;C=CC(=O)C&#39;, &#39;[OH]c1cc(N)ccc1&#39;, &#39;c1ccccc1N&#39;, &#39;c1ccccc1O&#39;],</span>
+<span class="go"> &#39;Endpoint&#39;: &#39;Alarm_NMR&#39;}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="promiscuous-compound-substructure-filter">
+<h3>Promiscuous Compound Substructure Filter<a class="headerlink" href="#promiscuous-compound-substructure-filter" title="Permalink to this headline">¶</a></h3>
+<p>The promiscuity is defined as the ability to specifically bind to different macro-molecular targets. These multiple interactions can include unintended targets, thus triggering adverse reactions and other safety issues. <a class="reference internal" href="modules/scopy.structure_alert.html#module-scopy.structure_alert.FilterWithSmarts" title="scopy.structure_alert.FilterWithSmarts"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.structure_alert.FilterWithSmarts</span></code></a> module provides 4 frequently-used promiscuous compound substructure filters, such as PAINS, BMS Filter, AlphaScreen_GST_FHs and AlphaScreen_HIS_FHs.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">FilterWithSmarts</span><span class="o">.</span><span class="n">Check_PAINS</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1">#Here, PAINS Filter used for screening the molecule.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span>
+<span class="go">{&#39;Disposed&#39;: &#39;Rejected&#39;,</span>
+<span class="go"> &#39;MatchedAtoms&#39;: [((7, 8, 9, 10, 11, 12, 13, 15),)],</span>
 <span class="go"> &#39;MatchedNames&#39;: [&#39;Quinone_A&#39;],</span>
 <span class="go"> &#39;Endpoint&#39;: &#39;Pains&#39;}</span>
 </pre></div>
 </div>
-<p>The result reveals the compound rejected by PAINS Filter, since the compound has the substructure named ‘Quinone_A’ which contained in PAINS Filter, more further, the No.3, No.2, No.1, No.0, No.15, No.16, No.13 and No.12 atom constructing this substructure.</p>
-</div>
-<div class="section" id="chelating">
-<h3>Chelating<a class="headerlink" href="#chelating" title="Permalink to this headline">¶</a></h3>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">FilterWithSmarts</span><span class="o">.</span><span class="n">Check_Chelating</span><span class="p">(</span><span class="n">pains_mol</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span>
-<span class="go">{&#39;Disposed&#39;: &#39;Accepted&#39;, &#39;Endpoint&#39;: &#39;Chelating&#39;}</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="promiscuity">
-<h3>Promiscuity<a class="headerlink" href="#promiscuity" title="Permalink to this headline">¶</a></h3>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">FilterWithSmarts</span><span class="o">.</span><span class="n">Check_BMS</span><span class="p">(</span><span class="n">pains_mol</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span>
-<span class="go">{&#39;Disposed&#39;: &#39;Accepted&#39;, &#39;Endpoint&#39;: &#39;BMS&#39;}</span>
-</pre></div>
+<p>By applying <a class="reference external" href="#fragment-visualizer">visualize.HighlightAtoms.highlight</a> function, user conduct further analysis and molecular optimization, which also provide intuitive information about the vigilant alerts.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/highlight_11.svg"><img alt="_images/highlight_11.svg" src="_images/highlight_11.svg" width="400px" /></a>
 </div>
 </div>
 </div>
 <div class="section" id="toxicity-filter">
 <h2>Toxicity Filter<a class="headerlink" href="#toxicity-filter" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">structure_alert.FilterWithSmarts</span></code> module also provides the tool to filter toxic compounds.</p>
-<div class="section" id="acute-toxicity">
-<h3>Acute Toxicity<a class="headerlink" href="#acute-toxicity" title="Permalink to this headline">¶</a></h3>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">FilterWithSmarts</span><span class="o">.</span><span class="n">Check_Genotoxic_Carcinogenicity_Mutagenicity</span><span class="p">(</span><span class="n">pains_mol</span><span class="p">)</span>
+<p>Toxicity refers to the measure of poisonous or toxic effect on an organ or a whole organism. Toxicity is one of the main reasons for attrition in the drug development process. It is reported that more than 15% of new approved FDA chemical entitles (between 1975 and 2009) have received more than once black-box warnings, and some of them have been withdrawn from the market due to the toxicity and safety issues. In addition, the requirements for molecular safety are not only limited to the human beings. The environmental influence of drugs has also aroused great concern.</p>
+<p><a class="reference internal" href="modules/scopy.structure_alert.html#module-scopy.structure_alert" title="scopy.structure_alert"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.structure_alert</span></code></a> package provides 11 toxicophore filters, including 5 human related toxicity substructure filters, 3 environment related toxicity substructure filters and 3 comprehensive substructure filters. More details see: <a class="reference external" href="./overview.html#feature-overview">overview</a>.</p>
+<div class="section" id="human-toxic-compound-filter">
+<h3>Human Toxic Compound Filter<a class="headerlink" href="#human-toxic-compound-filter" title="Permalink to this headline">¶</a></h3>
+<p>For toxicity to human beings, 5 credible toxicophore filters are used to evaluate the potential toxicity of query compounds, from broad toxicity and acute toxicity, to carcinogenicity and mutagenicity.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">FilterWithSmarts</span><span class="o">.</span><span class="n">Check_Genotoxic_Carcinogenicity_Mutagenicity</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span> <span class="c1">#This Filter related with carcinogenicity and mutagenicity.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span>
 <span class="go">{&#39;Disposed&#39;: &#39;Rejected&#39;, &#39;Endpoint&#39;: &#39;Genotoxic_Carcinogenicity_Mutagenicity&#39;}</span>
 </pre></div>
 </div>
-<p>Samely, set :mod: <cite>detail</cite> to :mod: <cite>True</cite> to get specific infomation</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">FilterWithSmarts</span><span class="o">.</span><span class="n">Check_Genotoxic_Carcinogenicity_Mutagenicity</span><span class="p">(</span><span class="n">pains_mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<p>User can also check more detailed information.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">FilterWithSmarts</span><span class="o">.</span><span class="n">Check_Genotoxic_Carcinogenicity_Mutagenicity</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span>
 <span class="go">{&#39;Disposed&#39;: &#39;Rejected&#39;,</span>
-<span class="go"> &#39;MatchedAtoms&#39;: [((1, 0, 15, 16, 13), (12, 13, 15, 16, 0))],</span>
+<span class="go"> &#39;MatchedAtoms&#39;: [((1, 0, 15, 16, 13), (12, 13, 15, 16, 0))], #It means there two corresponding substructure in this molecule</span>
 <span class="go"> &#39;MatchedNames&#39;: [&#39;α, β-Unsaturated carbonyls&#39;],</span>
 <span class="go"> &#39;Endpoint&#39;: &#39;Genotoxic_Carcinogenicity_Mutagenicity&#39;}</span>
 </pre></div>
 </div>
-<p>The molecule has matched the pattern twice</p>
 </div>
-<div class="section" id="environmental-toxicity">
-<h3>Environmental Toxicity<a class="headerlink" href="#environmental-toxicity" title="Permalink to this headline">¶</a></h3>
-<p>Increasing attention to environmental impact of compounds in some regions.</p>
+<div class="section" id="environmental-toxic-compound-filter">
+<h3>Environmental Toxic Compound Filter<a class="headerlink" href="#environmental-toxic-compound-filter" title="Permalink to this headline">¶</a></h3>
+<p>Given the stringent requirements for environmental safety, the Scopy library provides 3 substructure filters for the evaluation of molecular biodegradability and potential aquatic toxicity.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">FilterWithSmarts</span><span class="o">.</span><span class="n">Check_NonBiodegradable</span><span class="p">(</span><span class="n">pains_mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span>
-<span class="go">{&#39;Disposed&#39;: &#39;Rejected&#39;,</span>
-<span class="go"> &#39;MatchedAtoms&#39;: [((0, 15, 16, 13),)],</span>
-<span class="go"> &#39;MatchedNames&#39;: [&#39;Ketone&#39;],</span>
-<span class="go"> &#39;Endpoint&#39;: &#39;NonBiodegradable&#39;}</span>
+<span class="go">{&#39;Disposed&#39;: &#39;Rejected&#39;, &#39;Endpoint&#39;: &#39;NonBiodegradable&#39;}</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="multiprocessing">
-<h3>Multiprocessing<a class="headerlink" href="#multiprocessing" title="Permalink to this headline">¶</a></h3>
-<p>In reality, we trend to screen the compund library rather than sinlgle molecule. The <code class="xref py py-mod docutils literal notranslate"><span class="pre">SmartsFilter</span></code> module provides the tool to screen multi-molecule under <strong>Frequent Hitters Filter</strong> and (or) <strong>Toxicity Filter</strong></p>
+<div class="section" id="comprehensive-toxic-compound-filter">
+<h3>Comprehensive Toxic Compound Filter<a class="headerlink" href="#comprehensive-toxic-compound-filter" title="Permalink to this headline">¶</a></h3>
+<p>To simplify screening process and draw lessons from existing screening tools, the Scopy library has integrated 3 comprehensive filters from FAF-Drugs4, SureChEMBL and Brenk et.al work.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">FilterWithSmarts</span><span class="o">.</span><span class="n">Check_SureChEMBL</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+<span class="go">{&#39;Disposed&#39;: &#39;Accepted&#39;, &#39;Endpoint&#39;: &#39;SureChEMBL&#39;}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="multiprocessing-filter">
+<h2>Multiprocessing Filter<a class="headerlink" href="#multiprocessing-filter" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="modules/scopy.structure_alert.html#module-scopy.structure_alert.SmartsFilter" title="scopy.structure_alert.SmartsFilter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.structure_alert.SmartsFilter</span></code></a> module provides the tool to screen molecule library under <a class="reference external" href="#frequent-hitter-filter">Frequent Hitters Filter</a> and (or) <a class="reference external" href="#toxicity-filter">Toxicity Filter</a> with multiprocess technology.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.structure_alert</span> <span class="k">import</span> <span class="n">SmartsFilter</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">suppl</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">SDMolSupplier</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ScoConfig</span><span class="o">.</span><span class="n">DemoDir</span><span class="p">,</span><span class="s1">&#39;760.sdf&#39;</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mols</span> <span class="o">=</span> <span class="p">(</span><span class="n">mol</span> <span class="k">for</span> <span class="n">mol</span> <span class="ow">in</span> <span class="n">suppl</span> <span class="k">if</span> <span class="n">mol</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">F</span> <span class="o">=</span> <span class="n">SmartsFilter</span><span class="o">.</span><span class="n">Filter</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">Check_PAINS</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Screener</span> <span class="o">=</span> <span class="n">SmartsFilter</span><span class="o">.</span><span class="n">Filter</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="c1">#4 processors used to do the screening.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">Screener</span><span class="o">.</span><span class="n">Check_PAINS</span><span class="p">()</span> <span class="c1">#Here, PAINS Filter used for screening library.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<span class="go">&lt;class &#39;list&#39;&gt;</span>
-</pre></div>
-</div>
-<p>The function return a <cite>list</cite>
-In above example, the PAINS Filter used to screen a library which contains 760 molecules under using four theardings</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">list</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<span class="go">760</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">{&#39;Disposed&#39;: &#39;Accepted&#39;, &#39;MatchedAtoms&#39;: [&#39;-&#39;], &#39;MatchedNames&#39;: [&#39;-&#39;], &#39;Endpoint&#39;: &#39;Pains&#39;}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="p">[</span><span class="mi">207</span><span class="p">]</span>
 <span class="go">{&#39;Disposed&#39;: &#39;Rejected&#39;, &#39;MatchedAtoms&#39;: [((7, 16, 15, 17, 18, 19, 20, 21, 14),)], &#39;MatchedNames&#39;: [&#39;Mannich_A&#39;], &#39;Endpoint&#39;: &#39;Pains&#39;}</span>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="chemical-space-analyser">
-<h2>Chemical Space Analyser<a class="headerlink" href="#chemical-space-analyser" title="Permalink to this headline">¶</a></h2>
-<p>To ensure obtaining a varity space of hitters, a Chemical space analysis of library is necessary before taking HTS. Chemical Space analysis could implement by calculating fingerprint (descriptor) and analysing framework (scaffold) of library.</p>
-<div class="section" id="fingerprint-calculate">
-<h3>Fingerprint Calculate<a class="headerlink" href="#fingerprint-calculate" title="Permalink to this headline">¶</a></h3>
-<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">fingerprint</span></code> module provides the tool to compute fingerprints and (or) descriptor for chemical space analysis</p>
-<div class="section" id="efg-fingerprints">
-<h4>EFG Fingerprints<a class="headerlink" href="#efg-fingerprints" title="Permalink to this headline">¶</a></h4>
-<p>Classification system termed “extended functional groups” (EFG), which are an extension of a set previously used by the CheckMol software, that covers in addition heterocyclic compound classes and periodic table groups.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.fingerprint</span> <span class="k">import</span> <span class="n">fingerprints</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fps</span> <span class="o">=</span> <span class="n">fingerprints</span><span class="o">.</span><span class="n">CalculateEFG</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">useCount</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fps</span><span class="o">.</span><span class="n">shape</span>
-<span class="go">(760, 583)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fps</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="go">9473</span>
-</pre></div>
-</div>
-<p>In the above example, the calculated fingerprint is binary, beside that another type that using count to represent molecule(s)</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fps</span> <span class="o">=</span> <span class="n">fingerprints</span><span class="o">.</span><span class="n">CalculateEFG</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">useCount</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fps</span><span class="o">.</span><span class="n">shape</span>
-<span class="go">(760, 583)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fps</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="go">58298</span>
-</pre></div>
-</div>
-<p>More details: <a class="reference external" href="https://www.mdpi.com/1420-3049/21/1/1">Salmina, Elena, Norbert Haider and Igor Tetko (2016)</a></p>
-</div>
-<div class="section" id="ifg-fingerprint">
-<h4>IFG Fingerprint<a class="headerlink" href="#ifg-fingerprint" title="Permalink to this headline">¶</a></h4>
-<p>A new algorithm to identify all functional groups in organic molecules is presented.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fps</span> <span class="o">=</span> <span class="n">fingerprints</span><span class="o">.</span><span class="n">CalculateIFG</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fps</span><span class="o">.</span><span class="n">shape</span>
-<span class="go">(760, 193)</span>
-</pre></div>
-</div>
-<p>Differ from other fingerprints, the dimension of IFG fingerprint may be variable with different library.</p>
-<p>More details: <a class="reference external" href="https://jcheminf.springeropen.com/articles/10.1186/s13321-017-0225-z">Peter Ertl (2017)</a>.</p>
-<p>Total 8 types of fingerprint are implemnted in <code class="xref py py-mod docutils literal notranslate"><span class="pre">fingerprint</span></code>: MACCS, EFG, IFG, EState, Morgan, GhoseCrippen, Daylight and PubChem.</p>
-</div>
-</div>
-<div class="section" id="framework-analyse">
-<h3>Framework Analyse<a class="headerlink" href="#framework-analyse" title="Permalink to this headline">¶</a></h3>
-<p>Beside counting frequency of each framework (scaffold), Scopy also supply a word cloud-like figure, called “Molecule Cloud”.</p>
-<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">visualize.mcloud</span></code> provide tool to implement framework analysis.</p>
+<div class="section" id="chemical-space-exploer">
+<h2>Chemical Space Exploer<a class="headerlink" href="#chemical-space-exploer" title="Permalink to this headline">¶</a></h2>
+<p>A desirable database is demanded to own wide chemical space, which will greatly benefits the efficiency and success rate of drug development. To analyze the chemical diversity of screening databases, the Scopy library designs a special module for the calculation of 2 molecular scaffolds, 6 substructure descriptors and 2 fingerprints.</p>
+<div class="section" id="framework-calculation">
+<h3>Framework Calculation<a class="headerlink" href="#framework-calculation" title="Permalink to this headline">¶</a></h3>
+<p>The function <cite>mcloud.CountScaffold</cite> can calculate molecular Murcko scaffold and carbon skeleton and summarize the number of scaffold occurrence in the database. Then the data can be used to generate the cloud gram via <a class="reference external" href="#framework-visualizer">visualize.mcloud</a> function.</p>
+<p>The function <cite>mcloud.CountScaffold</cite> can calculate the framework and count the frequency of corresponding frameworks.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.visualize</span> <span class="k">import</span> <span class="n">mcloud</span>
-</pre></div>
-</div>
-<div class="section" id="counting-frequency">
-<h4>Counting Frequency<a class="headerlink" href="#counting-frequency" title="Permalink to this headline">¶</a></h4>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scount</span> <span class="o">=</span> <span class="n">mcloud</span><span class="o">.</span><span class="n">CountScaffold</span><span class="p">(</span><span class="n">mols</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scount</span> <span class="o">=</span> <span class="n">mcloud</span><span class="o">.</span><span class="n">CountScaffold</span><span class="p">(</span><span class="n">mols</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">scount</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">dict</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">scount</span><span class="p">[</span><span class="s1">&#39;c1ccccc1&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="mi">68</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">scount</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">760</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">scount</span><span class="o">.</span><span class="n">keys</span><span class="p">())[:</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">[&#39;C1=C[C-](c2ccccc2)[OH+]c2ccccc21&#39;,</span>
+<span class="go"> &#39;C1=CC2=CC=C(c3ccccc3)[OH+][C-]2C=C1&#39;,</span>
+<span class="go"> &#39;c1ccc(C2CC(c3cccc4c3OC(c3ccccc3)CC4)c3ccccc3O2)cc1&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">scount</span><span class="o">.</span><span class="n">values</span><span class="p">())[:</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">[1, 3, 3]</span>
 </pre></div>
 </div>
-<p>The function return a <cite>dict</cite> whose <cite>keys</cite> is the scaffold in SMILES format and <cite>values</cite> is the corresponding frequnecy</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/mcloud_1.png"><img alt="_images/mcloud_1.png" src="_images/mcloud_1.png" style="width: 500px;" /></a>
 </div>
-<div class="section" id="molecule-cloud">
-<h4>Molecule Cloud<a class="headerlink" href="#molecule-cloud" title="Permalink to this headline">¶</a></h4>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This module should run under a Java environment and the script retrived from <a href="#id7"><span class="problematic" id="id8">`Peter Ertl`_</span></a></p>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scaffolds</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ScoConfig</span><span class="o">.</span><span class="n">DemoDir</span><span class="p">,</span> <span class="s1">&#39;scaffolds.txt&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mcloud</span><span class="o">.</span><span class="n">ShowMcloud</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">scaffolds</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">savedir</span><span class="o">=</span><span class="s1">&#39;./mcloud.png&#39;</span><span class="p">)</span>
+<div class="section" id="fingerprint-calculation">
+<h3>Fingerprint Calculation<a class="headerlink" href="#fingerprint-calculation" title="Permalink to this headline">¶</a></h3>
+<p>With different definitions, fingerprints (descriptors) can characterize molecules from different angles. Through calculating similarity or distance among molecular fingerprints (descriptors), the spatial density of compound libraries can be evaluated.</p>
+<p>The <a class="reference internal" href="modules/scopy.fingerprint.html#module-scopy.fingerprint" title="scopy.fingerprint"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.fingerprint</span></code></a> package provides the calculation of 6 descriptors (MACCS, EFG, IFG, EState, GhoseCrippen and PubChem) and 2 fingerprints (Morgan Family and Daylight Fingerprint). More Details see <a class="reference external" href="./overview.html#feature-overview">overview</a>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.fingerprint</span> <span class="k">import</span> <span class="n">fingerprints</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fps</span> <span class="o">=</span> <span class="n">fingerprints</span><span class="o">.</span><span class="n">CalculateEFG</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">useCount</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fps</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(760, 583)</span>
 </pre></div>
-</div>
-<div class="figure align-center" id="id2">
-<a class="reference internal image-reference" href="_images/mcloud.png"><img alt="_images/mcloud.png" src="_images/mcloud.png" style="width: 400px;" /></a>
-<p class="caption"><span class="caption-text">Molecule cloud, more frequent molecule (scaffold) appear, the more bigger and more forward layer got.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
-</div>
 </div>
 </div>
 </div>
 <div class="section" id="screening-visualizer">
 <h2>Screening Visualizer<a class="headerlink" href="#screening-visualizer" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">visualize</span></code> module provides the tool to visualize PC properties, PC-drived rules, substructures, fingerprints and molecular scaffolds (see <a class="reference internal" href="#molecule-cloud">Molecule Cloud</a>).</p>
+<p>In the case of early drug discovery, data visualized as a gram or diagram can provide a simplified view of multidimensional property and ideally reveal correlations. The <a class="reference internal" href="modules/scopy.visualize.html#module-scopy.visualize" title="scopy.visualize"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.visualize</span></code></a> module provides four different visualization functions, including basic feature radar charts, feature-feature related scatter diagram, functional group marker gram and cloud gram.</p>
 <div class="section" id="pc-visualizer">
 <h3>PC Visualizer<a class="headerlink" href="#pc-visualizer" title="Permalink to this headline">¶</a></h3>
-<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">visualize.pc_depict</span></code> module can depict basic properties distribution of molecule(s) and position molecular values within the selected filter range.</p>
+<p>The <a class="reference internal" href="modules/scopy.visualize.html#module-scopy.visualize.pc_depict" title="scopy.visualize.pc_depict"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.visualize.pc_depict</span></code></a> module provides the visualization of PC properties distribution and drug-likeness rules.</p>
 <div class="section" id="proprty-matrix">
 <h4>Proprty Matrix<a class="headerlink" href="#proprty-matrix" title="Permalink to this headline">¶</a></h4>
-<p>The proprty matrix can intuitively show the compounds’ distribution in Two-Dimension space, and diagonal of the matrix is the displot of property</p>
+<p>The proprty matrix (feature-feature related scatter diagram) can present the correlation between different features and assessment score.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.visualize</span> <span class="k">import</span> <span class="n">pc_depict</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">pc_depict</span><span class="o">.</span><span class="n">prop_matrix</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span>
 <span class="go">&lt;Figure size 1567x989 with 36 Axes&gt;</span>
 </pre></div>
 </div>
 <div class="figure align-center" id="id3">
-<a class="reference internal image-reference" href="_images/760_matrix.png"><img alt="_images/760_matrix.png" src="_images/760_matrix.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/760_matrix.png"><img alt="_images/760_matrix.png" src="_images/760_matrix.png" style="width: 500px;" /></a>
 <p class="caption"><span class="caption-text">The matrix of logP, TPSA, MW, nRot, nHD and nHA</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
-<p>Default properties of matrix are logP, TPSA, MW, nRot, nHD and nHA. The user could customize proerties to be shown through parament <cite>items</cite></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">pc_depict</span><span class="o">.</span><span class="n">prop_matrix</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span> <span class="s1">&#39;Vol&#39;</span><span class="p">,</span> <span class="s1">&#39;Dense&#39;</span><span class="p">])</span>
+<p>Default properties of matrix are logP, TPSA, MW, nRot, nHD and nHA. Users can customize their own features.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">pc_depict</span><span class="o">.</span><span class="n">prop_matrix</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span> <span class="s1">&#39;Vol&#39;</span><span class="p">,</span> <span class="s1">&#39;Dense&#39;</span><span class="p">])</span> <span class="c1">#Mw, Vol and Dense to be shown.</span>
 </pre></div>
 </div>
 <div class="figure align-center" id="id4">
-<a class="reference internal image-reference" href="_images/760_matrix_2.png"><img alt="_images/760_matrix_2.png" src="_images/760_matrix_2.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/760_matrix_2.png"><img alt="_images/760_matrix_2.png" src="_images/760_matrix_2.png" style="width: 500px;" /></a>
 <p class="caption"><span class="caption-text">The matrix of MW, Vol and Dense</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="basic-property-radar">
 <h4>Basic Property Radar<a class="headerlink" href="#basic-property-radar" title="Permalink to this headline">¶</a></h4>
-<blockquote>
-<div><p>A radar plot positionning compound’s values within the selected filter ranges (pale blue and red). By default, the <a class="reference external" href="http://fafdrugs4.mti.univ-paris-diderot.fr/filters.html">drug-like soft</a> filter ranges are visualized.</p>
-</div></blockquote>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The property “Number of Charged Groups” in <a class="reference external" href="http://fafdrugs4.mti.univ-paris-diderot.fr/filters.html">drug-like soft</a> has not been implemented</p>
-</div>
+<p>The radar chart can be used to position the value of the queried compound within the selected drug-likeness rule ranges, which provide a benchmark for molecular assessment.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">pc_depict</span><span class="o">.</span><span class="n">rule_radar</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span>
 <span class="go">&lt;Figure size 640x480 with 1 Axes&gt;</span>
 </pre></div>
 </div>
-<div class="figure align-center" id="id5">
-<a class="reference internal image-reference" href="_images/mol_basci_rule.png"><img alt="_images/mol_basci_rule.png" src="_images/mol_basci_rule.png" style="width: 400px;" /></a>
-<p class="caption"><span class="caption-text">A radar plot of drug-like soft</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/mol_basci_rule.png"><img alt="_images/mol_basci_rule.png" src="_images/mol_basci_rule.png" style="width: 500px;" /></a>
 </div>
 </div>
 </div>
 <div class="section" id="fragment-visualizer">
 <h3>Fragment visualizer<a class="headerlink" href="#fragment-visualizer" title="Permalink to this headline">¶</a></h3>
-<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">visualize.highlight</span></code> module can flag the subtructure related to some specific endpoint</p>
+<p>The <a class="reference internal" href="modules/scopy.visualize.html#module-scopy.visualize.highlight" title="scopy.visualize.highlight"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.visualize.highlight</span></code></a> module can highlight the flagged substructures, which help user to conduct further analysis.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.visualize</span> <span class="k">import</span> <span class="n">highlight</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">highlight</span><span class="o">.</span><span class="n">HighlightAtoms</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">highlightAtoms</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">12</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">highlight</span><span class="o">.</span><span class="n">HighlightAtoms</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">highlightAtoms</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">15</span><span class="p">])</span> <span class="c1">#highlightAtoms obtained from function Check_PAINS()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
 <span class="go">IPython.core.display.SVG</span>
 </pre></div>
 </div>
-<p>The atoms highlighted retrieved from module <code class="xref py py-mod docutils literal notranslate"><span class="pre">structure_alert.FilterWithSmarts</span></code> and the function return a SVG object, you may should save it manually.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;PAINS.svg&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_obj</span><span class="p">:</span>
-<span class="go">                f_obj.write(fig.data)</span>
-<span class="go">        f_obj.close()</span>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/highlight_11.svg"><img alt="_images/highlight_11.svg" src="_images/highlight_11.svg" width="500px" /></a>
+</div>
+</div>
+<div class="section" id="framework-visualizer">
+<h3>Framework Visualizer<a class="headerlink" href="#framework-visualizer" title="Permalink to this headline">¶</a></h3>
+<p>The function <cite>mcloud.ShowMcloud</cite> can help the evaluation of database diversity and structure characteristics. The frequency of specific scaffold is indicated by the size of the respective structural image. With the application of cloud gram, users can easily explore the top-ranked scaffolds and the whole chemical space of the screening database.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This module should run under a Java environment and the script retrived from <a class="reference external" href="https://jcheminf.biomedcentral.com/articles/10.1186/1758-2946-4-12">Peter Ertl</a></p>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scaffolds</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ScoConfig</span><span class="o">.</span><span class="n">DemoDir</span><span class="p">,</span> <span class="s1">&#39;scaffolds.txt&#39;</span><span class="p">)</span> <span class="c1">#The file storing the frameworks and corresponding frequency.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mcloud</span><span class="o">.</span><span class="n">ShowMcloud</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">scaffolds</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#The skip parameter is used to skip the most frequent framework (here skipping benzene ring).</span>
 </pre></div>
 </div>
-<div class="figure align-center" id="id6">
-<a class="reference internal image-reference" href="_images/PAINS.svg"><img alt="_images/PAINS.svg" src="_images/PAINS.svg" width="400px" /></a>
-<p class="caption"><span class="caption-text">A molecule with highlighted substructure in red</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/mcloud_1.png"><img alt="_images/mcloud_1.png" src="_images/mcloud_1.png" style="width: 500px;" /></a>
 </div>
 </div>
 </div>

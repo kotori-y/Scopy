@@ -1,0 +1,10 @@
+Name	SMARTS	Reject	Accept
+Alcohols	[#6][OX2H]		['[#6][OX2H]']
+Aldehyde	[CX3H1](=O)[#6]		['[CX3H1](=O)[#6]']
+AlyphaticSulphonicAcids	NOT a AND [$([#16X4](=[OX1])(=[OX1])([#6])[OX2H,OX1H0-]),$([#16X4+2]([OX1-])([OX1-])([#6])[OX2H,OX1H0-])]	['a']	['[$([#16X4](=[OX1])(=[OX1])([#6])[OX2H,OX1H0-]),$([#16X4+2]([OX1-])([OX1-])([#6])[OX2H,OX1H0-])]']
+AminoAcids	[$([NX3,NX4+][CX4H]([*])[CX3](=[OX1])[O,N]),$([$([$([NX3H2,NX4H3+]),$([NX3H](C)(C))][CX4H2][CX3](=[OX1])[OX2H,OX1-,N])])]		['[$([NX3,NX4+][CX4H]([*])[CX3](=[OX1])[O,N]),$([$([$([NX3H2,NX4H3+]),$([NX3H](C)(C))][CX4H2][CX3](=[OX1])[OX2H,OX1-,N])])]']
+Esters	[#6][CX3](=O)[$([OX2H0]([#6])[#6])]		['[#6][CX3](=O)[$([OX2H0]([#6])[#6])]']
+Formaldehyde	[CX3H2](=O)		['[CX3H2](=O)']
+Nitrile	[C]#[N]		['[C]#[N]']
+OneHalogenOnUnbranched	NOT [$([C][C;!R]([C])[C])] AND NOT [R] AND [#6][F,Cl,Br,I]	['[$([C][C;!R]([C])[C])]', '[R]']	['[#6][F,Cl,Br,I]']
+PhosphateEsters	[$(P(=[OX1])([OX2][#6])([$([OX2H]),$([OX1-]),$([OX2][#6])])[$([OX2H]),$([OX1-]),$([OX2][#6]),$([OX2]P)]),$([P+]([OX1-])([OX2][#6])([$([OX2H]),$([OX1-]),$([OX2][#6])])[$([OX2H]),$([OX1-]),$([OX2][#6]),$([OX2]P)])]		['[$(P(=[OX1])([OX2][#6])([$([OX2H]),$([OX1-]),$([OX2][#6])])[$([OX2H]),$([OX1-]),$([OX2][#6]),$([OX2]P)]),$([P+]([OX1-])([OX2][#6])([$([OX2H]),$([OX1-]),$([OX2][#6])])[$([OX2H]),$([OX1-]),$([OX2][#6]),$([OX2]P)])]']

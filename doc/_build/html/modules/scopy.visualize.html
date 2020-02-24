@@ -111,7 +111,22 @@
 <dl class="function">
 <dt id="scopy.visualize.mcloud.CountScaffold">
 <code class="sig-prename descclassname">scopy.visualize.mcloud.</code><code class="sig-name descname">CountScaffold</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">stype='Murcko'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/visualize/mcloud.html#CountScaffold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.visualize.mcloud.CountScaffold" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Counting the frequency of each framework</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mols</strong> (<em>Iterable object</em><em>, </em><em>each element is rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
+<li><p><strong>stype</strong> (<em>string</em>) – the type of scaffold to be analysed, must be a member of “Murcko” or “Carbon”</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the SMILES of framework and its frequency</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="scopy.visualize.mcloud.ShowMcloud">

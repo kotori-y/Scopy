@@ -321,11 +321,11 @@
 <div class="viewcode-block" id="CalculatepKa"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculatepKa">[docs]</a><span class="k">def</span> <span class="nf">CalculatepKa</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
     <span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">log10</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculating pKa based on the ralation between logD and logP in specific pH </span>
-<span class="sd">    ---pKa</span>
+<span class="sd">    Calculating pKa based on the ralation between logD and logP in specific pH.</span>
+<span class="sd">    ---&gt;pKa</span>
 <span class="sd">    </span>
 <span class="sd">    Eq.:</span>
-<span class="sd">        |pH-pKa| = log10(10^(logP-logD)-1)</span>
+<span class="sd">        abs(pH-pKa) = log10(10^(logP-logD)-1)</span>
 <span class="sd">        pKa = pH - log10(10^(logP-logD)-1) for acid</span>
 <span class="sd">        pKa = log10(10^(logP-logD)-1) - pH for base</span>
 <span class="sd">        </span>
@@ -835,14 +835,14 @@
 <span class="sd">    ---&gt;SAscore</span>
 <span class="sd">    </span>
 <span class="sd">    Reference:</span>
-<span class="sd">        (1) `Ertl, Peter, and Ansgar Schuffenhauer (2009)`_.</span>
+<span class="sd">        (1) `Ertl Peter (2009)`_.</span>
 <span class="sd">        </span>
 <span class="sd">    :param mol: molecular</span>
 <span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
 <span class="sd">    :return: ease of synthesis</span>
 <span class="sd">    :rtype: float</span>
 <span class="sd">    </span>
-<span class="sd">    .. _Ertl, Peter, and Ansgar Schuffenhauer (2009):</span>
+<span class="sd">    .. _Ertl Peter (2009):</span>
 <span class="sd">        https://jcheminf.biomedcentral.com/articles/10.1186/1758-2946-1-8</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -855,14 +855,14 @@
 <span class="sd">    ---&gt;NPscore</span>
 <span class="sd">    </span>
 <span class="sd">    Reference:</span>
-<span class="sd">        (1) `Ertl Peter, Silvio Roggo, and Ansgar Schuffenhauer (2008)`_.</span>
+<span class="sd">        (1) `Ertl Peter (2008)`_.</span>
 <span class="sd">    </span>
 <span class="sd">    :param mol: molecular</span>
 <span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
 <span class="sd">    :return: product-likeness score</span>
 <span class="sd">    :rtype: float</span>
 <span class="sd">    </span>
-<span class="sd">    .. _Ertl, Peter, Silvio Roggo, and Ansgar Schuffenhauer (2008):</span>
+<span class="sd">    .. _Ertl Peter (2008):</span>
 <span class="sd">        https://pubs.acs.org/doi/abs/10.1021/ci700286x</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>

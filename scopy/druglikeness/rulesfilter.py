@@ -453,20 +453,20 @@ def CheckOpreaRule(mol, detail=False, showSMILES=False):
 
     
 
-def CheckOpreaTwoRule(mol):
-    """
-    Reference.:
+# def CheckOpreaTwoRule(mol):
+#     """
+#     Reference.:
                
-    Rule details:
-        mw <= 450
-        -3.5 <= clogP <= 4.5
-        -4 <= logD <= 4
-        nring <= 4
-        no. of nonterminal single bonds<=10 #this property should be realized
-        NHD <= 5
-        NHA <= 8
-    """
-    pass 
+#     Rule details:
+#         mw <= 450
+#         -3.5 <= clogP <= 4.5
+#         -4 <= logD <= 4
+#         nring <= 4
+#         no. of nonterminal single bonds<=10 #this property should be realized
+#         NHD <= 5
+#         NHA <= 8
+#     """
+#     pass 
 
 
 def CheckGhoseRule(mol, detail=False, showSMILES=False):
@@ -526,20 +526,20 @@ def CheckGhoseRule(mol, detail=False, showSMILES=False):
     return dic
 
 
-def CheckKelderRule(mol, detail=False, showSMILES=False):
-    """
-    Check moleculars under Kelder rules
+# def CheckKelderRule(mol, detail=False, showSMILES=False):
+#     """
+#     Check moleculars under Kelder rules
     
-    Ref.:
-        Kelder, Jan, et al.
-        Pharm Res, 16.10 (1999): 1514-1519.
+#     Ref.:
+#         Kelder, Jan, et al.
+#         Pharm Res, 16.10 (1999): 1514-1519.
         
-    Rule details:
-        tpsa <120 for orally active;
-        tpsa < 60-70 for brain penetration
+#     Rule details:
+#         tpsa <120 for orally active;
+#         tpsa < 60-70 for brain penetration
         
-    """
-    pass
+#     """
+#     pass
 
 
 def CheckREOS(mol, detail=False, showSMILES=False):
@@ -719,25 +719,25 @@ def CheckXuRule(mol, detail=False, showSMILES=False):
     return dic
 
 
-def CheckSchneiderRule(mol):
-    """
-    Check  molecular under Schneider rule
+# def CheckSchneiderRule(mol):
+#     """
+#     Check  molecular under Schneider rule
     
-    Reference:
-        Schneider, Nadine, et al.
-        J Chem Inf Model, 48.3 (2008): 613-628.
+#     Reference:
+#         Schneider, Nadine, et al.
+#         J Chem Inf Model, 48.3 (2008): 613-628.
         
-    Rule details:
-        mw > 230
-        nhd > 0
-        nha > 0
-        nrot > 0
-        nring > 0
-        mr > 40
-        functional groups > 0
-        molecular volume > 191
-    """
-    pass
+#     Rule details:
+#         mw > 230
+#         nhd > 0
+#         nha > 0
+#         nrot > 0
+#         nring > 0
+#         mr > 40
+#         functional groups > 0
+#         molecular volume > 191
+#     """
+#     pass
 
 
 def CheckRo4(mol, detail=False, showSMILES=False):
@@ -810,6 +810,7 @@ def CheckRo3(mol, detail=False, showSMILES=False):
         NHD <= 3
         NHA <= 6
         PSA <= 60
+        nRot <= 3
     
     :param mol: molecule
     :type mol: rdkit.Chem.rdchem.Mol
@@ -836,7 +837,7 @@ def CheckRo3(mol, detail=False, showSMILES=False):
     anHD = (nHD <= 3)
     anHA = (nHA <= 6)
     atPSA = (tPSA <= 60)
-    anRot = (nRot <= 3)
+    aRot = (nRot <= 3)
     #Give the advice
     if (aMW&alogP&anHD&anHA&atPSA&anRot):
         disposed = 'Accepted'
@@ -916,107 +917,107 @@ def CheckRo2(mol, detail=False, showSMILES=False):
     return dic
 
 
-def DrugLikeOne(mol):
-    """
-    Based on Drug-Like Soft designed by FAFDrugs4(http://fafdrugs4.mti.univ-paris-diderot.fr/index.html)
+# def DrugLikeOne(mol):
+#     """
+#     Based on Drug-Like Soft designed by FAFDrugs4(http://fafdrugs4.mti.univ-paris-diderot.fr/index.html)
     
-    Through combining several articles describing drugs' physico-chemical properties 
-    and an in-house statistical analysis of drugs.
+#     Through combining several articles describing drugs' physico-chemical properties 
+#     and an in-house statistical analysis of drugs.
     
-    Reference:
-        (1) Lipinski, Christopher A., et al.
-        Adv Drug Deliv Rev, 223.1-3 (1997): 3-25.
-        (2) Oprea, Tudor I.
-        J Comput Aided Mol Des, 14.3 (2000): 251-264.
-        (3) Irwin, John J., and Brian K. Shoichet.
-        J Chem Inf Model, 45.1 (2005): 177-182.
-        (4) Oprea, Tudor I., et al.
-        J Chem Inf Comput Sci, 41.5 (2001): 1308-1315.
-        (5) Pihan, Emilie, et al.
-        Bioinformatics, 28.11 (2012): 1540-1541.
+#     Reference:
+#         (1) Lipinski, Christopher A., et al.
+#         Adv Drug Deliv Rev, 223.1-3 (1997): 3-25.
+#         (2) Oprea, Tudor I.
+#         J Comput Aided Mol Des, 14.3 (2000): 251-264.
+#         (3) Irwin, John J., and Brian K. Shoichet.
+#         J Chem Inf Model, 45.1 (2005): 177-182.
+#         (4) Oprea, Tudor I., et al.
+#         J Chem Inf Comput Sci, 41.5 (2001): 1308-1315.
+#         (5) Pihan, Emilie, et al.
+#         Bioinformatics, 28.11 (2012): 1540-1541.
         
-    Rule details:
-        100 <= weight <= 600
-        -3 <= logP <= 6
-        nha <= 12
-        nhd <= 7
-        TPSA <= 180
-        nrot <= 11
-        nrig <= 30
-        nring <= 6
-        maxring <= 18
-        3 <= ncarb <=35
-        1 <= nhet <= 15
-        0.1 <= hetcar <=1.1
-        ncharged <= 4
-        -4 <= totalchar <= 4
-    """
-    pass
+#     Rule details:
+#         100 <= weight <= 600
+#         -3 <= logP <= 6
+#         nha <= 12
+#         nhd <= 7
+#         TPSA <= 180
+#         nrot <= 11
+#         nrig <= 30
+#         nring <= 6
+#         maxring <= 18
+#         3 <= ncarb <=35
+#         1 <= nhet <= 15
+#         0.1 <= hetcar <=1.1
+#         ncharged <= 4
+#         -4 <= totalchar <= 4
+#     """
+#     pass
 
 
-def DrugLikeTwo(mol):
-    """
-    Based on Drug-Like Soft designed by FAFDrugs4(http://fafdrugs4.mti.univ-paris-diderot.fr/index.html)
+# def DrugLikeTwo(mol):
+#     """
+#     Based on Drug-Like Soft designed by FAFDrugs4(http://fafdrugs4.mti.univ-paris-diderot.fr/index.html)
     
-    Through combining several articles describing drugs' physico-chemical properties 
-    and an in-house statistical analysis of drugs.
+#     Through combining several articles describing drugs' physico-chemical properties 
+#     and an in-house statistical analysis of drugs.
     
-    Reference.:
-        (1) Oprea, Tudor I., et al.
-        J Comput Aided Mol Des, 14.3 (2000): 251-264.
-        (2) Workman, Paul, and Ian Collins.
-        Chem Biol, 17.6 (2010): 561-577.
-        (3) Baell, Jonathan B.
-        J Chem Inf Model, 53.1 (2012): 39-55.
-        (4) Brenk, Ruth, et al.
-        ChemMedChem 3.3 (2008): 435-444.
+#     Reference.:
+#         (1) Oprea, Tudor I., et al.
+#         J Comput Aided Mol Des, 14.3 (2000): 251-264.
+#         (2) Workman, Paul, and Ian Collins.
+#         Chem Biol, 17.6 (2010): 561-577.
+#         (3) Baell, Jonathan B.
+#         J Chem Inf Model, 53.1 (2012): 39-55.
+#         (4) Brenk, Ruth, et al.
+#         ChemMedChem 3.3 (2008): 435-444.
         
-    Rule details:
-        150 <= weight <= 400
-        -3 <= logP <= 4
-        nha <= 7
-        nhd <= 4
-        TPSA <= 160
-        nrot <= 9
-        nrig <= 30
-        nring <= 4
-        maxring <= 18
-        3 <= ncarb <=35
-        1 <= nhet <= 15
-        0.1 <= hetcar <=1.1
-        ncharged <= 4
-        -4 <= totalchar <= 4
-        nstero <= 2
-    """
-    pass
+#     Rule details:
+#         150 <= weight <= 400
+#         -3 <= logP <= 4
+#         nha <= 7
+#         nhd <= 4
+#         TPSA <= 160
+#         nrot <= 9
+#         nrig <= 30
+#         nring <= 4
+#         maxring <= 18
+#         3 <= ncarb <=35
+#         1 <= nhet <= 15
+#         0.1 <= hetcar <=1.1
+#         ncharged <= 4
+#         -4 <= totalchar <= 4
+#         nstero <= 2
+#     """
+#     pass
 
 
-def CheckZinc(mol):
-    """
-    Check mol under ZINC
+# def CheckZinc(mol):
+#     """
+#     Check mol under ZINC
     
-    Reference.:
-        Irwin, John J., and Brian K. Shoichet. 
-        J Chem Inf Model, 45.1 (2005): 177-182.
+#     Reference.:
+#         Irwin, John J., and Brian K. Shoichet. 
+#         J Chem Inf Model, 45.1 (2005): 177-182.
         
-    Rule details:
-        60 <= weight <= 100
-        -4 <= logP <= 6
-        nha <= 11
-        nhd <= 6
-        TPSA <= 150
-        nrot <= 12
-        nrig <= 50
-        nring <= 7
-        maxring <= 12
-        ncarb >= 3
-        nhet >= 0
-        hetcar <= 2.0
-        ncharged <= 4
-        -4 <= totalchar <= 4
-        nstero <= 2
-    """
-    pass
+#     Rule details:
+#         60 <= weight <= 100
+#         -4 <= logP <= 6
+#         nha <= 11
+#         nhd <= 6
+#         TPSA <= 150
+#         nrot <= 12
+#         nrig <= 50
+#         nring <= 7
+#         maxring <= 12
+#         ncarb >= 3
+#         nhet >= 0
+#         hetcar <= 2.0
+#         ncharged <= 4
+#         -4 <= totalchar <= 4
+#         nstero <= 2
+#     """
+#     pass
 
 
 def CheckCNS(mol, detail=False, showSMILES=False):
