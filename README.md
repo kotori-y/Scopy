@@ -1,4 +1,4 @@
-# Scopy: a compounds filter for early stages in drug discovery.
+# Scopy: a compounds filter for HTS and VS
 
 <div align=center>
     <img src='Scopy.png'>
@@ -34,5 +34,3 @@ Scopy has been successfully tested on Linux and Windows systems under python3 en
 If you have questions or suggestions, please contact: kotori@cbdd.me,and oriental-cds@163.com
 
 Please see the file LICENSE for details about the "MIT" license which covers this software and its associated data and documents.
-
-# Copyright (C) 2015-2020 CBDD Group
