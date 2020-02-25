@@ -124,7 +124,7 @@ The :mod:`scopy.druglikeness.rulesfilter` module provides the screening of drug-
 >>> res
 {'Disposed': 'Accepted', 'nViolate': 0}
 
-In above example, the molecule do does not violate any property limited limitations in of Lipinski's Rule. Tthus its status is 'Accepted'.
+In above example, the molecule do does not violate any property limited limitations in of Lipinski's Rule. Thus its status is 'Accepted'.
 
 Besides, users can obtain more detailed information about the screening result.
 
