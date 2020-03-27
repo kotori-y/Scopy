@@ -20,7 +20,7 @@ Version=1.0
 ################################################################
 
 class EStateFP(object):
-    """ Atom-based calculation of LogP and MR using Crippen’s approach. 
+    """
     79 bits
     
     Reference:
@@ -32,13 +32,13 @@ class EStateFP(object):
     :type val: bool, optional
     
     """
-    def __init__(self,val=True):
+    def __init__(self, val=True):
         """Initialization
         
         """
         self.val = val
     
-    def CalculateEState(self,mol):
+    def CalculateEState(self, mol):
         """Calculate EState fingerprint
         
         :param mol: molecule
@@ -53,7 +53,7 @@ class EStateFP(object):
             fp = ESFP.FingerprintMol(mol)[0]
         return fp
 
-def _CalculateEState(mol,skipH=1):
+def _CalculateEState(mol, skipH=1):
     """
     **Internal used only**
     

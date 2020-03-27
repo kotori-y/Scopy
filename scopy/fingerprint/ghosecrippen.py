@@ -77,6 +77,9 @@ class GCfp(object):
                 if not self.useCount:
                     fp = [0 if not int(bit) else 1 for bit in fp]
                 return fp
+        
+        else:
+            return [0]*110
 
 
 if '__main__' == __name__:

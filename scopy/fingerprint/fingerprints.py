@@ -97,7 +97,7 @@ def CalculateGhoseCrippen(mols, useCount=True, n_jobs=1):
     
             
 def CalculateEState(mols, val=True, n_jobs=1):
-    """Atom-based calculation of LogP and MR using Crippen’s approach.
+    """
     79 bits
   
     Reference:
@@ -105,7 +105,7 @@ def CalculateEState(mols, val=True, n_jobs=1):
     
     :param mols: the molecule to be scanned.
     :type mols: Iterable object, each element is rdkit.Chem.rdchem.Mol
-    :param val: If set to True, the fingerprint will presented in the format of vaule of estate, else, would be binary, defauls to True
+    :param val: If set to True, the fingerprint will presented in the format of vaule of estate, else, would be int, defauls to True
     :type val: bool, optional
     :param n_jobs: The number of CPUs to use to do the computation, defaults to 1
     :type n_jobs: int, optional
