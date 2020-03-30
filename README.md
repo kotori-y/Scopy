@@ -1,6 +1,6 @@
 # Scopy: a compounds filter for HTS and VS
 
-[![Build Status](https://travis-ci.com/kotori-y/Scopy.svg?branch=master)](https://travis-ci.com/kotori-y/Scopy) [![Read the Docs](https://img.shields.io/readthedocs/scopy)](https://scopy.readthedocs.io/en/latest/) [![GitHub last commit](https://img.shields.io/github/last-commit/kotori-y/scopy)](https://github.com/kotori-y/Scopy/commits/master) [![Blog](https://img.shields.io/badge/blog-iamkotori-informational)](https://blog.iamkotori.com/) [![License](https://img.shields.io/github/license/kotori-y/scopy)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.com/kotori-y/Scopy.svg?branch=master)](https://travis-ci.com/kotori-y/Scopy) [![Read the Docs](https://img.shields.io/readthedocs/scopy)](https://scopy.readthedocs.io/en/latest/) [![GitHub last commit](https://img.shields.io/github/last-commit/kotori-y/scopy)](https://github.com/kotori-y/Scopy/commits/master) [![Blog](https://img.shields.io/badge/blog-iamkotori-informational)](https://blog.iamkotori.com/) [![License](https://img.shields.io/github/license/kotori-y/scopy)](https://opensource.org/licenses/MIT) [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 
 <div align=center>
     <img src='Scopy.png'>
