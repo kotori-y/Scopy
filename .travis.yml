@@ -28,7 +28,7 @@ before_install:
   - conda activate test-environment
   #- python setup.py install
 install:
-  - conda install -q rdkit rdkit
+  - conda install -c rdkit rdkit
 
 script:
   - python setup.py install
