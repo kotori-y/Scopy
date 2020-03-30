@@ -12,15 +12,15 @@
 
 ### Install RDKit
 
-```python
-conda install -c conda-forge rdkit
+```
+>>> conda install -c conda-forge rdkit
 ```
 
 ### Install Scopy
 
 Scopy has been successfully tested on Linux and Windows systems under python3 enviroment.
 
-```python
+```
 >>> git clone git@github.com:kotori-y/Scopy.git && cd scopy
 >>> [sudo] python setup.py install
 ```
@@ -31,6 +31,6 @@ Scopy has been successfully tested on Linux and Windows systems under python3 en
 
 ## Contact
 
-If you have questions or suggestions, please contact: kotori@cbdd.me,and oriental-cds@163.com
+If you have questions or suggestions, please contact: kotori@cbdd.me,and oriental-cds@163.com.
 
 Please see the file LICENSE for details about the "MIT" license which covers this software and its associated data and documents.
