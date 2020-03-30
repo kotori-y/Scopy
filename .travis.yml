@@ -6,7 +6,7 @@ python:
   - "3.6"
 os:
   - linux
-install:
+before_install:
   - sudo apt-get update
   # We do this conditionally because it saves us some downloading if the
   # version is the same.
@@ -24,9 +24,11 @@ install:
   - conda info -a
 
   # Replace dep1 dep2 ... with your dependencies
-  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION rdkit
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
   - conda activate test-environment
   #- python setup.py install
+install:
+  - conda install -q rdkit rdkit
 
 script:
   - python setup.py install
