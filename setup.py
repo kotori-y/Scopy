@@ -21,8 +21,8 @@ package_data= {'scopy':['structure_alert/*','druglikeness/*','fingerprint/*','vi
 #package_data= {'scopy':['structure_alert/*','druglikeness/*','test/*','data/SMARTS/*','data/PATT/*','data/ACID/*','data/*','data/Crippen/*','fingerprint/*']}
 
 
-setup(name="scopy",  
-      version="1.1.0",
+setup(name="cbdd-scopy",  
+      version="1.1.1",
       license="MIT",
       description="A filter tool for HTS and VS",
       long_description="Scopy (Screening COmpounds in PYthon), based on RDKit, is an integrated negative design python library designed for screening out undesiable compounds in the early drug discovery.",

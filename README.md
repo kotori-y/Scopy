@@ -1,6 +1,6 @@
 # Scopy: a compounds filter for HTS and VS
 
-[![Travis (.com)](https://img.shields.io/travis/com/kotori-y/scopy?style=flat-square)](https://travis-ci.com/kotori-y/Scopy)[![Read the Docs](https://img.shields.io/readthedocs/scopy?style=flat-square)](https://scopy.readthedocs.io/en/latest/)[![GitHub last commit](https://img.shields.io/github/last-commit/kotori-y/scopy?style=flat-square)](https://github.com/kotori-y/Scopy/commits/master)[![Anaconda-Server Badge](https://anaconda.org/kotori_y/scopy/badges/installer/conda.svg)](https://conda.anaconda.org/kotori_y)[![Anaconda-Server Badge](https://anaconda.org/kotori_y/scopy/badges/license.svg)](https://anaconda.org/kotori_y/scopy)[![Blog](https://img.shields.io/badge/blog-iamkotori-informational?style=flat-square)](https://blog.iamkotori.com/)[![996.icu](https://img.shields.io/badge/link-996.icu-%23FF4D5B.svg?style=flat-square)](https://996.icu/#/en_US)
+[![Travis (.com)](https://img.shields.io/travis/com/kotori-y/scopy?style=flat-square)](https://travis-ci.com/kotori-y/Scopy) [![Read the Docs](https://img.shields.io/readthedocs/scopy?style=flat-square)](https://scopy.readthedocs.io/en/latest/) [![GitHub last commit](https://img.shields.io/github/last-commit/kotori-y/scopy?style=flat-square)](https://github.com/kotori-y/Scopy/commits/master) [![Anaconda-Server Badge](https://anaconda.org/kotori_y/scopy/badges/installer/conda.svg)](https://conda.anaconda.org/kotori_y) [![Anaconda-Server Badge](https://anaconda.org/kotori_y/scopy/badges/license.svg)](https://anaconda.org/kotori_y/scopy) [![Blog](https://img.shields.io/badge/blog-iamkotori-informational?style=flat-square)](https://blog.iamkotori.com/) [![996.icu](https://img.shields.io/badge/link-996.icu-%23FF4D5B.svg?style=flat-square)](https://996.icu/#/en_US)
 
 <div align=center>
     <img src='Scopy.png'>
@@ -33,6 +33,12 @@ Scopy has been successfully tested on Linux and Windows systems under python3 en
 
 ```
 >>> conda install kotori_y scopy
+```
+
+#### PyPI
+
+```
+pip install cbdd-scopy
 ```
 
 ## Documentation
