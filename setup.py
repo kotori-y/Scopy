@@ -22,11 +22,14 @@ package_data= {'scopy':['structure_alert/*','druglikeness/*','fingerprint/*','vi
 
 
 setup(name="scopy",  
-      version="1.1", 
-      description="A filter tool for HTS",
-      long_description="A tool to filter poor drug-likeness, frequent hitters and potential toxic compounds before taking HTS.",
-      author="Zhi-Jiang Yang (Kotori_Y), Dong-Sheng Cao",
+      version="1.1.0",
+      license="MIT",
+      description="A filter tool for HTS and VS",
+      long_description="Scopy (Screening COmpounds in PYthon), based on RDKit, is an integrated negative design python library designed for screening out undesiable compounds in the early drug discovery.",
+      author="Zhi-Jiang Yang (Kotori), Dong-Sheng Cao",
       author_email="yzjkid9@gmail.com",
+      maintainer="Zhi-Jiang Yang (Kotori)",
+      maintainer_email="kotori@cbdd.me",
       url="https://github.com/kotori-y/Scopy",
       package_data=package_data,
       package_dir={'scopy':'scopy'},

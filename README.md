@@ -1,6 +1,6 @@
 # Scopy: a compounds filter for HTS and VS
 
-[![Build Status](https://travis-ci.com/kotori-y/Scopy.svg?branch=master)](https://travis-ci.com/kotori-y/Scopy) [![Read the Docs](https://img.shields.io/readthedocs/scopy)](https://scopy.readthedocs.io/en/latest/) [![GitHub last commit](https://img.shields.io/github/last-commit/kotori-y/scopy)](https://github.com/kotori-y/Scopy/commits/master) [![Blog](https://img.shields.io/badge/blog-iamkotori-informational)](https://blog.iamkotori.com/) [![License](https://img.shields.io/badge/license-MIT-green)](https://opensource.org/licenses/MIT) [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
+[![Travis (.com)](https://img.shields.io/travis/com/kotori-y/scopy?style=flat-square)](https://travis-ci.com/kotori-y/Scopy)[![Read the Docs](https://img.shields.io/readthedocs/scopy?style=flat-square)](https://scopy.readthedocs.io/en/latest/)[![GitHub last commit](https://img.shields.io/github/last-commit/kotori-y/scopy?style=flat-square)](https://github.com/kotori-y/Scopy/commits/master)[![Anaconda-Server Badge](https://anaconda.org/kotori_y/scopy/badges/installer/conda.svg)](https://conda.anaconda.org/kotori_y)[![Anaconda-Server Badge](https://anaconda.org/kotori_y/scopy/badges/license.svg)](https://anaconda.org/kotori_y/scopy)[![Blog](https://img.shields.io/badge/blog-iamkotori-informational?style=flat-square)](https://blog.iamkotori.com/)[![996.icu](https://img.shields.io/badge/link-996.icu-%23FF4D5B.svg?style=flat-square)](https://996.icu/#/en_US)
 
 <div align=center>
     <img src='Scopy.png'>
@@ -8,7 +8,7 @@
 
 ## Overview
 
-**Scopy(<font color='red'>S</font>creening <font color='red'>CO</font>mpounds)**, based on RDKit, is an integrated negative design python library designed for screening out undesiable compounds in the early drug discovery. Scopy includes six modules, covering **data preparation**, **screening filters**, the **calculation of scaffolds and descriptors**, and the **visualization analysis**.
+**Scopy(<font color='red'>S</font>creening <font color='red'>CO</font>mpounds in <font color='red'>PY</font>thon)**, based on RDKit, is an integrated negative design python library designed for screening out undesiable compounds in the early drug discovery. Scopy includes six modules, covering **data preparation**, **screening filters**, the **calculation of scaffolds and descriptors**, and the **visualization analysis**.
 
 ## Installation
 
@@ -22,9 +22,17 @@
 
 Scopy has been successfully tested on Linux and Windows systems under python3 enviroment.
 
+#### Source
+
 ```
 >>> git clone git@github.com:kotori-y/Scopy.git && cd scopy
 >>> [sudo] python setup.py install
+```
+
+#### Conda
+
+```
+>>> conda install kotori_y scopy
 ```
 
 ## Documentation
@@ -33,6 +41,5 @@ Scopy has been successfully tested on Linux and Windows systems under python3 en
 
 ## Contact
 
-If you have questions or suggestions, please contact: kotori@cbdd.me,and oriental-cds@163.com.
+If you have questions or suggestions, please contact: kotori@cbdd.me,and oriental-cds@163.com.<br>Please see the file LICENSE for details about the "MIT" license which covers this software and its associated data and documents.
 
-Please see the file LICENSE for details about the "MIT" license which covers this software and its associated data and documents.
