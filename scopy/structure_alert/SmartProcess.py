@@ -78,7 +78,7 @@ def _Loadpkl(endpoint):
     :rtype: list   
         
     """
-    filename = ScoConfig.PattDir +'\\{}.pkl.gz'.format(endpoint)
+    filename = ScoConfig.PattDir +'/{}.pkl.gz'.format(endpoint)
     try:
         pattl = cPickle.load(gzip.open(filename,'rb'))
     except FileNotFoundError:

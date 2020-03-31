@@ -13,11 +13,11 @@ Created on Tue Jun 25 21:59:42 2019
 import os
 
 ScoDir = os.path.dirname(__file__)
-_share = ScoDir +'\\data'
-SmartDir = _share + '\\SMARTS'
-CrippenDir = _share + '\\Crippen'
-PattDir = _share + '\\PATT'
-EFGDir = _share + '\\EFG'
-PubChemDir = _share + '\\PubChem'
-MCDir = _share + '\\MC'
-DemoDir = _share + '\\Demo'
+_share = ScoDir +'/data'
+SmartDir = _share + '/SMARTS'
+CrippenDir = _share + '/Crippen'
+PattDir = _share + '/PATT'
+EFGDir = _share + '/EFG'
+PubChemDir = _share + '/PubChem'
+MCDir = _share + '/MC'
+DemoDir = _share + '/Demo'
