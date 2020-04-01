@@ -32,7 +32,7 @@ Scopy has been successfully tested on Linux and Windows systems under python3 en
 #### Conda
 
 ```
->>> conda install kotori_y scopy
+>>> conda install -c kotori_y scopy
 ```
 
 #### PyPI

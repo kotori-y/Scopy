@@ -28,9 +28,9 @@ copyright = '2019, Zhijiang Yang'
 author = 'Zhijiang Yang'
 
 # The short X.Y version
-version = '1.0'
+version = '1.1'
 # The full version, including alpha/beta/rc tags
-release = '1.0 beta'
+release = '1.1.1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -103,6 +103,11 @@ html_static_path = ['_static']
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
 #
+# These paths are either relative to html_static_path
+# or fully qualified paths (eg. https://...)
+html_css_files = [
+    'basic.css',
+]
 # The default sidebars (for documents that don't match any pattern) are
 # defined by theme itself.  Builtin themes are using these templates by
 # default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
