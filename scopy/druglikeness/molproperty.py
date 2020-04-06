@@ -12,6 +12,7 @@
 
 from itertools import combinations
 import sys,csv,os
+import numpy as np
 
 from rdkit import RDConfig
 from rdkit.Chem import AllChem as Chem
@@ -26,7 +27,7 @@ from IFG.ifg import identify_functional_groups
 try:
     from ..fingerprint import fingerprints
 except:
-    sys.path.append(__file__+'//..')
+    sys.path.append(__file__+'/..')
     from fingerprint import fingerprints
 
 try:
@@ -54,7 +55,7 @@ def CalculateMolWeight(mol):
     
     """
     MW = Descriptors.ExactMolWt(mol)
-    return round(MW,2)
+    return round(MW, 2)
 
 
 def CalculateNumBonds(mol):
@@ -100,7 +101,7 @@ def CalculateNumHetero(mol):
     """
     i = len(
             [atom for atom in mol.GetAtoms()\
-             if atom.GetAtomicNum() in [1,6]]
+             if atom.GetAtomicNum() in [1, 6]]
             )
     nHet = mol.GetNumAtoms()-i
     return nHet
@@ -161,7 +162,7 @@ def CalculateFlexibility(mol):
     """
     nRot = CalculateNumRotatableBonds(mol)
     nRig = CalculateNumRigidBonds(mol)
-    return round(nRot/nRig,2) if nRig else 'Inf'
+    return round(nRot/nRig, 2) if nRig else np.float('nan')
    
     
 def CalculateNumRing(mol):
@@ -232,7 +233,7 @@ def CalculateLogP(mol):
     :rtype: float
     
     """  
-    logP = round(Descriptors.MolLogP(mol),2)  
+    logP = round(Descriptors.MolLogP(mol), 2)  
     return logP
 
 
@@ -291,7 +292,7 @@ def CalculatepKa(mol):
             pKa = log10(10**(logP-logD)-1) - 7.4
         return pKa
     except:
-        return 'N/A'
+        return np.float('nan')
     
     
 def CalculateMolMR(mol):
@@ -305,7 +306,7 @@ def CalculateMolMR(mol):
     :rtype: float
     
     """
-    MR = round(Descriptors.MolMR(mol),2) 
+    MR = round(Descriptors.MolMR(mol), 2) 
     return MR
 
 
@@ -397,7 +398,7 @@ def CalculateAromaticProportion(mol):
     """
     aroma = CalculateNumAromaAtom(mol)
     total = CalculateNumHeavyAtom(mol)
-    AP = round(aroma/total,2) 
+    AP = round(aroma/total, 2) if total else np.float('nan')
     return AP  
     
 
@@ -442,7 +443,7 @@ def CalculateFsp3(mol):
     :rtype: float
     
     """
-    return round(Lipinski.FractionCSP3(mol),2)
+    return round(Lipinski.FractionCSP3(mol), 2)
     
 
 def CalculateTPSA(mol):
@@ -456,7 +457,7 @@ def CalculateTPSA(mol):
     :rtype: float
     
     """
-    TPSA = round(Descriptors.TPSA(mol),2)
+    TPSA = round(Descriptors.TPSA(mol), 2)
     return TPSA
     
            
@@ -480,7 +481,7 @@ def CalculateQEDmean(mol):
         
     """    
     QEDmean = QED.weights_mean(mol)        
-    return round(QEDmean,2) 
+    return round(QEDmean, 2) 
 
 
 def CalculateQEDmax(mol):
@@ -584,7 +585,7 @@ def CalculateNumStereocenters(mol):
     return Chem.CalcNumAtomStereoCenters(mol)    
 
 
-def _CalculateNumElement(mol,AtomicNumber=6):
+def _CalculateNumElement(mol, AtomicNumber=6):
     """
     **Internal used only**
     Calculation of specific type of atom number in a molecule
@@ -644,7 +645,7 @@ def CalculateNumFluorin(mol):
     :rtype: int
     
     """         
-    return _CalculateNumElement(mol,AtomicNumber=10)
+    return _CalculateNumElement(mol, AtomicNumber=10)
 
 
 def CalculateNumChlorin(mol):
@@ -658,7 +659,7 @@ def CalculateNumChlorin(mol):
     :rtype: int
     
     """
-    return _CalculateNumElement(mol,AtomicNumber=17)
+    return _CalculateNumElement(mol, AtomicNumber=17)
 
 
 def CalculateNumBromine(mol):
@@ -672,7 +673,7 @@ def CalculateNumBromine(mol):
     :rtype: int
     
     """
-    return _CalculateNumElement(mol,AtomicNumber=35)
+    return _CalculateNumElement(mol, AtomicNumber=35)
 
 
 def CalculateNumIodine(mol):
@@ -686,7 +687,7 @@ def CalculateNumIodine(mol):
     :rtype: int
     
     """
-    return _CalculateNumElement(mol,AtomicNumber=53)
+    return _CalculateNumElement(mol, AtomicNumber=53)
 
 
 def CalculateNumPhosphor(mol):
@@ -772,7 +773,7 @@ def CalculateHetCarbonRatio(mol):
     """
     nHet = CalculateNumHetero(mol)
     nCarb = CalculateNumCarbon(mol)
-    return round(nHet/nCarb,2) if nCarb else 'Inf'
+    return round(nHet/nCarb,2) if nCarb else np.float('nan')
     
 
 def CalculateSAscore(mol):
@@ -792,7 +793,7 @@ def CalculateSAscore(mol):
         https://jcheminf.biomedcentral.com/articles/10.1186/1758-2946-1-8
         
     """
-    return round(sascorer.calculateScore(mol),2)
+    return round(sascorer.calculateScore(mol), 2)
 
 
 def CalculateNPscore(mol):
@@ -812,7 +813,7 @@ def CalculateNPscore(mol):
         https://pubs.acs.org/doi/abs/10.1021/ci700286x
     
     """
-    return round(npscorer.scoreMol(mol,fscore=fscore),2)
+    return round(npscorer.scoreMol(mol,fscore=fscore), 2)
 
     
 def GetIFG(mol):
@@ -880,7 +881,7 @@ def CalculateMolVolume(mol):
     # contrib = [Radii[atom.GetSymbol()] for atom in mol.GetAtoms()]
     contrib = [pi*(r**3)*4/3 for r in contrib]
     vol = sum(contrib) - 5.92*len(mol.GetBonds())
-    return round(vol,2)
+    return round(vol, 2)
 
 
 def CalculateMolDensity(mol):
@@ -896,7 +897,7 @@ def CalculateMolDensity(mol):
     """
     MW = CalculateMolWeight(mol)
     Vol = CalculateMolVolume(mol)
-    return round(MW/Vol, 2) if Vol else 'Inf'
+    return round(MW/Vol, 2) if Vol else np.float('nan')
 
 
 def CalculateMolFCharge(mol):
@@ -950,7 +951,7 @@ def CalculateNumSinBond(mol):
     :rtype: int
     
     """
-    return _CalculateNumBond(mol,btype='SINGLE')
+    return _CalculateNumBond(mol, btype='SINGLE')
 
 
 def CalculateNumDouBond(mol):
@@ -964,10 +965,10 @@ def CalculateNumDouBond(mol):
     :rtype: int
     
     """
-    return _CalculateNumBond(mol,btype='DOUBLE')
+    return _CalculateNumBond(mol, btype='DOUBLE')
 
 
-def CalculateNumTriBond(mol,btype='TRIPLE'):
+def CalculateNumTriBond(mol, btype='TRIPLE'):
     """
     Calculation of triple bond number of molecule
     ---> nTriple
@@ -978,7 +979,7 @@ def CalculateNumTriBond(mol,btype='TRIPLE'):
     :rtype: int
     
     """
-    return _CalculateNumBond(mol,btype='TRIPLE')
+    return _CalculateNumBond(mol, btype='TRIPLE')
 
 
 def GetProperties(mol, 
