@@ -105,5 +105,9 @@ venv.bak/
 
 scopy/scopy/data/MOL/Promiscuity.pkl.gz
 scopy/data/SMARTS/Promiscuity.txt
+scopy/example/application_1.py
+scopy/example/application_2.py
+scopy/example/application_3.py
+scopy/example/application_4.py
 
 .pypirc

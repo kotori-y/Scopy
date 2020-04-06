@@ -189,13 +189,7 @@ def main(file):
     summary_fh.to_csv(r'../res/{}/summary_fh_{}.csv'.format(name,name),index=False)
     summary_2_fh.to_csv(r'../res/{}/summary_2_fh_{}.csv'.format(name,name),index=False)
     
-    
-    
-if '__main__' == __name__:
-    os.chdir(r'C:\Users\0720\Desktop\Project\scopy_ref\data\Ocean_Product\mol')
-    files = os.listdir()
-    for file in files:
-        main(file)
+  
 
 
 

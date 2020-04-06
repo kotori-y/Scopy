@@ -71,7 +71,7 @@ def ShowMcloud(file, number=150, skip=0, savedir=None, hidden=False):
     Reference:
         (1) `P. Ertl, B. Rohde (2012)`_.
         
-    :param file: the path of file whose first column is the SMILES, and second one is frequnency correspondly. Delimit is '\t'
+    :param file: the absolute path of file whose first column is the SMILES, and second one is frequnency correspondly. Delimit is '\t'
     :type file: str
     :param number: process only first n molecules from the data file, defaults to 150
     :type number: int, optional
@@ -97,7 +97,7 @@ def ShowMcloud(file, number=150, skip=0, savedir=None, hidden=False):
     -f {} -n {} -skip {} {} {}'.format(path, file, number, skip, i, nogui)
           
     run(command,shell=True)
-    
+
     if savedir is not None:
         try:
             shutil.move(os.path.join(ScoConfig.MCDir,'mcloud\mcloud.png'), savedir)
@@ -107,7 +107,7 @@ def ShowMcloud(file, number=150, skip=0, savedir=None, hidden=False):
         pass
     
 if '__main__'==__name__:
-    ShowMcloud(r"scaffolds.smi",savedir=r"mcloud.png")
+    ShowMcloud(r"scaffolds.smi", savedir=r"mcloud.png")
     
     
     
