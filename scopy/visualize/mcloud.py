@@ -95,7 +95,7 @@ def ShowMcloud(file, number=150, skip=0, savedir=None, hidden=False):
     command = 'cd /d {}\mcloud && \
     java -cp ".;depictjni.jar;depict.jar" ertl/mcloud/MCloud\
     -f {} -n {} -skip {} {} {}'.format(path, file, number, skip, i, nogui)
-    print(path)
+    
     run(command,shell=True)
 
     if savedir is not None:
@@ -107,7 +107,7 @@ def ShowMcloud(file, number=150, skip=0, savedir=None, hidden=False):
         pass
     
 if '__main__'==__name__:
-    ShowMcloud(r"C:\Users\0720\Desktop\MATE\yzy\Cloud\blue_0.txt", number=70)
+    ShowMcloud(r"scaffolds.smi", savedir=r"mcloud.png")
     
     
     
