@@ -1,6 +1,6 @@
 # Scopy: a compounds filter for HTS and VS
 
-[![Travis (.com)](https://img.shields.io/travis/com/kotori-y/scopy?style=flat-square)](https://travis-ci.com/kotori-y/Scopy) [![Read the Docs](https://img.shields.io/readthedocs/scopy?style=flat-square)](https://scopy.readthedocs.io/en/latest/) [![GitHub last commit](https://img.shields.io/github/last-commit/kotori-y/scopy?style=flat-square)](https://github.com/kotori-y/Scopy/commits/master) [![Conda](https://anaconda.org/kotori_y/scopy/badges/installer/conda.svg)](https://conda.anaconda.org/kotori_y) [![PyPI](https://img.shields.io/badge/Install%20with-pypi-informational?style=flat-square)](https://pypi.org/project/cbdd-scopy/) [![MIT License](https://anaconda.org/kotori_y/scopy/badges/license.svg)](https://anaconda.org/kotori_y/scopy) [![Blog](https://img.shields.io/badge/blog-iamkotori-pink?style=flat-square)](https://blog.iamkotori.com/) [![Kouhai](https://img.shields.io/badge/Kouhai-Ziyi-%23B3D0BE?style=flat-square)](https://github.com/Yangziyi1997)
+[![Travis (.com)](https://img.shields.io/travis/com/kotori-y/scopy?style=flat-square)](https://travis-ci.com/kotori-y/Scopy) [![Read the Docs](https://img.shields.io/readthedocs/scopy?style=flat-square)](https://scopy.readthedocs.io/en/latest/) [![GitHub last commit](https://img.shields.io/github/last-commit/kotori-y/scopy?style=flat-square)](https://github.com/kotori-y/Scopy/commits/master) [![Conda](https://anaconda.org/kotori_y/scopy/badges/installer/conda.svg)](https://conda.anaconda.org/kotori_y) [![PyPI](https://img.shields.io/badge/Install%20with-pypi-informational?style=flat-square)](https://pypi.org/project/cbdd-scopy/) [![MIT License](https://anaconda.org/kotori_y/scopy/badges/license.svg)](https://anaconda.org/kotori_y/scopy) [![Blog](https://img.shields.io/badge/blog-iamkotori-pink?style=flat-square)](https://blog.iamkotori.com/) [![Kouhai](https://img.shields.io/badge/contributor-Ziyi-%23B3D0BE?style=flat-square)](https://github.com/Yangziyi1997)
 
 <div align=center>
     <img src='Scopy.png'>
@@ -51,4 +51,4 @@ If you have questions or suggestions, please contact: kotori@cbdd.me,and orienta
 
 ## Acknowledgement
 
-*Thanks to my cute colleague, [Ziyi](https://github.com/Yangziyi1997), for assisting me to complete the writing of document and article*
+*Thanks to my lovely mate, [Ziyi](https://github.com/Yangziyi1997), for assisting me to complete the writing of document and article*
