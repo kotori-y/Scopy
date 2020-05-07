@@ -51,4 +51,4 @@ If you have questions or suggestions, please contact: kotori@cbdd.me,and orienta
 
 ## Acknowledgement
 
-*Thanks to my lovely mate, [Ziyi](https://github.com/Yangziyi1997), for assisting me to complete the writing of document and article*
+*Thanks to my lovely mate, [Ziyi](https://github.com/Yangziyi1997), for assisting me to complete the writing of document and article.*
