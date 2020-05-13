@@ -4,9 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.druglikeness.molproperty &#8212; Scopy 1.0 beta documentation</title>
+    <title>scopy.druglikeness.molproperty &#8212; Scopy 1.1.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/./cssbasic.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
@@ -24,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,6 +67,7 @@
 
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">combinations</span>
 <span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span><span class="nn">csv</span><span class="o">,</span><span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">rdkit</span> <span class="k">import</span> <span class="n">RDConfig</span>
 <span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="k">import</span> <span class="n">AllChem</span> <span class="k">as</span> <span class="n">Chem</span>
@@ -80,7 +82,7 @@
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">..fingerprint</span> <span class="k">import</span> <span class="n">fingerprints</span>
 <span class="k">except</span><span class="p">:</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="vm">__file__</span><span class="o">+</span><span class="s1">&#39;//..&#39;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="vm">__file__</span><span class="o">+</span><span class="s1">&#39;/..&#39;</span><span class="p">)</span>
     <span class="kn">from</span> <span class="nn">fingerprint</span> <span class="k">import</span> <span class="n">fingerprints</span>
 
 <span class="k">try</span><span class="p">:</span>
@@ -108,7 +110,7 @@
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">MW</span> <span class="o">=</span> <span class="n">Descriptors</span><span class="o">.</span><span class="n">ExactMolWt</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">MW</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">MW</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CalculateNumBonds"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumBonds">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -154,7 +156,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">i</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span>
             <span class="p">[</span><span class="n">atom</span> <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetAtoms</span><span class="p">()</span>\
-             <span class="k">if</span> <span class="n">atom</span><span class="o">.</span><span class="n">GetAtomicNum</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">]]</span>
+             <span class="k">if</span> <span class="n">atom</span><span class="o">.</span><span class="n">GetAtomicNum</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
             <span class="p">)</span>
     <span class="n">nHet</span> <span class="o">=</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetNumAtoms</span><span class="p">()</span><span class="o">-</span><span class="n">i</span>
     <span class="k">return</span> <span class="n">nHet</span></div>
@@ -215,7 +217,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">nRot</span> <span class="o">=</span> <span class="n">CalculateNumRotatableBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="n">nRig</span> <span class="o">=</span> <span class="n">CalculateNumRigidBonds</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">nRot</span><span class="o">/</span><span class="n">nRig</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">nRig</span> <span class="k">else</span> <span class="s1">&#39;Inf&#39;</span></div>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">nRot</span><span class="o">/</span><span class="n">nRig</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">nRig</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span></div>
    
     
 <div class="viewcode-block" id="CalculateNumRing"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumRing">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumRing</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -286,7 +288,7 @@
 <span class="sd">    :rtype: float</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>  
-    <span class="n">logP</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">Descriptors</span><span class="o">.</span><span class="n">MolLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>  
+    <span class="n">logP</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">Descriptors</span><span class="o">.</span><span class="n">MolLogP</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>  
     <span class="k">return</span> <span class="n">logP</span></div>
 
 
@@ -345,7 +347,7 @@
             <span class="n">pKa</span> <span class="o">=</span> <span class="n">log10</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">logP</span><span class="o">-</span><span class="n">logD</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">7.4</span>
         <span class="k">return</span> <span class="n">pKa</span>
     <span class="k">except</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;N/A&#39;</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span></div>
     
     
 <div class="viewcode-block" id="CalculateMolMR"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateMolMR">[docs]</a><span class="k">def</span> <span class="nf">CalculateMolMR</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -359,7 +361,7 @@
 <span class="sd">    :rtype: float</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">MR</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">Descriptors</span><span class="o">.</span><span class="n">MolMR</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span> 
+    <span class="n">MR</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">Descriptors</span><span class="o">.</span><span class="n">MolMR</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span> 
     <span class="k">return</span> <span class="n">MR</span></div>
 
 
@@ -451,7 +453,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">aroma</span> <span class="o">=</span> <span class="n">CalculateNumAromaAtom</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="n">total</span> <span class="o">=</span> <span class="n">CalculateNumHeavyAtom</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
-    <span class="n">AP</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">aroma</span><span class="o">/</span><span class="n">total</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> 
+    <span class="n">AP</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">aroma</span><span class="o">/</span><span class="n">total</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">total</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">AP</span>  </div>
     
 
@@ -496,7 +498,7 @@
 <span class="sd">    :rtype: float</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">Lipinski</span><span class="o">.</span><span class="n">FractionCSP3</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">Lipinski</span><span class="o">.</span><span class="n">FractionCSP3</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span></div>
     
 
 <div class="viewcode-block" id="CalculateTPSA"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateTPSA">[docs]</a><span class="k">def</span> <span class="nf">CalculateTPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -510,7 +512,7 @@
 <span class="sd">    :rtype: float</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">TPSA</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">Descriptors</span><span class="o">.</span><span class="n">TPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">TPSA</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">Descriptors</span><span class="o">.</span><span class="n">TPSA</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">TPSA</span></div>
     
            
@@ -534,7 +536,7 @@
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>    
     <span class="n">QEDmean</span> <span class="o">=</span> <span class="n">QED</span><span class="o">.</span><span class="n">weights_mean</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>        
-    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">QEDmean</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> </div>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">QEDmean</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> </div>
 
 
 <div class="viewcode-block" id="CalculateQEDmax"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateQEDmax">[docs]</a><span class="k">def</span> <span class="nf">CalculateQEDmax</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -638,7 +640,7 @@
     <span class="k">return</span> <span class="n">Chem</span><span class="o">.</span><span class="n">CalcNumAtomStereoCenters</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>    </div>
 
 
-<span class="k">def</span> <span class="nf">_CalculateNumElement</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_CalculateNumElement</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    **Internal used only**</span>
 <span class="sd">    Calculation of specific type of atom number in a molecule</span>
@@ -698,7 +700,7 @@
 <span class="sd">    :rtype: int</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>         
-    <span class="k">return</span> <span class="n">_CalculateNumElement</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_CalculateNumElement</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CalculateNumChlorin"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumChlorin">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumChlorin</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -712,7 +714,7 @@
 <span class="sd">    :rtype: int</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">_CalculateNumElement</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_CalculateNumElement</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CalculateNumBromine"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumBromine">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumBromine</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -726,7 +728,7 @@
 <span class="sd">    :rtype: int</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">_CalculateNumElement</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">35</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_CalculateNumElement</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">35</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CalculateNumIodine"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumIodine">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumIodine</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -740,7 +742,7 @@
 <span class="sd">    :rtype: int</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">_CalculateNumElement</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">53</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_CalculateNumElement</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">53</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CalculateNumPhosphor"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumPhosphor">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumPhosphor</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -799,18 +801,18 @@
     <span class="k">return</span> <span class="n">_CalculateNumElement</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">AtomicNumber</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="CalculateNumberChargedGroups"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumberChargedGroups">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumberChargedGroups</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Number of Charged Groups </span>
-<span class="sd">    ---&gt;nChar</span>
-<span class="sd">    </span>
-<span class="sd">    :param mol: molecular</span>
-<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
-<span class="sd">    :return: the number of charged group</span>
-<span class="sd">    :rtype: int</span>
-<span class="sd">    </span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
+<span class="c1"># def CalculateNumberChargedGroups(mol):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Number of Charged Groups </span>
+<span class="c1">#     ---&gt;nChar</span>
+    
+<span class="c1">#     :param mol: molecular</span>
+<span class="c1">#     :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="c1">#     :return: the number of charged group</span>
+<span class="c1">#     :rtype: int</span>
+    
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     pass</span>
 
 
 <div class="viewcode-block" id="CalculateHetCarbonRatio"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateHetCarbonRatio">[docs]</a><span class="k">def</span> <span class="nf">CalculateHetCarbonRatio</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -826,7 +828,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">nHet</span> <span class="o">=</span> <span class="n">CalculateNumHetero</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="n">nCarb</span> <span class="o">=</span> <span class="n">CalculateNumCarbon</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">nHet</span><span class="o">/</span><span class="n">nCarb</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">nCarb</span> <span class="k">else</span> <span class="s1">&#39;Inf&#39;</span></div>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">nHet</span><span class="o">/</span><span class="n">nCarb</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">nCarb</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span></div>
     
 
 <div class="viewcode-block" id="CalculateSAscore"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateSAscore">[docs]</a><span class="k">def</span> <span class="nf">CalculateSAscore</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -846,7 +848,7 @@
 <span class="sd">        https://jcheminf.biomedcentral.com/articles/10.1186/1758-2946-1-8</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">sascorer</span><span class="o">.</span><span class="n">calculateScore</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">sascorer</span><span class="o">.</span><span class="n">calculateScore</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CalculateNPscore"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNPscore">[docs]</a><span class="k">def</span> <span class="nf">CalculateNPscore</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -866,7 +868,7 @@
 <span class="sd">        https://pubs.acs.org/doi/abs/10.1021/ci700286x</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">npscorer</span><span class="o">.</span><span class="n">scoreMol</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">fscore</span><span class="o">=</span><span class="n">fscore</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">npscorer</span><span class="o">.</span><span class="n">scoreMol</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">fscore</span><span class="o">=</span><span class="n">fscore</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span></div>
 
     
 <div class="viewcode-block" id="GetIFG"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.GetIFG">[docs]</a><span class="k">def</span> <span class="nf">GetIFG</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -934,7 +936,7 @@
     <span class="c1"># contrib = [Radii[atom.GetSymbol()] for atom in mol.GetAtoms()]</span>
     <span class="n">contrib</span> <span class="o">=</span> <span class="p">[</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">4</span><span class="o">/</span><span class="mi">3</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">contrib</span><span class="p">]</span>
     <span class="n">vol</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">contrib</span><span class="p">)</span> <span class="o">-</span> <span class="mf">5.92</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">GetBonds</span><span class="p">())</span>
-    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">vol</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">vol</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CalculateMolDensity"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateMolDensity">[docs]</a><span class="k">def</span> <span class="nf">CalculateMolDensity</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -950,7 +952,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">MW</span> <span class="o">=</span> <span class="n">CalculateMolWeight</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="n">Vol</span> <span class="o">=</span> <span class="n">CalculateMolVolume</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">MW</span><span class="o">/</span><span class="n">Vol</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">Vol</span> <span class="k">else</span> <span class="s1">&#39;Inf&#39;</span></div>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">MW</span><span class="o">/</span><span class="n">Vol</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">Vol</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CalculateMolFCharge"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateMolFCharge">[docs]</a><span class="k">def</span> <span class="nf">CalculateMolFCharge</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -1004,7 +1006,7 @@
 <span class="sd">    :rtype: int</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">_CalculateNumBond</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">btype</span><span class="o">=</span><span class="s1">&#39;SINGLE&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_CalculateNumBond</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">btype</span><span class="o">=</span><span class="s1">&#39;SINGLE&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CalculateNumDouBond"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumDouBond">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumDouBond</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
@@ -1018,10 +1020,10 @@
 <span class="sd">    :rtype: int</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">_CalculateNumBond</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">btype</span><span class="o">=</span><span class="s1">&#39;DOUBLE&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_CalculateNumBond</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">btype</span><span class="o">=</span><span class="s1">&#39;DOUBLE&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="CalculateNumTriBond"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumTriBond">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumTriBond</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">btype</span><span class="o">=</span><span class="s1">&#39;TRIPLE&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="CalculateNumTriBond"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.CalculateNumTriBond">[docs]</a><span class="k">def</span> <span class="nf">CalculateNumTriBond</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">btype</span><span class="o">=</span><span class="s1">&#39;TRIPLE&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculation of triple bond number of molecule</span>
 <span class="sd">    ---&gt; nTriple</span>
@@ -1032,7 +1034,7 @@
 <span class="sd">    :rtype: int</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">_CalculateNumBond</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">btype</span><span class="o">=</span><span class="s1">&#39;TRIPLE&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_CalculateNumBond</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">btype</span><span class="o">=</span><span class="s1">&#39;TRIPLE&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GetProperties"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.molproperty.GetProperties">[docs]</a><span class="k">def</span> <span class="nf">GetProperties</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> 
@@ -1154,7 +1156,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

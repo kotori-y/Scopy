@@ -4,9 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.visualize.mcloud &#8212; Scopy 1.0 beta documentation</title>
+    <title>scopy.visualize.mcloud &#8212; Scopy 1.1.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/./cssbasic.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
@@ -24,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -145,13 +146,13 @@
     <span class="n">nogui</span> <span class="o">=</span> <span class="s1">&#39;-nogui&#39;</span> <span class="k">if</span> <span class="n">hidden</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
     
     <span class="n">path</span> <span class="o">=</span> <span class="n">ScoConfig</span><span class="o">.</span><span class="n">MCDir</span>
-    
+    <span class="nb">print</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
     <span class="n">command</span> <span class="o">=</span> <span class="s1">&#39;cd /d </span><span class="si">{}</span><span class="s1">\mcloud &amp;&amp; </span><span class="se">\</span>
 <span class="s1">    java -cp &quot;.;depictjni.jar;depict.jar&quot; ertl/mcloud/MCloud</span><span class="se">\</span>
 <span class="s1">    -f </span><span class="si">{}</span><span class="s1"> -n </span><span class="si">{}</span><span class="s1"> -skip </span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">skip</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">nogui</span><span class="p">)</span>
           
     <span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">,</span><span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    
+
     <span class="k">if</span> <span class="n">savedir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ScoConfig</span><span class="o">.</span><span class="n">MCDir</span><span class="p">,</span><span class="s1">&#39;mcloud\mcloud.png&#39;</span><span class="p">),</span> <span class="n">savedir</span><span class="p">)</span>
@@ -183,7 +184,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

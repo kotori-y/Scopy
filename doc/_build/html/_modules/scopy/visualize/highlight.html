@@ -4,9 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.visualize.highlight &#8212; Scopy 1.0 beta documentation</title>
+    <title>scopy.visualize.highlight &#8212; Scopy 1.1.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/./cssbasic.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
@@ -24,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -90,9 +91,8 @@
             <span class="s1">&#39;stroke-width:2px&#39;</span><span class="p">,</span><span class="s1">&#39;stroke-width:1.5px&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
                 <span class="s1">&#39;font-size:17px&#39;</span><span class="p">,</span><span class="s1">&#39;font-size:15px&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
                     <span class="s1">&#39;stroke-linecap:butt&#39;</span><span class="p">,</span><span class="s1">&#39;stroke-linecap:square&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
-                        <span class="s1">&#39;svg:&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-        <span class="n">svg_words</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;(?&lt;=\d&lt;/tspan&gt;)&lt;tspan&gt;N&lt;/tspan&gt;&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">svg_words</span><span class="p">)</span>
-        <span class="n">svg_words</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&lt;tspan&gt;H&lt;/tspan&gt;(?=&lt;tspan style=&quot;baseline-shift:sub;font-size:.*px;&quot;&gt;)&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;tspan&gt;N&lt;/tspan&gt;&lt;tspan&gt;H&lt;/tspan&gt;&#39;</span><span class="p">,</span><span class="n">svg_words</span><span class="p">)</span>
+                        <span class="s1">&#39;fill:#FFFFFF&#39;</span><span class="p">,</span><span class="s1">&#39;fill:none&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                        <span class="s1">&#39;svg:&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>                
         <span class="k">return</span> <span class="n">svg_words</span>
                                                            
     <span class="n">mc</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">Mol</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">ToBinary</span><span class="p">())</span>
@@ -133,7 +133,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

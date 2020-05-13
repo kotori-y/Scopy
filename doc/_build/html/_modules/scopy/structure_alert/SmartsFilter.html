@@ -4,9 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.structure_alert.SmartsFilter &#8212; Scopy 1.0 beta documentation</title>
+    <title>scopy.structure_alert.SmartsFilter &#8212; Scopy 1.1.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/./cssbasic.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
@@ -24,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -364,23 +365,6 @@
         <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">Potential_Electrophilic</span></div>
         
-<div class="viewcode-block" id="Filter.Check_Promiscuity"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Promiscuity">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Promiscuity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Check molecule under Promiscuity Filter,</span>
-<span class="sd">        There are 177 SMARTS in this endpoint.</span>
-<span class="sd">    </span>
-<span class="sd">        :return: a list of dictionary</span>
-<span class="sd">        :rtype: list</span>
-<span class="sd">        </span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">prom</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Promiscuity&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">showSMILES</span><span class="p">)</span>
-        <span class="n">prom</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
-        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
-        <span class="n">Promiscuity</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">prom</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">Promiscuity</span></div>
-            
 <div class="viewcode-block" id="Filter.Check_Reactive_Unstable_Toxic"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.SmartsFilter.Filter.Check_Reactive_Unstable_Toxic">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Reactive_Unstable_Toxic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check molecule under Reactive_Unstable_Toxic Filter.</span>
@@ -630,7 +614,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

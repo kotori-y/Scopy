@@ -307,7 +307,7 @@ Fingerprint Calculation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 With different definitions, fingerprints (descriptors) can characterize molecules from different angles. Through calculating similarity or distance among molecular fingerprints (descriptors), the spatial density of compound libraries can be evaluated.
 
-The :mod:`scopy.fingerprint` package provides the calculation of 6 descriptors (MACCS, EFG, IFG, EState, GhoseCrippen and PubChem) and 2 fingerprints (Morgan Family and Daylight Fingerprint). More Details see `overview`_.
+The :mod:`scopy.fingerprint` package provides the calculation of 6 descriptors (MACCS, EFG, IFG, EState, GhoseCrippen and PubChem) and 2 fingerprints (Morgan Family and Daylight Fingerprint). More Details see `overview`_. As for Morgan Family, 2 and 1024 chosen as the default radius and the number of bits. Besides, minimum and maximum distance for Daylight fingerprint, whose default the number of bits is 2048, set default as 1 and 7.
 
 >>> from scopy.fingerprint import fingerprints
 >>> fps = fingerprints.CalculateEFG(mols, useCount=True, n_jobs=4)

@@ -66,7 +66,7 @@ We had collected 408,598 molecules from Zelin database. At first, we took a fram
 	                                 'GSK':gsk.Disposed})
 
 	summary_druglike['Rejected_Num'] = (summary_druglike=='Rejected').sum(axis=1)
-	summary_2_druglike = (summary_druglike.iloc[:,1:]=='Rejected').sum(axis=0)
+	summary_2_druglike = pd.DataFrame((summary_druglike.iloc[:,1:]=='Rejected').sum(axis=0))
 	summary_2_druglike.columns = ['Rejected']
 	summary_2_druglike['Accepted'] = len(summary_druglike)-summary_2_druglike.Rejected.values
 
@@ -84,7 +84,7 @@ We had collected 408,598 molecules from Zelin database. At first, we took a fram
 	                            })
 	   
 	summary_tox['Rejected_Num'] = (summary_tox=='Rejected').sum(axis=1)
-	summary_2_tox = (summary_tox.iloc[:,1:]=='Rejected').sum(axis=0)
+	summary_2_tox = pd.DataFrame((summary_tox.iloc[:,1:]=='Rejected').sum(axis=0))
 	summary_2_tox.columns = ['Rejected']
 	summary_2_tox['Accepted'] = len(summary_tox)-summary_2_tox.Rejected.values
 	   
@@ -108,7 +108,7 @@ We had collected 408,598 molecules from Zelin database. At first, we took a fram
 	                           'PAINS':bms.Disposed})
 
 	summary_fh['Rejected_Num'] = (summary_fh=='Rejected').sum(axis=1)
-	summary_2_fh = (summary_fh.iloc[:,1:]=='Rejected').sum(axis=0)
+	summary_2_fh = pd.DataFrame((summary_fh.iloc[:,1:]=='Rejected').sum(axis=0))
 	summary_2_fh.columns = ['Rejected']
 	summary_2_fh['Accepted'] = len(summary_fh)-summary_2_fh.Rejected.values
 

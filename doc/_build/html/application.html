@@ -4,9 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Application &#8212; Scopy 1.0 beta documentation</title>
+    <title>Application &#8212; Scopy 1.1.1 documentation</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/./cssbasic.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
@@ -32,7 +33,7 @@
         <li class="right" >
           <a href="user_guide.html" title="Getting Started with Scopy"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.0 beta documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.1.1 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -235,7 +236,7 @@
                                  <span class="s1">&#39;GSK&#39;</span><span class="p">:</span><span class="n">gsk</span><span class="o">.</span><span class="n">Disposed</span><span class="p">})</span>
 
 <span class="n">summary_druglike</span><span class="p">[</span><span class="s1">&#39;Rejected_Num&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">summary_druglike</span><span class="o">==</span><span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">summary_2_druglike</span> <span class="o">=</span> <span class="p">(</span><span class="n">summary_druglike</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span><span class="o">==</span><span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">summary_2_druglike</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">summary_druglike</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span><span class="o">==</span><span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 <span class="n">summary_2_druglike</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Rejected&#39;</span><span class="p">]</span>
 <span class="n">summary_2_druglike</span><span class="p">[</span><span class="s1">&#39;Accepted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">summary_druglike</span><span class="p">)</span><span class="o">-</span><span class="n">summary_2_druglike</span><span class="o">.</span><span class="n">Rejected</span><span class="o">.</span><span class="n">values</span>
 
@@ -253,7 +254,7 @@
                             <span class="p">})</span>
 
 <span class="n">summary_tox</span><span class="p">[</span><span class="s1">&#39;Rejected_Num&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">summary_tox</span><span class="o">==</span><span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">summary_2_tox</span> <span class="o">=</span> <span class="p">(</span><span class="n">summary_tox</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span><span class="o">==</span><span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">summary_2_tox</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">summary_tox</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span><span class="o">==</span><span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 <span class="n">summary_2_tox</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Rejected&#39;</span><span class="p">]</span>
 <span class="n">summary_2_tox</span><span class="p">[</span><span class="s1">&#39;Accepted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">summary_tox</span><span class="p">)</span><span class="o">-</span><span class="n">summary_2_tox</span><span class="o">.</span><span class="n">Rejected</span><span class="o">.</span><span class="n">values</span>
 
@@ -277,7 +278,7 @@
                            <span class="s1">&#39;PAINS&#39;</span><span class="p">:</span><span class="n">bms</span><span class="o">.</span><span class="n">Disposed</span><span class="p">})</span>
 
 <span class="n">summary_fh</span><span class="p">[</span><span class="s1">&#39;Rejected_Num&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">summary_fh</span><span class="o">==</span><span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">summary_2_fh</span> <span class="o">=</span> <span class="p">(</span><span class="n">summary_fh</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span><span class="o">==</span><span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">summary_2_fh</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span><span class="n">summary_fh</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span><span class="o">==</span><span class="s1">&#39;Rejected&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 <span class="n">summary_2_fh</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Rejected&#39;</span><span class="p">]</span>
 <span class="n">summary_2_fh</span><span class="p">[</span><span class="s1">&#39;Accepted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">summary_fh</span><span class="p">)</span><span class="o">-</span><span class="n">summary_2_fh</span><span class="o">.</span><span class="n">Rejected</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
@@ -463,7 +464,7 @@
         <li class="right" >
           <a href="user_guide.html" title="Getting Started with Scopy"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.0 beta documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.1.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

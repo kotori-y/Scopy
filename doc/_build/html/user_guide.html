@@ -4,9 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Getting Started with Scopy &#8212; Scopy 1.0 beta documentation</title>
+    <title>Getting Started with Scopy &#8212; Scopy 1.1.1 documentation</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/./cssbasic.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
@@ -32,7 +33,7 @@
         <li class="right" >
           <a href="overview.html" title="Overview"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.0 beta documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.1.1 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -417,7 +418,7 @@
 <div class="section" id="fingerprint-calculation">
 <h3>Fingerprint Calculation<a class="headerlink" href="#fingerprint-calculation" title="Permalink to this headline">¶</a></h3>
 <p>With different definitions, fingerprints (descriptors) can characterize molecules from different angles. Through calculating similarity or distance among molecular fingerprints (descriptors), the spatial density of compound libraries can be evaluated.</p>
-<p>The <a class="reference internal" href="modules/scopy.fingerprint.html#module-scopy.fingerprint" title="scopy.fingerprint"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.fingerprint</span></code></a> package provides the calculation of 6 descriptors (MACCS, EFG, IFG, EState, GhoseCrippen and PubChem) and 2 fingerprints (Morgan Family and Daylight Fingerprint). More Details see <a class="reference external" href="./overview.html#feature-overview">overview</a>.</p>
+<p>The <a class="reference internal" href="modules/scopy.fingerprint.html#module-scopy.fingerprint" title="scopy.fingerprint"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scopy.fingerprint</span></code></a> package provides the calculation of 6 descriptors (MACCS, EFG, IFG, EState, GhoseCrippen and PubChem) and 2 fingerprints (Morgan Family and Daylight Fingerprint). More Details see <a class="reference external" href="./overview.html#feature-overview">overview</a>. As for Morgan Family, 2 and 1024 chosen as the default radius and the number of bits. Besides, minimum and maximum distance for Daylight fingerprint, whose default the number of bits is 2048, set default as 1 and 7.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scopy.fingerprint</span> <span class="k">import</span> <span class="n">fingerprints</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fps</span> <span class="o">=</span> <span class="n">fingerprints</span><span class="o">.</span><span class="n">CalculateEFG</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">useCount</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fps</span><span class="o">.</span><span class="n">shape</span>
@@ -521,7 +522,7 @@
         <li class="right" >
           <a href="overview.html" title="Overview"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.0 beta documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.1.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

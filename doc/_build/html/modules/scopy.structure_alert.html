@@ -4,9 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.structure_alert package &#8212; Scopy 1.0 beta documentation</title>
+    <title>scopy.structure_alert package &#8212; Scopy 1.1.1 documentation</title>
     <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/./cssbasic.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
@@ -32,7 +33,7 @@
         <li class="right" >
           <a href="scopy.pretreat.html" title="scopy.pretreat package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" accesskey="U">Scopy API</a> &#187;</li> 
       </ul>
     </div>
@@ -669,34 +670,6 @@ There are 119 SMARTS in this endpoint.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="scopy.structure_alert.FilterWithSmarts.Check_Promiscuity">
-<code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Promiscuity</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Promiscuity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Promiscuity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check molecule under Promiscuity Filter,
-There are 177 SMARTS in this endpoint.</p>
-<dl class="simple">
-<dt>Reference:</dt><dd><ol class="arabic simple">
-<li><p><a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/ci050504m">Pearce, Bradley C (2016)</a>.</p></li>
-</ol>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
-<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
-<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>namedtuple</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
 <dt id="scopy.structure_alert.FilterWithSmarts.Check_Reactive_Unstable_Toxic">
 <code class="sig-prename descclassname">scopy.structure_alert.FilterWithSmarts.</code><code class="sig-name descname">Check_Reactive_Unstable_Toxic</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/FilterWithSmarts.html#Check_Reactive_Unstable_Toxic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.FilterWithSmarts.Check_Reactive_Unstable_Toxic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under Reactive_Unstable_Toxic Filter.
@@ -1149,21 +1122,6 @@ There are 119 SMARTS in this endpoint.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Promiscuity">
-<code class="sig-name descname">Check_Promiscuity</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Promiscuity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Promiscuity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check molecule under Promiscuity Filter,
-There are 177 SMARTS in this endpoint.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a list of dictionary</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
 <dt id="scopy.structure_alert.SmartsFilter.Filter.Check_Reactive_Unstable_Toxic">
 <code class="sig-name descname">Check_Reactive_Unstable_Toxic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/structure_alert/SmartsFilter.html#Filter.Check_Reactive_Unstable_Toxic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.structure_alert.SmartsFilter.Filter.Check_Reactive_Unstable_Toxic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under Reactive_Unstable_Toxic Filter.
@@ -1258,7 +1216,7 @@ There are 164 SMARTS in this endpoint.</p>
         <li class="right" >
           <a href="scopy.pretreat.html" title="scopy.pretreat package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" >Scopy API</a> &#187;</li> 
       </ul>
     </div>

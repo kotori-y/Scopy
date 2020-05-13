@@ -12,14 +12,22 @@ Dependencies
 ~~~~~~~~~~~~
 .. code-block:: python
 
-	RDkit>=2019.03.1
-	Numpy
-	Matplotlib
+	rdkit
+	numpy
+	matplotlib
 
-Install from source
+Install with source
 ~~~~~~~~~~~~~~~~~~~
 >>> git clone git@github.com:kotori-y/Scopy.git && cd scopy
 >>> [sudo] python setup.py install
+
+Install with conda
+~~~~~~~~~~~~~~~~~~~
+>>> conda install -c kotori_y scopy
+
+Install with pypi
+~~~~~~~~~~~~~~~~~~
+>>> pip install cbdd-scopy
 
 Molecular Pretreater
 ---------------------
@@ -57,7 +65,7 @@ O=C([O-])c1ccc(C[S](=O)=O)cc1
 
 Drug-likeness Filter
 ---------------------
-Drug-likeness is a conception that rationalizes the influence of simple physicochemical properties to in vivo molecular behaviors, with particular respect to solubility, absorption, permeability, metabolic stability and transporting effects. The application of drug-likeness rules to database construction will help senior executives more effectively. 
+Drug-likeness is a conception that rationalizes the influence of simple physicochemical properties to in vivo molecular behaviors, with particular respect to solubility, absorption, permeability, metabolic stability and transporting effects. The application of drug-likeness rules to database construction will help senior executives more effectively. The Drug-likeness Filter is implemented in the :mod:`scopy.druglikeness` package.
 
 The :mod:`scopy.druglikeness` package provides the calculation of physicochemical properties and the screening drug-likeness rules. :mod:`scopy.druglikeness` package can calculate 42 physicochemical properties (39 basic molecular properties and 3 comprehensive molecular evaluation scores), and implement 15 drug-likeness rules (11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules). More details see `overview`_.
 
@@ -307,7 +315,7 @@ Fingerprint Calculation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 With different definitions, fingerprints (descriptors) can characterize molecules from different angles. Through calculating similarity or distance among molecular fingerprints (descriptors), the spatial density of compound libraries can be evaluated.
 
-The :mod:`scopy.fingerprint` package provides the calculation of 6 descriptors (MACCS, EFG, IFG, EState, GhoseCrippen and PubChem) and 2 fingerprints (Morgan Family and Daylight Fingerprint). More Details see `overview`_.
+The :mod:`scopy.fingerprint` package provides the calculation of 6 descriptors (MACCS, EFG, IFG, EState, GhoseCrippen and PubChem) and 2 fingerprints (Morgan Family and Daylight Fingerprint). More Details see `overview`_. As for Morgan Family, 2 and 1024 chosen as the default radius and the number of bits. Besides, minimum and maximum distance for Daylight fingerprint, whose default the number of bits is 2048, set default as 1 and 7.
 
 >>> from scopy.fingerprint import fingerprints
 >>> fps = fingerprints.CalculateEFG(mols, useCount=True, n_jobs=4)

@@ -4,9 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.druglikeness.rulesfilter &#8212; Scopy 1.0 beta documentation</title>
+    <title>scopy.druglikeness.rulesfilter &#8212; Scopy 1.1.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/./cssbasic.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
@@ -24,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -507,20 +508,20 @@
 
     
 
-<div class="viewcode-block" id="CheckOpreaTwoRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckOpreaTwoRule">[docs]</a><span class="k">def</span> <span class="nf">CheckOpreaTwoRule</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Reference.:</span>
-<span class="sd">               </span>
-<span class="sd">    Rule details:</span>
-<span class="sd">        mw &lt;= 450</span>
-<span class="sd">        -3.5 &lt;= clogP &lt;= 4.5</span>
-<span class="sd">        -4 &lt;= logD &lt;= 4</span>
-<span class="sd">        nring &lt;= 4</span>
-<span class="sd">        no. of nonterminal single bonds&lt;=10 #this property should be realized</span>
-<span class="sd">        NHD &lt;= 5</span>
-<span class="sd">        NHA &lt;= 8</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span> </div>
+<span class="c1"># def CheckOpreaTwoRule(mol):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Reference.:</span>
+               
+<span class="c1">#     Rule details:</span>
+<span class="c1">#         mw &lt;= 450</span>
+<span class="c1">#         -3.5 &lt;= clogP &lt;= 4.5</span>
+<span class="c1">#         -4 &lt;= logD &lt;= 4</span>
+<span class="c1">#         nring &lt;= 4</span>
+<span class="c1">#         no. of nonterminal single bonds&lt;=10 #this property should be realized</span>
+<span class="c1">#         NHD &lt;= 5</span>
+<span class="c1">#         NHA &lt;= 8</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     pass </span>
 
 
 <div class="viewcode-block" id="CheckGhoseRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckGhoseRule">[docs]</a><span class="k">def</span> <span class="nf">CheckGhoseRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -580,20 +581,20 @@
     <span class="k">return</span> <span class="n">dic</span></div>
 
 
-<div class="viewcode-block" id="CheckKelderRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckKelderRule">[docs]</a><span class="k">def</span> <span class="nf">CheckKelderRule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Check moleculars under Kelder rules</span>
-<span class="sd">    </span>
-<span class="sd">    Ref.:</span>
-<span class="sd">        Kelder, Jan, et al.</span>
-<span class="sd">        Pharm Res, 16.10 (1999): 1514-1519.</span>
-<span class="sd">        </span>
-<span class="sd">    Rule details:</span>
-<span class="sd">        tpsa &lt;120 for orally active;</span>
-<span class="sd">        tpsa &lt; 60-70 for brain penetration</span>
-<span class="sd">        </span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
+<span class="c1"># def CheckKelderRule(mol, detail=False, showSMILES=False):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Check moleculars under Kelder rules</span>
+    
+<span class="c1">#     Ref.:</span>
+<span class="c1">#         Kelder, Jan, et al.</span>
+<span class="c1">#         Pharm Res, 16.10 (1999): 1514-1519.</span>
+        
+<span class="c1">#     Rule details:</span>
+<span class="c1">#         tpsa &lt;120 for orally active;</span>
+<span class="c1">#         tpsa &lt; 60-70 for brain penetration</span>
+        
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     pass</span>
 
 
 <div class="viewcode-block" id="CheckREOS"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckREOS">[docs]</a><span class="k">def</span> <span class="nf">CheckREOS</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -773,25 +774,25 @@
     <span class="k">return</span> <span class="n">dic</span></div>
 
 
-<div class="viewcode-block" id="CheckSchneiderRule"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckSchneiderRule">[docs]</a><span class="k">def</span> <span class="nf">CheckSchneiderRule</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Check  molecular under Schneider rule</span>
-<span class="sd">    </span>
-<span class="sd">    Reference:</span>
-<span class="sd">        Schneider, Nadine, et al.</span>
-<span class="sd">        J Chem Inf Model, 48.3 (2008): 613-628.</span>
-<span class="sd">        </span>
-<span class="sd">    Rule details:</span>
-<span class="sd">        mw &gt; 230</span>
-<span class="sd">        nhd &gt; 0</span>
-<span class="sd">        nha &gt; 0</span>
-<span class="sd">        nrot &gt; 0</span>
-<span class="sd">        nring &gt; 0</span>
-<span class="sd">        mr &gt; 40</span>
-<span class="sd">        functional groups &gt; 0</span>
-<span class="sd">        molecular volume &gt; 191</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
+<span class="c1"># def CheckSchneiderRule(mol):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Check  molecular under Schneider rule</span>
+    
+<span class="c1">#     Reference:</span>
+<span class="c1">#         Schneider, Nadine, et al.</span>
+<span class="c1">#         J Chem Inf Model, 48.3 (2008): 613-628.</span>
+        
+<span class="c1">#     Rule details:</span>
+<span class="c1">#         mw &gt; 230</span>
+<span class="c1">#         nhd &gt; 0</span>
+<span class="c1">#         nha &gt; 0</span>
+<span class="c1">#         nrot &gt; 0</span>
+<span class="c1">#         nring &gt; 0</span>
+<span class="c1">#         mr &gt; 40</span>
+<span class="c1">#         functional groups &gt; 0</span>
+<span class="c1">#         molecular volume &gt; 191</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     pass</span>
 
 
 <div class="viewcode-block" id="CheckRo4"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckRo4">[docs]</a><span class="k">def</span> <span class="nf">CheckRo4</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -864,6 +865,7 @@
 <span class="sd">        NHD &lt;= 3</span>
 <span class="sd">        NHA &lt;= 6</span>
 <span class="sd">        PSA &lt;= 60</span>
+<span class="sd">        nRot &lt;= 3</span>
 <span class="sd">    </span>
 <span class="sd">    :param mol: molecule</span>
 <span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
@@ -890,7 +892,7 @@
     <span class="n">anHD</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHD</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">)</span>
     <span class="n">anHA</span> <span class="o">=</span> <span class="p">(</span><span class="n">nHA</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">)</span>
     <span class="n">atPSA</span> <span class="o">=</span> <span class="p">(</span><span class="n">tPSA</span> <span class="o">&lt;=</span> <span class="mi">60</span><span class="p">)</span>
-    <span class="n">anRot</span> <span class="o">=</span> <span class="p">(</span><span class="n">nRot</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">aRot</span> <span class="o">=</span> <span class="p">(</span><span class="n">nRot</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">)</span>
     <span class="c1">#Give the advice</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">aMW</span><span class="o">&amp;</span><span class="n">alogP</span><span class="o">&amp;</span><span class="n">anHD</span><span class="o">&amp;</span><span class="n">anHA</span><span class="o">&amp;</span><span class="n">atPSA</span><span class="o">&amp;</span><span class="n">anRot</span><span class="p">):</span>
         <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
@@ -970,107 +972,107 @@
     <span class="k">return</span> <span class="n">dic</span></div>
 
 
-<div class="viewcode-block" id="DrugLikeOne"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.DrugLikeOne">[docs]</a><span class="k">def</span> <span class="nf">DrugLikeOne</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Based on Drug-Like Soft designed by FAFDrugs4(http://fafdrugs4.mti.univ-paris-diderot.fr/index.html)</span>
-<span class="sd">    </span>
-<span class="sd">    Through combining several articles describing drugs&#39; physico-chemical properties </span>
-<span class="sd">    and an in-house statistical analysis of drugs.</span>
-<span class="sd">    </span>
-<span class="sd">    Reference:</span>
-<span class="sd">        (1) Lipinski, Christopher A., et al.</span>
-<span class="sd">        Adv Drug Deliv Rev, 223.1-3 (1997): 3-25.</span>
-<span class="sd">        (2) Oprea, Tudor I.</span>
-<span class="sd">        J Comput Aided Mol Des, 14.3 (2000): 251-264.</span>
-<span class="sd">        (3) Irwin, John J., and Brian K. Shoichet.</span>
-<span class="sd">        J Chem Inf Model, 45.1 (2005): 177-182.</span>
-<span class="sd">        (4) Oprea, Tudor I., et al.</span>
-<span class="sd">        J Chem Inf Comput Sci, 41.5 (2001): 1308-1315.</span>
-<span class="sd">        (5) Pihan, Emilie, et al.</span>
-<span class="sd">        Bioinformatics, 28.11 (2012): 1540-1541.</span>
-<span class="sd">        </span>
-<span class="sd">    Rule details:</span>
-<span class="sd">        100 &lt;= weight &lt;= 600</span>
-<span class="sd">        -3 &lt;= logP &lt;= 6</span>
-<span class="sd">        nha &lt;= 12</span>
-<span class="sd">        nhd &lt;= 7</span>
-<span class="sd">        TPSA &lt;= 180</span>
-<span class="sd">        nrot &lt;= 11</span>
-<span class="sd">        nrig &lt;= 30</span>
-<span class="sd">        nring &lt;= 6</span>
-<span class="sd">        maxring &lt;= 18</span>
-<span class="sd">        3 &lt;= ncarb &lt;=35</span>
-<span class="sd">        1 &lt;= nhet &lt;= 15</span>
-<span class="sd">        0.1 &lt;= hetcar &lt;=1.1</span>
-<span class="sd">        ncharged &lt;= 4</span>
-<span class="sd">        -4 &lt;= totalchar &lt;= 4</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
+<span class="c1"># def DrugLikeOne(mol):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Based on Drug-Like Soft designed by FAFDrugs4(http://fafdrugs4.mti.univ-paris-diderot.fr/index.html)</span>
+    
+<span class="c1">#     Through combining several articles describing drugs&#39; physico-chemical properties </span>
+<span class="c1">#     and an in-house statistical analysis of drugs.</span>
+    
+<span class="c1">#     Reference:</span>
+<span class="c1">#         (1) Lipinski, Christopher A., et al.</span>
+<span class="c1">#         Adv Drug Deliv Rev, 223.1-3 (1997): 3-25.</span>
+<span class="c1">#         (2) Oprea, Tudor I.</span>
+<span class="c1">#         J Comput Aided Mol Des, 14.3 (2000): 251-264.</span>
+<span class="c1">#         (3) Irwin, John J., and Brian K. Shoichet.</span>
+<span class="c1">#         J Chem Inf Model, 45.1 (2005): 177-182.</span>
+<span class="c1">#         (4) Oprea, Tudor I., et al.</span>
+<span class="c1">#         J Chem Inf Comput Sci, 41.5 (2001): 1308-1315.</span>
+<span class="c1">#         (5) Pihan, Emilie, et al.</span>
+<span class="c1">#         Bioinformatics, 28.11 (2012): 1540-1541.</span>
+        
+<span class="c1">#     Rule details:</span>
+<span class="c1">#         100 &lt;= weight &lt;= 600</span>
+<span class="c1">#         -3 &lt;= logP &lt;= 6</span>
+<span class="c1">#         nha &lt;= 12</span>
+<span class="c1">#         nhd &lt;= 7</span>
+<span class="c1">#         TPSA &lt;= 180</span>
+<span class="c1">#         nrot &lt;= 11</span>
+<span class="c1">#         nrig &lt;= 30</span>
+<span class="c1">#         nring &lt;= 6</span>
+<span class="c1">#         maxring &lt;= 18</span>
+<span class="c1">#         3 &lt;= ncarb &lt;=35</span>
+<span class="c1">#         1 &lt;= nhet &lt;= 15</span>
+<span class="c1">#         0.1 &lt;= hetcar &lt;=1.1</span>
+<span class="c1">#         ncharged &lt;= 4</span>
+<span class="c1">#         -4 &lt;= totalchar &lt;= 4</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     pass</span>
 
 
-<div class="viewcode-block" id="DrugLikeTwo"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.DrugLikeTwo">[docs]</a><span class="k">def</span> <span class="nf">DrugLikeTwo</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Based on Drug-Like Soft designed by FAFDrugs4(http://fafdrugs4.mti.univ-paris-diderot.fr/index.html)</span>
-<span class="sd">    </span>
-<span class="sd">    Through combining several articles describing drugs&#39; physico-chemical properties </span>
-<span class="sd">    and an in-house statistical analysis of drugs.</span>
-<span class="sd">    </span>
-<span class="sd">    Reference.:</span>
-<span class="sd">        (1) Oprea, Tudor I., et al.</span>
-<span class="sd">        J Comput Aided Mol Des, 14.3 (2000): 251-264.</span>
-<span class="sd">        (2) Workman, Paul, and Ian Collins.</span>
-<span class="sd">        Chem Biol, 17.6 (2010): 561-577.</span>
-<span class="sd">        (3) Baell, Jonathan B.</span>
-<span class="sd">        J Chem Inf Model, 53.1 (2012): 39-55.</span>
-<span class="sd">        (4) Brenk, Ruth, et al.</span>
-<span class="sd">        ChemMedChem 3.3 (2008): 435-444.</span>
-<span class="sd">        </span>
-<span class="sd">    Rule details:</span>
-<span class="sd">        150 &lt;= weight &lt;= 400</span>
-<span class="sd">        -3 &lt;= logP &lt;= 4</span>
-<span class="sd">        nha &lt;= 7</span>
-<span class="sd">        nhd &lt;= 4</span>
-<span class="sd">        TPSA &lt;= 160</span>
-<span class="sd">        nrot &lt;= 9</span>
-<span class="sd">        nrig &lt;= 30</span>
-<span class="sd">        nring &lt;= 4</span>
-<span class="sd">        maxring &lt;= 18</span>
-<span class="sd">        3 &lt;= ncarb &lt;=35</span>
-<span class="sd">        1 &lt;= nhet &lt;= 15</span>
-<span class="sd">        0.1 &lt;= hetcar &lt;=1.1</span>
-<span class="sd">        ncharged &lt;= 4</span>
-<span class="sd">        -4 &lt;= totalchar &lt;= 4</span>
-<span class="sd">        nstero &lt;= 2</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
+<span class="c1"># def DrugLikeTwo(mol):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Based on Drug-Like Soft designed by FAFDrugs4(http://fafdrugs4.mti.univ-paris-diderot.fr/index.html)</span>
+    
+<span class="c1">#     Through combining several articles describing drugs&#39; physico-chemical properties </span>
+<span class="c1">#     and an in-house statistical analysis of drugs.</span>
+    
+<span class="c1">#     Reference.:</span>
+<span class="c1">#         (1) Oprea, Tudor I., et al.</span>
+<span class="c1">#         J Comput Aided Mol Des, 14.3 (2000): 251-264.</span>
+<span class="c1">#         (2) Workman, Paul, and Ian Collins.</span>
+<span class="c1">#         Chem Biol, 17.6 (2010): 561-577.</span>
+<span class="c1">#         (3) Baell, Jonathan B.</span>
+<span class="c1">#         J Chem Inf Model, 53.1 (2012): 39-55.</span>
+<span class="c1">#         (4) Brenk, Ruth, et al.</span>
+<span class="c1">#         ChemMedChem 3.3 (2008): 435-444.</span>
+        
+<span class="c1">#     Rule details:</span>
+<span class="c1">#         150 &lt;= weight &lt;= 400</span>
+<span class="c1">#         -3 &lt;= logP &lt;= 4</span>
+<span class="c1">#         nha &lt;= 7</span>
+<span class="c1">#         nhd &lt;= 4</span>
+<span class="c1">#         TPSA &lt;= 160</span>
+<span class="c1">#         nrot &lt;= 9</span>
+<span class="c1">#         nrig &lt;= 30</span>
+<span class="c1">#         nring &lt;= 4</span>
+<span class="c1">#         maxring &lt;= 18</span>
+<span class="c1">#         3 &lt;= ncarb &lt;=35</span>
+<span class="c1">#         1 &lt;= nhet &lt;= 15</span>
+<span class="c1">#         0.1 &lt;= hetcar &lt;=1.1</span>
+<span class="c1">#         ncharged &lt;= 4</span>
+<span class="c1">#         -4 &lt;= totalchar &lt;= 4</span>
+<span class="c1">#         nstero &lt;= 2</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     pass</span>
 
 
-<div class="viewcode-block" id="CheckZinc"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckZinc">[docs]</a><span class="k">def</span> <span class="nf">CheckZinc</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Check mol under ZINC</span>
-<span class="sd">    </span>
-<span class="sd">    Reference.:</span>
-<span class="sd">        Irwin, John J., and Brian K. Shoichet. </span>
-<span class="sd">        J Chem Inf Model, 45.1 (2005): 177-182.</span>
-<span class="sd">        </span>
-<span class="sd">    Rule details:</span>
-<span class="sd">        60 &lt;= weight &lt;= 100</span>
-<span class="sd">        -4 &lt;= logP &lt;= 6</span>
-<span class="sd">        nha &lt;= 11</span>
-<span class="sd">        nhd &lt;= 6</span>
-<span class="sd">        TPSA &lt;= 150</span>
-<span class="sd">        nrot &lt;= 12</span>
-<span class="sd">        nrig &lt;= 50</span>
-<span class="sd">        nring &lt;= 7</span>
-<span class="sd">        maxring &lt;= 12</span>
-<span class="sd">        ncarb &gt;= 3</span>
-<span class="sd">        nhet &gt;= 0</span>
-<span class="sd">        hetcar &lt;= 2.0</span>
-<span class="sd">        ncharged &lt;= 4</span>
-<span class="sd">        -4 &lt;= totalchar &lt;= 4</span>
-<span class="sd">        nstero &lt;= 2</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
+<span class="c1"># def CheckZinc(mol):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Check mol under ZINC</span>
+    
+<span class="c1">#     Reference.:</span>
+<span class="c1">#         Irwin, John J., and Brian K. Shoichet. </span>
+<span class="c1">#         J Chem Inf Model, 45.1 (2005): 177-182.</span>
+        
+<span class="c1">#     Rule details:</span>
+<span class="c1">#         60 &lt;= weight &lt;= 100</span>
+<span class="c1">#         -4 &lt;= logP &lt;= 6</span>
+<span class="c1">#         nha &lt;= 11</span>
+<span class="c1">#         nhd &lt;= 6</span>
+<span class="c1">#         TPSA &lt;= 150</span>
+<span class="c1">#         nrot &lt;= 12</span>
+<span class="c1">#         nrig &lt;= 50</span>
+<span class="c1">#         nring &lt;= 7</span>
+<span class="c1">#         maxring &lt;= 12</span>
+<span class="c1">#         ncarb &gt;= 3</span>
+<span class="c1">#         nhet &gt;= 0</span>
+<span class="c1">#         hetcar &lt;= 2.0</span>
+<span class="c1">#         ncharged &lt;= 4</span>
+<span class="c1">#         -4 &lt;= totalchar &lt;= 4</span>
+<span class="c1">#         nstero &lt;= 2</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     pass</span>
 
 
 <div class="viewcode-block" id="CheckCNS"><a class="viewcode-back" href="../../../modules/scopy.druglikeness.html#scopy.druglikeness.rulesfilter.CheckCNS">[docs]</a><span class="k">def</span> <span class="nf">CheckCNS</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -1297,7 +1299,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

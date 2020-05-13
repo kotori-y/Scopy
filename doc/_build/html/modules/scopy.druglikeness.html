@@ -4,9 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.druglikeness package &#8212; Scopy 1.0 beta documentation</title>
+    <title>scopy.druglikeness package &#8212; Scopy 1.1.1 documentation</title>
     <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/./cssbasic.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
@@ -32,7 +33,7 @@
         <li class="right" >
           <a href="../modules.html" title="Scopy API"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" accesskey="U">Scopy API</a> &#187;</li> 
       </ul>
     </div>
@@ -2288,24 +2289,6 @@ because of their high rotational energy barrier</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="scopy.druglikeness.molproperty.CalculateNumberChargedGroups">
-<code class="sig-prename descclassname">scopy.druglikeness.molproperty.</code><code class="sig-name descname">CalculateNumberChargedGroups</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/druglikeness/molproperty.html#CalculateNumberChargedGroups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.druglikeness.molproperty.CalculateNumberChargedGroups" title="Permalink to this definition">¶</a></dt>
-<dd><p>Number of Charged Groups 
-—&gt;nChar</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – molecular</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the number of charged group</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
 <dt id="scopy.druglikeness.molproperty.CalculateQEDmax">
 <code class="sig-prename descclassname">scopy.druglikeness.molproperty.</code><code class="sig-name descname">CalculateQEDmax</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/druglikeness/molproperty.html#CalculateQEDmax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.druglikeness.molproperty.CalculateQEDmax" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculation QED descriptor under different weights   
@@ -2666,20 +2649,6 @@ Bioorg Med Chem Lett, 19.19 (2009): 5560-5564.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="scopy.druglikeness.rulesfilter.CheckKelderRule">
-<code class="sig-prename descclassname">scopy.druglikeness.rulesfilter.</code><code class="sig-name descname">CheckKelderRule</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/druglikeness/rulesfilter.html#CheckKelderRule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.druglikeness.rulesfilter.CheckKelderRule" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check moleculars under Kelder rules</p>
-<dl class="simple">
-<dt>Ref.:</dt><dd><p>Kelder, Jan, et al.
-Pharm Res, 16.10 (1999): 1514-1519.</p>
-</dd>
-<dt>Rule details:</dt><dd><p>tpsa &lt;120 for orally active;
-tpsa &lt; 60-70 for brain penetration</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
 <dt id="scopy.druglikeness.rulesfilter.CheckLipinskiRule">
 <code class="sig-prename descclassname">scopy.druglikeness.rulesfilter.</code><code class="sig-name descname">CheckLipinskiRule</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/druglikeness/rulesfilter.html#CheckLipinskiRule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.druglikeness.rulesfilter.CheckLipinskiRule" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecular under Lipinski’s rule</p>
@@ -2735,22 +2704,6 @@ nRot &gt;=6</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><cite>dict</cite></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="scopy.druglikeness.rulesfilter.CheckOpreaTwoRule">
-<code class="sig-prename descclassname">scopy.druglikeness.rulesfilter.</code><code class="sig-name descname">CheckOpreaTwoRule</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/druglikeness/rulesfilter.html#CheckOpreaTwoRule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.druglikeness.rulesfilter.CheckOpreaTwoRule" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reference.:</p>
-<dl class="simple">
-<dt>Rule details:</dt><dd><p>mw &lt;= 450
--3.5 &lt;= clogP &lt;= 4.5
--4 &lt;= logD &lt;= 4
-nring &lt;= 4
-no. of nonterminal single bonds&lt;=10 #this property should be realized
-NHD &lt;= 5
-NHA &lt;= 8</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2925,7 +2878,8 @@ Drug discovery today 19.8 (2003): 876-877.</p>
 -3 &lt;= logP &lt;= 3
 NHD &lt;= 3
 NHA &lt;= 6
-PSA &lt;= 60</p>
+PSA &lt;= 60
+nRot &lt;= 3</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -2970,26 +2924,6 @@ TPSA &lt;= 120</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><cite>dict</cite></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="scopy.druglikeness.rulesfilter.CheckSchneiderRule">
-<code class="sig-prename descclassname">scopy.druglikeness.rulesfilter.</code><code class="sig-name descname">CheckSchneiderRule</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/druglikeness/rulesfilter.html#CheckSchneiderRule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.druglikeness.rulesfilter.CheckSchneiderRule" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check  molecular under Schneider rule</p>
-<dl class="simple">
-<dt>Reference:</dt><dd><p>Schneider, Nadine, et al.
-J Chem Inf Model, 48.3 (2008): 613-628.</p>
-</dd>
-<dt>Rule details:</dt><dd><p>mw &gt; 230
-nhd &gt; 0
-nha &gt; 0
-nrot &gt; 0
-nring &gt; 0
-mr &gt; 40
-functional groups &gt; 0
-molecular volume &gt; 191</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3055,33 +2989,6 @@ nha &lt;= 10
 </dd></dl>
 
 <dl class="function">
-<dt id="scopy.druglikeness.rulesfilter.CheckZinc">
-<code class="sig-prename descclassname">scopy.druglikeness.rulesfilter.</code><code class="sig-name descname">CheckZinc</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/druglikeness/rulesfilter.html#CheckZinc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.druglikeness.rulesfilter.CheckZinc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check mol under ZINC</p>
-<dl class="simple">
-<dt>Reference.:</dt><dd><p>Irwin, John J., and Brian K. Shoichet. 
-J Chem Inf Model, 45.1 (2005): 177-182.</p>
-</dd>
-<dt>Rule details:</dt><dd><p>60 &lt;= weight &lt;= 100
--4 &lt;= logP &lt;= 6
-nha &lt;= 11
-nhd &lt;= 6
-TPSA &lt;= 150
-nrot &lt;= 12
-nrig &lt;= 50
-nring &lt;= 7
-maxring &lt;= 12
-ncarb &gt;= 3
-nhet &gt;= 0
-hetcar &lt;= 2.0
-ncharged &lt;= 4
--4 &lt;= totalchar &lt;= 4
-nstero &lt;= 2</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
 <dt id="scopy.druglikeness.rulesfilter.Check_CustomizeRule">
 <code class="sig-prename descclassname">scopy.druglikeness.rulesfilter.</code><code class="sig-name descname">Check_CustomizeRule</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">prop_kws</em>, <em class="sig-param">closed_interval=True</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/druglikeness/rulesfilter.html#Check_CustomizeRule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.druglikeness.rulesfilter.Check_CustomizeRule" title="Permalink to this definition">¶</a></dt>
 <dd><p>You could customize the rule with mostly properties ypu want.</p>
@@ -3100,77 +3007,6 @@ nstero &lt;= 2</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><cite>dict</cite></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="scopy.druglikeness.rulesfilter.DrugLikeOne">
-<code class="sig-prename descclassname">scopy.druglikeness.rulesfilter.</code><code class="sig-name descname">DrugLikeOne</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/druglikeness/rulesfilter.html#DrugLikeOne"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.druglikeness.rulesfilter.DrugLikeOne" title="Permalink to this definition">¶</a></dt>
-<dd><p>Based on Drug-Like Soft designed by FAFDrugs4(<a class="reference external" href="http://fafdrugs4.mti.univ-paris-diderot.fr/index.html">http://fafdrugs4.mti.univ-paris-diderot.fr/index.html</a>)</p>
-<p>Through combining several articles describing drugs’ physico-chemical properties 
-and an in-house statistical analysis of drugs.</p>
-<dl class="simple">
-<dt>Reference:</dt><dd><p>(1) Lipinski, Christopher A., et al.
-Adv Drug Deliv Rev, 223.1-3 (1997): 3-25.
-(2) Oprea, Tudor I.
-J Comput Aided Mol Des, 14.3 (2000): 251-264.
-(3) Irwin, John J., and Brian K. Shoichet.
-J Chem Inf Model, 45.1 (2005): 177-182.
-(4) Oprea, Tudor I., et al.
-J Chem Inf Comput Sci, 41.5 (2001): 1308-1315.
-(5) Pihan, Emilie, et al.
-Bioinformatics, 28.11 (2012): 1540-1541.</p>
-</dd>
-<dt>Rule details:</dt><dd><p>100 &lt;= weight &lt;= 600
--3 &lt;= logP &lt;= 6
-nha &lt;= 12
-nhd &lt;= 7
-TPSA &lt;= 180
-nrot &lt;= 11
-nrig &lt;= 30
-nring &lt;= 6
-maxring &lt;= 18
-3 &lt;= ncarb &lt;=35
-1 &lt;= nhet &lt;= 15
-0.1 &lt;= hetcar &lt;=1.1
-ncharged &lt;= 4
--4 &lt;= totalchar &lt;= 4</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="scopy.druglikeness.rulesfilter.DrugLikeTwo">
-<code class="sig-prename descclassname">scopy.druglikeness.rulesfilter.</code><code class="sig-name descname">DrugLikeTwo</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/druglikeness/rulesfilter.html#DrugLikeTwo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.druglikeness.rulesfilter.DrugLikeTwo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Based on Drug-Like Soft designed by FAFDrugs4(<a class="reference external" href="http://fafdrugs4.mti.univ-paris-diderot.fr/index.html">http://fafdrugs4.mti.univ-paris-diderot.fr/index.html</a>)</p>
-<p>Through combining several articles describing drugs’ physico-chemical properties 
-and an in-house statistical analysis of drugs.</p>
-<dl class="simple">
-<dt>Reference.:</dt><dd><p>(1) Oprea, Tudor I., et al.
-J Comput Aided Mol Des, 14.3 (2000): 251-264.
-(2) Workman, Paul, and Ian Collins.
-Chem Biol, 17.6 (2010): 561-577.
-(3) Baell, Jonathan B.
-J Chem Inf Model, 53.1 (2012): 39-55.
-(4) Brenk, Ruth, et al.
-ChemMedChem 3.3 (2008): 435-444.</p>
-</dd>
-<dt>Rule details:</dt><dd><p>150 &lt;= weight &lt;= 400
--3 &lt;= logP &lt;= 4
-nha &lt;= 7
-nhd &lt;= 4
-TPSA &lt;= 160
-nrot &lt;= 9
-nrig &lt;= 30
-nring &lt;= 4
-maxring &lt;= 18
-3 &lt;= ncarb &lt;=35
-1 &lt;= nhet &lt;= 15
-0.1 &lt;= hetcar &lt;=1.1
-ncharged &lt;= 4
--4 &lt;= totalchar &lt;= 4
-nstero &lt;= 2</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3208,7 +3044,7 @@ nstero &lt;= 2</p>
         <li class="right" >
           <a href="../modules.html" title="Scopy API"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" >Scopy API</a> &#187;</li> 
       </ul>
     </div>

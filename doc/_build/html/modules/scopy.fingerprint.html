@@ -4,9 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.fingerprint package &#8212; Scopy 1.0 beta documentation</title>
+    <title>scopy.fingerprint package &#8212; Scopy 1.1.1 documentation</title>
     <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/./cssbasic.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
@@ -32,7 +33,7 @@
         <li class="right" >
           <a href="scopy.druglikeness.html" title="scopy.druglikeness package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" accesskey="U">Scopy API</a> &#187;</li> 
       </ul>
     </div>
@@ -183,8 +184,7 @@ It’s diffcult to counter them like others bits, because these bits contain “
 <dt id="scopy.fingerprint.estate.EStateFP">
 <em class="property">class </em><code class="sig-prename descclassname">scopy.fingerprint.estate.</code><code class="sig-name descname">EStateFP</code><span class="sig-paren">(</span><em class="sig-param">val=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/fingerprint/estate.html#EStateFP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.fingerprint.estate.EStateFP" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Atom-based calculation of LogP and MR using Crippen’s approach. 
-79 bits</p>
+<p>79 bits</p>
 <dl class="simple">
 <dt>Reference:</dt><dd><ol class="arabic simple">
 <li><p>L.B. Kier and L.H. Hall _Molecular Structure Description: The Electrotopological State Academic Press (1999)</p></li>
@@ -309,8 +309,7 @@ that covers in addition heterocyclic compound classes and periodic table groups.
 <dl class="function">
 <dt id="scopy.fingerprint.fingerprints.CalculateEState">
 <code class="sig-prename descclassname">scopy.fingerprint.fingerprints.</code><code class="sig-name descname">CalculateEState</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">val=True</em>, <em class="sig-param">n_jobs=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/fingerprint/fingerprints.html#CalculateEState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.fingerprint.fingerprints.CalculateEState" title="Permalink to this definition">¶</a></dt>
-<dd><p>Atom-based calculation of LogP and MR using Crippen’s approach.
-79 bits</p>
+<dd><p>79 bits</p>
 <dl class="simple">
 <dt>Reference:</dt><dd><ol class="arabic simple">
 <li><p>L.B. Kier and L.H. Hall _Molecular Structure Description: The Electrotopological State Academic Press (1999)</p></li>
@@ -321,7 +320,7 @@ that covers in addition heterocyclic compound classes and periodic table groups.
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mols</strong> (<em>Iterable object</em><em>, </em><em>each element is rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
-<li><p><strong>val</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – If set to True, the fingerprint will presented in the format of vaule of estate, else, would be binary, defauls to True</p></li>
+<li><p><strong>val</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – If set to True, the fingerprint will presented in the format of vaule of estate, else, would be int, defauls to True</p></li>
 <li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The number of CPUs to use to do the computation, defaults to 1</p></li>
 </ul>
 </dd>
@@ -788,7 +787,7 @@ is built by applying the Morgan algorithm to a set of user-supplied atom invaria
         <li class="right" >
           <a href="scopy.druglikeness.html" title="scopy.druglikeness package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.0 beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" >Scopy API</a> &#187;</li> 
       </ul>
     </div>
