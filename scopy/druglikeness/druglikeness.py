@@ -953,7 +953,7 @@ class PC_properties(object):
 
     def GetProperties(self,
                       items = ['MW','Vol','Dense','fChar','nBond','nAtom','nHD','nHA','nHB',
-                               'nHet','nStero','nHev','nRot','nRig','nRing',
+                               'nHet','nStero','nHev','nRot','nRig','nRing','Flex',
                                'logP','logD','pKa','logSw','ab','MR','TPSA','AP','HetRatio',
                                'Fsp3','MaxRing','QEDmean','QEDmax','QEDnone','SAscore','NPscore',
                                'nSingle','nDouble','nTriple','nC','nB','nF','nCl','nBr','nI',
@@ -989,6 +989,7 @@ class PC_properties(object):
                 'TPSA': 'self.CalculateTPSA()',
                 'MaxRing': 'self.CalculateMaxSizeSystemRing()',
                 'nStero': 'self.CalculateNumStereocenters()',
+                'Flex': 'self.CalculateFlexibility()',
                 'HetRatio': 'self.CalculateHetCarbonRatio()',
                 'QEDmean': 'self.CalculateQEDmean()',
                 'QEDmax': 'self.CalculateQEDmax()',

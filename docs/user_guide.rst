@@ -65,7 +65,7 @@ O=C([O-])c1ccc(C[S](=O)=O)cc1
 
 Drug-likeness Filter
 ---------------------
-Drug-likeness is a conception that rationalizes the influence of simple physicochemical properties to in vivo molecular behaviors, with particular respect to solubility, absorption, permeability, metabolic stability and transporting effects. The application of drug-likeness rules to database construction will help senior executives more effectively. The Drug-likeness Filter is implemented in the :mod:`scopy.druglikeness` package.
+Drug-likeness is a conception that rationalizes the influence of simple physicochemical properties to in vivo molecular behaviors, with particular respect to solubility, absorption, permeability, metabolic stability and transporting effects. The application of drug-likeness rules to database construction will help senior executives more effectively. *The Drug-likeness Filter is implemented in the :mod:`scopy.druglikeness` package.*
 
 The :mod:`scopy.druglikeness` package provides the calculation of physicochemical properties and the screening drug-likeness rules. :mod:`scopy.druglikeness` package can calculate 42 physicochemical properties (39 basic molecular properties and 3 comprehensive molecular evaluation scores), and implement 15 drug-likeness rules (11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules). More details see `overview`_.
 
@@ -106,7 +106,7 @@ Besides, user can also calculate different property simultaneously through `molp
 >>> props
 {'MW': 229.07, 'Vol': 235.2, 'SAscore': 2.96}
 
-When user needs to calculte properties of a set of molecules, :mod:`scopy.druglikeness.druglikeness` module can be used for the fast implementaiton.
+When user needs to calculte properties of a set of molecules, another module in :mod:`scopy.druglikeness` package, :mod:`scopy.druglikeness.druglikeness` module can be used for the fast implementaiton.
 
 >>> import os
 >>> from scopy import ScoConfig
@@ -149,7 +149,8 @@ Besides, users can obtain more detailed information about the screening result.
 Considering the expert experience and different requirements in practical applications, users can customize their own screening rules through `rulesfilter.Check_CustomizeRule` function.
 
 >>> prop_kws = {'MW':[None,500], 'logP':[None, 5], 'nHD':[None,5], 
-... 			'nHA':[None,10], 'TPSA':[None,140]} #The customized rule: MW<=500, logP<=5, nHD<=5, nHA<=10, TPSA<=140
+... 	'nHA':[None,10], 'TPSA':[None,140]} #The customized rule: MW<=500, logP<=5, nHD<=5, nHA<=10, TPSA<=140
+>>> 
 >>> res = rulesfilter.Check_CustomizeRule(mol, prop_kws=prop_kws, detail=True)
 >>> res
 {'MW': 229.07,
@@ -181,7 +182,7 @@ list
 
 Frequent hitter Filter
 ------------------------
-Frequent hitters refer to compounds which are repetitively identified as active hits in many different and independent biological assays covering a wide range of targets. Frequent hitters can be roughly divided into two categories: (1) compounds that interfere with elements of the assay formats or techniques thus causing undesirable false positive results; and (2) promiscuous compounds that can bind to different target thus triggering adverse reactions and other safety issues.
+Frequent hitters refer to compounds which are repetitively identified as active hits in many different and independent biological assays covering a wide range of targets. Frequent hitters can be roughly divided into two categories: (1) compounds that interfere with elements of the assay formats or techniques thus causing undesirable false positive results; and (2) promiscuous compounds that can bind to different target thus triggering adverse reactions and other safety issues. *Frequent hitter Filter was implemented in the :mod:`scopy.structure_alert` package.*
 
 The :mod:`scopy.structure_alert` package provides 8 substructure filters for screening different types of FHs, including 4 assay interference substructure filters and 4 promiscuous compound substructure filters. More Details see `overview`_.
 
@@ -228,7 +229,7 @@ By applying `visualize.HighlightAtoms.highlight`_ function, user conduct further
 
 Toxicity Filter
 ----------------
-Toxicity refers to the measure of poisonous or toxic effect on an organ or a whole organism. Toxicity is one of the main reasons for attrition in the drug development process. It is reported that more than 15% of new approved FDA chemical entitles (between 1975 and 2009) have received more than once black-box warnings, and some of them have been withdrawn from the market due to the toxicity and safety issues. In addition, the requirements for molecular safety are not only limited to the human beings. The environmental influence of drugs has also aroused great concern. 
+Toxicity refers to the measure of poisonous or toxic effect on an organ or a whole organism. Toxicity is one of the main reasons for attrition in the drug development process. It is reported that more than 15% of new approved FDA chemical entitles (between 1975 and 2009) have received more than once black-box warnings, and some of them have been withdrawn from the market due to the toxicity and safety issues. In addition, the requirements for molecular safety are not only limited to the human beings. The environmental influence of drugs has also aroused great concern. *Toxicity Filter was also implemented in the :mod:`scopy.structure_alert` package.*
 
 :mod:`scopy.structure_alert` package provides 11 toxicophore filters, including 5 human related toxicity substructure filters, 3 environment related toxicity substructure filters and 3 comprehensive substructure filters. More details see: `overview`_.
 
@@ -266,7 +267,7 @@ To simplify screening process and draw lessons from existing screening tools, th
 
 Multiprocessing Filter
 -----------------------
-The :mod:`scopy.structure_alert.SmartsFilter` module provides the tool to screen molecule library under `Frequent Hitters Filter`_ and (or) `Toxicity Filter`_ with multiprocess technology.
+The :mod:`scopy.structure_alert.SmartsFilter` module of :mod:`scopy.structure_alert` package provides the tool to screen molecule library under `Frequent Hitters Filter`_ and (or) `Toxicity Filter`_ with multiprocess technology.
 
 >>> from scopy.structure_alert import SmartsFilter
 >>>		
@@ -284,7 +285,7 @@ list
 
 Chemical Space Exploer
 ------------------------
-A desirable database is demanded to own wide chemical space, which will greatly benefits the efficiency and success rate of drug development. To analyze the chemical diversity of screening databases, the Scopy library designs a special module for the calculation of 2 molecular scaffolds, 6 substructure descriptors and 2 fingerprints. 
+A desirable database is demanded to own wide chemical space, which will greatly benefits the efficiency and success rate of drug development. To analyze the chemical diversity of screening databases, the Scopy library designs a special module for the calculation of 2 molecular scaffolds, 6 substructure descriptors and 2 fingerprints.
 
 Framework Calculation
 ~~~~~~~~~~~~~~~~~~~~~~~
