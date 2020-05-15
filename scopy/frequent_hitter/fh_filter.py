@@ -23,9 +23,6 @@ except:
     from structure_alert.FilterWithSmarts import Filter
 
 
-
-
-
 class FHfilter(object):
     """
     Here, we comdat the whole function that check endpoint retrieved from module FilterWithSmarts
