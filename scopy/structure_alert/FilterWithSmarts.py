@@ -16,7 +16,7 @@ except:
     import SmartProcess
 
 
-class _Filter(object):
+class Filter(object):
     """
     *Internal Use Only*
     the tool to check molecule(s) whether matched some unexpected endpoints.
@@ -75,7 +75,7 @@ def Check_Acute_Aquatic_Toxicity(mol, detail=False, showSMILES=False):
         https://www.sciencedirect.com/science/article/pii/0045653592902805
         
     """
-    Aquatic = _Filter('Acute_Aquatic_Toxicity',detail, showSMILES)
+    Aquatic = Filter('Acute_Aquatic_Toxicity',detail, showSMILES)
     Aquatic.get_pattl()
     res = Aquatic.scan(mol)
     return res
@@ -105,7 +105,7 @@ def Check_AlphaScreen_FHs(mol, detail=False, showSMILES=False):
         https://journals.sagepub.com/doi/full/10.1177/1087057113516861
         
     """
-    AlphaScreen = _Filter('AlphaScreen_FHs',detail, showSMILES)
+    AlphaScreen = Filter('AlphaScreen_FHs',detail, showSMILES)
     AlphaScreen.get_pattl()
     res = AlphaScreen.scan(mol)
     return res
@@ -135,7 +135,7 @@ def Check_AlphaScreen_GST_FHs(mol, detail=False, showSMILES=False):
         https://journals.sagepub.com/doi/abs/10.1177/1087057116639992
         
     """
-    GST = _Filter('AlphaScreen_GST_FHs',detail, showSMILES)
+    GST = Filter('AlphaScreen_GST_FHs',detail, showSMILES)
     GST.get_pattl()
     res = GST.scan(mol)
     return res
@@ -165,7 +165,7 @@ def Check_AlphaScreen_HIS_FHs(mol, detail=False, showSMILES=False):
         https://journals.sagepub.com/doi/abs/10.1177/1087057113516861
         
     """
-    HIS = _Filter('AlphaScreen_HIS_FHs', detail, showSMILES)
+    HIS = Filter('AlphaScreen_HIS_FHs', detail, showSMILES)
     HIS.get_pattl()
     res = HIS.scan(mol)
     return res
@@ -192,7 +192,7 @@ def Check_Biodegradable(mol, detail=False, showSMILES=False):
     :rtype: namedtuple
     
     """
-    Biodegradable = _Filter('Biodegradable',detail, showSMILES)
+    Biodegradable = Filter('Biodegradable',detail, showSMILES)
     Biodegradable.get_pattl()
     res = Biodegradable.scan(mol)
     return res
@@ -222,7 +222,7 @@ def Check_Chelating(mol, detail=False, showSMILES=False):
         https://onlinelibrary.wiley.com/doi/abs/10.1002/cmdc.200900516
     
     """
-    Chelating = _Filter('Chelating', detail, showSMILES)
+    Chelating = Filter('Chelating', detail, showSMILES)
     Chelating.get_pattl()
     res = Chelating.scan(mol)
     return res
@@ -249,7 +249,7 @@ def Check_Developmental_Mitochondrial(mol, detail=False, showSMILES=False):
     :rtype: namedtuple
     
     """
-    Developmental_Mitochondrial = _Filter('Developmental_Mitochondrial',detail, showSMILES)
+    Developmental_Mitochondrial = Filter('Developmental_Mitochondrial',detail, showSMILES)
     Developmental_Mitochondrial.get_pattl()
     res = Developmental_Mitochondrial.scan(mol)
     return res
@@ -288,7 +288,7 @@ def Check_Genotoxic_Carcinogenicity_Mutagenicity(mol, detail=False, showSMILES=F
         https://www.sciencedirect.com/science/article/pii/S0273230005000553
     
     """
-    Genotoxic_Carcinogenicity_Mutagenicity = _Filter('Genotoxic_Carcinogenicity_Mutagenicity',detail, showSMILES)
+    Genotoxic_Carcinogenicity_Mutagenicity = Filter('Genotoxic_Carcinogenicity_Mutagenicity',detail, showSMILES)
     Genotoxic_Carcinogenicity_Mutagenicity.get_pattl()
     res = Genotoxic_Carcinogenicity_Mutagenicity.scan(mol)
     return res
@@ -318,7 +318,7 @@ def Check_Idiosyncratic(mol, detail=False, showSMILES=False):
         https://www.tandfonline.com/doi/abs/10.1517/17425255.1.1.91
     
     """
-    Idiosyncratic = _Filter('Idiosyncratic',detail, showSMILES)
+    Idiosyncratic = Filter('Idiosyncratic',detail, showSMILES)
     Idiosyncratic.get_pattl()
     res = Idiosyncratic.scan(mol)
     return res
@@ -345,7 +345,7 @@ def Check_LD50_Oral(mol, detail=False, showSMILES=False):
     :rtype: namedtuple
     
     """
-    LD50_Oral = _Filter('LD50_Oral',detail, showSMILES)
+    LD50_Oral = Filter('LD50_Oral',detail, showSMILES)
     LD50_Oral.get_pattl()
     res = LD50_Oral.scan(mol)
     return res
@@ -367,7 +367,7 @@ def Check_Luciferase_Inhibitory(mol, detail=False, showSMILES=False):
     :rtype: namedtuple
     
     """
-    Luciferase_Inhibitory = _Filter('Luciferase_Inhibitory',detail, showSMILES)
+    Luciferase_Inhibitory = Filter('Luciferase_Inhibitory',detail, showSMILES)
     Luciferase_Inhibitory.get_pattl()
     res = Luciferase_Inhibitory.scan(mol)
     return res
@@ -394,7 +394,7 @@ def Check_NonBiodegradable(mol, detail=False, showSMILES=False):
     :rtype: namedtuple
     
     """
-    NonBiodegradable = _Filter('NonBiodegradable',detail, showSMILES)
+    NonBiodegradable = Filter('NonBiodegradable',detail, showSMILES)
     NonBiodegradable.get_pattl()
     res = NonBiodegradable.scan(mol)
     return res
@@ -427,7 +427,7 @@ def Check_NonGenotoxic_Carcinogenicity(mol, detail=False, showSMILES=False):
         https://pubs.acs.org/doi/abs/10.1021/cr300206t
       
     """
-    NonGenotoxic_Carcinogenicity = _Filter('NonGenotoxic_Carcinogenicity',detail, showSMILES)
+    NonGenotoxic_Carcinogenicity = Filter('NonGenotoxic_Carcinogenicity',detail, showSMILES)
     NonGenotoxic_Carcinogenicity.get_pattl()
     res = NonGenotoxic_Carcinogenicity.scan(mol)
     return res
@@ -457,7 +457,7 @@ def Check_PAINS(mol, detail=False, showSMILES=False):
         https://pubs.acs.org/doi/abs/10.1021/jm901137j
     
     """
-    PAINS = _Filter('Pains',detail, showSMILES)
+    PAINS = Filter('Pains',detail, showSMILES)
     PAINS.get_pattl()
     res = PAINS.scan(mol)
     return res
@@ -488,7 +488,7 @@ def Check_Potential_Electrophilic(mol, detail=False, showSMILES=False):
         https://www.tandfonline.com/doi/abs/10.3109/10408444.2011.598141
     
     """
-    Potential_Electrophilic = _Filter('Potential_Electrophilic',detail, showSMILES)
+    Potential_Electrophilic = Filter('Potential_Electrophilic',detail, showSMILES)
     Potential_Electrophilic.get_pattl()
     res = Potential_Electrophilic.scan(mol)
     return res
@@ -517,7 +517,7 @@ def Check_Reactive_Unstable_Toxic(mol, detail=False, showSMILES=False):
         https://www.chemdiv.com/
     
     """
-    Reactive_Unstable_Toxic = _Filter('Reactive_Unstable_Toxic',detail, showSMILES)
+    Reactive_Unstable_Toxic = Filter('Reactive_Unstable_Toxic',detail, showSMILES)
     Reactive_Unstable_Toxic.get_pattl()
     res = Reactive_Unstable_Toxic.scan(mol)
     return res
@@ -552,7 +552,7 @@ def Check_Skin_Sensitization(mol, detail=False, showSMILES=False):
         https://www.sciencedirect.com/science/article/pii/0887233394902445
     
     """
-    Skin_Sensitization = _Filter('Skin_Sensitization',detail, showSMILES)
+    Skin_Sensitization = Filter('Skin_Sensitization',detail, showSMILES)
     Skin_Sensitization.get_pattl()
     res = Skin_Sensitization.scan(mol)
     return res
@@ -575,7 +575,7 @@ def Check_DNA_Binding(mol, detail=False, showSMILES=False):
     :rtype: namedtuple
     
     """
-    DNA_Binding = _Filter('DNA_Binding',detail, showSMILES)
+    DNA_Binding = Filter('DNA_Binding',detail, showSMILES)
     DNA_Binding.get_pattl()
     res = DNA_Binding.scan(mol)
     return res
@@ -602,7 +602,7 @@ def Check_SureChEMBL(mol, detail=False, showSMILES=False):
         https://www.surechembl.org/knowledgebase/169485
     
     """
-    SureChEMBL = _Filter('SureChEMBL',detail, showSMILES)
+    SureChEMBL = Filter('SureChEMBL',detail, showSMILES)
     SureChEMBL.get_pattl()
     res = SureChEMBL.scan(mol)
     return res
@@ -635,7 +635,7 @@ def Check_BMS(mol, detail=False, showSMILES=False):
         https://pubs.acs.org/doi/abs/10.1021/ci050504m
     
     """
-    BMS = _Filter('BMS',detail, showSMILES)
+    BMS = Filter('BMS',detail, showSMILES)
     BMS.get_pattl()
     res = BMS.scan(mol)
     return res
@@ -663,7 +663,7 @@ def Check_NTD(mol, detail=False, showSMILES=False):
         https://onlinelibrary.wiley.com/doi/abs/10.1002/cmdc.200700139
         
     """        
-    NTD = _Filter('NTD',detail, showSMILES)
+    NTD = Filter('NTD',detail, showSMILES)
     NTD.get_pattl()
     res = NTD.scan(mol)
     return res
@@ -685,7 +685,7 @@ def Check_Alarm_NMR(mol, detail=False, showSMILES=False):
     :rtype: namedtuple
          
     """
-    Alarm_NMR = _Filter('Alarm_NMR',detail, showSMILES)
+    Alarm_NMR = Filter('Alarm_NMR',detail, showSMILES)
     Alarm_NMR.get_pattl()
     res = Alarm_NMR.scan(mol)
     return res
@@ -707,7 +707,7 @@ def Check_Frequent_Hitters(mol, detail=False, showSMILES=False):
     :rtype: namedtuple
          
     """
-    Frequent_Hitters = _Filter('Frequent_Hitters',detail, showSMILES)
+    Frequent_Hitters = Filter('Frequent_Hitters',detail, showSMILES)
     Frequent_Hitters.get_pattl()
     res = Frequent_Hitters.scan(mol)
     return res
@@ -729,7 +729,7 @@ def Check_Aggregators(mol, detail=False, showSMILES=False):
     :rtype: namedtuple
          
     """
-    Aggregators = _Filter('Aggregators',detail, showSMILES)
+    Aggregators = Filter('Aggregators',detail, showSMILES)
     Aggregators.get_pattl()
     res = Aggregators.scan(mol)
     return res
@@ -751,7 +751,7 @@ def Check_Toxicophores(mol, detail=False, showSMILES=False):
     :rtype: namedtuple
          
     """
-    Toxicophores = _Filter('Toxicophores',detail, showSMILES)
+    Toxicophores = Filter('Toxicophores',detail, showSMILES)
     Toxicophores.get_pattl()
     res = Toxicophores.scan(mol)
     return res
