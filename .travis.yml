@@ -44,11 +44,11 @@ install:
   - export LANG=en_US.UTF-8
   - export COVERAGE_DIR=":$HOME/htmlcov"
   - printenv | sort
+  - conda install -c rdkit rdkit
 
 script:
   - conda build conda.recipe --python=$BUILD_TARGET
   - conda activate
-  - python scripts/run_tests.py --format-only
-
-after_success:
-  - codecov
+  - python setup.py install
+  - python ./tests/ScoDruglikeness.py
+  - python ./tests/ScoFH.py
