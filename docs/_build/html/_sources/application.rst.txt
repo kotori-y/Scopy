@@ -18,10 +18,11 @@ We had collected 408,598 molecules from Zelin database. At first, we took a fram
 	from rdkit import Chem
 	import pandas as pd #This package should be installed
 	import matplotlib.pyplot as plt
-	from scopy.pretreat import pretreat
-	from scopy.visualize import mcloud, highlight, pc_depict
-	from scopy.structure_alert.SmartsFilter import Filter
-	from scopy.druglikeness.druglikeness import PC_properties, PC_rules
+	from scopy.Scopretreat import pretreat
+	from scopy.ScoVisualize import mcloud, highlight, pc_depict
+	from scopy.ScoFH import FHfilter
+	from scopy.ScoTox import Toxfilter
+	from scopy.ScoDruglikeness import PC_properties, PC_rules
 	   
 	#=========================================================================
 	# Read library
@@ -37,9 +38,10 @@ We had collected 408,598 molecules from Zelin database. At first, we took a fram
 	#=========================================================================
 	# Instantiate, and 20 processers has been used.
 	#=========================================================================
-	props = PC_properties(mols,n_jobs=20)
-	rules = PC_rules(mols,n_jobs=20,detail=True)
-	screener = Filter(mols,n_jobs=20,detail=True)
+	props = PC_properties(mols, n_jobs=20)
+	rules = PC_rules(mols, n_jobs=20, detail=True)
+	fh = FHfilter(mols, n_jobs=20, detail=True)
+	tox = Toxfilter(mols, n_jobs=20, detail=True)
 
 	#=========================================================================
 	# Framework analyse
@@ -73,9 +75,9 @@ We had collected 408,598 molecules from Zelin database. At first, we took a fram
 	#=========================================================================
 	# Toxicity
 	#=========================================================================
-	ele = pd.DataFrame(screener.Check_Potential_Electrophilic())
-	skin = pd.DataFrame(screener.Check_Skin_Sensitization())
-	ld_50 = pd.DataFrame(screener.Check_LD50_Oral())
+	ele = pd.DataFrame(tox.Check_Potential_Electrophilic())
+	skin = pd.DataFrame(tox.Check_Skin_Sensitization())
+	ld_50 = pd.DataFrame(tox.Check_LD50_Oral())
 	   
 	summary_tox = pd.DataFrame({'SMILES':data.mol.values,
 	                            'Potential_Electrophilic':ele.Disposed,
@@ -91,12 +93,12 @@ We had collected 408,598 molecules from Zelin database. At first, we took a fram
 	#=========================================================================
 	# Frequent Hitters
 	#=========================================================================
-	alapha_fh = pd.DataFrame(screener.Check_AlphaScreen_FHs())
-	gst = pd.DataFrame(screener.Check_AlphaScreen_GST_FHs())
-	his = pd.DataFrame(screener.Check_AlphaScreen_HIS_FHs())
-	che = pd.DataFrame(screener.Check_Chelating())
-	bms = pd.DataFrame(screener.Check_BMS())
-	pains = pd.DataFrame(screener.Check_PAINS())
+	alapha_fh = pd.DataFrame(fh.Check_AlphaScreen_FHs())
+	gst = pd.DataFrame(fh.Check_AlphaScreen_GST_FHs())
+	his = pd.DataFrame(fh.Check_AlphaScreen_HIS_FHs())
+	che = pd.DataFrame(fh.Check_Chelating())
+	bms = pd.DataFrame(fh.Check_BMS())
+	pains = pd.DataFrame(fh.Check_PAINS())
 
 
 	summary_fh = pd.DataFrame({'SMILES':data.mol.values,

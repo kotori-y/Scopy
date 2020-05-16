@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Application &#8212; Scopy 1.1.1 documentation</title>
+    <title>Application &#8212; Scopy 1.2.0 documentation</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/./cssbasic.css" />
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="user_guide.html" title="Getting Started with Scopy"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -185,13 +185,16 @@
 93
 94
 95
-96</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">Chem</span>
+96
+97
+98</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">Chem</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span> <span class="c1">#This package should be installed</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">scopy.pretreat</span> <span class="kn">import</span> <span class="n">pretreat</span>
-<span class="kn">from</span> <span class="nn">scopy.visualize</span> <span class="kn">import</span> <span class="n">mcloud</span><span class="p">,</span> <span class="n">highlight</span><span class="p">,</span> <span class="n">pc_depict</span>
-<span class="kn">from</span> <span class="nn">scopy.structure_alert.SmartsFilter</span> <span class="kn">import</span> <span class="n">Filter</span>
-<span class="kn">from</span> <span class="nn">scopy.druglikeness.druglikeness</span> <span class="kn">import</span> <span class="n">PC_properties</span><span class="p">,</span> <span class="n">PC_rules</span>
+<span class="kn">from</span> <span class="nn">scopy.Scopretreat</span> <span class="kn">import</span> <span class="n">pretreat</span>
+<span class="kn">from</span> <span class="nn">scopy.ScoVisualize</span> <span class="kn">import</span> <span class="n">mcloud</span><span class="p">,</span> <span class="n">highlight</span><span class="p">,</span> <span class="n">pc_depict</span>
+<span class="kn">from</span> <span class="nn">scopy.ScoFH</span> <span class="kn">import</span> <span class="n">FHfilter</span>
+<span class="kn">from</span> <span class="nn">scopy.ScoTox</span> <span class="kn">import</span> <span class="n">Toxfilter</span>
+<span class="kn">from</span> <span class="nn">scopy.ScoDruglikeness</span> <span class="kn">import</span> <span class="n">PC_properties</span><span class="p">,</span> <span class="n">PC_rules</span>
 
 <span class="c1">#=========================================================================</span>
 <span class="c1"># Read library</span>
@@ -207,9 +210,10 @@
 <span class="c1">#=========================================================================</span>
 <span class="c1"># Instantiate, and 20 processers has been used.</span>
 <span class="c1">#=========================================================================</span>
-<span class="n">props</span> <span class="o">=</span> <span class="n">PC_properties</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">rules</span> <span class="o">=</span> <span class="n">PC_rules</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">detail</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">screener</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">detail</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">props</span> <span class="o">=</span> <span class="n">PC_properties</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">rules</span> <span class="o">=</span> <span class="n">PC_rules</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fh</span> <span class="o">=</span> <span class="n">FHfilter</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">tox</span> <span class="o">=</span> <span class="n">Toxfilter</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="c1">#=========================================================================</span>
 <span class="c1"># Framework analyse</span>
@@ -243,9 +247,9 @@
 <span class="c1">#=========================================================================</span>
 <span class="c1"># Toxicity</span>
 <span class="c1">#=========================================================================</span>
-<span class="n">ele</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_Potential_Electrophilic</span><span class="p">())</span>
-<span class="n">skin</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_Skin_Sensitization</span><span class="p">())</span>
-<span class="n">ld_50</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_LD50_Oral</span><span class="p">())</span>
+<span class="n">ele</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tox</span><span class="o">.</span><span class="n">Check_Potential_Electrophilic</span><span class="p">())</span>
+<span class="n">skin</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tox</span><span class="o">.</span><span class="n">Check_Skin_Sensitization</span><span class="p">())</span>
+<span class="n">ld_50</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tox</span><span class="o">.</span><span class="n">Check_LD50_Oral</span><span class="p">())</span>
 
 <span class="n">summary_tox</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">mol</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
                             <span class="s1">&#39;Potential_Electrophilic&#39;</span><span class="p">:</span><span class="n">ele</span><span class="o">.</span><span class="n">Disposed</span><span class="p">,</span>
@@ -261,12 +265,12 @@
 <span class="c1">#=========================================================================</span>
 <span class="c1"># Frequent Hitters</span>
 <span class="c1">#=========================================================================</span>
-<span class="n">alapha_fh</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_AlphaScreen_FHs</span><span class="p">())</span>
-<span class="n">gst</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_AlphaScreen_GST_FHs</span><span class="p">())</span>
-<span class="n">his</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_AlphaScreen_HIS_FHs</span><span class="p">())</span>
-<span class="n">che</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_Chelating</span><span class="p">())</span>
-<span class="n">bms</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_BMS</span><span class="p">())</span>
-<span class="n">pains</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">screener</span><span class="o">.</span><span class="n">Check_PAINS</span><span class="p">())</span>
+<span class="n">alapha_fh</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fh</span><span class="o">.</span><span class="n">Check_AlphaScreen_FHs</span><span class="p">())</span>
+<span class="n">gst</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fh</span><span class="o">.</span><span class="n">Check_AlphaScreen_GST_FHs</span><span class="p">())</span>
+<span class="n">his</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fh</span><span class="o">.</span><span class="n">Check_AlphaScreen_HIS_FHs</span><span class="p">())</span>
+<span class="n">che</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fh</span><span class="o">.</span><span class="n">Check_Chelating</span><span class="p">())</span>
+<span class="n">bms</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fh</span><span class="o">.</span><span class="n">Check_BMS</span><span class="p">())</span>
+<span class="n">pains</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fh</span><span class="o">.</span><span class="n">Check_PAINS</span><span class="p">())</span>
 
 
 <span class="n">summary_fh</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">mol</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
@@ -464,7 +468,7 @@
         <li class="right" >
           <a href="user_guide.html" title="Getting Started with Scopy"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
