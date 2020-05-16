@@ -49,5 +49,6 @@ install:
 script:
   - conda activate
   - python setup.py install
-  - python ./tests/ScoDruglikeness.py
-  - python ./tests/ScoFH.py
+  - python ./tests/ScoDruglikeness_test.py
+  - python ./tests/ScoFH_test.py
+  - python ./tests/ScoTox_test.py
