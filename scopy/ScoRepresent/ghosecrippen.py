@@ -10,7 +10,7 @@
 
 
 
-
+import os
 import csv
 from rdkit import Chem
 from .. import ScoConfig
@@ -35,7 +35,7 @@ class GCfp(object):
         """Initialization
         
         """
-        with open(ScoConfig.CrippenDir + '\\Crippen.txt') as f_obj:
+        with open(os.path.join(ScoConfig.CrippenDir, 'Crippen.txt')) as f_obj:
             lines = csv.reader(f_obj,delimiter='\t')
             next(lines)
             self.pattl = tuple(map(lambda line: Chem.MolFromSmarts(line[1]), lines))
