@@ -4,8 +4,10 @@ Scopy API
 .. toctree::
    :maxdepth: 4
    
-   modules/scopy.druglikeness
-   modules/scopy.fingerprint
-   modules/scopy.pretreat
-   modules/scopy.structure_alert
-   modules/scopy.visualize
+   ./modules/scopy.ScoPretreat
+   ./modules/scopy.ScoDruglikeness
+   ./modules/scopy.ScoFH
+   ./modules/scopy.ScoTox
+   ./modules/scopy.ScoRepresent
+   ./modules/scopy.ScoVisualize
+   ./modules/scopy.structure_alert

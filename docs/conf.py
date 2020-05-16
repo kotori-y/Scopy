@@ -16,10 +16,11 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../scopy'))
-sys.path.insert(0, os.path.abspath('../scopy/druglikeness'))
-sys.path.insert(0, os.path.abspath('../scopy/structure_alert'))
-sys.path.insert(0, os.path.abspath('../scopy/fingerprint'))
-sys.path.insert(0, os.path.abspath('../scopy/visualize'))
+sys.path.insert(0, os.path.abspath('../scopy/ScoDruglikeness'))
+sys.path.insert(0, os.path.abspath('../scopy/ScoFH'))
+sys.path.insert(0, os.path.abspath('../scopy/ScoTox'))
+sys.path.insert(0, os.path.abspath('../scopy/ScoRepresent'))
+sys.path.insert(0, os.path.abspath('../scopy/ScoVisualize'))
 
 # -- Project information -----------------------------------------------------
 

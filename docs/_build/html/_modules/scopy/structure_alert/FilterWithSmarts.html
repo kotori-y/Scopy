@@ -71,7 +71,7 @@
     <span class="kn">import</span> <span class="nn">SmartProcess</span>
 
 
-<span class="k">class</span> <span class="nc">_Filter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Filter"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Filter">[docs]</a><span class="k">class</span> <span class="nc">Filter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    *Internal Use Only*</span>
 <span class="sd">    the tool to check molecule(s) whether matched some unexpected endpoints.</span>
@@ -95,13 +95,13 @@
          <span class="bp">self</span><span class="o">.</span><span class="n">detail</span> <span class="o">=</span> <span class="n">detail</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">showSMILES</span> <span class="o">=</span> <span class="n">showSMILES</span>
          
-    <span class="k">def</span> <span class="nf">get_pattl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pattl</span> <span class="o">=</span> <span class="n">SmartProcess</span><span class="o">.</span><span class="n">_Loadpkl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">)</span>
+<div class="viewcode-block" id="Filter.get_pattl"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Filter.get_pattl">[docs]</a>    <span class="k">def</span> <span class="nf">get_pattl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pattl</span> <span class="o">=</span> <span class="n">SmartProcess</span><span class="o">.</span><span class="n">_Loadpkl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">)</span></div>
     
-    <span class="k">def</span> <span class="nf">scan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">):</span>
+<div class="viewcode-block" id="Filter.scan"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Filter.scan">[docs]</a>    <span class="k">def</span> <span class="nf">scan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">SmartProcess</span><span class="o">.</span><span class="n">_CheckWithSmarts</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span>
                                              <span class="bp">self</span><span class="o">.</span><span class="n">pattl</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">,</span>
-                                             <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">showSMILES</span><span class="p">)</span>
+                                             <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">showSMILES</span><span class="p">)</span></div></div>
     
     
 <div class="viewcode-block" id="Check_Acute_Aquatic_Toxicity"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Acute_Aquatic_Toxicity">[docs]</a><span class="k">def</span> <span class="nf">Check_Acute_Aquatic_Toxicity</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -130,7 +130,7 @@
 <span class="sd">        https://www.sciencedirect.com/science/article/pii/0045653592902805</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Aquatic</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Acute_Aquatic_Toxicity&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">Aquatic</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Acute_Aquatic_Toxicity&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">Aquatic</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">Aquatic</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -160,7 +160,7 @@
 <span class="sd">        https://journals.sagepub.com/doi/full/10.1177/1087057113516861</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">AlphaScreen</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;AlphaScreen_FHs&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">AlphaScreen</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;AlphaScreen_FHs&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">AlphaScreen</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">AlphaScreen</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -190,7 +190,7 @@
 <span class="sd">        https://journals.sagepub.com/doi/abs/10.1177/1087057116639992</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">GST</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;AlphaScreen_GST_FHs&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">GST</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;AlphaScreen_GST_FHs&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">GST</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">GST</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -220,7 +220,7 @@
 <span class="sd">        https://journals.sagepub.com/doi/abs/10.1177/1087057113516861</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">HIS</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;AlphaScreen_HIS_FHs&#39;</span><span class="p">,</span> <span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">HIS</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;AlphaScreen_HIS_FHs&#39;</span><span class="p">,</span> <span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">HIS</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">HIS</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -247,7 +247,7 @@
 <span class="sd">    :rtype: namedtuple</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Biodegradable</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Biodegradable&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">Biodegradable</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Biodegradable&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">Biodegradable</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">Biodegradable</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -277,7 +277,7 @@
 <span class="sd">        https://onlinelibrary.wiley.com/doi/abs/10.1002/cmdc.200900516</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Chelating</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Chelating&#39;</span><span class="p">,</span> <span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">Chelating</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Chelating&#39;</span><span class="p">,</span> <span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">Chelating</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">Chelating</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -304,7 +304,7 @@
 <span class="sd">    :rtype: namedtuple</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Developmental_Mitochondrial</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Developmental_Mitochondrial&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">Developmental_Mitochondrial</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Developmental_Mitochondrial&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">Developmental_Mitochondrial</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">Developmental_Mitochondrial</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -343,7 +343,7 @@
 <span class="sd">        https://www.sciencedirect.com/science/article/pii/S0273230005000553</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Genotoxic_Carcinogenicity_Mutagenicity</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Genotoxic_Carcinogenicity_Mutagenicity&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">Genotoxic_Carcinogenicity_Mutagenicity</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Genotoxic_Carcinogenicity_Mutagenicity&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">Genotoxic_Carcinogenicity_Mutagenicity</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">Genotoxic_Carcinogenicity_Mutagenicity</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -373,7 +373,7 @@
 <span class="sd">        https://www.tandfonline.com/doi/abs/10.1517/17425255.1.1.91</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Idiosyncratic</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Idiosyncratic&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">Idiosyncratic</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Idiosyncratic&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">Idiosyncratic</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">Idiosyncratic</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -400,7 +400,7 @@
 <span class="sd">    :rtype: namedtuple</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">LD50_Oral</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;LD50_Oral&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">LD50_Oral</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;LD50_Oral&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">LD50_Oral</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">LD50_Oral</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -422,7 +422,7 @@
 <span class="sd">    :rtype: namedtuple</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Luciferase_Inhibitory</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Luciferase_Inhibitory&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">Luciferase_Inhibitory</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Luciferase_Inhibitory&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">Luciferase_Inhibitory</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">Luciferase_Inhibitory</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -449,7 +449,7 @@
 <span class="sd">    :rtype: namedtuple</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">NonBiodegradable</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;NonBiodegradable&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">NonBiodegradable</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;NonBiodegradable&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">NonBiodegradable</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">NonBiodegradable</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -482,7 +482,7 @@
 <span class="sd">        https://pubs.acs.org/doi/abs/10.1021/cr300206t</span>
 <span class="sd">      </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">NonGenotoxic_Carcinogenicity</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;NonGenotoxic_Carcinogenicity&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">NonGenotoxic_Carcinogenicity</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;NonGenotoxic_Carcinogenicity&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">NonGenotoxic_Carcinogenicity</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">NonGenotoxic_Carcinogenicity</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -512,7 +512,7 @@
 <span class="sd">        https://pubs.acs.org/doi/abs/10.1021/jm901137j</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">PAINS</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Pains&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">PAINS</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Pains&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">PAINS</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">PAINS</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -543,7 +543,7 @@
 <span class="sd">        https://www.tandfonline.com/doi/abs/10.3109/10408444.2011.598141</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Potential_Electrophilic</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Potential_Electrophilic&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">Potential_Electrophilic</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Potential_Electrophilic&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">Potential_Electrophilic</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">Potential_Electrophilic</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -572,7 +572,7 @@
 <span class="sd">        https://www.chemdiv.com/</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Reactive_Unstable_Toxic</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Reactive_Unstable_Toxic&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">Reactive_Unstable_Toxic</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Reactive_Unstable_Toxic&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">Reactive_Unstable_Toxic</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">Reactive_Unstable_Toxic</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -607,7 +607,7 @@
 <span class="sd">        https://www.sciencedirect.com/science/article/pii/0887233394902445</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Skin_Sensitization</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Skin_Sensitization&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">Skin_Sensitization</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Skin_Sensitization&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">Skin_Sensitization</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">Skin_Sensitization</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -630,7 +630,7 @@
 <span class="sd">    :rtype: namedtuple</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">DNA_Binding</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;DNA_Binding&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">DNA_Binding</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;DNA_Binding&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">DNA_Binding</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">DNA_Binding</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -657,7 +657,7 @@
 <span class="sd">        https://www.surechembl.org/knowledgebase/169485</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">SureChEMBL</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;SureChEMBL&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">SureChEMBL</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;SureChEMBL&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">SureChEMBL</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">SureChEMBL</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -690,7 +690,7 @@
 <span class="sd">        https://pubs.acs.org/doi/abs/10.1021/ci050504m</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">BMS</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;BMS&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">BMS</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;BMS&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">BMS</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">BMS</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -718,7 +718,7 @@
 <span class="sd">        https://onlinelibrary.wiley.com/doi/abs/10.1002/cmdc.200700139</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>        
-    <span class="n">NTD</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;NTD&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">NTD</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;NTD&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">NTD</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">NTD</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -740,7 +740,7 @@
 <span class="sd">    :rtype: namedtuple</span>
 <span class="sd">         </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Alarm_NMR</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Alarm_NMR&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">Alarm_NMR</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Alarm_NMR&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">Alarm_NMR</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">Alarm_NMR</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -762,7 +762,7 @@
 <span class="sd">    :rtype: namedtuple</span>
 <span class="sd">         </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Frequent_Hitters</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Frequent_Hitters&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">Frequent_Hitters</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Frequent_Hitters&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">Frequent_Hitters</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">Frequent_Hitters</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -784,7 +784,7 @@
 <span class="sd">    :rtype: namedtuple</span>
 <span class="sd">         </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Aggregators</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Aggregators&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">Aggregators</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Aggregators&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">Aggregators</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">Aggregators</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
@@ -806,7 +806,7 @@
 <span class="sd">    :rtype: namedtuple</span>
 <span class="sd">         </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Toxicophores</span> <span class="o">=</span> <span class="n">_Filter</span><span class="p">(</span><span class="s1">&#39;Toxicophores&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
+    <span class="n">Toxicophores</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Toxicophores&#39;</span><span class="p">,</span><span class="n">detail</span><span class="p">,</span> <span class="n">showSMILES</span><span class="p">)</span>
     <span class="n">Toxicophores</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">Toxicophores</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>

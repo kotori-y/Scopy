@@ -1140,7 +1140,7 @@ def CheckRespiratory(mol, detail=False, showSMILES=False):
     return dic
 
 
-def Check_CustomizeRule(mol, prop_kws, closed_interval=True, detail=False, showSMILES=False):
+def CheckCustomizeRule(mol, prop_kws, closed_interval=True, detail=False, showSMILES=False):
     """
     You could customize the rule with mostly properties ypu want.
     
@@ -1160,14 +1160,15 @@ def Check_CustomizeRule(mol, prop_kws, closed_interval=True, detail=False, showS
     
     """
     allowed = ['MW','Vol','Dense','fChar','nBond','nAtom','nHD','nHA','nHB',
-             'nHet','nStero','nHev','nRot','nRig','nRing',
-             'logP','logD','pKa','logSw','ab','MR','tPSA','AP','HetRatio',
-             'Fsp3','MaxRing','QEDmean','QEDmax','QEDnone','SAscore','NPscore',
-             'nSingle','nDouble','nTriple','nC','nB','nF','nCl','nBr','nI',
-             'nP','nS','nO','nN']
+               'nHet','nStero','nHev','nRot','nRig','nRing','Flex'
+               'logP','logD','pKa','logSw','ab','MR','tPSA','AP','HetRatio',
+               'Fsp3','MaxRing','QEDmean','QEDmax','QEDnone','SAscore','NPscore',
+               'nSingle','nDouble','nTriple','nC','nB','nF','nCl','nBr','nI',
+               'nP','nS','nO','nN']
     
-    properties = molproperty.GetProperties(mol)
     keys = list(prop_kws.keys())
+    properties = molproperty.GetProperties(mol, items=keys)
+    
     try:
         res = [properties[key] for key in keys]
         if closed_interval:

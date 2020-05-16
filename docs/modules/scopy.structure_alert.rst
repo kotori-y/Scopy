@@ -20,14 +20,6 @@ scopy.structure\_alert.SmartProcess module
    :undoc-members:
    :show-inheritance:
 
-scopy.structure\_alert.SmartsFilter module
-------------------------------------------
-
-.. automodule:: scopy.structure_alert.SmartsFilter
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 
 Module contents
 ---------------

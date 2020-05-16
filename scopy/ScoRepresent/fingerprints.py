@@ -25,7 +25,9 @@ from .maccs import MACCS
 from .ifg import IFG
 
 
-
+__all__ = ['CalculateEFG', 'CalculateGhoseCrippen', 'CalculateEState',
+		   'CalculateMACCS', 'CalculateECFP', 'CalculateFCFP',
+		   'Daylight', 'PubChem' , 'IFG']
 
 def CalculateEFG(mols, useCount=True, n_jobs=1):
     """classification system termed “extended functional groups” (EFG),

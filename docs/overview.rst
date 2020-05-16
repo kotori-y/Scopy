@@ -34,9 +34,9 @@ Scopy contains six individual modules: (1) molecular preparation; (2) physicoche
 |Type                     |Detail                                                          |Description            |
 +=========================+================================================================+=======================+
 |Drug-likeness Filter     |Basic PC Properties                                             |                       |
-|                         | - Molcular Weight >>> MW                                       |                       |
-|                         | - Molcular Volume >>> Vol                                      |                       |
-|                         | - Molcular Density >>> Dense                                   |                       |
+|                         | - Molecular Weight >>> MW                                      |                       |
+|                         | - Molecular Volume >>> Vol                                     |                       |
+|                         | - Molecular Density >>> Dense                                  |                       |
 |                         | - Formal Charge >>> fChar                                      |                       |
 |                         | - Number of bonds >>> nBond                                    |                       |
 |                         | - Number of atoms >>> nAtom                                    |                       |
@@ -63,7 +63,7 @@ Scopy contains six individual modules: (1) molecular preparation; (2) physicoche
 |                         | - HetCarbonRatio >>> HetRatio                                  |                       |
 |                         | - Number of single bonds >>> nSingle                           |                       |
 |                         | - Number of double bobds >>> nDouble                           |                       |
-|                         | - Number of triple bonds >>> nTriple                           |`druglikeness`_        |
+|                         | - Number of triple bonds >>> nTriple                           |`ScoDruglikeness`_     |
 |                         | - Number of Carbon atoms >>> nC                                |                       |
 |                         | - Number of Boron atoms >>> nB                                 |                       |
 |                         | - Number of Chlorin atoms >>> nCl                              |                       |
@@ -105,7 +105,7 @@ Scopy contains six individual modules: (1) molecular preparation; (2) physicoche
 |                         | - Chelating(55)                                                |                       |
 |                         | - Alarm_NMR(75)                                                |                       |
 |                         | - Aggregator(311)                                              |                       |
-|                         |Promiscuous compounds                                           |`structure_alert`_     |
+|                         |Promiscuous compounds                                           |`ScoFH`_               |
 |                         | - AlphaScreen_GST_FHs(34)                                      |                       |
 |                         | - AlphaScreen_HIS_FHs(19)                                      |                       |
 |                         | - PAINS(480)                                                   |                       |
@@ -118,7 +118,7 @@ Scopy contains six individual modules: (1) molecular preparation; (2) physicoche
 |                         | - NonGenotoxic_Carcinogenicity(23)                             |                       |
 |                         | - Skin_Sensitization(155)                                      |                       |
 |                         | - DNA_Binding(78)                                              |                       |
-|                         |Comprehensive Toxicity                                          |`structure_alert`_     |
+|                         |Comprehensive Toxicity                                          |`ScoTox`_              |
 |                         | - NTD(105)                                                     |                       |
 |                         | - SureChEMBL(165)                                              |                       |
 |                         | - Toxicophores(154)                                            |                       |
@@ -133,7 +133,7 @@ Scopy contains six individual modules: (1) molecular preparation; (2) physicoche
 |                         | - **PubChem(881 bits)**                                        |                       |
 |                         | - EState(79 bits)                                              |                       |
 |                         | - **GhoseCrippen(110 bits)**                                   |                       |
-|                         | - **IFG**                                                      |`fingerprints`_        |
+|                         | - **IFG**                                                      |`ScoRepresent`_        |
 |                         |Fingerptint                                                     |                       |
 |                         | - Morgan(1024 *default*)                                       |                       |
 |                         | - Daylight(2048 *default*)                                     |                       |
@@ -146,6 +146,7 @@ The Python programming language
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Python is a powerful programming language that allows simple and flexible representations of biochemical molecules, and clear and concise expressions of bioinformatics algorithms. Python has a vibrant and growing ecosystem of packages that Scopy uses to provide more features such as RDkit. In addition, Python is also an excellent “glue” language for putting together pieces of software from other languages which allows reuse of legacy code and engineering of high-performance algorithms. Equally important, Python is free, well-supported, and a joy to use. In order to make full use of Scopy, you will want to know how to write basic programs in Python. Among the many guides to Python, we recommend the documentation at https://www.python.org/
 
-.. _`druglikeness`: ./modules/scopy.druglikeness.html
-.. _`structure_alert`: ./modules/scopy.structure_alert.html
-.. _`fingerprints`: ./modules/scopy/fingerprints.html
+.. _`ScoDruglikeness`: ./modules/scopy.ScoDruglikeness.html
+.. _`ScoFH`: ./modules/scopy.ScoFH.html
+.. _`ScoTox`: ./modules/scopy.ScoTox.html
+.. _`ScoRepresent`: ./modules/scopy.ScoRepresent.html

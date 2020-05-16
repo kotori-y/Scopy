@@ -15,7 +15,7 @@ Created on Sat May 16 10:39:03 2020
 from functools import partial
 from multiprocessing import Pool
 from rdkit import Chem
-from . import rulesfilter
+from . import rulesfilter, molproperty_Lib
 
 
 
@@ -577,7 +577,31 @@ class PC_rules(object):
         pool.close()
         pool.join()
         return res 
+    
+    def CheckCustomizeRule(self, prop_kws, closed_interval=True):
+        """
+        You could customize the rule with mostly properties ypu want.
         
+        :param prop_kws: the keys of dict are properties you want to check; the values should be a tuple or list with two elements,present the left- and right-bounded respectively.
+        :type prop_kws: `dict`
+        :param closed_interval: control whether using closed interval, defaults to True
+        :type closed_interval: `bool`, optional
+        :param detail: Control returning specific infomation or not, defaults to False
+        :type detail: `bool`, optional
+        :param showSMILES: Control returning SMILES or not, defaults to False
+        :type showSMILES: bool, optional
+        
+        :return: Result after scanning. If detail has been set to False, only return 'Disposed' and 'nViolate', otherwise exrta returning each property 
+        :rtype: `dict`
+        """
+        fn = partial(rulesfilter.CheckCustomizeRule, prop_kws=prop_kws, 
+                     closed_interval=closed_interval, detail=self.detail, 
+                     showSMILES=self.showSMILES)
+        pool = Pool(self.n_jobs)
+        res = pool.map_async(fn, self.mols).get()
+        pool.close()
+        pool.join()
+        return res 
         
         
     
