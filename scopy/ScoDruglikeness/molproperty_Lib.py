@@ -224,7 +224,7 @@ class PC_properties(object):
         intercept = 0.5748907159915493
     
         fps = CalculateGhoseCrippen(self.mols,self.n_jobs)
-        with open(ScoConfig.CrippenDir + '\\Crippen.txt') as f_obj:
+        with open(ScoConfig.CrippenDir + 'Crippen.txt') as f_obj:
             lines = csv.reader(f_obj,delimiter='\t')
             next(lines)
             contri = [x[-1] for x in lines]

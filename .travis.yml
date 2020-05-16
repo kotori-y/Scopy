@@ -7,8 +7,6 @@ python:
   - "3.7"
 os:
   - linux
-  - osx
-  - windows
 before_install:
   - sudo apt-get update
   # We do this conditionally because it saves us some downloading if the
@@ -32,9 +30,6 @@ before_install:
   #- python setup.py install
 install:
   - conda install -c rdkit rdkit
-
 script:
   - python setup.py install
-
-after_script:
   - python ./tests/ScoDruglikeness.py
