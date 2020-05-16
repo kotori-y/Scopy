@@ -111,4 +111,4 @@ scopy/example/application_3.py
 scopy/example/application_4.py
 
 .pypirc
-bio.txt
+meta.yml
