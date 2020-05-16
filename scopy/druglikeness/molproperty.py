@@ -27,7 +27,7 @@ from IFG.ifg import identify_functional_groups
 try:
     from ..fingerprint import fingerprints
 except:
-    sys.path.append(__file__+'/..')
+    sys.path.append('..')
     from fingerprint import fingerprints
 
 try:
