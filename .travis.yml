@@ -47,7 +47,6 @@ install:
   - conda install -c rdkit rdkit
 
 script:
-  - conda build conda.recipe --python=$BUILD_TARGET
   - conda activate
   - python setup.py install
   - python ./tests/ScoDruglikeness.py
