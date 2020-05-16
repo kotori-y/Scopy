@@ -11,12 +11,8 @@
 
 
 from rdkit import Chem
-try:
-    from . import molproperty
-except:
-    import sys
-    sys.path.append('.')
-    import molproperty
+from . import molproperty
+
 
 
 def CheckEganRule(mol, detail=False, showSMILES=False):

@@ -14,7 +14,7 @@ Created on Fri May 15 22:47:38 2020
 
 from multiprocessing import Pool
 from rdkit import Chem
-from scopy.druglikeness import molproperty
+from . import molproperty
 
     
 

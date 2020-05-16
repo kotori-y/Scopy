@@ -24,17 +24,8 @@ from SA_Score import sascorer
 from NP_Score import npscorer
 from IFG.ifg import identify_functional_groups
 
-try:
-    from ..fingerprint import fingerprints
-except:
-    sys.path.append('..')
-    from fingerprint import fingerprints
-
-try:
-    from .. import ScoConfig
-except:
-    sys.path.append('..')
-    import ScoConfig
+from ..ScoRepresent import fingerprints
+from .. import ScoConfig
 
 
 

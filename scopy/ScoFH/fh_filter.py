@@ -15,12 +15,8 @@ Created on Fri May 15 21:47:43 2020
 from multiprocessing import Pool
 from rdkit import Chem
 
-try:
-    from ..structure_alert.FilterWithSmarts import Filter
-except:
-    import sys
-    sys.path.append('..')
-    from structure_alert.FilterWithSmarts import Filter
+from ..structure_alert.FilterWithSmarts import Filter
+
 
 
 class FHfilter(object):

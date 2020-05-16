@@ -13,8 +13,8 @@
 
 
 import pickle, gzip, os, csv
-from scopy.structure_alert.SmartProcess import _CheckPattl
-from scopy import ScoConfig
+from ..structure_alert.SmartProcess import _CheckPattl
+from .. import ScoConfig
 from rdkit import Chem
 
 

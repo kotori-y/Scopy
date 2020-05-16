@@ -15,7 +15,7 @@ Created on Sat May 16 10:39:03 2020
 from functools import partial
 from multiprocessing import Pool
 from rdkit import Chem
-from scopy.druglikeness import rulesfilter
+from . import rulesfilter
 
 
 
@@ -46,7 +46,7 @@ class PC_rules(object):
     
     """
     def __init__(self, mols, n_jobs=1, detail=False, showSMILES=False):
-        self.mols = mols
+        self.mols = mols if type(mols) is not Chem.rdchem.Mol else [mols]
         self.detail = detail
         self.showSMILES = showSMILES
         self.n_jobs = n_jobs if n_jobs>=1 else None

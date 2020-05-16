@@ -14,7 +14,7 @@ import warnings
 warnings.filterwarnings('ignore')
 from collections import Counter
 import numpy as np
-from scopy.druglikeness import molproperty_Lib
+from ..ScoDruglikeness import molproperty_Lib
 
 class IFG(object):
     """

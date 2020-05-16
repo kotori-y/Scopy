@@ -13,7 +13,7 @@
 from rdkit import Chem
 from rdkit import DataStructs
 
-from scopy import ScoConfig
+from .. import ScoConfig
 
 # This module is derived from our previous work
 # these are SMARTS patterns corresponding to the PubChem fingerprints

@@ -12,9 +12,8 @@
 
 
 import csv
-from scopy import ScoConfig
 from rdkit import Chem
-
+from .. import ScoConfig
 
 
 

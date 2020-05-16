@@ -14,16 +14,8 @@ from itertools import product
 import matplotlib.pyplot as plt
 import numpy as np
 
-try:
-    from ..druglikeness import rulesfilter
-    from ..druglikeness import molproperty
-    from ..druglikeness import druglikeness
-except:
-    import sys
-    sys.path.append('..')
-    from druglikeness import rulesfilter
-    from druglikeness import molproperty
-    from druglikeness import druglikeness
+from ..ScoDruglikeness import rulesfilter, molproperty, rulesfilter_Lib, molproperty_Lib
+
     
 
 
@@ -41,7 +33,7 @@ def prop_matrix(mols,n_jobs=1,items=['logP','TPSA','MW','nRot','nHD','nHA']):
     :rtype: matplotlib.figure.Figure
         
     """
-    props = druglikeness.PC_properties(mols,n_jobs)
+    props = molproperty_Lib.PC_properties(mols,n_jobs)
     props = props.GetProperties(items=items)
     length = len(items)
     

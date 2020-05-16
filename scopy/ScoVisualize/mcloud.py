@@ -18,13 +18,9 @@ from collections import Counter
 from subprocess import run
 from rdkit import Chem
 from rdkit.Chem.Scaffolds import MurckoScaffold
-try:
-    from .. import ScoConfig
-except:
-    import sys
-    sys.path.append('..')
-    import ScoConfig
-    
+from .. import ScoConfig
+
+
 
 def _getscaffold(mol,stype='Murcko'):
     """
