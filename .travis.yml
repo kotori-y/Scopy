@@ -1,58 +1,54 @@
-language: python            # this works for Linux but is an error on macOS or Windows
+# Don't use language: python; this gives us an unnecessary virtualenv
+language: c
+branches:
+  only:
+  - master
+
+env:
+  # Build and test package on all supported python versions
+  - BUILD_TARGET=3.7 MINICONDA_VERSION=4.7.10
+  - BUILD_TARGET=3.6 MINICONDA_VERSION=4.7.10
+  # # To make sure it's still working with conda 4.5 and 4.6
+  # - BUILD_TARGET=3.7 MINICONDA_VERSION=4.6.14
+  # - BUILD_TARGET=3.6 MINICONDA_VERSION=4.5.12
+  # Smoketest the package on conda canary
+  # - BUILD_TARGET=3.7 MINICONDA_VERSION=latest CONDA_CANARY="yes"
+
+os:
+  - linux
+  - osx
+
 jobs:
-  include:
-    - name: "Python 3.7.0 on Xenial Linux"
-      python: 3.7           # this works for Linux but is ignored on macOS or Windows
-    - name: "Python 3.7.4 on macOS"
+  # conda canary shouldn't block the build, just show us as an FYI
+  allow_failures:
+    - env: BUILD_TARGET=3.7 MINICONDA_VERSION=latest CONDA_CANARY="yes"
+  # skip the historical conda tests on Mac to save time
+  exclude:
+    - env: BUILD_TARGET=3.7 MINICONDA_VERSION=4.6.14
       os: osx
-      osx_image: xcode11.2  # Python 3.7.4 running on macOS 10.14.4
-      language: shell       # 'language: python' is an error on Travis CI macOS
-    - name: "Python 3.8.0 on Windows"
-      os: windows           # Windows 10.0.17134 N/A Build 17134
-      language: shell       # 'language: python' is an error on Travis CI Windows
-      before_install:
-        - choco install python --version 3.8.0
-        - python -m pip install --upgrade pip
-      env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
+    - env: BUILD_TARGET=3.6 MINICONDA_VERSION=4.5.12
+      os: osx
+    - env: BUILD_TARGET=3.7 MINICONDA_VERSION=latest CONDA_CANARY="yes"
+      os: osx
 
-install: pip3 install --upgrade pip  # all three OSes agree about 'pip3'
-# 'python' points to Python 2.7 on macOS but points to Python 3.8 on Linux and Windows
-# 'python3' is a 'command not found' error on Windows but 'py' works on Windows only
-script: python3 my_app.py || python my_app.py
-
-# before_install:
-#   - sudo apt-get update
-#   # We do this conditionally because it saves us some downloading if the
-#   # version is the same.
-#   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-#       wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
-#     else
-#       wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-#     fi
-#   - bash miniconda.sh -b -p $HOME/miniconda
-#   - source "$HOME/miniconda/etc/profile.d/conda.sh"
-#   - hash -r
-#   - conda config --set always_yes yes --set changeps1 no
-#   - conda update -q conda
-#   # Useful for debugging any issues with conda
-#   - conda info -a
-
-#   # Replace dep1 dep2 ... with your dependencies
-#   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
-#   - conda activate test-environment
-#   #- python setup.py install
-# install:
-#   - conda install -c rdkit rdkit
 install:
-  - wget https://repo.anaconda.com/pkgs/misc/conda-execs/conda-latest-linux-64.exe -O conda.exe
-  - chmod +x conda.exe
-  - export CONDA_ALWAYS_YES=1
-  # This is where you put any extra dependencies you may have.
-  - ./conda.exe create -p $HOME/miniconda python=$TRAVIS_PYTHON_VERSION conda conda-build pytest six pytest-cov pytest-mock
-  - export PATH="$HOME/miniconda/bin:$PATH"
-  - hash -r
-  # Install your code here.
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then MINICONDA_OS=Linux; else MINICONDA_OS=MacOSX; fi
+  - wget https://repo.anaconda.com/miniconda/Miniconda3-$MINICONDA_VERSION-$MINICONDA_OS-x86_64.sh -O miniconda.sh
+  - bash miniconda.sh -b -p "$HOME"/miniconda
+  - source "$HOME"/miniconda/etc/profile.d/conda.sh
+  - conda config --set always_yes yes --set changeps1 no --set auto_update_conda false --set notify_outdated_conda false
+  # yapf is pinned to help make sure we get the same results here as a user does locally.
+  - conda install -c defaults -c conda-forge conda-build conda-verify codecov flake8 pep257 yapf==0.25.0
+  - if [[ "$CONDA_CANARY" == "yes" ]]; then conda install -c conda-canary conda; fi
+  - conda info -a
+  - export LANG=en_US.UTF-8
+  - export COVERAGE_DIR=":$HOME/htmlcov"
+  - printenv | sort
+
 script:
-  - python setup.py install
-  - python ./tests/ScoDruglikeness.py
-  - python ./tests/ScoFH.py
+  - conda build conda.recipe --python=$BUILD_TARGET
+  - conda activate
+  - python scripts/run_tests.py --format-only
+
+after_success:
+  - codecov
