@@ -143,7 +143,7 @@ class Toxfilter(object):
         :rtype: list
         
         """
-        ld = Filter('LD50_Oral', self.detail, self.showSMILES)
+        ld = Filter('LD50_oral', self.detail, self.showSMILES)
         ld.get_pattl()
         pool = Pool(self.n_jobs)
         LD50_Oral = pool.map_async(ld.scan, self.mols).get()
