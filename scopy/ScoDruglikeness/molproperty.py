@@ -24,7 +24,7 @@ from SA_Score import sascorer
 from NP_Score import npscorer
 from IFG.ifg import identify_functional_groups
 
-from ..ScoRepresent import fingerprints
+from ..ScoRepresent import CalculateGhoseCrippen
 from .. import ScoConfig
 
 
@@ -201,8 +201,8 @@ def CalculateLogD(mol):
     
     """
     intercept = 0.5748907159915493
-    
-    fps = fingerprints.CalculateGhoseCrippen([mol]).flatten()
+
+    fps = CalculateGhoseCrippen([mol]).flatten()
     with open(ScoConfig.CrippenDir + '\\Crippen.txt') as f_obj:
         lines = csv.reader(f_obj,delimiter='\t')
         next(lines)

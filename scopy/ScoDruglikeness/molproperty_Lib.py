@@ -11,10 +11,12 @@ Created on Fri May 15 22:47:38 2020
 ♥I love Princess Zelda forever♥
 """
 
-
+import csv
 from multiprocessing import Pool
 from rdkit import Chem
 from . import molproperty
+from .. import ScoConfig
+from ..ScoRepresent import CalculateGhoseCrippen
 
     
 
@@ -206,18 +208,6 @@ class PC_properties(object):
         return nHev
     
     def CalculateLogD(self):
-        import sys
-        import csv
-        try:
-            from .. import ScoConfig
-        except:
-            sys.path.append('..')
-            import ScoConfig
-        try:
-            from ..fingerprint.fingerprints import CalculateGhoseCrippen
-        except:
-            sys.path.append('..')
-            from fingerprint.fingerprints import CalculateGhoseCrippen       
         """
         Calculation of molecular logD under pH=7.4
         --->LogD
