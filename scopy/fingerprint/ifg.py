@@ -14,13 +14,7 @@ import warnings
 warnings.filterwarnings('ignore')
 from collections import Counter
 import numpy as np
-try:
-    from ..druglikeness import druglikeness
-except:
-    import sys
-    sys.path.append('..')
-    from druglikeness import druglikeness
-    
+from scopy.druglikeness import molproperty_Lib
 
 class IFG(object):
     """
@@ -48,7 +42,7 @@ class IFG(object):
         :type mols: iterable object, each element is rdkit.Chem.rdchem.Mol
         
         """
-        pc = druglikeness.PC_properties(mols, self.n_jobs)
+        pc = molproperty_Lib.PC_properties(mols, self.n_jobs)
         fgs = pc.GetIFG()
         fgs = [[fg['type'] for fg in item] for item in fgs]
         return fgs

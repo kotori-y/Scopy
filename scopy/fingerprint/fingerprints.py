@@ -9,29 +9,22 @@
 #@Blog: https://blog.moyule.me
 
 
-from rdkit.Chem import AllChem as Chem
-try:
-    from .ghosecrippen import GCfp
-    from .estate import EStateFP
-    from .morgan import Morgan
-    from .daylight import Daylight
-    from .efg import EFG
-    from .pubchem import PubChem
-    from .maccs import MACCS
-    from .ifg import IFG
-except:
-    import sys
-    sys.path.append('.')
-    from ghosecrippen import GCfp
-    from estate import EStateFP
-    from morgan import Morgan
-    from daylight import Daylight
-    from efg import EFG
-    from pubchem import PubChem
-    from maccs import MACCS
-    from ifg import IFG
+
+
 import numpy as np
 from multiprocessing import Pool
+from rdkit import Chem
+
+from scopy.fingerprint.ghosecrippen import GCfp
+from scopy.fingerprint.estate import EStateFP
+from scopy.fingerprint.morgan import Morgan
+from scopy.fingerprint.daylight import Daylight
+from scopy.fingerprint.efg import EFG
+from scopy.fingerprint.pubchem import PubChem
+from scopy.fingerprint.maccs import MACCS
+from scopy.fingerprint.ifg import IFG
+
+
 
 
 def CalculateEFG(mols, useCount=True, n_jobs=1):

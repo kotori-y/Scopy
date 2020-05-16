@@ -13,12 +13,8 @@
 from rdkit import Chem
 from rdkit import DataStructs
 
-try:
-    from .. import ScoConfig
-except:
-    import sys
-    sys.path.append('..')
-    import ScoConfig
+from scopy import ScoConfig
+
 # This module is derived from our previous work
 # these are SMARTS patterns corresponding to the PubChem fingerprints
 # https://astro.temple.edu/~tua87106/list_fingerprints.pdf

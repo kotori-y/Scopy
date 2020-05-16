@@ -10,14 +10,13 @@
 
 
 
-import sys
-try:
-    from .. import ScoConfig
-except:
-    sys.path.append('..')
-    import ScoConfig
+
 import csv
-from rdkit.Chem import AllChem as Chem
+from scopy import ScoConfig
+from rdkit import Chem
+
+
+
 
 class GCfp(object):
     """Atom-based calculation of LogP and MR using Crippen’s approach.

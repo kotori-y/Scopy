@@ -13,16 +13,11 @@
 
 
 import pickle, gzip, os, csv
-try:
-    from ..structure_alert.SmartProcess import _CheckPattl
-    from .. import ScoConfig
-except:
-    import sys
-    sys.path.append('..')
-    from structure_alert.SmartProcess import _CheckPattl
-    import ScoConfig
-    
+from scopy.structure_alert.SmartProcess import _CheckPattl
+from scopy import ScoConfig
 from rdkit import Chem
+
+
 
 
 def _Generatepkl(endpoint):
