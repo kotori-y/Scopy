@@ -203,7 +203,7 @@ def CalculateLogD(mol):
     intercept = 0.5748907159915493
 
     fps = CalculateGhoseCrippen([mol]).flatten()
-    with open(ScoConfig.CrippenDir + 'Crippen.txt') as f_obj:
+    with open(os.path.join(ScoConfig.CrippenDir, 'Crippen.txt')) as f_obj:
         lines = csv.reader(f_obj,delimiter='\t')
         next(lines)
         contri = [x[-1] for x in lines]
@@ -975,7 +975,7 @@ def CalculateNumTriBond(mol, btype='TRIPLE'):
 
 def GetProperties(mol, 
                   items=['MW','Vol','Dense','fChar','nBond','nAtom','nHD','nHA','nHB',
-                         'nHet','nStero','nHev','nRot','nRig','Flex','nRing','logP',
+                         'nHet','nStereo','nHev','nRot','nRig','Flex','nRing','logP',
                          'logD','pKa','logSw','ab','MR','TPSA','AP','HetRatio','Fsp3',
                          'MaxRing','QEDmean','QEDmax','QEDnone','SAscore','NPscore',
                          'nSingle','nDouble','nTriple','nC','nB','nF','nCl','nBr','nI',
@@ -1009,7 +1009,7 @@ def GetProperties(mol,
     'Fsp3': 'CalculateFsp3(mol)',
     'TPSA': 'CalculateTPSA(mol)',
     'MaxRing': 'CalculateMaxSizeSystemRing(mol)',
-    'nStero': 'CalculateNumStereocenters(mol)',
+    'nStereo': 'CalculateNumStereocenters(mol)',
     'HetRatio': 'CalculateHetCarbonRatio(mol)',
     'QEDmean': 'CalculateQEDmean(mol)',
     'QEDmax': 'CalculateQEDmax(mol)',

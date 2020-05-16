@@ -11,6 +11,9 @@ Created on Fri May 15 22:47:38 2020
 ♥I love Princess Zelda forever♥
 """
 
+
+
+import os
 import csv
 from multiprocessing import Pool
 from rdkit import Chem
@@ -224,7 +227,7 @@ class PC_properties(object):
         intercept = 0.5748907159915493
     
         fps = CalculateGhoseCrippen(self.mols,self.n_jobs)
-        with open(ScoConfig.CrippenDir + 'Crippen.txt') as f_obj:
+        with open(os.path.join(ScoConfig.CrippenDir, 'Crippen.txt')) as f_obj:
             lines = csv.reader(f_obj,delimiter='\t')
             next(lines)
             contri = [x[-1] for x in lines]
@@ -939,7 +942,7 @@ class PC_properties(object):
 
     def GetProperties(self,
                       items = ['MW','Vol','Dense','fChar','nBond','nAtom','nHD','nHA','nHB',
-                               'nHet','nStero','nHev','nRot','nRig','nRing','Flex',
+                               'nHet','nStereo','nHev','nRot','nRig','nRing','Flex',
                                'logP','logD','pKa','logSw','ab','MR','TPSA','AP','HetRatio',
                                'Fsp3','MaxRing','QEDmean','QEDmax','QEDnone','SAscore','NPscore',
                                'nSingle','nDouble','nTriple','nC','nB','nF','nCl','nBr','nI',
@@ -974,7 +977,7 @@ class PC_properties(object):
                 'Fsp3': 'self.CalculateFsp3()',
                 'TPSA': 'self.CalculateTPSA()',
                 'MaxRing': 'self.CalculateMaxSizeSystemRing()',
-                'nStero': 'self.CalculateNumStereocenters()',
+                'nStereo': 'self.CalculateNumStereocenters()',
                 'Flex': 'self.CalculateFlexibility()',
                 'HetRatio': 'self.CalculateHetCarbonRatio()',
                 'QEDmean': 'self.CalculateQEDmean()',
