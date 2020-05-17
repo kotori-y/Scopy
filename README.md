@@ -20,7 +20,7 @@
 
 ### Install Scopy
 
-Scopy has been successfully tested on Linux and Windows systems under python3 enviroment.
+Scopy has been successfully tested on Linux, OSX and Windows systems under python3 enviroment.
 
 #### Source
 
