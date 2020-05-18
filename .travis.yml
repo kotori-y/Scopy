@@ -45,6 +45,7 @@ install:
   - export COVERAGE_DIR=":$HOME/htmlcov"
   - printenv | sort
   - conda install -c rdkit rdkit
+  - pip install codecov
 
 script:
   - conda activate
