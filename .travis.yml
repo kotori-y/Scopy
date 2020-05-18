@@ -49,10 +49,10 @@ install:
 script:
   - conda activate
   - python setup.py install
-  - python ./tests/ScoDruglikeness_test.py
-  - python ./tests/ScoFH_test.py
-  - python ./tests/ScoTox_test.py
-  - python ./tests/ScoRepresent_test.py
+  - python ./tests/ScoDruglikeness_test.py --cov-report term --cov=app/test/
+  - python ./tests/ScoFH_test.py --cov-report term --cov=app/test/
+  - python ./tests/ScoTox_test.py --cov-report term --cov=app/test/
+  - python ./tests/ScoRepresent_test.py --cov-report term --cov=app/test/
 
 after_success:
   - codecov 
