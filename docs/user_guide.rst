@@ -31,7 +31,7 @@ Install with pypi
 
 Molecular Pretreater
 ---------------------
-The check and preparation for molecular structures is the necessary prerequisite for subsequent data analysis, especially for molecular resources downloaded from web sources. Considering its importance, the Scopy library provides :mod:`scopy.ScoPretreat` module to realize molecular preparation.
+The check and preparation for molecular structures are the necessary prerequisites for subsequent data analysis, especially for molecular resources downloaded from web sources. Considering its importance, the Scopy library provides :mod:`scopy.ScoPretreat` module to realize molecular preparation.
 
 The :mod:`scopy.ScoPretreat` proivdes the following functions:
 
@@ -46,18 +46,18 @@ The :mod:`scopy.ScoPretreat` proivdes the following functions:
 - Generation of fragment, isotope, charge, tautomer or stereochemistry insensitive parent structures.
 - Validations to identify molecules with unusual and potentially troublesome characteristics.
 
-Users can diconnect metal ion.
+The functions can be customized by setting corresponding parameters according to the job demand, like diconnect metal ion.
 
 >>> from rdkit import Chem
 >>> from scopy.ScoPretreat import pretreat
->>>	
+>>>	#
 >>> mol = Chem.MolFromSmiles('[Na]OC(=O)c1ccc(C[S+2]([O-])([O-]))cc1')
 >>> sdm = pretreat.StandardizeMol()
 >>> mol = sdm.disconnect_metals(mol) # diconnect metal ion.
 >>> Chem.MolToSmiles(mol, isomericSmiles=True)
 O=C([O-])c1ccc(C[S+2]([O-])[O-])cc1.[Na+]
 
-And pretreat the molecular structure using all functions.
+Alternatively, users can achieve all above preparation steps by using the `StandardSmi` function.
 
 >>> stdsmi = pretreat.StandardSmi('[Na]OC(=O)c1ccc(C[S+2]([O-])([O-]))cc1')
 >>> stdsmi
@@ -67,11 +67,13 @@ Drug-likeness Filter
 ---------------------
 Drug-likeness is a conception that rationalizes the influence of simple physicochemical properties to in vivo molecular behaviors, with particular respect to solubility, absorption, permeability, metabolic stability and transporting effects. The application of drug-likeness rules to database construction will help senior executives more effectively.
 
-The :mod:`scopy.ScoDruglikeness` module provides the calculation of physicochemical properties and the screening drug-likeness rules. :mod:`scopy.ScoDruglikeness` module can calculate 42 physicochemical properties (39 basic molecular properties and 3 comprehensive molecular evaluation scores), and implement 15 drug-likeness rules (11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules). More details see `overview`_.
+The :mod:`scopy.ScoDruglikeness` module provides the calculation of physicochemical properties and the screening drug-likeness rules. This module can calculate 42 physicochemical properties (39 basic molecular properties and 3 comprehensive molecular evaluation scores), and implement 15 drug-likeness rules (11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules). More details see `overview`_.
 
 Calculating Physicochemical Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The class :mod:`scopy.druglikeness.molproperty_Lib.PC_properties` provides the calculation of 42 physicochemical properties, including 39 basic molecular properties and 3 comprehensive molecular evaluation scores.
+
+The calculation of the physicochemical properties of 50 molecules will be taken as an example.
 
 >>> import os
 >>> from rdkit import Chem
@@ -80,8 +82,6 @@ The class :mod:`scopy.druglikeness.molproperty_Lib.PC_properties` provides the c
 >>> mols = [mol for mol in mols if mol]
 >>> len(mols)
 50
-
-Here, we chosed 50 molecules as the example to represent scopy function.
 
 Users can calculate different properties separately.
 
@@ -101,7 +101,7 @@ Users can calculate different properties separately.
 >>> NPscore[:5]
 [0.64, 0.72, 1.14, 1.93, 2.04]
 
-Besides, user can also calculate different property simultaneously through `molproperty.GetProperties` function.
+Alternatively, user can calculate multiple properties simultaneously through `GetProperties` method.
 
 >>> mu_props = props.GetProperties(items=['MW','Vol','SAscore']) #The molecular weight, volume and SAscore to be calulated
 >>> type(mu_props)
@@ -125,12 +125,10 @@ The class :mod:`scopy.ScoDruglikeness.rulesfilter_Lib.PC_rules` provides the scr
 [{'Disposed': 'Accepted', 'nViolate': 0},
  {'Disposed': 'Accepted', 'nViolate': 0},
  {'Disposed': 'Accepted', 'nViolate': 1},
- {'Disposed': 'Rejected', 'nViolate': 3},
+ {'Disposed': 'Rejected', 'nViolate': 3}, #The disposed is Rejetced since violate 3 limitations of Lipinski's Rule
  {'Disposed': 'Rejected', 'nViolate': 3}]
 
-In above example, the status of molecule which at least violate 2 limitations of Lipinski's Rule is 'Rejected'
-
-Besides, users can obtain more detailed information about the screening result.
+User can also obtain more detailed information about the screening result.
 
 >>> rules = PC_rules(mols, n_jobs=4, detail=True)
 >>> ro5 = rules.CheckLipinskiRule() #Check the molecule whether math the requirements of Lipinski's Rule.
@@ -182,7 +180,7 @@ Considering the expert experience and different requirements in practical applic
   'nViolate': 1,
   'VioProp': ['nHD']}]
 
-Scopy provides the visualization function to position the value of the queried compound within the selected drug-likeness rule ranges, which provide a benchmark for molecular assessment. See: `ScoVisualize.rule_radar`_ function.
+Scopy provides the visualization function to position the value of the queried compound within the selected drug-likeness rule ranges, which provide a benchmark for molecular assessment. See: `ScoVisualize.pc_depict.RuleRadar`_ function.
 
 .. figure:: /image/user_guide/mol_basci_rule.png
 	:width: 400px
@@ -190,7 +188,7 @@ Scopy provides the visualization function to position the value of the queried c
 
 Scopy also propvide funtion to screening rules properties of single molecule in :mod:`scopy.ScoDruglikeness.rulesfilter`.
 
-Frequent hitter Filter
+Frequent Hitter Filter
 ------------------------
 Frequent hitters refer to compounds which are repetitively identified as active hits in many different and independent biological assays covering a wide range of targets. Frequent hitters can be roughly divided into two categories: (1) compounds that interfere with elements of the assay formats or techniques thus causing undesirable false positive results; and (2) promiscuous compounds that can bind to different target thus triggering adverse reactions and other safety issues.
 
@@ -206,10 +204,8 @@ Assay interferences refer to compounds that interfere with elements of the assay
 >>> res = Filter.Check_Alarm_NMR() #Here, Alarm_NMR Filter be used for screening the molecule.
 >>> res[:3]
 [{'Disposed': 'Accepted', 'Endpoint': 'Alarm_NMR'},
- {'Disposed': 'Rejected', 'Endpoint': 'Alarm_NMR'},
+ {'Disposed': 'Rejected', 'Endpoint': 'Alarm_NMR'}, #Tthe status is 'Rejected' meant failed the ALARM NMR rule, 
  {'Disposed': 'Accepted', 'Endpoint': 'Alarm_NMR'}]
-
-In the above example, the status of the molecule, which failed the ALARM NMR rule, is 'Rejected'
 
 User can also obtain more detailed information about screening result.
 
@@ -254,7 +250,7 @@ The promiscuity is defined as the ability to specifically bind to different macr
   'MatchedNames': ['-'],
   'Endpoint': 'Pains'}]
 
-By applying `Scovisualize.HighlightAtoms.highlight`_ function, user conduct further analysis and molecular optimization, which also provide intuitive information about the vigilant alerts.
+`Scovisualize.highlight.HighlightAtoms` allows user to conduct further analysis and molecular optimization, which also provides intuitive information about the vigilant alerts.
 
 .. figure:: /image/user_guide/PAINS.svg
 	:width: 400px
@@ -390,7 +386,7 @@ The proprty matrix (feature-feature related scatter diagram) can present the cor
 
 >>> from scopy.ScoVisualize import pc_depict
 >>> 
->>> fig = pc_depict.prop_matrix(mols)
+>>> fig = pc_depict.PropMatrix(mols)
 >>> fig
 <Figure size 1567x989 with 36 Axes>
 
@@ -402,7 +398,7 @@ The proprty matrix (feature-feature related scatter diagram) can present the cor
 
 Default properties of matrix are logP, TPSA, MW, nRot, nHD and nHA. Users can customize their own features.
 
->>> fig = pc_depict.prop_matrix(mols, n_jobs=4, items=['MW', 'Vol', 'Dense']) #Mw, Vol and Dense to be shown.
+>>> fig = pc_depict.PropMatrix(mols, n_jobs=4, items=['MW', 'Vol', 'Dense']) #Mw, Vol and Dense to be shown.
 
 .. figure:: /image/user_guide/50_matrix_2.png
 	:width: 500px
@@ -414,7 +410,7 @@ Basic Property Radar
 """"""""""""""""""""
 The radar chart can be used to position the value of the queried compound within the selected drug-likeness rule ranges, which provide a benchmark for molecular assessment.
 
->>> fig = pc_depict.rule_radar(mols[0])
+>>> fig = pc_depict.RuleRadar(mols[0])
 >>> fig
 <Figure size 640x480 with 1 Axes>
 
@@ -453,8 +449,8 @@ The function `mcloud.ShowMcloud` can help the evaluation of database diversity a
 
 
 .. _`overview`: ./overview.html#feature-overview
-.. _`ScoVisualize.HighlightAtoms.highlight`: #fragment-visualizer
-.. _`ScoVisualize.rule_radar`: #basic-property-radar
+.. _`Scovisualize.highlight.HighlightAtoms`: #fragment-visualizer
+.. _`ScoVisualize.RuleRadar`: #basic-property-radar
 .. _`ScoVisualize.mcloud.ShowMcloud`: #framework-visualizer
 .. _`Frequent Hitters Filter`: #frequent-hitter-filter
 .. _`Toxicity Filter`: #toxicity-filter

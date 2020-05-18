@@ -19,7 +19,7 @@ from ..ScoDruglikeness import rulesfilter, molproperty, rulesfilter_Lib, molprop
     
 
 
-def prop_matrix(mols,n_jobs=1,items=['logP','TPSA','MW','nRot','nHD','nHA']):
+def PropMatrix(mols,n_jobs=1,items=['logP','TPSA','MW','nRot','nHD','nHA']):
     """The proprty matrix can intuitively show the compounds' distribution 
     in Two-Dimension space, and diagonal of the matrix is the displot of property
     
@@ -67,12 +67,12 @@ def prop_matrix(mols,n_jobs=1,items=['logP','TPSA','MW','nRot','nHD','nHA']):
     return fig
   
           
-def rule_radar(mol, 
-               prop_kws={'MW':(100,600),'logP':(-3,6),
-                         'nHA':(0,12),'nHD':(0,7),'TPSA':(0,180),
-                         'nRot':(0,11),'nRing':(0,6),'MaxRing':(0,18),
-                         'nC':(3,35),'nHet':(1,15),'HetRatio':(0.1,1.1),
-                         'fChar':(-4,4),'nRig':(0,30)}
+def RuleRadar(mol, 
+           prop_kws={'MW':(100,600),'logP':(-3,6),
+                     'nHA':(0,12),'nHD':(0,7),'TPSA':(0,180),
+                     'nRot':(0,11),'nRing':(0,6),'MaxRing':(0,18),
+                     'nC':(3,35),'nHet':(1,15),'HetRatio':(0.1,1.1),
+                     'fChar':(-4,4),'nRig':(0,30)}
                ):
     """ A radar plot positionning compound's values within the selected filter ranges (pale blue and red). 
     By default, the `drug-like soft`_ filter ranges are visualized.
@@ -149,7 +149,7 @@ def rule_radar(mol,
     return fig
     
     
-def oral_absorption_radar(mol):
+def Oral_absorption_radar(mol):
     """
     """
     prop_kws={'logP':(-2,5),'MW':(150,500),'TPSA':(20,150),

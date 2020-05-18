@@ -34,15 +34,15 @@ Scopy contains six individual modules: (1) molecular preparation; (2) physicoche
 |Type                     |Detail                                                          |Description            |
 +=========================+================================================================+=======================+
 |Drug-likeness Filter     |Basic PC Properties                                             |                       |
-|                         | - Molecular Weight >>> MW                                      |                       |
-|                         | - Molecular Volume >>> Vol                                     |                       |
-|                         | - Molecular Density >>> Dense                                  |                       |
-|                         | - Formal Charge >>> fChar                                      |                       |
+|                         | - Molecular weight >>> MW                                      |                       |
+|                         | - Molecular volume >>> Vol                                     |                       |
+|                         | - Molecular density >>> Dense                                  |                       |
+|                         | - Formal charge >>> fChar                                      |                       |
 |                         | - Number of bonds >>> nBond                                    |                       |
 |                         | - Number of atoms >>> nAtom                                    |                       |
 |                         | - Number of heteroatoms >>> nHet                               |                       |
 |                         | - Number of heavy atom >>> nHev                                |                       |
-|                         | - Number of rotable bonds >>> nRot                             |                       |
+|                         | - Number of rotatable bonds >>> nRot                           |                       |
 |                         | - Number of rigid bonds >>> nRig                               |                       |
 |                         | - Molecular Flexibility >>> Flex                               |                       |
 |                         | - Number of SSSR >>> nRing                                     |                       |
@@ -59,14 +59,14 @@ Scopy contains six individual modules: (1) molecular preparation; (2) physicoche
 |                         | - Sp3 hybridized carbons/total carbon count >>> Fsp3           |                       |
 |                         | - TPSA >>> TPSA                                                |                       |
 |                         | - Size of biggest system ring >>> MaxRing                      |                       |
-|                         | - Number of Sterocenterss >>> nStero                           |                       |
+|                         | - Number of stero-centerss >>> nStero                          |                       |
 |                         | - HetCarbonRatio >>> HetRatio                                  |                       |
 |                         | - Number of single bonds >>> nSingle                           |                       |
-|                         | - Number of double bobds >>> nDouble                           |                       |
+|                         | - Number of double bonds >>> nDouble                           |                       |
 |                         | - Number of triple bonds >>> nTriple                           |`ScoDruglikeness`_     |
 |                         | - Number of Carbon atoms >>> nC                                |                       |
 |                         | - Number of Boron atoms >>> nB                                 |                       |
-|                         | - Number of Chlorin atoms >>> nCl                              |                       |
+|                         | - Number of Chlorine atoms >>> nCl                             |                       |
 |                         | - Number of Bromine atoms >>> nBr                              |                       |
 |                         | - Number of Iodine atoms >>> nI                                |                       |
 |                         | - Number of Phosphor atoms >>> P                               |                       |
