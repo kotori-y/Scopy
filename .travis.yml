@@ -53,3 +53,6 @@ script:
   - python ./tests/ScoFH_test.py
   - python ./tests/ScoTox_test.py
   - python ./tests/ScoRepresent_test.py
+
+after_success:
+  - codecov 
