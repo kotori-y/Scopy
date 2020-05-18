@@ -16,7 +16,7 @@ from distutils.core import setup
 
 # print（__doc__）
 
-package_data= {'scopy':['structure_alert/*','ScoDruglikeness/*','ScoRepresent/*',
+package_data= {'scopy':['ScoBase/*','ScoDruglikeness/*','ScoRepresent/*',
                         'ScoVisualize/*','ScoPretreat/*','ScoFH/*','ScoTox/*','data/SMARTS/*','data/PATT/*',
                         'data/ACID/*','data/*','data/Crippen/*','data/EFG/*','data/Demo/*',
                         'data/MC/mcloud/*','data/MC/mcloud/ertl/mcloud/*',
