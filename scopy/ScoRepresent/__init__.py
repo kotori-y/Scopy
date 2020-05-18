@@ -11,3 +11,4 @@ Created on Tue Jun 25 21:59:42 2019
 """
 
 from .fingerprints import *
+from .scaffolds import *

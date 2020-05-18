@@ -12,55 +12,10 @@
 
 import os
 import shutil
-from functools import partial
-from multiprocessing import Pool
-from collections import Counter
 from subprocess import run
-from rdkit import Chem
-from rdkit.Chem.Scaffolds import MurckoScaffold
 from .. import ScoConfig
 
-
-
-def _getscaffold(mol,stype='Murcko'):
-    """
-    *Internal used only*
-    
-    """
-    assert stype in ['Murcko','Carbon'
-                     ], 'scaffold type must be a member of "Murcko" or "Carbon"'
-    core = MurckoScaffold.GetScaffoldForMol(mol)
-    core = core if stype=='Murcko' else MurckoScaffold.MakeScaffoldGeneric(core)
-    return Chem.MolToSmiles(core, isomericSmiles=False)
-
-def CountScaffold(mols,stype='Murcko'):
-    """
-    Counting the frequency of each framework
-    
-    :param mols: the molecule to be scanned.
-    :type mols: Iterable object, each element is rdkit.Chem.rdchem.Mol
-    :param stype: the type of scaffold to be analysed, must be a member of "Murcko" or "Carbon"
-    :type stype: string
-    
-    
-    :return: the SMILES of framework and its frequency
-    :rtype: dict
-    
-    """
-    fn = partial(_getscaffold,stype=stype)
-    ps = Pool(4)
-    scaffolds = ps.map_async(fn, mols).get()
-    ps.close()
-    ps.join()
-    count = dict(Counter(scaffolds))
-    try:
-        del count['']
-    except KeyError:
-        pass
-    
-    return count
-    
-     
+   
 def ShowMcloud(file, number=150, skip=0, savedir=None, hidden=False):
     """Visualization of large molecular data sets using the Molecule Cloud approach. 
     
