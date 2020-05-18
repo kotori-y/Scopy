@@ -324,7 +324,7 @@ To simplify screening process and draw lessons from existing screening tools, th
   'MatchedAtoms': [((2, 1, 10, 9, 8, 7, 6, 5),)],
   'MatchedNames': ['polyenes'],
   'Endpoint': 'SureChEMBL'},
- {'SMILES': 'OCC(O)C(O)C(O)C(O)CO',
+ {'SMILES': 'OCC(O)C(O)C(O)C(O)CO',      
   'Disposed': 'Accepted',
   'MatchedAtoms': ['-'],
   'MatchedNames': ['-'],
@@ -340,9 +340,9 @@ The functions from `ScoRepresent.scaffolds` can calculate molecular Murcko scaff
 
 The function `ScoRepresent.scaffolds.CountMurckoFramework` can calculate the Murcko framework and count the frequency of corresponding frameworks.
 
->>> from scopy.ScoVisualize import mcloud
+>>> from scopy.ScoRepresent import CountMurckoFramework
 >>>		
->>> scount = mcloud.CountScaffold(mols)
+>>> scount = CountScaffold(mols)
 >>> type(scount)
 >>> dict
 >>> len(scount)
@@ -361,7 +361,7 @@ The function `ScoRepresent.scaffolds.CountMurckoFramework` can calculate the Mur
 
 Fingerprint Calculation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-With different definitions, fingerprints (descriptors) can characterize molecules from different angles. Through calculating similarity or distance among molecular fingerprints (descriptors), the spatial density of compound libraries can be evaluated.
+Different type of substructure descriptors can characterize the structural features of the studied molecules from different viewpoints.
 
 The :mod:`ScoRepresent` module provides the calculation of 6 descriptors (MACCS, EFG, IFG, EState, GhoseCrippen and PubChem) and 2 fingerprints (Morgan Family and Daylight Fingerprint). More Details see `overview`_. As for Morgan Family, 2 and 1024 chosen as the default radius and the number of bits. Besides, minimum and maximum distance for Daylight fingerprint, whose default the number of bits is 2048, set default as 1 and 7.
 
@@ -408,7 +408,7 @@ Default properties of matrix are logP, TPSA, MW, nRot, nHD and nHA. Users can cu
 
 Basic Property Radar
 """"""""""""""""""""
-The radar chart can be used to position the value of the queried compound within the selected drug-likeness rule ranges, which provide a benchmark for molecular assessment.
+The radar chart can be used to visualize the physicochemical properties for a single compound or a whole database. In addition, user can position the value of the queried compound within the selected drug-likeness rule range, which may provide a benchmark for molecular assessment.
 
 >>> fig = pc_depict.RuleRadar(mols[0])
 >>> fig

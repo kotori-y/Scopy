@@ -15,7 +15,7 @@ Created on Fri May 15 21:47:43 2020
 from multiprocessing import Pool
 from rdkit import Chem
 
-from ..structure_alert.FilterWithSmarts import Filter
+from ScoBase import Filter
 
 
 

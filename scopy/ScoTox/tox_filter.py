@@ -16,7 +16,7 @@ from multiprocessing import Pool
 from rdkit import Chem
 
 
-from ..structure_alert.FilterWithSmarts import Filter
+from ..ScoBase import Filter
 
 
 
