@@ -9,7 +9,7 @@
 #@Blog: https://blog.moyule.me
 
 
-
+import os
 from rdkit import Chem
 from rdkit import DataStructs
 
@@ -31,7 +31,7 @@ class PubChem(object):
         """Initialization
         
         """
-        with open(ScoConfig.PubChemDir + '\\pubchem.txt') as f_obj:
+        with open(os.path.join(ScoConfig.PubChemDir, 'pubchem.txt')) as f_obj:
             self.smartsPatts = eval(f_obj.read())
         f_obj.close()    
         self.PubchemKeys = None
