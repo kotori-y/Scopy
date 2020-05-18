@@ -19,7 +19,7 @@ from multiprocessing import Pool
 from rdkit import Chem
 from . import molproperty
 from .. import ScoConfig
-from ..ScoRepresent import CalculateGhoseCrippen
+from ..ScoRepresent.fingerprints import CalculateGhoseCrippen
 
     
 
@@ -809,30 +809,7 @@ class PC_properties(object):
         pool.close()
         pool.join()
         return NP
-    
-    def GetIFG(self):
-        """
-        A function to compute functional groups in organic molecules
-        --->IFG
-        
-        Reference:
-            (1) `Ertl Peter (2017)`_.
-        
-        :param mols: molecules
-        :type mols: Iterable
-        :return: list of namedtuple, namedtuple('IFG', ['atomIds', 'atoms', 'type'])
-        :rtype: list
-        
-        .. _Ertl Peter (2017):
-            https://jcheminf.biomedcentral.com/articles/10.1186/s13321-017-0225-z
             
-        """
-        pool = Pool(self.n_jobs)
-        ifg = pool.map_async(molproperty.GetIFG, self.mols).get()
-        pool.close()
-        pool.join()
-        return ifg
-        
     def CalculateMolVolume(self):
         """
         Calculation of Van der Waals Volume of molecule

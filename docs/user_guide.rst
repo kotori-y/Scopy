@@ -67,11 +67,11 @@ Drug-likeness Filter
 ---------------------
 Drug-likeness is a conception that rationalizes the influence of simple physicochemical properties to in vivo molecular behaviors, with particular respect to solubility, absorption, permeability, metabolic stability and transporting effects. The application of drug-likeness rules to database construction will help senior executives more effectively.
 
-The :mod:`scopy.ScoDruglikeness` module provides the calculation of physicochemical properties and the screening drug-likeness rules. This module can calculate 42 physicochemical properties (39 basic molecular properties and 3 comprehensive molecular evaluation scores), and implement 15 drug-likeness rules (11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules). More details see `overview`_.
+The :mod:`ScoDruglikeness` module provides the calculation of physicochemical properties and the screening drug-likeness rules. This module can calculate 42 physicochemical properties (39 basic molecular properties and 3 comprehensive molecular evaluation scores), and implement 15 drug-likeness rules (11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules). More details see `overview`_.
 
 Calculating Physicochemical Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The class :mod:`scopy.druglikeness.molproperty_Lib.PC_properties` provides the calculation of 42 physicochemical properties, including 39 basic molecular properties and 3 comprehensive molecular evaluation scores.
+The class :mod:`ScoDruglikeness.molproperty_Lib.PC_properties` provides the calculation of 42 physicochemical properties, including 39 basic molecular properties and 3 comprehensive molecular evaluation scores.
 
 The calculation of the physicochemical properties of 50 molecules will be taken as an example.
 
@@ -115,7 +115,7 @@ Scopy propvide funtion to calculate physicochemical properties of single molecul
 
 Screening under Drug-likeness Rules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The class :mod:`scopy.ScoDruglikeness.rulesfilter_Lib.PC_rules` provides the screening of drug-likeness rules. In current version, the module can implement 15 drug-likeness rules, including 11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules.
+The class :mod:`ScoDruglikeness.rulesfilter_Lib.PC_rules` provides the screening of drug-likeness rules. In current version, the module can implement 15 drug-likeness rules, including 11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules.
 
 >>> from scopy.ScoDruglikeness import PC_rules
 >>> 
@@ -186,7 +186,7 @@ Scopy provides the visualization function to position the value of the queried c
 	:width: 400px
 	:align: center
 
-Scopy also propvide funtion to screening rules properties of single molecule in :mod:`scopy.ScoDruglikeness.rulesfilter`.
+Scopy also propvide funtion to screening rules properties of single molecule in :mod:`ScoDruglikeness.rulesfilter`.
 
 Frequent Hitter Filter
 ------------------------
@@ -196,7 +196,7 @@ The :mod:`ScoFH` module provides 8 substructure filters for screening different 
 
 Assay Interference Substructure Filter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Assay interferences refer to compounds that interfere with elements of the assay formats or techniques thus causing undesirable false positive results. Such compounds will seriously interfere with the progress of drug research. class :mod:`scopy.ScoFH.fh_filter.FHfilter` provides 4 assay interference substructure filters (AlphaScreen_FHs, Luciferase_Inhibitory, Chelating and Alarm_NMR Filter) for the screening of AlphaScreen detection interferences, spectroscopic interferences, chelators and chemical reactive compounds, respectively.
+Assay interferences refer to compounds that interfere with elements of the assay formats or techniques thus causing undesirable false positive results. Such compounds will seriously interfere with the progress of drug research. class :mod:`ScoFH.fh_filter.FHfilter` provides 4 assay interference substructure filters (AlphaScreen_FHs, Luciferase_Inhibitory, Chelating and Alarm_NMR Filter) for the screening of AlphaScreen detection interferences, spectroscopic interferences, chelators and chemical reactive compounds, respectively.
 
 >>> from scopy.ScoFH import FHfilter
 >>>
@@ -230,7 +230,7 @@ User can also obtain more detailed information about screening result.
 
 Promiscuous Compound Substructure Filter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The promiscuity is defined as the ability to specifically bind to different macro-molecular targets. These multiple interactions can include unintended targets, thus triggering adverse reactions and other safety issues. class :mod:`scopy.ScoFH.fh_filter.FHfilter` provides 4 frequently-used promiscuous compound substructure filters, such as PAINS, BMS Filter, AlphaScreen_GST_FHs and AlphaScreen_HIS_FHs.
+The promiscuity is defined as the ability to specifically bind to different macro-molecular targets. These multiple interactions can include unintended targets, thus triggering adverse reactions and other safety issues. class :mod:`ScoFH.fh_filter.FHfilter` provides 4 frequently-used promiscuous compound substructure filters, such as PAINS, BMS Filter, AlphaScreen_GST_FHs and AlphaScreen_HIS_FHs.
 
 >>> res = Filter.Check_PAINS(mol, detail=True) #Here, PAINS Filter used for screening the molecule.
 >>> res[5:8]
@@ -258,9 +258,9 @@ The promiscuity is defined as the ability to specifically bind to different macr
 
 Toxicity Filter
 ----------------
-Toxicity refers to the measure of poisonous or toxic effect on an organ or a whole organism. Toxicity is one of the main reasons for attrition in the drug development process. It is reported that more than 15% of new approved FDA chemical entitles (between 1975 and 2009) have received more than once black-box warnings, and some of them have been withdrawn from the market due to the toxicity and safety issues. In addition, the requirements for molecular safety are not only limited to the human beings. The environmental influence of drugs has also aroused great concern. *Toxicity Filter was also implemented in the :mod:`scopy.structure_alert` package.*
+Toxicity refers to the measure of poisonous or toxic effect on an organ or a whole organism. Toxicity is one of the main reasons for attrition in the drug development process. It is reported that more than 15% of new approved FDA chemical entitles (between 1975 and 2009) have received more than once black-box warnings, and some of them have been withdrawn from the market due to the toxicity and safety issues. In addition, the requirements for molecular safety are not only limited to the human beings. The environmental influence of drugs has also aroused great concern.
 
-:mod:`scopy.structure_alert` package provides 11 toxicophore filters, including 5 human related toxicity substructure filters, 3 environment related toxicity substructure filters and 3 comprehensive substructure filters. More details see: `overview`_.
+:mod:`ScoTox` package provides 11 toxicophore filters, including 5 human related toxicity substructure filters, 3 environment related toxicity substructure filters and 3 comprehensive substructure filters. More details see: `overview`_.
 
 Human Toxic Compound Filter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -332,13 +332,13 @@ To simplify screening process and draw lessons from existing screening tools, th
 
 Chemical Space Exploer
 ------------------------
-A desirable database is demanded to own wide chemical space, which will greatly benefits the efficiency and success rate of drug development. To analyze the chemical diversity of screening databases, the Scopy library designs a special module for the calculation of 2 molecular scaffolds, 6 substructure descriptors and 2 fingerprints.
+A desirable database is demanded to own wide chemical space, which will greatly benefits the efficiency and success rate of drug development. To analyze the chemical diversity of screening databases, the :mod:`ScoRepresent` can calculate 2 molecular scaffolds, 6 substructure descriptors and 2 fingerprints.
 
 Framework Calculation
 ~~~~~~~~~~~~~~~~~~~~~~~
-The function `ScoVisualize.mcloud.CountScaffold` can calculate molecular Murcko scaffold and carbon skeleton and summarize the number of scaffold occurrence in the database. Then the data can be used to generate the cloud gram via `ScoVisualize.mcloud.ShowMcloud`_ function. 
+The functions from `ScoRepresent.scaffolds` can calculate molecular Murcko scaffold and carbon skeleton and summarize the number of scaffold occurrence in the database. Then the data can be used to generate the cloud gram via `ScoVisualize.mcloud.ShowMcloud`_ function. 
 
-The function `ScoVisualize.mcloud.CountScaffold` can calculate the framework and count the frequency of corresponding frameworks.
+The function `ScoRepresent.scaffolds.CountMurckoFramework` can calculate the Murcko framework and count the frequency of corresponding frameworks.
 
 >>> from scopy.ScoVisualize import mcloud
 >>>		

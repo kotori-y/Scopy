@@ -10,11 +10,36 @@
 
 
 
-import warnings
+from multiprocessing import Pool
+import warnings, sys
 warnings.filterwarnings('ignore')
 from collections import Counter
 import numpy as np
-from ..ScoDruglikeness import molproperty_Lib
+from rdkit import RDConfig
+sys.path.append(RDConfig.RDContribDir)
+from IFG.ifg import identify_functional_groups
+
+
+
+def GetIFG(mol):
+    """
+    A function to compute functional groups in organic molecules
+    --->IFG
+    
+    Reference:
+        (1) `Ertl Peter (2017)`_.
+    
+    :param mol: molecular
+    :type mol: rdkit.Chem.rdchem.Mol
+    :return: list of namedtuple, namedtuple('IFG', ['atomIds', 'atoms', 'type'])
+    :rtype: list
+    
+    .. _Ertl Peter (2017):
+        https://jcheminf.biomedcentral.com/articles/10.1186/s13321-017-0225-z
+        
+    """
+    return [fg._asdict() for fg in identify_functional_groups(mol)]
+
 
 class IFG(object):
     """
@@ -42,8 +67,10 @@ class IFG(object):
         :type mols: iterable object, each element is rdkit.Chem.rdchem.Mol
         
         """
-        pc = molproperty_Lib.PC_properties(mols, self.n_jobs)
-        fgs = pc.GetIFG()
+        pool = Pool(self.n_jobs)
+        fgs = pool.map_async(GetIFG, mols).get()
+        pool.close()
+        pool.join()
         fgs = [[fg['type'] for fg in item] for item in fgs]
         return fgs
     
@@ -84,8 +111,6 @@ class IFG(object):
         
         
         
-    
-    
     
     
 if '__main__' == __name__:
