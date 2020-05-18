@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.ScoDruglikeness package &#8212; Scopy 1.2.0 documentation</title>
+    <title>scopy.ScoDruglikeness package &#8212; Scopy 1.2.1 documentation</title>
     <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/./cssbasic.css" />
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="scopy.ScoPretreat.html" title="scopy.ScoPretreat package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" accesskey="U">Scopy API</a> &#187;</li> 
       </ul>
     </div>
@@ -975,32 +975,8 @@ These SMARTS retrived from <a class="reference external" href="https://www.dayli
 </dd></dl>
 
 <dl class="function">
-<dt id="scopy.ScoDruglikeness.molproperty.GetIFG">
-<code class="sig-prename descclassname">scopy.ScoDruglikeness.molproperty.</code><code class="sig-name descname">GetIFG</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoDruglikeness/molproperty.html#GetIFG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoDruglikeness.molproperty.GetIFG" title="Permalink to this definition">¶</a></dt>
-<dd><p>A function to compute functional groups in organic molecules
-—&gt;IFG</p>
-<dl class="simple">
-<dt>Reference:</dt><dd><ol class="arabic simple">
-<li><p><a class="reference external" href="https://jcheminf.biomedcentral.com/articles/10.1186/s13321-017-0225-z">Ertl Peter (2017)</a>.</p></li>
-</ol>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – molecular</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>list of namedtuple, namedtuple(‘IFG’, [‘atomIds’, ‘atoms’, ‘type’])</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
 <dt id="scopy.ScoDruglikeness.molproperty.GetProperties">
-<code class="sig-prename descclassname">scopy.ScoDruglikeness.molproperty.</code><code class="sig-name descname">GetProperties</code><span class="sig-paren">(</span><em class="sig-param">mol, items=['MW', 'Vol', 'Dense', 'fChar', 'nBond', 'nAtom', 'nHD', 'nHA', 'nHB', 'nHet', 'nStero', 'nHev', 'nRot', 'nRig', 'Flex', 'nRing', 'logP', 'logD', 'pKa', 'logSw', 'ab', 'MR', 'TPSA', 'AP', 'HetRatio', 'Fsp3', 'MaxRing', 'QEDmean', 'QEDmax', 'QEDnone', 'SAscore', 'NPscore', 'nSingle', 'nDouble', 'nTriple', 'nC', 'nB', 'nF', 'nCl', 'nBr', 'nI', 'nP', 'nS', 'nO', 'nN']</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoDruglikeness/molproperty.html#GetProperties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoDruglikeness.molproperty.GetProperties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">scopy.ScoDruglikeness.molproperty.</code><code class="sig-name descname">GetProperties</code><span class="sig-paren">(</span><em class="sig-param">mol, items=['MW', 'Vol', 'Dense', 'fChar', 'nBond', 'nAtom', 'nHD', 'nHA', 'nHB', 'nHet', 'nStereo', 'nHev', 'nRot', 'nRig', 'Flex', 'nRing', 'logP', 'logD', 'pKa', 'logSw', 'ab', 'MR', 'TPSA', 'AP', 'HetRatio', 'Fsp3', 'MaxRing', 'QEDmean', 'QEDmax', 'QEDnone', 'SAscore', 'NPscore', 'nSingle', 'nDouble', 'nTriple', 'nC', 'nB', 'nF', 'nCl', 'nBr', 'nI', 'nP', 'nS', 'nO', 'nN']</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoDruglikeness/molproperty.html#GetProperties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoDruglikeness.molproperty.GetProperties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all properties in scopy</p>
 </dd></dl>
 
@@ -1102,7 +1078,24 @@ These SMARTS retrived from <a class="reference external" href="https://www.dayli
 <dl class="method">
 <dt id="scopy.ScoDruglikeness.molproperty_Lib.PC_properties.CalculateLogD">
 <code class="sig-name descname">CalculateLogD</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoDruglikeness/molproperty_Lib.html#PC_properties.CalculateLogD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoDruglikeness.molproperty_Lib.PC_properties.CalculateLogD" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculation of molecular logD under pH=7.4
+—&gt;LogD</p>
+<dl class="simple">
+<dt>Note:</dt><dd><p>We have built a liner model with DNN to predict logD7.4.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mols</strong> (<em>Iterable</em>) – molecules</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>molecular logD under pH=7.4</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="scopy.ScoDruglikeness.molproperty_Lib.PC_properties.CalculateLogP">
@@ -1908,32 +1901,8 @@ These SMARTS retrived from <a class="reference external" href="https://www.dayli
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoDruglikeness.molproperty_Lib.PC_properties.GetIFG">
-<code class="sig-name descname">GetIFG</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoDruglikeness/molproperty_Lib.html#PC_properties.GetIFG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoDruglikeness.molproperty_Lib.PC_properties.GetIFG" title="Permalink to this definition">¶</a></dt>
-<dd><p>A function to compute functional groups in organic molecules
-—&gt;IFG</p>
-<dl class="simple">
-<dt>Reference:</dt><dd><ol class="arabic simple">
-<li><p><a class="reference external" href="https://jcheminf.biomedcentral.com/articles/10.1186/s13321-017-0225-z">Ertl Peter (2017)</a>.</p></li>
-</ol>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>mols</strong> (<em>Iterable</em>) – molecules</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>list of namedtuple, namedtuple(‘IFG’, [‘atomIds’, ‘atoms’, ‘type’])</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
 <dt id="scopy.ScoDruglikeness.molproperty_Lib.PC_properties.GetProperties">
-<code class="sig-name descname">GetProperties</code><span class="sig-paren">(</span><em class="sig-param">items=['MW', 'Vol', 'Dense', 'fChar', 'nBond', 'nAtom', 'nHD', 'nHA', 'nHB', 'nHet', 'nStero', 'nHev', 'nRot', 'nRig', 'nRing', 'Flex', 'logP', 'logD', 'pKa', 'logSw', 'ab', 'MR', 'TPSA', 'AP', 'HetRatio', 'Fsp3', 'MaxRing', 'QEDmean', 'QEDmax', 'QEDnone', 'SAscore', 'NPscore', 'nSingle', 'nDouble', 'nTriple', 'nC', 'nB', 'nF', 'nCl', 'nBr', 'nI', 'nP', 'nS', 'nO', 'nN'], showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoDruglikeness/molproperty_Lib.html#PC_properties.GetProperties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoDruglikeness.molproperty_Lib.PC_properties.GetProperties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">GetProperties</code><span class="sig-paren">(</span><em class="sig-param">items=['MW', 'Vol', 'Dense', 'fChar', 'nBond', 'nAtom', 'nHD', 'nHA', 'nHB', 'nHet', 'nStereo', 'nHev', 'nRot', 'nRig', 'nRing', 'Flex', 'logP', 'logD', 'pKa', 'logSw', 'ab', 'MR', 'TPSA', 'AP', 'HetRatio', 'Fsp3', 'MaxRing', 'QEDmean', 'QEDmax', 'QEDnone', 'SAscore', 'NPscore', 'nSingle', 'nDouble', 'nTriple', 'nC', 'nB', 'nF', 'nCl', 'nBr', 'nI', 'nP', 'nS', 'nO', 'nN'], showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoDruglikeness/molproperty_Lib.html#PC_properties.GetProperties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoDruglikeness.molproperty_Lib.PC_properties.GetProperties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all PC - properties in scopy</p>
 </dd></dl>
 
@@ -3084,7 +3053,7 @@ nha &lt;= 10
         <li class="right" >
           <a href="scopy.ScoPretreat.html" title="scopy.ScoPretreat package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" >Scopy API</a> &#187;</li> 
       </ul>
     </div>

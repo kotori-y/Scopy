@@ -6,7 +6,7 @@ This document intends to provide users with the basic operation methods of Scopy
 
 Installing the Scopy package
 -----------------------------
-Scopy has been successfully tested on Linux and Windows systems under python3 enviroment.
+Scopy has been successfully tested on Linux, OSX and Windows systems under Python3.6 and Python3.7
 
 Dependencies
 ~~~~~~~~~~~~
@@ -31,9 +31,9 @@ Install with pypi
 
 Molecular Pretreater
 ---------------------
-The check and preparation for molecular structures is the necessary prerequisite for subsequent data analysis, especially for molecular resources downloaded from web sources. Considering its importance, the Scopy library provides :mod:`scopy.ScoPretreat` module to realize molecular preparation.
+The check and preparation for molecular structures are the necessary prerequisites for subsequent data analysis, especially for molecular resources downloaded from web sources. Considering its importance, the Scopy library provides `ScoPretreat`_ module to realize molecular preparation.
 
-The :mod:`scopy.ScoPretreat` proivdes the following functions:
+The `ScoPretreat`_ proivdes the following functions:
 
 - Normalization of functional groups to a consistent format.
 - Recombination of separated charges.
@@ -46,18 +46,18 @@ The :mod:`scopy.ScoPretreat` proivdes the following functions:
 - Generation of fragment, isotope, charge, tautomer or stereochemistry insensitive parent structures.
 - Validations to identify molecules with unusual and potentially troublesome characteristics.
 
-Users can diconnect metal ion.
+The functions can be customized by setting corresponding parameters according to the job demand, like diconnect metal ion.
 
 >>> from rdkit import Chem
 >>> from scopy.ScoPretreat import pretreat
->>>	
+>>>	#
 >>> mol = Chem.MolFromSmiles('[Na]OC(=O)c1ccc(C[S+2]([O-])([O-]))cc1')
 >>> sdm = pretreat.StandardizeMol()
 >>> mol = sdm.disconnect_metals(mol) # diconnect metal ion.
 >>> Chem.MolToSmiles(mol, isomericSmiles=True)
 O=C([O-])c1ccc(C[S+2]([O-])[O-])cc1.[Na+]
 
-And pretreat the molecular structure using all functions.
+Alternatively, users can achieve all above preparation steps by using the `StandardSmi` function.
 
 >>> stdsmi = pretreat.StandardSmi('[Na]OC(=O)c1ccc(C[S+2]([O-])([O-]))cc1')
 >>> stdsmi
@@ -67,11 +67,13 @@ Drug-likeness Filter
 ---------------------
 Drug-likeness is a conception that rationalizes the influence of simple physicochemical properties to in vivo molecular behaviors, with particular respect to solubility, absorption, permeability, metabolic stability and transporting effects. The application of drug-likeness rules to database construction will help senior executives more effectively.
 
-The :mod:`scopy.ScoDruglikeness` module provides the calculation of physicochemical properties and the screening drug-likeness rules. :mod:`scopy.ScoDruglikeness` module can calculate 42 physicochemical properties (39 basic molecular properties and 3 comprehensive molecular evaluation scores), and implement 15 drug-likeness rules (11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules). More details see `overview`_.
+The `ScoDruglikeness`_ module provides the calculation of physicochemical properties and the screening drug-likeness rules. This module can calculate 42 physicochemical properties (39 basic molecular properties and 3 comprehensive molecular evaluation scores), and implement 15 drug-likeness rules (11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules). More details see `overview`_.
 
 Calculating Physicochemical Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The class :mod:`scopy.druglikeness.molproperty_Lib.PC_properties` provides the calculation of 42 physicochemical properties, including 39 basic molecular properties and 3 comprehensive molecular evaluation scores.
+The class `ScoDruglikeness.molproperty_Lib.PC_properties` provides the calculation of 42 physicochemical properties, including 39 basic molecular properties and 3 comprehensive molecular evaluation scores.
+
+The calculation of the physicochemical properties of 50 molecules will be taken as an example.
 
 >>> import os
 >>> from rdkit import Chem
@@ -80,8 +82,6 @@ The class :mod:`scopy.druglikeness.molproperty_Lib.PC_properties` provides the c
 >>> mols = [mol for mol in mols if mol]
 >>> len(mols)
 50
-
-Here, we chosed 50 molecules as the example to represent scopy function.
 
 Users can calculate different properties separately.
 
@@ -101,7 +101,7 @@ Users can calculate different properties separately.
 >>> NPscore[:5]
 [0.64, 0.72, 1.14, 1.93, 2.04]
 
-Besides, user can also calculate different property simultaneously through `molproperty.GetProperties` function.
+Alternatively, user can calculate multiple properties simultaneously through `GetProperties` method.
 
 >>> mu_props = props.GetProperties(items=['MW','Vol','SAscore']) #The molecular weight, volume and SAscore to be calulated
 >>> type(mu_props)
@@ -111,11 +111,11 @@ dict
 >>> mu_props['Vol'][:5]
 [259.03, 276.61, 165.07, 549.94, 567.24]
 
-Scopy propvide funtion to calculate physicochemical properties of single molecule in :mod:`scopy.ScoDruglikeness.molproperty`.
+Scopy propvide funtion to calculate physicochemical properties of single molecule in :mod:`ScoDruglikeness.molproperty`.
 
 Screening under Drug-likeness Rules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The class :mod:`scopy.ScoDruglikeness.rulesfilter_Lib.PC_rules` provides the screening of drug-likeness rules. In current version, the module can implement 15 drug-likeness rules, including 11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules.
+The class :mod:`ScoDruglikeness.rulesfilter_Lib.PC_rules` provides the screening of drug-likeness rules. In current version, the module can implement 15 drug-likeness rules, including 11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules.
 
 >>> from scopy.ScoDruglikeness import PC_rules
 >>> 
@@ -125,12 +125,10 @@ The class :mod:`scopy.ScoDruglikeness.rulesfilter_Lib.PC_rules` provides the scr
 [{'Disposed': 'Accepted', 'nViolate': 0},
  {'Disposed': 'Accepted', 'nViolate': 0},
  {'Disposed': 'Accepted', 'nViolate': 1},
- {'Disposed': 'Rejected', 'nViolate': 3},
+ {'Disposed': 'Rejected', 'nViolate': 3}, #The disposed is Rejetced since violate 3 limitations of Lipinski's Rule
  {'Disposed': 'Rejected', 'nViolate': 3}]
 
-In above example, the status of molecule which at least violate 2 limitations of Lipinski's Rule is 'Rejected'
-
-Besides, users can obtain more detailed information about the screening result.
+User can also obtain more detailed information about the screening result.
 
 >>> rules = PC_rules(mols, n_jobs=4, detail=True)
 >>> ro5 = rules.CheckLipinskiRule() #Check the molecule whether math the requirements of Lipinski's Rule.
@@ -182,23 +180,23 @@ Considering the expert experience and different requirements in practical applic
   'nViolate': 1,
   'VioProp': ['nHD']}]
 
-Scopy provides the visualization function to position the value of the queried compound within the selected drug-likeness rule ranges, which provide a benchmark for molecular assessment. See: `ScoVisualize.rule_radar`_ function.
+Scopy provides the visualization function to position the value of the queried compound within the selected drug-likeness rule ranges, which provide a benchmark for molecular assessment. See: `ScoVisualize.pc_depict.RuleRadar`_ function.
 
 .. figure:: /image/user_guide/mol_basci_rule.png
 	:width: 400px
 	:align: center
 
-Scopy also propvide funtion to screening rules properties of single molecule in :mod:`scopy.ScoDruglikeness.rulesfilter`.
+Scopy also propvide funtion to screening rules properties of single molecule in :mod:`ScoDruglikeness.rulesfilter`.
 
-Frequent hitter Filter
+Frequent Hitter Filter
 ------------------------
 Frequent hitters refer to compounds which are repetitively identified as active hits in many different and independent biological assays covering a wide range of targets. Frequent hitters can be roughly divided into two categories: (1) compounds that interfere with elements of the assay formats or techniques thus causing undesirable false positive results; and (2) promiscuous compounds that can bind to different target thus triggering adverse reactions and other safety issues.
 
-The :mod:`ScoFH` module provides 8 substructure filters for screening different types of FHs, including 4 assay interference substructure filters and 4 promiscuous compound substructure filters. More Details see `overview`_.
+The `ScoFH`_ module provides 8 substructure filters for screening different types of FHs, including 4 assay interference substructure filters and 4 promiscuous compound substructure filters. More Details see `overview`_.
 
 Assay Interference Substructure Filter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Assay interferences refer to compounds that interfere with elements of the assay formats or techniques thus causing undesirable false positive results. Such compounds will seriously interfere with the progress of drug research. class :mod:`scopy.ScoFH.fh_filter.FHfilter` provides 4 assay interference substructure filters (AlphaScreen_FHs, Luciferase_Inhibitory, Chelating and Alarm_NMR Filter) for the screening of AlphaScreen detection interferences, spectroscopic interferences, chelators and chemical reactive compounds, respectively.
+Assay interferences refer to compounds that interfere with elements of the assay formats or techniques thus causing undesirable false positive results. Such compounds will seriously interfere with the progress of drug research. class :mod:`ScoFH.fh_filter.FHfilter` provides 4 assay interference substructure filters (AlphaScreen_FHs, Luciferase_Inhibitory, Chelating and Alarm_NMR Filter) for the screening of AlphaScreen detection interferences, spectroscopic interferences, chelators and chemical reactive compounds, respectively.
 
 >>> from scopy.ScoFH import FHfilter
 >>>
@@ -206,10 +204,8 @@ Assay interferences refer to compounds that interfere with elements of the assay
 >>> res = Filter.Check_Alarm_NMR() #Here, Alarm_NMR Filter be used for screening the molecule.
 >>> res[:3]
 [{'Disposed': 'Accepted', 'Endpoint': 'Alarm_NMR'},
- {'Disposed': 'Rejected', 'Endpoint': 'Alarm_NMR'},
+ {'Disposed': 'Rejected', 'Endpoint': 'Alarm_NMR'}, #Tthe status is 'Rejected' meant failed the ALARM NMR rule, 
  {'Disposed': 'Accepted', 'Endpoint': 'Alarm_NMR'}]
-
-In the above example, the status of the molecule, which failed the ALARM NMR rule, is 'Rejected'
 
 User can also obtain more detailed information about screening result.
 
@@ -234,7 +230,7 @@ User can also obtain more detailed information about screening result.
 
 Promiscuous Compound Substructure Filter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The promiscuity is defined as the ability to specifically bind to different macro-molecular targets. These multiple interactions can include unintended targets, thus triggering adverse reactions and other safety issues. class :mod:`scopy.ScoFH.fh_filter.FHfilter` provides 4 frequently-used promiscuous compound substructure filters, such as PAINS, BMS Filter, AlphaScreen_GST_FHs and AlphaScreen_HIS_FHs.
+The promiscuity is defined as the ability to specifically bind to different macro-molecular targets. These multiple interactions can include unintended targets, thus triggering adverse reactions and other safety issues. class :mod:`ScoFH.fh_filter.FHfilter` provides 4 frequently-used promiscuous compound substructure filters, such as PAINS, BMS Filter, AlphaScreen_GST_FHs and AlphaScreen_HIS_FHs.
 
 >>> res = Filter.Check_PAINS(mol, detail=True) #Here, PAINS Filter used for screening the molecule.
 >>> res[5:8]
@@ -254,7 +250,7 @@ The promiscuity is defined as the ability to specifically bind to different macr
   'MatchedNames': ['-'],
   'Endpoint': 'Pains'}]
 
-By applying `Scovisualize.HighlightAtoms.highlight`_ function, user conduct further analysis and molecular optimization, which also provide intuitive information about the vigilant alerts.
+`Scovisualize.highlight.HighlightAtoms` allows user to conduct further analysis and molecular optimization, which also provides intuitive information about the vigilant alerts.
 
 .. figure:: /image/user_guide/PAINS.svg
 	:width: 400px
@@ -262,9 +258,9 @@ By applying `Scovisualize.HighlightAtoms.highlight`_ function, user conduct furt
 
 Toxicity Filter
 ----------------
-Toxicity refers to the measure of poisonous or toxic effect on an organ or a whole organism. Toxicity is one of the main reasons for attrition in the drug development process. It is reported that more than 15% of new approved FDA chemical entitles (between 1975 and 2009) have received more than once black-box warnings, and some of them have been withdrawn from the market due to the toxicity and safety issues. In addition, the requirements for molecular safety are not only limited to the human beings. The environmental influence of drugs has also aroused great concern. *Toxicity Filter was also implemented in the :mod:`scopy.structure_alert` package.*
+Toxicity refers to the measure of poisonous or toxic effect on an organ or a whole organism. Toxicity is one of the main reasons for attrition in the drug development process. It is reported that more than 15% of new approved FDA chemical entitles (between 1975 and 2009) have received more than once black-box warnings, and some of them have been withdrawn from the market due to the toxicity and safety issues. In addition, the requirements for molecular safety are not only limited to the human beings. The environmental influence of drugs has also aroused great concern.
 
-:mod:`scopy.structure_alert` package provides 11 toxicophore filters, including 5 human related toxicity substructure filters, 3 environment related toxicity substructure filters and 3 comprehensive substructure filters. More details see: `overview`_.
+`ScoTox`_ module provides 11 toxicophore filters, including 5 human related toxicity substructure filters, 3 environment related toxicity substructure filters and 3 comprehensive substructure filters. More details see: `overview`_.
 
 Human Toxic Compound Filter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -328,7 +324,7 @@ To simplify screening process and draw lessons from existing screening tools, th
   'MatchedAtoms': [((2, 1, 10, 9, 8, 7, 6, 5),)],
   'MatchedNames': ['polyenes'],
   'Endpoint': 'SureChEMBL'},
- {'SMILES': 'OCC(O)C(O)C(O)C(O)CO',
+ {'SMILES': 'OCC(O)C(O)C(O)C(O)CO',      
   'Disposed': 'Accepted',
   'MatchedAtoms': ['-'],
   'MatchedNames': ['-'],
@@ -336,17 +332,17 @@ To simplify screening process and draw lessons from existing screening tools, th
 
 Chemical Space Exploer
 ------------------------
-A desirable database is demanded to own wide chemical space, which will greatly benefits the efficiency and success rate of drug development. To analyze the chemical diversity of screening databases, the Scopy library designs a special module for the calculation of 2 molecular scaffolds, 6 substructure descriptors and 2 fingerprints.
+A desirable database is demanded to own wide chemical space, which will greatly benefits the efficiency and success rate of drug development. To analyze the chemical diversity of screening databases, the `ScoRepresent`_ can calculate 2 molecular scaffolds, 6 substructure descriptors and 2 fingerprints.
 
 Framework Calculation
 ~~~~~~~~~~~~~~~~~~~~~~~
-The function `ScoVisualize.mcloud.CountScaffold` can calculate molecular Murcko scaffold and carbon skeleton and summarize the number of scaffold occurrence in the database. Then the data can be used to generate the cloud gram via `ScoVisualize.mcloud.ShowMcloud`_ function. 
+The functions from `ScoRepresent.scaffolds` can calculate molecular Murcko scaffold and carbon skeleton and summarize the number of scaffold occurrence in the database. Then the data can be used to generate the cloud gram via `ScoVisualize.mcloud.ShowMcloud`_ function. 
 
-The function `ScoVisualize.mcloud.CountScaffold` can calculate the framework and count the frequency of corresponding frameworks.
+The function `ScoRepresent.scaffolds.CountMurckoFramework` can calculate the Murcko framework and count the frequency of corresponding frameworks.
 
->>> from scopy.ScoVisualize import mcloud
+>>> from scopy.ScoRepresent import CountMurckoFramework
 >>>		
->>> scount = mcloud.CountScaffold(mols)
+>>> scount = CountScaffold(mols)
 >>> type(scount)
 >>> dict
 >>> len(scount)
@@ -365,9 +361,9 @@ The function `ScoVisualize.mcloud.CountScaffold` can calculate the framework and
 
 Fingerprint Calculation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-With different definitions, fingerprints (descriptors) can characterize molecules from different angles. Through calculating similarity or distance among molecular fingerprints (descriptors), the spatial density of compound libraries can be evaluated.
+Different type of substructure descriptors can characterize the structural features of the studied molecules from different viewpoints.
 
-The :mod:`ScoRepresent` module provides the calculation of 6 descriptors (MACCS, EFG, IFG, EState, GhoseCrippen and PubChem) and 2 fingerprints (Morgan Family and Daylight Fingerprint). More Details see `overview`_. As for Morgan Family, 2 and 1024 chosen as the default radius and the number of bits. Besides, minimum and maximum distance for Daylight fingerprint, whose default the number of bits is 2048, set default as 1 and 7.
+The `ScoRepresent`_ module provides the calculation of 6 descriptors (MACCS, EFG, IFG, EState, GhoseCrippen and PubChem) and 2 fingerprints (Morgan Family and Daylight Fingerprint). More Details see `overview`_. As for Morgan Family, 2 and 1024 chosen as the default radius and the number of bits. Besides, minimum and maximum distance for Daylight fingerprint, whose default the number of bits is 2048, set default as 1 and 7.
 
 >>> from scopy.ScoRepresent import CalculateEFG
 >>> fps = CalculateEFG(mols, useCount=True, n_jobs=4)
@@ -378,11 +374,11 @@ numpy.ndarray
 
 Screening Visualizer
 --------------------
-In the case of early drug discovery, data visualized as a gram or diagram can provide a simplified view of multidimensional property and ideally reveal correlations. The :mod:`ScoVisualize` module provides four different visualization functions, including basic feature radar charts, feature-feature related scatter diagram, functional group marker gram and cloud gram.
+In the case of early drug discovery, data visualized as a gram or diagram can provide a simplified view of multidimensional property and ideally reveal correlations. The `ScoVisualize`_ module provides four different visualization functions, including basic feature radar charts, feature-feature related scatter diagram, functional group marker gram and cloud gram.
 
 PC Visualizer
 ~~~~~~~~~~~~~
-The :mod:`scopy.ScoVisualize.pc_depict` module provides the visualization of PC properties distribution and drug-likeness rules.
+The submodule `ScoVisualize.pc_depict` module provides the visualization of PC properties distribution and drug-likeness rules.
 
 Proprty Matrix
 """"""""""""""
@@ -390,7 +386,7 @@ The proprty matrix (feature-feature related scatter diagram) can present the cor
 
 >>> from scopy.ScoVisualize import pc_depict
 >>> 
->>> fig = pc_depict.prop_matrix(mols)
+>>> fig = pc_depict.PropMatrix(mols)
 >>> fig
 <Figure size 1567x989 with 36 Axes>
 
@@ -402,7 +398,7 @@ The proprty matrix (feature-feature related scatter diagram) can present the cor
 
 Default properties of matrix are logP, TPSA, MW, nRot, nHD and nHA. Users can customize their own features.
 
->>> fig = pc_depict.prop_matrix(mols, n_jobs=4, items=['MW', 'Vol', 'Dense']) #Mw, Vol and Dense to be shown.
+>>> fig = pc_depict.PropMatrix(mols, n_jobs=4, items=['MW', 'Vol', 'Dense']) #Mw, Vol and Dense to be shown.
 
 .. figure:: /image/user_guide/50_matrix_2.png
 	:width: 500px
@@ -412,9 +408,9 @@ Default properties of matrix are logP, TPSA, MW, nRot, nHD and nHA. Users can cu
 
 Basic Property Radar
 """"""""""""""""""""
-The radar chart can be used to position the value of the queried compound within the selected drug-likeness rule ranges, which provide a benchmark for molecular assessment.
+The radar chart can be used to visualize the physicochemical properties for a single compound or a whole database. In addition, user can position the value of the queried compound within the selected drug-likeness rule range, which may provide a benchmark for molecular assessment.
 
->>> fig = pc_depict.rule_radar(mols[0])
+>>> fig = pc_depict.RuleRadar(mols[0])
 >>> fig
 <Figure size 640x480 with 1 Axes>
 
@@ -424,7 +420,7 @@ The radar chart can be used to position the value of the queried compound within
 
 Fragment visualizer
 ~~~~~~~~~~~~~~~~~~~
-The :mod:`scopy.visualize.highlight` module can highlight the flagged substructures, which help user to conduct further analysis.
+The function `Scovisualize.highlight.HighlightAtoms` can highlight the flagged substructures, which help user to conduct further analysis.
 
 >>> from scopy.ScoVisualize import highlight
 >>> 
@@ -438,7 +434,7 @@ IPython.core.display.SVG
 
 Framework Visualizer
 ~~~~~~~~~~~~~~~~~~~~~~
-The function `mcloud.ShowMcloud` can help the evaluation of database diversity and structure characteristics. The frequency of specific scaffold is indicated by the size of the respective structural image. With the application of cloud gram, users can easily explore the top-ranked scaffolds and the whole chemical space of the screening database.
+The function `ScoVisualize.mcloud.ShowMcloud` can help the evaluation of database diversity and structure characteristics. The frequency of specific scaffold is indicated by the size of the respective structural image. With the application of cloud gram, users can easily explore the top-ranked scaffolds and the whole chemical space of the screening database.
 
 .. note::
 	This module should run under a Java environment and the script retrived from `Peter Ertl`_
@@ -451,10 +447,15 @@ The function `mcloud.ShowMcloud` can help the evaluation of database diversity a
 	:align: center
 	
 
-
+.. _`ScoPretreat`: ./modules/scopy.ScoPretreat.html
+.. _`ScoDruglikeness`: ./modules/scopy.ScoDruglikeness.html
+.. _`ScoFH`: ./modules/scopy.ScoFH.html
+.. _`ScoTox`: ./modules/scopy.ScoTox.html
+.. _`ScoRepresent`: ./modules/scopy.ScoRepresent.html
+.. _`ScoVisualize`: ./modules/scopy.ScoVisualize.html
 .. _`overview`: ./overview.html#feature-overview
-.. _`ScoVisualize.HighlightAtoms.highlight`: #fragment-visualizer
-.. _`ScoVisualize.rule_radar`: #basic-property-radar
+.. _`Scovisualize.highlight.HighlightAtoms`: #fragment-visualizer
+.. _`ScoVisualize.pc_depict.	RuleRadar`: #basic-property-radar
 .. _`ScoVisualize.mcloud.ShowMcloud`: #framework-visualizer
 .. _`Frequent Hitters Filter`: #frequent-hitter-filter
 .. _`Toxicity Filter`: #toxicity-filter

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.ScoVisualize.mcloud &#8212; Scopy 1.2.0 documentation</title>
+    <title>scopy.ScoVisualize.mcloud &#8212; Scopy 1.2.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/./cssbasic.css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -67,55 +67,10 @@
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">Pool</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
 <span class="kn">from</span> <span class="nn">subprocess</span> <span class="k">import</span> <span class="n">run</span>
-<span class="kn">from</span> <span class="nn">rdkit</span> <span class="k">import</span> <span class="n">Chem</span>
-<span class="kn">from</span> <span class="nn">rdkit.Chem.Scaffolds</span> <span class="k">import</span> <span class="n">MurckoScaffold</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ScoConfig</span>
 
-
-
-<span class="k">def</span> <span class="nf">_getscaffold</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">stype</span><span class="o">=</span><span class="s1">&#39;Murcko&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    *Internal used only*</span>
-<span class="sd">    </span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">stype</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Murcko&#39;</span><span class="p">,</span><span class="s1">&#39;Carbon&#39;</span>
-                     <span class="p">],</span> <span class="s1">&#39;scaffold type must be a member of &quot;Murcko&quot; or &quot;Carbon&quot;&#39;</span>
-    <span class="n">core</span> <span class="o">=</span> <span class="n">MurckoScaffold</span><span class="o">.</span><span class="n">GetScaffoldForMol</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
-    <span class="n">core</span> <span class="o">=</span> <span class="n">core</span> <span class="k">if</span> <span class="n">stype</span><span class="o">==</span><span class="s1">&#39;Murcko&#39;</span> <span class="k">else</span> <span class="n">MurckoScaffold</span><span class="o">.</span><span class="n">MakeScaffoldGeneric</span><span class="p">(</span><span class="n">core</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">core</span><span class="p">,</span> <span class="n">isomericSmiles</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-<div class="viewcode-block" id="CountScaffold"><a class="viewcode-back" href="../../../modules/scopy.ScoVisualize.html#scopy.ScoVisualize.mcloud.CountScaffold">[docs]</a><span class="k">def</span> <span class="nf">CountScaffold</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">stype</span><span class="o">=</span><span class="s1">&#39;Murcko&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Counting the frequency of each framework</span>
-<span class="sd">    </span>
-<span class="sd">    :param mols: the molecule to be scanned.</span>
-<span class="sd">    :type mols: Iterable object, each element is rdkit.Chem.rdchem.Mol</span>
-<span class="sd">    :param stype: the type of scaffold to be analysed, must be a member of &quot;Murcko&quot; or &quot;Carbon&quot;</span>
-<span class="sd">    :type stype: string</span>
-<span class="sd">    </span>
-<span class="sd">    </span>
-<span class="sd">    :return: the SMILES of framework and its frequency</span>
-<span class="sd">    :rtype: dict</span>
-<span class="sd">    </span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">fn</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">_getscaffold</span><span class="p">,</span><span class="n">stype</span><span class="o">=</span><span class="n">stype</span><span class="p">)</span>
-    <span class="n">ps</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-    <span class="n">scaffolds</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-    <span class="n">ps</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    <span class="n">ps</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-    <span class="n">count</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">scaffolds</span><span class="p">))</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">del</span> <span class="n">count</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]</span>
-    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-        <span class="k">pass</span>
-    
-    <span class="k">return</span> <span class="n">count</span></div>
-    
-     
+   
 <div class="viewcode-block" id="ShowMcloud"><a class="viewcode-back" href="../../../modules/scopy.ScoVisualize.html#scopy.ScoVisualize.mcloud.ShowMcloud">[docs]</a><span class="k">def</span> <span class="nf">ShowMcloud</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">savedir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Visualization of large molecular data sets using the Molecule Cloud approach. </span>
 <span class="sd">    </span>
@@ -180,7 +135,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

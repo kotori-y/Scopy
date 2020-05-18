@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.ScoVisualize package &#8212; Scopy 1.2.0 documentation</title>
+    <title>scopy.ScoVisualize package &#8212; Scopy 1.2.1 documentation</title>
     <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/./cssbasic.css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript" src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="scopy.structure_alert package" href="scopy.structure_alert.html" />
+    <link rel="next" title="scopy.ScoBase package" href="scopy.ScoBase.html" />
     <link rel="prev" title="scopy.ScoRepresent package" href="scopy.ScoRepresent.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -28,12 +28,12 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scopy.structure_alert.html" title="scopy.structure_alert package"
+          <a href="scopy.ScoBase.html" title="scopy.ScoBase package"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="scopy.ScoRepresent.html" title="scopy.ScoRepresent package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" accesskey="U">Scopy API</a> &#187;</li> 
       </ul>
     </div>
@@ -58,8 +58,8 @@
   <p class="topless"><a href="scopy.ScoRepresent.html"
                         title="previous chapter">scopy.ScoRepresent package</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="scopy.structure_alert.html"
-                        title="next chapter">scopy.structure_alert package</a></p>
+  <p class="topless"><a href="scopy.ScoBase.html"
+                        title="next chapter">scopy.ScoBase package</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -117,26 +117,6 @@
 <div class="section" id="module-scopy.ScoVisualize.mcloud">
 <span id="scopy-scovisualize-mcloud-module"></span><h2>scopy.ScoVisualize.mcloud module<a class="headerlink" href="#module-scopy.ScoVisualize.mcloud" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="scopy.ScoVisualize.mcloud.CountScaffold">
-<code class="sig-prename descclassname">scopy.ScoVisualize.mcloud.</code><code class="sig-name descname">CountScaffold</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">stype='Murcko'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoVisualize/mcloud.html#CountScaffold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoVisualize.mcloud.CountScaffold" title="Permalink to this definition">¶</a></dt>
-<dd><p>Counting the frequency of each framework</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>mols</strong> (<em>Iterable object</em><em>, </em><em>each element is rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
-<li><p><strong>stype</strong> (<em>string</em>) – the type of scaffold to be analysed, must be a member of “Murcko” or “Carbon”</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the SMILES of framework and its frequency</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
 <dt id="scopy.ScoVisualize.mcloud.ShowMcloud">
 <code class="sig-prename descclassname">scopy.ScoVisualize.mcloud.</code><code class="sig-name descname">ShowMcloud</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">number=150</em>, <em class="sig-param">skip=0</em>, <em class="sig-param">savedir=None</em>, <em class="sig-param">hidden=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoVisualize/mcloud.html#ShowMcloud"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoVisualize.mcloud.ShowMcloud" title="Permalink to this definition">¶</a></dt>
 <dd><p>Visualization of large molecular data sets using the Molecule Cloud approach.</p>
@@ -166,18 +146,18 @@
 <div class="section" id="module-scopy.ScoVisualize.pc_depict">
 <span id="scopy-scovisualize-pc-depict-module"></span><h2>scopy.ScoVisualize.pc_depict module<a class="headerlink" href="#module-scopy.ScoVisualize.pc_depict" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
+<dt id="scopy.ScoVisualize.pc_depict.Oral_absorption_radar">
+<code class="sig-prename descclassname">scopy.ScoVisualize.pc_depict.</code><code class="sig-name descname">Oral_absorption_radar</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoVisualize/pc_depict.html#Oral_absorption_radar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoVisualize.pc_depict.Oral_absorption_radar" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="scopy.ScoVisualize.pc_depict.PfizerPositioning">
 <code class="sig-prename descclassname">scopy.ScoVisualize.pc_depict.</code><code class="sig-name descname">PfizerPositioning</code><span class="sig-paren">(</span><em class="sig-param">mol=None</em>, <em class="sig-param">PfizerRule=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoVisualize/pc_depict.html#PfizerPositioning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoVisualize.pc_depict.PfizerPositioning" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="scopy.ScoVisualize.pc_depict.oral_absorption_radar">
-<code class="sig-prename descclassname">scopy.ScoVisualize.pc_depict.</code><code class="sig-name descname">oral_absorption_radar</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoVisualize/pc_depict.html#oral_absorption_radar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoVisualize.pc_depict.oral_absorption_radar" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="scopy.ScoVisualize.pc_depict.prop_matrix">
-<code class="sig-prename descclassname">scopy.ScoVisualize.pc_depict.</code><code class="sig-name descname">prop_matrix</code><span class="sig-paren">(</span><em class="sig-param">mols, n_jobs=1, items=['logP', 'TPSA', 'MW', 'nRot', 'nHD', 'nHA']</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoVisualize/pc_depict.html#prop_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoVisualize.pc_depict.prop_matrix" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoVisualize.pc_depict.PropMatrix">
+<code class="sig-prename descclassname">scopy.ScoVisualize.pc_depict.</code><code class="sig-name descname">PropMatrix</code><span class="sig-paren">(</span><em class="sig-param">mols, n_jobs=1, items=['logP', 'TPSA', 'MW', 'nRot', 'nHD', 'nHA']</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoVisualize/pc_depict.html#PropMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoVisualize.pc_depict.PropMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>The proprty matrix can intuitively show the compounds’ distribution 
 in Two-Dimension space, and diagonal of the matrix is the displot of property</p>
 <dl class="field-list simple">
@@ -198,8 +178,8 @@ in Two-Dimension space, and diagonal of the matrix is the displot of property</p
 </dd></dl>
 
 <dl class="function">
-<dt id="scopy.ScoVisualize.pc_depict.rule_radar">
-<code class="sig-prename descclassname">scopy.ScoVisualize.pc_depict.</code><code class="sig-name descname">rule_radar</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">prop_kws={'HetRatio': (0.1</em>, <em class="sig-param">1.1)</em>, <em class="sig-param">'MW': (100</em>, <em class="sig-param">600)</em>, <em class="sig-param">'MaxRing': (0</em>, <em class="sig-param">18)</em>, <em class="sig-param">'TPSA': (0</em>, <em class="sig-param">180)</em>, <em class="sig-param">'fChar': (-4</em>, <em class="sig-param">4)</em>, <em class="sig-param">'logP': (-3</em>, <em class="sig-param">6)</em>, <em class="sig-param">'nC': (3</em>, <em class="sig-param">35)</em>, <em class="sig-param">'nHA': (0</em>, <em class="sig-param">12)</em>, <em class="sig-param">'nHD': (0</em>, <em class="sig-param">7)</em>, <em class="sig-param">'nHet': (1</em>, <em class="sig-param">15)</em>, <em class="sig-param">'nRig': (0</em>, <em class="sig-param">30)</em>, <em class="sig-param">'nRing': (0</em>, <em class="sig-param">6)</em>, <em class="sig-param">'nRot': (0</em>, <em class="sig-param">11)}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoVisualize/pc_depict.html#rule_radar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoVisualize.pc_depict.rule_radar" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoVisualize.pc_depict.RuleRadar">
+<code class="sig-prename descclassname">scopy.ScoVisualize.pc_depict.</code><code class="sig-name descname">RuleRadar</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">prop_kws={'HetRatio': (0.1</em>, <em class="sig-param">1.1)</em>, <em class="sig-param">'MW': (100</em>, <em class="sig-param">600)</em>, <em class="sig-param">'MaxRing': (0</em>, <em class="sig-param">18)</em>, <em class="sig-param">'TPSA': (0</em>, <em class="sig-param">180)</em>, <em class="sig-param">'fChar': (-4</em>, <em class="sig-param">4)</em>, <em class="sig-param">'logP': (-3</em>, <em class="sig-param">6)</em>, <em class="sig-param">'nC': (3</em>, <em class="sig-param">35)</em>, <em class="sig-param">'nHA': (0</em>, <em class="sig-param">12)</em>, <em class="sig-param">'nHD': (0</em>, <em class="sig-param">7)</em>, <em class="sig-param">'nHet': (1</em>, <em class="sig-param">15)</em>, <em class="sig-param">'nRig': (0</em>, <em class="sig-param">30)</em>, <em class="sig-param">'nRing': (0</em>, <em class="sig-param">6)</em>, <em class="sig-param">'nRot': (0</em>, <em class="sig-param">11)}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoVisualize/pc_depict.html#RuleRadar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoVisualize.pc_depict.RuleRadar" title="Permalink to this definition">¶</a></dt>
 <dd><p>A radar plot positionning compound’s values within the selected filter ranges (pale blue and red). 
 By default, the <a class="reference external" href="http://fafdrugs4.mti.univ-paris-diderot.fr/filters.html">drug-like soft</a> filter ranges are visualized.</p>
 <dl class="field-list simple">
@@ -237,12 +217,12 @@ By default, the <a class="reference external" href="http://fafdrugs4.mti.univ-pa
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="scopy.structure_alert.html" title="scopy.structure_alert package"
+          <a href="scopy.ScoBase.html" title="scopy.ScoBase package"
              >next</a> |</li>
         <li class="right" >
           <a href="scopy.ScoRepresent.html" title="scopy.ScoRepresent package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" >Scopy API</a> &#187;</li> 
       </ul>
     </div>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.ScoRepresent.fingerprints &#8212; Scopy 1.2.0 documentation</title>
+    <title>scopy.ScoRepresent.fingerprints &#8212; Scopy 1.2.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/./cssbasic.css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -82,7 +82,7 @@
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CalculateEFG&#39;</span><span class="p">,</span> <span class="s1">&#39;CalculateGhoseCrippen&#39;</span><span class="p">,</span> <span class="s1">&#39;CalculateEState&#39;</span><span class="p">,</span>
 		   <span class="s1">&#39;CalculateMACCS&#39;</span><span class="p">,</span> <span class="s1">&#39;CalculateECFP&#39;</span><span class="p">,</span> <span class="s1">&#39;CalculateFCFP&#39;</span><span class="p">,</span>
-		   <span class="s1">&#39;Daylight&#39;</span><span class="p">,</span> <span class="s1">&#39;PubChem&#39;</span> <span class="p">,</span> <span class="s1">&#39;IFG&#39;</span><span class="p">]</span>
+		   <span class="s1">&#39;CalculateDaylight&#39;</span><span class="p">,</span> <span class="s1">&#39;CalculatePubChem&#39;</span><span class="p">,</span> <span class="s1">&#39;CalculateIFG&#39;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="CalculateEFG"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.CalculateEFG">[docs]</a><span class="k">def</span> <span class="nf">CalculateEFG</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">useCount</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;classification system termed “extended functional groups” (EFG),</span>
@@ -264,7 +264,7 @@
     <span class="n">fps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fps</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">fps</span></div>
 
-<span class="k">def</span> <span class="nf">CalculateDaylight</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">minPath</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">maxPath</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">nBits</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="CalculateDaylight"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.CalculateDaylight">[docs]</a><span class="k">def</span> <span class="nf">CalculateDaylight</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">minPath</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">maxPath</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">nBits</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A Daylight-like fingerprint based on hashing molecular subgraphs</span>
 <span class="sd">    2^n bits</span>
 <span class="sd">    </span>
@@ -289,10 +289,10 @@
     <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
     <span class="n">fps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fps</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">fps</span>
+    <span class="k">return</span> <span class="n">fps</span></div>
 
                                            
-<span class="k">def</span> <span class="nf">CalculatePubChem</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="CalculatePubChem"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.CalculatePubChem">[docs]</a><span class="k">def</span> <span class="nf">CalculatePubChem</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculate PubChem Fingerprints</span>
 <span class="sd">    </span>
 <span class="sd">    :param mols: the molecule to be scanned.</span>
@@ -310,10 +310,10 @@
     <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
     <span class="n">fps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fps</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">fps</span>
+    <span class="k">return</span> <span class="n">fps</span></div>
  
     
-<span class="k">def</span> <span class="nf">CalculateIFG</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">useCount</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="CalculateIFG"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.CalculateIFG">[docs]</a><span class="k">def</span> <span class="nf">CalculateIFG</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">useCount</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An algorithm to identify functional groups in organic molecules</span>
 <span class="sd">    </span>
 <span class="sd">    Reference:</span>
@@ -334,7 +334,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fp</span> <span class="o">=</span> <span class="n">IFG</span><span class="p">(</span><span class="n">useCount</span><span class="o">=</span><span class="n">useCount</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">)</span>
     <span class="n">fps</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">CalculateIFG</span><span class="p">(</span><span class="n">mols</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">fps</span>
+    <span class="k">return</span> <span class="n">fps</span></div>
     
 <span class="k">if</span> <span class="s1">&#39;__main__&#39;</span> <span class="o">==</span> <span class="vm">__name__</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">time</span>
@@ -421,7 +421,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

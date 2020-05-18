@@ -76,6 +76,14 @@ scopy.ScoRepresent.pubchem module
    :undoc-members:
    :show-inheritance:
 
+scopy.ScoRepresent.scaffolds module
+-----------------------------------
+
+.. automodule:: scopy.ScoRepresent.scaffolds
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 Module contents
 ---------------

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.structure_alert.FilterWithSmarts &#8212; Scopy 1.2.0 documentation</title>
+    <title>scopy.ScoBase.FilterWithSmarts &#8212; Scopy 1.2.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/./cssbasic.css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -52,7 +52,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for scopy.structure_alert.FilterWithSmarts</h1><div class="highlight"><pre>
+  <h1>Source code for scopy.ScoBase.FilterWithSmarts</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 
 <span class="c1">#Created on Tue Jun 25 21:59:42 2019</span>
@@ -71,7 +71,7 @@
     <span class="kn">import</span> <span class="nn">SmartProcess</span>
 
 
-<div class="viewcode-block" id="Filter"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Filter">[docs]</a><span class="k">class</span> <span class="nc">Filter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Filter"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Filter">[docs]</a><span class="k">class</span> <span class="nc">Filter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    *Internal Use Only*</span>
 <span class="sd">    the tool to check molecule(s) whether matched some unexpected endpoints.</span>
@@ -95,16 +95,16 @@
          <span class="bp">self</span><span class="o">.</span><span class="n">detail</span> <span class="o">=</span> <span class="n">detail</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">showSMILES</span> <span class="o">=</span> <span class="n">showSMILES</span>
          
-<div class="viewcode-block" id="Filter.get_pattl"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Filter.get_pattl">[docs]</a>    <span class="k">def</span> <span class="nf">get_pattl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Filter.get_pattl"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Filter.get_pattl">[docs]</a>    <span class="k">def</span> <span class="nf">get_pattl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pattl</span> <span class="o">=</span> <span class="n">SmartProcess</span><span class="o">.</span><span class="n">_Loadpkl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="Filter.scan"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Filter.scan">[docs]</a>    <span class="k">def</span> <span class="nf">scan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">):</span>
+<div class="viewcode-block" id="Filter.scan"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Filter.scan">[docs]</a>    <span class="k">def</span> <span class="nf">scan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">SmartProcess</span><span class="o">.</span><span class="n">_CheckWithSmarts</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span>
                                              <span class="bp">self</span><span class="o">.</span><span class="n">pattl</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">,</span>
                                              <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">showSMILES</span><span class="p">)</span></div></div>
     
     
-<div class="viewcode-block" id="Check_Acute_Aquatic_Toxicity"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Acute_Aquatic_Toxicity">[docs]</a><span class="k">def</span> <span class="nf">Check_Acute_Aquatic_Toxicity</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_Acute_Aquatic_Toxicity"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_Acute_Aquatic_Toxicity">[docs]</a><span class="k">def</span> <span class="nf">Check_Acute_Aquatic_Toxicity</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Check molecule under Acute_Aquatic_Toxicity Filter,</span>
 <span class="sd">    which presents a compound may cause toxicity to liquid(water).</span>
 <span class="sd">    There are 99 SMARTS in this endpoint.</span>
@@ -136,7 +136,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Check_AlphaScreen_FHs"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_FHs">[docs]</a><span class="k">def</span> <span class="nf">Check_AlphaScreen_FHs</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_AlphaScreen_FHs"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_AlphaScreen_FHs">[docs]</a><span class="k">def</span> <span class="nf">Check_AlphaScreen_FHs</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under Check_AlphaScreen_FHs Filter,</span>
 <span class="sd">    which presents a compound may be alphascreen frequent hitters.</span>
@@ -166,7 +166,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Check_AlphaScreen_GST_FHs"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_GST_FHs">[docs]</a><span class="k">def</span> <span class="nf">Check_AlphaScreen_GST_FHs</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_AlphaScreen_GST_FHs"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_AlphaScreen_GST_FHs">[docs]</a><span class="k">def</span> <span class="nf">Check_AlphaScreen_GST_FHs</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under Check_AlphaScreen_GST_FHs Filter,</span>
 <span class="sd">    which presents a compound may prevent GST/GSH interaction during HTS.</span>
@@ -196,7 +196,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Check_AlphaScreen_HIS_FHs"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_AlphaScreen_HIS_FHs">[docs]</a><span class="k">def</span> <span class="nf">Check_AlphaScreen_HIS_FHs</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_AlphaScreen_HIS_FHs"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_AlphaScreen_HIS_FHs">[docs]</a><span class="k">def</span> <span class="nf">Check_AlphaScreen_HIS_FHs</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under Check_AlphaScreen_HIS_FHs Filter,</span>
 <span class="sd">    which presents a compound prevents the binding of the protein His-tag moiety to nickel chelate.</span>
@@ -226,7 +226,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Check_Biodegradable"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Biodegradable">[docs]</a><span class="k">def</span> <span class="nf">Check_Biodegradable</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_Biodegradable"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_Biodegradable">[docs]</a><span class="k">def</span> <span class="nf">Check_Biodegradable</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under Biodegradable Filter,</span>
 <span class="sd">    which presents a compound may be Biodegradable.</span>
@@ -253,7 +253,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
     
 
-<div class="viewcode-block" id="Check_Chelating"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Chelating">[docs]</a><span class="k">def</span> <span class="nf">Check_Chelating</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_Chelating"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_Chelating">[docs]</a><span class="k">def</span> <span class="nf">Check_Chelating</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under Chelating Filter,</span>
 <span class="sd">    which presents a compound may inhibit metalloproteins.</span>
@@ -283,7 +283,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Check_Developmental_Mitochondrial"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Developmental_Mitochondrial">[docs]</a><span class="k">def</span> <span class="nf">Check_Developmental_Mitochondrial</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_Developmental_Mitochondrial"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_Developmental_Mitochondrial">[docs]</a><span class="k">def</span> <span class="nf">Check_Developmental_Mitochondrial</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under Developmental_Mitochondrial Filter,</span>
 <span class="sd">    which presents a compound may casue Developmental Toxicity and Mitochondrial Toxicity.</span>
@@ -310,7 +310,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Check_Genotoxic_Carcinogenicity_Mutagenicity"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Genotoxic_Carcinogenicity_Mutagenicity">[docs]</a><span class="k">def</span> <span class="nf">Check_Genotoxic_Carcinogenicity_Mutagenicity</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_Genotoxic_Carcinogenicity_Mutagenicity"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_Genotoxic_Carcinogenicity_Mutagenicity">[docs]</a><span class="k">def</span> <span class="nf">Check_Genotoxic_Carcinogenicity_Mutagenicity</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under Developmental_Mitochondrial Filter,</span>
 <span class="sd">    which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms.</span>
@@ -349,7 +349,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
     
     
-<div class="viewcode-block" id="Check_Idiosyncratic"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Idiosyncratic">[docs]</a><span class="k">def</span> <span class="nf">Check_Idiosyncratic</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_Idiosyncratic"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_Idiosyncratic">[docs]</a><span class="k">def</span> <span class="nf">Check_Idiosyncratic</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under Idiosyncratic Filter,</span>
 <span class="sd">    which presents a compound may has diosyncratic toxicity.</span>
@@ -379,7 +379,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Check_LD50_Oral"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_LD50_Oral">[docs]</a><span class="k">def</span> <span class="nf">Check_LD50_Oral</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_LD50_Oral"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_LD50_Oral">[docs]</a><span class="k">def</span> <span class="nf">Check_LD50_Oral</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under LD50_Oral Filter,</span>
 <span class="sd">    which presents a compound may cause acute toxicity during oral administration;</span>
@@ -406,7 +406,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
     
 
-<div class="viewcode-block" id="Check_Luciferase_Inhibitory"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Luciferase_Inhibitory">[docs]</a><span class="k">def</span> <span class="nf">Check_Luciferase_Inhibitory</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_Luciferase_Inhibitory"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_Luciferase_Inhibitory">[docs]</a><span class="k">def</span> <span class="nf">Check_Luciferase_Inhibitory</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    There 3 SMARTS in Luciferase_Inhibitory Filter</span>
 <span class="sd">    </span>
@@ -428,7 +428,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
     
 
-<div class="viewcode-block" id="Check_NonBiodegradable"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_NonBiodegradable">[docs]</a><span class="k">def</span> <span class="nf">Check_NonBiodegradable</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_NonBiodegradable"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_NonBiodegradable">[docs]</a><span class="k">def</span> <span class="nf">Check_NonBiodegradable</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under NonBiodegradable Filter,</span>
 <span class="sd">    which presents a compound may be non-biodegradable.</span>
@@ -455,7 +455,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
     
 
-<div class="viewcode-block" id="Check_NonGenotoxic_Carcinogenicity"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_NonGenotoxic_Carcinogenicity">[docs]</a><span class="k">def</span> <span class="nf">Check_NonGenotoxic_Carcinogenicity</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_NonGenotoxic_Carcinogenicity"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_NonGenotoxic_Carcinogenicity">[docs]</a><span class="k">def</span> <span class="nf">Check_NonGenotoxic_Carcinogenicity</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under NonGenotoxic_Carcinogenicity Filter,</span>
 <span class="sd">    which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms。</span>
@@ -488,7 +488,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Check_PAINS"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_PAINS">[docs]</a><span class="k">def</span> <span class="nf">Check_PAINS</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_PAINS"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_PAINS">[docs]</a><span class="k">def</span> <span class="nf">Check_PAINS</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under PAINS Filter,</span>
 <span class="sd">    which presents a type of compounds tend to be hitted in HTS.</span>
@@ -518,7 +518,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Check_Potential_Electrophilic"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Potential_Electrophilic">[docs]</a><span class="k">def</span> <span class="nf">Check_Potential_Electrophilic</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_Potential_Electrophilic"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_Potential_Electrophilic">[docs]</a><span class="k">def</span> <span class="nf">Check_Potential_Electrophilic</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under Potential_Electrophilic Filter,</span>
 <span class="sd">    which presents a compound would be more probably take part in electrophilic reaction, </span>
@@ -549,7 +549,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Check_Reactive_Unstable_Toxic"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Reactive_Unstable_Toxic">[docs]</a><span class="k">def</span> <span class="nf">Check_Reactive_Unstable_Toxic</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_Reactive_Unstable_Toxic"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_Reactive_Unstable_Toxic">[docs]</a><span class="k">def</span> <span class="nf">Check_Reactive_Unstable_Toxic</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under Reactive_Unstable_Toxic Filter.</span>
 <span class="sd">    There are 335 SMARTS in this endpoint.</span>
@@ -578,7 +578,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Check_Skin_Sensitization"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Skin_Sensitization">[docs]</a><span class="k">def</span> <span class="nf">Check_Skin_Sensitization</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_Skin_Sensitization"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_Skin_Sensitization">[docs]</a><span class="k">def</span> <span class="nf">Check_Skin_Sensitization</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under Skin_Sensitization Filter,</span>
 <span class="sd">    There are 155 SMARTS in this endpoint.</span>
@@ -613,7 +613,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
     
 
-<div class="viewcode-block" id="Check_DNA_Binding"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_DNA_Binding">[docs]</a><span class="k">def</span> <span class="nf">Check_DNA_Binding</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_DNA_Binding"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_DNA_Binding">[docs]</a><span class="k">def</span> <span class="nf">Check_DNA_Binding</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under DNA_Binding Filter,</span>
 <span class="sd">    There are 78 SMARTS in this endpoint.</span>
@@ -636,7 +636,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Check_SureChEMBL"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_SureChEMBL">[docs]</a><span class="k">def</span> <span class="nf">Check_SureChEMBL</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_SureChEMBL"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_SureChEMBL">[docs]</a><span class="k">def</span> <span class="nf">Check_SureChEMBL</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under SureChEMBL Filter,</span>
 <span class="sd">    which presents a compound would match one or more structural alerts and hence considered to have a MedChem unfriendly status.  </span>
@@ -663,7 +663,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
     
     
-<div class="viewcode-block" id="Check_BMS"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_BMS">[docs]</a><span class="k">def</span> <span class="nf">Check_BMS</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_BMS"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_BMS">[docs]</a><span class="k">def</span> <span class="nf">Check_BMS</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check molecule under BMS Filter.</span>
 <span class="sd">    Pearce has proposed a Functional Group Compound Filters(FG Filters).</span>
@@ -696,7 +696,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Check_NTD"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_NTD">[docs]</a><span class="k">def</span> <span class="nf">Check_NTD</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_NTD"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_NTD">[docs]</a><span class="k">def</span> <span class="nf">Check_NTD</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Brenk has proposed 105 unwanted groups in HTS</span>
 <span class="sd">    </span>
@@ -724,7 +724,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Check_Alarm_NMR"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Alarm_NMR">[docs]</a><span class="k">def</span> <span class="nf">Check_Alarm_NMR</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_Alarm_NMR"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_Alarm_NMR">[docs]</a><span class="k">def</span> <span class="nf">Check_Alarm_NMR</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    There are 75 SMARTS in alarm_nmr </span>
 
@@ -746,7 +746,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
     
 
-<div class="viewcode-block" id="Check_Frequent_Hitters"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Frequent_Hitters">[docs]</a><span class="k">def</span> <span class="nf">Check_Frequent_Hitters</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_Frequent_Hitters"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_Frequent_Hitters">[docs]</a><span class="k">def</span> <span class="nf">Check_Frequent_Hitters</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    There are 15 SMARTS in Frequent_Hitters</span>
 
@@ -768,7 +768,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
     
 
-<div class="viewcode-block" id="Check_Aggregators"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Aggregators">[docs]</a><span class="k">def</span> <span class="nf">Check_Aggregators</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_Aggregators"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_Aggregators">[docs]</a><span class="k">def</span> <span class="nf">Check_Aggregators</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    There are 311 SMARTS in Aggregators</span>
 
@@ -790,7 +790,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Check_Toxicophores"><a class="viewcode-back" href="../../../modules/scopy.structure_alert.html#scopy.structure_alert.FilterWithSmarts.Check_Toxicophores">[docs]</a><span class="k">def</span> <span class="nf">Check_Toxicophores</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Check_Toxicophores"><a class="viewcode-back" href="../../../modules/scopy.ScoBase.html#scopy.ScoBase.FilterWithSmarts.Check_Toxicophores">[docs]</a><span class="k">def</span> <span class="nf">Check_Toxicophores</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    There 154 SMARTS in Toxicophres</span>
 
@@ -848,7 +848,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

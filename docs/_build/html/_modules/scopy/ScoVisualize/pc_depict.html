@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.ScoVisualize.pc_depict &#8212; Scopy 1.2.0 documentation</title>
+    <title>scopy.ScoVisualize.pc_depict &#8212; Scopy 1.2.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/./cssbasic.css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -74,7 +74,7 @@
     
 
 
-<div class="viewcode-block" id="prop_matrix"><a class="viewcode-back" href="../../../modules/scopy.ScoVisualize.html#scopy.ScoVisualize.pc_depict.prop_matrix">[docs]</a><span class="k">def</span> <span class="nf">prop_matrix</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">items</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;logP&#39;</span><span class="p">,</span><span class="s1">&#39;TPSA&#39;</span><span class="p">,</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span><span class="s1">&#39;nRot&#39;</span><span class="p">,</span><span class="s1">&#39;nHD&#39;</span><span class="p">,</span><span class="s1">&#39;nHA&#39;</span><span class="p">]):</span>
+<div class="viewcode-block" id="PropMatrix"><a class="viewcode-back" href="../../../modules/scopy.ScoVisualize.html#scopy.ScoVisualize.pc_depict.PropMatrix">[docs]</a><span class="k">def</span> <span class="nf">PropMatrix</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">items</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;logP&#39;</span><span class="p">,</span><span class="s1">&#39;TPSA&#39;</span><span class="p">,</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span><span class="s1">&#39;nRot&#39;</span><span class="p">,</span><span class="s1">&#39;nHD&#39;</span><span class="p">,</span><span class="s1">&#39;nHA&#39;</span><span class="p">]):</span>
     <span class="sd">&quot;&quot;&quot;The proprty matrix can intuitively show the compounds&#39; distribution </span>
 <span class="sd">    in Two-Dimension space, and diagonal of the matrix is the displot of property</span>
 <span class="sd">    </span>
@@ -122,12 +122,12 @@
     <span class="k">return</span> <span class="n">fig</span></div>
   
           
-<div class="viewcode-block" id="rule_radar"><a class="viewcode-back" href="../../../modules/scopy.ScoVisualize.html#scopy.ScoVisualize.pc_depict.rule_radar">[docs]</a><span class="k">def</span> <span class="nf">rule_radar</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> 
-               <span class="n">prop_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;MW&#39;</span><span class="p">:(</span><span class="mi">100</span><span class="p">,</span><span class="mi">600</span><span class="p">),</span><span class="s1">&#39;logP&#39;</span><span class="p">:(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span>
-                         <span class="s1">&#39;nHA&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span><span class="s1">&#39;nHD&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span><span class="s1">&#39;TPSA&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">180</span><span class="p">),</span>
-                         <span class="s1">&#39;nRot&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span><span class="s1">&#39;nRing&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span><span class="s1">&#39;MaxRing&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">18</span><span class="p">),</span>
-                         <span class="s1">&#39;nC&#39;</span><span class="p">:(</span><span class="mi">3</span><span class="p">,</span><span class="mi">35</span><span class="p">),</span><span class="s1">&#39;nHet&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span><span class="s1">&#39;HetRatio&#39;</span><span class="p">:(</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">),</span>
-                         <span class="s1">&#39;fChar&#39;</span><span class="p">:(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="s1">&#39;nRig&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">30</span><span class="p">)}</span>
+<div class="viewcode-block" id="RuleRadar"><a class="viewcode-back" href="../../../modules/scopy.ScoVisualize.html#scopy.ScoVisualize.pc_depict.RuleRadar">[docs]</a><span class="k">def</span> <span class="nf">RuleRadar</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> 
+           <span class="n">prop_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;MW&#39;</span><span class="p">:(</span><span class="mi">100</span><span class="p">,</span><span class="mi">600</span><span class="p">),</span><span class="s1">&#39;logP&#39;</span><span class="p">:(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span>
+                     <span class="s1">&#39;nHA&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span><span class="s1">&#39;nHD&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span><span class="s1">&#39;TPSA&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">180</span><span class="p">),</span>
+                     <span class="s1">&#39;nRot&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span><span class="s1">&#39;nRing&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span><span class="s1">&#39;MaxRing&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">18</span><span class="p">),</span>
+                     <span class="s1">&#39;nC&#39;</span><span class="p">:(</span><span class="mi">3</span><span class="p">,</span><span class="mi">35</span><span class="p">),</span><span class="s1">&#39;nHet&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span><span class="s1">&#39;HetRatio&#39;</span><span class="p">:(</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">),</span>
+                     <span class="s1">&#39;fChar&#39;</span><span class="p">:(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="s1">&#39;nRig&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">30</span><span class="p">)}</span>
                <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; A radar plot positionning compound&#39;s values within the selected filter ranges (pale blue and red). </span>
 <span class="sd">    By default, the `drug-like soft`_ filter ranges are visualized.</span>
@@ -204,7 +204,7 @@
     <span class="k">return</span> <span class="n">fig</span></div>
     
     
-<div class="viewcode-block" id="oral_absorption_radar"><a class="viewcode-back" href="../../../modules/scopy.ScoVisualize.html#scopy.ScoVisualize.pc_depict.oral_absorption_radar">[docs]</a><span class="k">def</span> <span class="nf">oral_absorption_radar</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+<div class="viewcode-block" id="Oral_absorption_radar"><a class="viewcode-back" href="../../../modules/scopy.ScoVisualize.html#scopy.ScoVisualize.pc_depict.Oral_absorption_radar">[docs]</a><span class="k">def</span> <span class="nf">Oral_absorption_radar</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">prop_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;logP&#39;</span><span class="p">:(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="s1">&#39;MW&#39;</span><span class="p">:(</span><span class="mi">150</span><span class="p">,</span><span class="mi">500</span><span class="p">),</span><span class="s1">&#39;TPSA&#39;</span><span class="p">:(</span><span class="mi">20</span><span class="p">,</span><span class="mi">150</span><span class="p">),</span>
@@ -306,7 +306,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

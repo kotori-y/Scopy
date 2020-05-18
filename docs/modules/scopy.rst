@@ -6,13 +6,13 @@ Subpackages
 
 .. toctree::
 
+   scopy.ScoBase
    scopy.ScoDruglikeness
    scopy.ScoFH
    scopy.ScoPretreat
    scopy.ScoRepresent
    scopy.ScoTox
    scopy.ScoVisualize
-   scopy.structure_alert
 
 Submodules
 ----------

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.ScoRepresent.pubchem &#8212; Scopy 1.2.0 documentation</title>
+    <title>scopy.ScoRepresent.pubchem &#8212; Scopy 1.2.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/./cssbasic.css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -75,7 +75,7 @@
 <span class="c1"># https://astro.temple.edu/~tua87106/list_fingerprints.pdf</span>
 <span class="c1"># ftp://ftp.ncbi.nlm.nih.gov/pubchem/specifications/pubchem_fingerprints.txt</span>
 
-<div class="viewcode-block" id="PubChem"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.PubChem">[docs]</a><span class="k">class</span> <span class="nc">PubChem</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="PubChem"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.pubchem.PubChem">[docs]</a><span class="k">class</span> <span class="nc">PubChem</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This module is derived from our previous work.</span>
 <span class="sd">    </span>
 <span class="sd">    These are SMARTS patterns corresponding to the PubChem fingerprints:</span>
@@ -92,7 +92,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">PubchemKeys</span> <span class="o">=</span> <span class="kc">None</span>
 
     
-<div class="viewcode-block" id="PubChem.InitKeys"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.PubChem.InitKeys">[docs]</a>    <span class="k">def</span> <span class="nf">InitKeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyList</span><span class="p">,</span> <span class="n">keyDict</span><span class="p">):</span>
+<div class="viewcode-block" id="PubChem.InitKeys"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.pubchem.PubChem.InitKeys">[docs]</a>    <span class="k">def</span> <span class="nf">InitKeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyList</span><span class="p">,</span> <span class="n">keyDict</span><span class="p">):</span>
       <span class="sd">&quot;&quot;&quot; *Internal Use Only*</span>
 <span class="sd">      </span>
 <span class="sd">      generates SMARTS patterns for the keys, run once</span>
@@ -109,7 +109,7 @@
             <span class="n">keyList</span><span class="p">[</span><span class="n">key</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">sma</span><span class="p">,</span> <span class="n">count</span></div>
     
     
-<div class="viewcode-block" id="PubChem.calcPubChemFingerPart1"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.PubChem.calcPubChemFingerPart1">[docs]</a>    <span class="k">def</span> <span class="nf">calcPubChemFingerPart1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mol</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="PubChem.calcPubChemFingerPart1"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.pubchem.PubChem.calcPubChemFingerPart1">[docs]</a>    <span class="k">def</span> <span class="nf">calcPubChemFingerPart1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mol</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
       <span class="sd">&quot;&quot;&quot;Calculate PubChem Fingerprints (1-115; 263-881)</span>
 <span class="sd">      </span>
 <span class="sd">      :param mol: molecule</span>
@@ -137,7 +137,7 @@
       <span class="k">return</span> <span class="n">res</span></div>
     
     
-<div class="viewcode-block" id="PubChem.func_1"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.PubChem.func_1">[docs]</a>    <span class="k">def</span> <span class="nf">func_1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
+<div class="viewcode-block" id="PubChem.func_1"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.pubchem.PubChem.func_1">[docs]</a>    <span class="k">def</span> <span class="nf">func_1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; *Internal Use Only*</span>
 <span class="sd">    </span>
 <span class="sd">        Calculate PubChem Fingerprints (116-263)</span>
@@ -211,7 +211,7 @@
         <span class="k">return</span> <span class="n">ringSize</span><span class="p">,</span><span class="n">bits</span></div>
     
     
-<div class="viewcode-block" id="PubChem.func_2"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.PubChem.func_2">[docs]</a>    <span class="k">def</span> <span class="nf">func_2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
+<div class="viewcode-block" id="PubChem.func_2"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.pubchem.PubChem.func_2">[docs]</a>    <span class="k">def</span> <span class="nf">func_2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; *Internal Use Only*</span>
 <span class="sd">    </span>
 <span class="sd">        saturated or aromatic carbon-only ring</span>
@@ -309,7 +309,7 @@
         <span class="k">return</span> <span class="n">ringSize</span><span class="p">,</span> <span class="n">bits</span></div>
     
     
-<div class="viewcode-block" id="PubChem.func_3"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.PubChem.func_3">[docs]</a>    <span class="k">def</span> <span class="nf">func_3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
+<div class="viewcode-block" id="PubChem.func_3"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.pubchem.PubChem.func_3">[docs]</a>    <span class="k">def</span> <span class="nf">func_3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; *Internal Use Only*</span>
 <span class="sd">    </span>
 <span class="sd">        saturated or aromatic nitrogen-containing</span>
@@ -407,7 +407,7 @@
         <span class="k">return</span> <span class="n">ringSize</span><span class="p">,</span> <span class="n">bits</span></div>
     
     
-<div class="viewcode-block" id="PubChem.func_4"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.PubChem.func_4">[docs]</a>    <span class="k">def</span> <span class="nf">func_4</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
+<div class="viewcode-block" id="PubChem.func_4"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.pubchem.PubChem.func_4">[docs]</a>    <span class="k">def</span> <span class="nf">func_4</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; *Internal Use Only*</span>
 <span class="sd">    </span>
 <span class="sd">        saturated or aromatic heteroatom-containing</span>
@@ -505,7 +505,7 @@
         <span class="k">return</span> <span class="n">ringSize</span><span class="p">,</span><span class="n">bits</span></div>
     
     
-<div class="viewcode-block" id="PubChem.func_5"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.PubChem.func_5">[docs]</a>    <span class="k">def</span> <span class="nf">func_5</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
+<div class="viewcode-block" id="PubChem.func_5"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.pubchem.PubChem.func_5">[docs]</a>    <span class="k">def</span> <span class="nf">func_5</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; *Internal Use Only*</span>
 <span class="sd">    </span>
 <span class="sd">        unsaturated non-aromatic carbon-only</span>
@@ -599,7 +599,7 @@
         <span class="k">return</span> <span class="n">ringSize</span><span class="p">,</span><span class="n">bits</span></div>
     
     
-<div class="viewcode-block" id="PubChem.func_6"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.PubChem.func_6">[docs]</a>    <span class="k">def</span> <span class="nf">func_6</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
+<div class="viewcode-block" id="PubChem.func_6"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.pubchem.PubChem.func_6">[docs]</a>    <span class="k">def</span> <span class="nf">func_6</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; *Internal Use Only*</span>
 <span class="sd">    </span>
 <span class="sd">        unsaturated non-aromatic nitrogen-containing</span>
@@ -693,7 +693,7 @@
         <span class="k">return</span> <span class="n">ringSize</span><span class="p">,</span><span class="n">bits</span></div>
     
     
-<div class="viewcode-block" id="PubChem.func_7"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.PubChem.func_7">[docs]</a>    <span class="k">def</span> <span class="nf">func_7</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
+<div class="viewcode-block" id="PubChem.func_7"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.pubchem.PubChem.func_7">[docs]</a>    <span class="k">def</span> <span class="nf">func_7</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; *Internal Use Only*</span>
 <span class="sd">    </span>
 <span class="sd">        unsaturated non-aromatic heteroatom-containing</span>
@@ -787,7 +787,7 @@
         <span class="k">return</span> <span class="n">ringSize</span><span class="p">,</span><span class="n">bits</span></div>
     
     
-<div class="viewcode-block" id="PubChem.func_8"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.PubChem.func_8">[docs]</a>    <span class="k">def</span> <span class="nf">func_8</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
+<div class="viewcode-block" id="PubChem.func_8"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.pubchem.PubChem.func_8">[docs]</a>    <span class="k">def</span> <span class="nf">func_8</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">,</span><span class="n">bits</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; *Internal Use Only*</span>
 <span class="sd">    </span>
 <span class="sd">        aromatic rings or hetero-aromatic rings</span>
@@ -835,7 +835,7 @@
         <span class="k">return</span> <span class="n">bits</span></div>
     
     
-<div class="viewcode-block" id="PubChem.calcPubChemFingerPart2"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.PubChem.calcPubChemFingerPart2">[docs]</a>    <span class="k">def</span> <span class="nf">calcPubChemFingerPart2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">):</span><span class="c1"># 116-263</span>
+<div class="viewcode-block" id="PubChem.calcPubChemFingerPart2"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.pubchem.PubChem.calcPubChemFingerPart2">[docs]</a>    <span class="k">def</span> <span class="nf">calcPubChemFingerPart2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">):</span><span class="c1"># 116-263</span>
         <span class="sd">&quot;&quot;&quot; *Internal Use Only*</span>
 <span class="sd">    </span>
 <span class="sd">        Calculate PubChem Fingerprints （116-263)</span>
@@ -854,7 +854,7 @@
         <span class="k">return</span> <span class="n">bits</span></div>
     
     
-<div class="viewcode-block" id="PubChem.CalculatePubChem"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.fingerprints.PubChem.CalculatePubChem">[docs]</a>    <span class="k">def</span> <span class="nf">CalculatePubChem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">):</span>
+<div class="viewcode-block" id="PubChem.CalculatePubChem"><a class="viewcode-back" href="../../../modules/scopy.ScoRepresent.html#scopy.ScoRepresent.pubchem.PubChem.CalculatePubChem">[docs]</a>    <span class="k">def</span> <span class="nf">CalculatePubChem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mol</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate PubChem Fingerprints</span>
 <span class="sd">        </span>
 <span class="sd">        :param mol: molecule</span>
@@ -925,7 +925,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

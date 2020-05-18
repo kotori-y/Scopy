@@ -10,4 +10,4 @@ Scopy API
    ./modules/scopy.ScoTox
    ./modules/scopy.ScoRepresent
    ./modules/scopy.ScoVisualize
-   ./modules/scopy.structure_alert
+   ./modules/scopy.ScoBase

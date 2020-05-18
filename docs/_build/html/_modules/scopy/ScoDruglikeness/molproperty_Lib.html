@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.ScoDruglikeness.molproperty_Lib &#8212; Scopy 1.2.0 documentation</title>
+    <title>scopy.ScoDruglikeness.molproperty_Lib &#8212; Scopy 1.2.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/./cssbasic.css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -67,9 +67,14 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">csv</span>
 <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">Pool</span>
 <span class="kn">from</span> <span class="nn">rdkit</span> <span class="k">import</span> <span class="n">Chem</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">molproperty</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ScoConfig</span>
+<span class="kn">from</span> <span class="nn">..ScoRepresent.fingerprints</span> <span class="k">import</span> <span class="n">CalculateGhoseCrippen</span>
 
     
 
@@ -261,18 +266,6 @@
         <span class="k">return</span> <span class="n">nHev</span></div>
     
 <div class="viewcode-block" id="PC_properties.CalculateLogD"><a class="viewcode-back" href="../../../modules/scopy.ScoDruglikeness.html#scopy.ScoDruglikeness.molproperty_Lib.PC_properties.CalculateLogD">[docs]</a>    <span class="k">def</span> <span class="nf">CalculateLogD</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">import</span> <span class="nn">sys</span>
-        <span class="kn">import</span> <span class="nn">csv</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ScoConfig</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span>
-            <span class="kn">import</span> <span class="nn">ScoConfig</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">..fingerprint.fingerprints</span> <span class="k">import</span> <span class="n">CalculateGhoseCrippen</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span>
-            <span class="kn">from</span> <span class="nn">fingerprint.fingerprints</span> <span class="k">import</span> <span class="n">CalculateGhoseCrippen</span>       
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculation of molecular logD under pH=7.4</span>
 <span class="sd">        ---&gt;LogD</span>
@@ -289,7 +282,7 @@
         <span class="n">intercept</span> <span class="o">=</span> <span class="mf">0.5748907159915493</span>
     
         <span class="n">fps</span> <span class="o">=</span> <span class="n">CalculateGhoseCrippen</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">ScoConfig</span><span class="o">.</span><span class="n">CrippenDir</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">Crippen.txt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_obj</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ScoConfig</span><span class="o">.</span><span class="n">CrippenDir</span><span class="p">,</span> <span class="s1">&#39;Crippen.txt&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">f_obj</span><span class="p">:</span>
             <span class="n">lines</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f_obj</span><span class="p">,</span><span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="nb">next</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
             <span class="n">contri</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
@@ -871,30 +864,7 @@
         <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">NP</span></div>
-    
-<div class="viewcode-block" id="PC_properties.GetIFG"><a class="viewcode-back" href="../../../modules/scopy.ScoDruglikeness.html#scopy.ScoDruglikeness.molproperty_Lib.PC_properties.GetIFG">[docs]</a>    <span class="k">def</span> <span class="nf">GetIFG</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        A function to compute functional groups in organic molecules</span>
-<span class="sd">        ---&gt;IFG</span>
-<span class="sd">        </span>
-<span class="sd">        Reference:</span>
-<span class="sd">            (1) `Ertl Peter (2017)`_.</span>
-<span class="sd">        </span>
-<span class="sd">        :param mols: molecules</span>
-<span class="sd">        :type mols: Iterable</span>
-<span class="sd">        :return: list of namedtuple, namedtuple(&#39;IFG&#39;, [&#39;atomIds&#39;, &#39;atoms&#39;, &#39;type&#39;])</span>
-<span class="sd">        :rtype: list</span>
-<span class="sd">        </span>
-<span class="sd">        .. _Ertl Peter (2017):</span>
-<span class="sd">            https://jcheminf.biomedcentral.com/articles/10.1186/s13321-017-0225-z</span>
-<span class="sd">            </span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
-        <span class="n">ifg</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">molproperty</span><span class="o">.</span><span class="n">GetIFG</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">ifg</span></div>
-        
+            
 <div class="viewcode-block" id="PC_properties.CalculateMolVolume"><a class="viewcode-back" href="../../../modules/scopy.ScoDruglikeness.html#scopy.ScoDruglikeness.molproperty_Lib.PC_properties.CalculateMolVolume">[docs]</a>    <span class="k">def</span> <span class="nf">CalculateMolVolume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculation of Van der Waals Volume of molecule</span>
@@ -1004,7 +974,7 @@
 
 <div class="viewcode-block" id="PC_properties.GetProperties"><a class="viewcode-back" href="../../../modules/scopy.ScoDruglikeness.html#scopy.ScoDruglikeness.molproperty_Lib.PC_properties.GetProperties">[docs]</a>    <span class="k">def</span> <span class="nf">GetProperties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                       <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span><span class="s1">&#39;Vol&#39;</span><span class="p">,</span><span class="s1">&#39;Dense&#39;</span><span class="p">,</span><span class="s1">&#39;fChar&#39;</span><span class="p">,</span><span class="s1">&#39;nBond&#39;</span><span class="p">,</span><span class="s1">&#39;nAtom&#39;</span><span class="p">,</span><span class="s1">&#39;nHD&#39;</span><span class="p">,</span><span class="s1">&#39;nHA&#39;</span><span class="p">,</span><span class="s1">&#39;nHB&#39;</span><span class="p">,</span>
-                               <span class="s1">&#39;nHet&#39;</span><span class="p">,</span><span class="s1">&#39;nStero&#39;</span><span class="p">,</span><span class="s1">&#39;nHev&#39;</span><span class="p">,</span><span class="s1">&#39;nRot&#39;</span><span class="p">,</span><span class="s1">&#39;nRig&#39;</span><span class="p">,</span><span class="s1">&#39;nRing&#39;</span><span class="p">,</span><span class="s1">&#39;Flex&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;nHet&#39;</span><span class="p">,</span><span class="s1">&#39;nStereo&#39;</span><span class="p">,</span><span class="s1">&#39;nHev&#39;</span><span class="p">,</span><span class="s1">&#39;nRot&#39;</span><span class="p">,</span><span class="s1">&#39;nRig&#39;</span><span class="p">,</span><span class="s1">&#39;nRing&#39;</span><span class="p">,</span><span class="s1">&#39;Flex&#39;</span><span class="p">,</span>
                                <span class="s1">&#39;logP&#39;</span><span class="p">,</span><span class="s1">&#39;logD&#39;</span><span class="p">,</span><span class="s1">&#39;pKa&#39;</span><span class="p">,</span><span class="s1">&#39;logSw&#39;</span><span class="p">,</span><span class="s1">&#39;ab&#39;</span><span class="p">,</span><span class="s1">&#39;MR&#39;</span><span class="p">,</span><span class="s1">&#39;TPSA&#39;</span><span class="p">,</span><span class="s1">&#39;AP&#39;</span><span class="p">,</span><span class="s1">&#39;HetRatio&#39;</span><span class="p">,</span>
                                <span class="s1">&#39;Fsp3&#39;</span><span class="p">,</span><span class="s1">&#39;MaxRing&#39;</span><span class="p">,</span><span class="s1">&#39;QEDmean&#39;</span><span class="p">,</span><span class="s1">&#39;QEDmax&#39;</span><span class="p">,</span><span class="s1">&#39;QEDnone&#39;</span><span class="p">,</span><span class="s1">&#39;SAscore&#39;</span><span class="p">,</span><span class="s1">&#39;NPscore&#39;</span><span class="p">,</span>
                                <span class="s1">&#39;nSingle&#39;</span><span class="p">,</span><span class="s1">&#39;nDouble&#39;</span><span class="p">,</span><span class="s1">&#39;nTriple&#39;</span><span class="p">,</span><span class="s1">&#39;nC&#39;</span><span class="p">,</span><span class="s1">&#39;nB&#39;</span><span class="p">,</span><span class="s1">&#39;nF&#39;</span><span class="p">,</span><span class="s1">&#39;nCl&#39;</span><span class="p">,</span><span class="s1">&#39;nBr&#39;</span><span class="p">,</span><span class="s1">&#39;nI&#39;</span><span class="p">,</span>
@@ -1039,7 +1009,7 @@
                 <span class="s1">&#39;Fsp3&#39;</span><span class="p">:</span> <span class="s1">&#39;self.CalculateFsp3()&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;TPSA&#39;</span><span class="p">:</span> <span class="s1">&#39;self.CalculateTPSA()&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;MaxRing&#39;</span><span class="p">:</span> <span class="s1">&#39;self.CalculateMaxSizeSystemRing()&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;nStero&#39;</span><span class="p">:</span> <span class="s1">&#39;self.CalculateNumStereocenters()&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;nStereo&#39;</span><span class="p">:</span> <span class="s1">&#39;self.CalculateNumStereocenters()&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;Flex&#39;</span><span class="p">:</span> <span class="s1">&#39;self.CalculateFlexibility()&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;HetRatio&#39;</span><span class="p">:</span> <span class="s1">&#39;self.CalculateHetCarbonRatio()&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;QEDmean&#39;</span><span class="p">:</span> <span class="s1">&#39;self.CalculateQEDmean()&#39;</span><span class="p">,</span>
@@ -1124,7 +1094,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

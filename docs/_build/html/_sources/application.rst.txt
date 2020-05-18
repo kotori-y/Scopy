@@ -36,7 +36,7 @@ We had collected 408,598 molecules from Zelin database. At first, we took a fram
 	mols = [pretreat.StandardMol(mol) for mol in mols]
 
 	#=========================================================================
-	# Instantiate, and 20 processers has been used.
+	# The instantiate step and the use of 20 processers.
 	#=========================================================================
 	props = PC_properties(mols, n_jobs=20)
 	rules = PC_rules(mols, n_jobs=20, detail=True)
@@ -172,7 +172,7 @@ The radar plot of molecule 0 (CCn1cc(C(=O)Nc2cn(CC)nc2C(N)=O)c(C)n1).
 	:width: 400px
 	:align: center
 
-The visualization of the above screening filters results.
+The summary of screening results.
 
 >>> summary_2_druglike
      Filter  Rejected  Accepted
