@@ -29,13 +29,13 @@ Scopy has been successfully tested on Linux, OSX and Windows systems under pytho
 >>> [sudo] python setup.py install
 ```
 
-#### Conda
+#### Conda ![Conda](https://img.shields.io/conda/v/kotori_y/scopy?color=green&label=conda&style=flat-square)
 
 ```
 >>> conda install -c kotori_y scopy
 ```
 
-#### PyPI
+#### PyPI ![PyPI](https://img.shields.io/pypi/v/cbdd-scopy?style=flat-square)
 
 ```
 >>> pip install cbdd-scopy
