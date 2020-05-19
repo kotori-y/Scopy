@@ -43,7 +43,7 @@ Scopy has been successfully tested on Linux, OSX and Windows systems under pytho
 
 ## Documentation
 
-(1)The online version of the documentation is available here: https://scopy.readthedocs.io/en/latest/<br>(2)Quick start examples: https://scopy.readthedocs.io/en/latest/user_guide.html<br>(3)Application examples(pipelines): https://scopy.readthedocs.io/en/latest/application.html
+(1)The online version of the documentation is available here: https://scopy.iamkotori.com/<br>(2)Quick start examples: https://scopy.iamkotori.com/user_guide.html<br>(3)Application examples(pipelines): https://scopy.iamkotori.com/application.html
 
 ## Contact
 
