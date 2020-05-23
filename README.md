@@ -1,4 +1,4 @@
-# Scopy: a compounds filter for HTS and VS
+# Scopy: An integrated negative design Python library for desirable HTS/VS database design
 
 [![Travis (.com)](https://img.shields.io/travis/com/kotori-y/scopy?style=flat-square)](https://travis-ci.com/kotori-y/Scopy) [![GitHub last commit](https://img.shields.io/github/last-commit/kotori-y/scopy?style=flat-square)](https://github.com/kotori-y/Scopy/commits/master) [![Conda](https://anaconda.org/kotori_y/scopy/badges/installer/conda.svg)](https://conda.anaconda.org/kotori_y) [![PyPI](https://img.shields.io/badge/Install%20with-pypi-informational?style=flat-square)](https://pypi.org/project/cbdd-scopy/) [![MIT License](https://anaconda.org/kotori_y/scopy/badges/license.svg)](https://anaconda.org/kotori_y/scopy) [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.3841225-informational?style=flat-square)](https://zenodo.org/badge/latestdoi/194803588) [![Blog](https://img.shields.io/badge/blog-iamkotori-pink?style=flat-square)](https://blog.iamkotori.com/) [![Kouhai](https://img.shields.io/badge/contributor-Ziyi-%23B3D0BE?style=flat-square)](https://github.com/Yangziyi1997)
 
@@ -20,7 +20,7 @@
 
 ### Install Scopy
 
-Scopy has been successfully tested on Linux, OSX and Windows systems under python3 enviroment.
+Scopy has been successfully tested on Linux, OSX and Windows systems under Python3 enviroment.
 
 #### Source
 
@@ -57,7 +57,8 @@ If you have questions or suggestions, please contact: kotori@cbdd.me,and orienta
                   Ziyi Yang and
                   Suqing Yang and
                   Dongsheng Cao},
-  title        = {Scopy},
+  title        = {{Scopy: An integrated negative design python 
+                   library for desirable HTS/VS database design}},
   month        = may,
   year         = 2020,
   publisher    = {Zenodo},
