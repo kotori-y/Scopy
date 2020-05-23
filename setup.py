@@ -26,7 +26,7 @@ package_data= {'scopy':['ScoBase/*','ScoDruglikeness/*','ScoRepresent/*',
 
 
 setup(name="cbdd-scopy",  
-      version="1.2.1",
+      version="1.2.2",
       license="MIT",
       description="A filter tool for HTS and VS",
       long_description="Scopy (Screening COmpounds in PYthon), based on RDKit, is an integrated negative design python library designed for screening out undesiable compounds in the early drug discovery.",
