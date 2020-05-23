@@ -1,6 +1,6 @@
 # Scopy: a compounds filter for HTS and VS
 
-[![Travis (.com)](https://img.shields.io/travis/com/kotori-y/scopy?style=flat-square)](https://travis-ci.com/kotori-y/Scopy) [![GitHub last commit](https://img.shields.io/github/last-commit/kotori-y/scopy?style=flat-square)](https://github.com/kotori-y/Scopy/commits/master) [![Conda](https://anaconda.org/kotori_y/scopy/badges/installer/conda.svg)](https://conda.anaconda.org/kotori_y) [![PyPI](https://img.shields.io/badge/Install%20with-pypi-informational?style=flat-square)](https://pypi.org/project/cbdd-scopy/) [![MIT License](https://anaconda.org/kotori_y/scopy/badges/license.svg)](https://anaconda.org/kotori_y/scopy) [![Blog](https://img.shields.io/badge/blog-iamkotori-pink?style=flat-square)](https://blog.iamkotori.com/) [![Kouhai](https://img.shields.io/badge/contributor-Ziyi-%23B3D0BE?style=flat-square)](https://github.com/Yangziyi1997)
+[![Travis (.com)](https://img.shields.io/travis/com/kotori-y/scopy?style=flat-square)](https://travis-ci.com/kotori-y/Scopy) [![GitHub last commit](https://img.shields.io/github/last-commit/kotori-y/scopy?style=flat-square)](https://github.com/kotori-y/Scopy/commits/master) [![Conda](https://anaconda.org/kotori_y/scopy/badges/installer/conda.svg)](https://conda.anaconda.org/kotori_y) [![PyPI](https://img.shields.io/badge/Install%20with-pypi-informational?style=flat-square)](https://pypi.org/project/cbdd-scopy/) [![MIT License](https://anaconda.org/kotori_y/scopy/badges/license.svg)](https://anaconda.org/kotori_y/scopy) [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.3841225-informational?style=flat-square)](https://zenodo.org/badge/latestdoi/194803588) [![Blog](https://img.shields.io/badge/blog-iamkotori-pink?style=flat-square)](https://blog.iamkotori.com/) [![Kouhai](https://img.shields.io/badge/contributor-Ziyi-%23B3D0BE?style=flat-square)](https://github.com/Yangziyi1997)
 
 <div align=center>
     <img src='Scopy.png'>
@@ -48,6 +48,24 @@ Scopy has been successfully tested on Linux, OSX and Windows systems under pytho
 ## Contact
 
 If you have questions or suggestions, please contact: kotori@cbdd.me,and oriental-cds@163.com.<br>Please see the file LICENSE for details about the "MIT" license which covers this software and its associated data and documents.
+
+## Citation
+
+```
+@software{zhijiang_yang_2020_3841226,
+  author       = {Zhijiang Yang and
+                  Ziyi Yang and
+                  Suqing Yang and
+                  Dongsheng Cao},
+  title        = {Scopy},
+  month        = may,
+  year         = 2020,
+  publisher    = {Zenodo},
+  version      = {v1.2.2},
+  doi          = {10.5281/zenodo.3841226},
+  url          = {https://doi.org/10.5281/zenodo.3841226}
+}
+```
 
 ## Acknowledgement
 
