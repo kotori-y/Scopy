@@ -833,7 +833,7 @@ def CheckRo3(mol, detail=False, showSMILES=False):
     anHD = (nHD <= 3)
     anHA = (nHA <= 6)
     atPSA = (tPSA <= 60)
-    aRot = (nRot <= 3)
+    anRot = (nRot <= 3)
     #Give the advice
     if (aMW&alogP&anHD&anHA&atPSA&anRot):
         disposed = 'Accepted'
