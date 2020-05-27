@@ -48,6 +48,6 @@ if '__main__' == __name__:
     mols = Chem.SDMolSupplier(file)
     mols = [mol for mol in mols]
     print('====================== ScoDruglikeness ======================')
-    props, rules = main(mols)
-    print(props, rules)
+    res = main(mols)
+    print(res)
     print('====================== ScoDruglikeness ======================')
