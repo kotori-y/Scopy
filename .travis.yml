@@ -50,10 +50,10 @@ install:
 script:
   - conda activate
   - python setup.py install
-  - pytest ./tests/ScoDruglikeness_test.py --cov=codecov
-  - pytest ./tests/ScoFH_test.py --cov=codecov
-  - pytest ./tests/ScoTox_test.py --cov=codecov
-  - pytest ./tests/ScoRepresent_test.py --cov=codecov
+  - python ./tests/ScoDruglikeness_test.py --cov=codecov
+  - python ./tests/ScoFH_test.py --cov=codecov
+  - python ./tests/ScoTox_test.py --cov=codecov
+  - python ./tests/ScoRepresent_test.py --cov=codecov
   
 after_success:
   - codecov 
