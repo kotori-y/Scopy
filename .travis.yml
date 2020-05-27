@@ -54,11 +54,6 @@ script:
   - coverage run ./tests/ScoFH_test.py
   - coverage run ./tests/ScoTox_test.py
   - coverage run ./tests/ScoRepresent_test.py
-  - conda env create kotori_y/my-scopy-env
-  - conda activate my-scopy-env
-  - python ./tests/ScoDruglikeness_test.py
-  - python ./tests/ScoFH_test.py
-  - python ./tests/ScoTox_test.py
-  - python ./tests/ScoRepresent_test.py
+  
 after_success:
   - codecov 
