@@ -1,0 +1,10 @@
+name: my-scopy-env
+channels:
+  - kotori_y
+  - rdkit
+  - defaults
+dependencies:
+  - anaconda::python=3.7
+  - rdkit::rdkit=2020.03.2.0
+  - kotori_y::scopy
+  - anaconda::matplotlib=3.1.3

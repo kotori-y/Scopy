@@ -19,7 +19,7 @@ from ..ScoDruglikeness import rulesfilter, molproperty, rulesfilter_Lib, molprop
     
 
 
-def PropMatrix(mols,n_jobs=1,items=['logP','TPSA','MW','nRot','nHD','nHA']):
+def PropMatrix(mols, n_jobs=1, items=['logP','TPSA','MW','nRot','nHD','nHA']):
     """The proprty matrix can intuitively show the compounds' distribution 
     in Two-Dimension space, and diagonal of the matrix is the displot of property
     
