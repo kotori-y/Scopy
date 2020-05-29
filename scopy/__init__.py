@@ -7,7 +7,7 @@ from rdkit.Chem import AllChem as Chem
 from collections import namedtuple
 from . import ScoConfig
 
-__all__ = ['Loadpkl', 'CheckWithSmarts']
+__all__ = ['Loadpkl', 'CheckWithSmarts', 'CheckPattl']
 
 def _Generatepkl(endpoint):
     """  

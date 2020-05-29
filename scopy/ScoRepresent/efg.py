@@ -13,7 +13,7 @@
 
 
 import pickle, gzip, os, csv
-from ..ScoBase.SmartProcess import _CheckPattl
+from .. import CheckPattl
 from .. import ScoConfig
 from rdkit import Chem
 
