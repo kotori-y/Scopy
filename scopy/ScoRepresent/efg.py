@@ -102,7 +102,7 @@ class EFG(object):
         :rtype: list
         
         """
-        Bool = _CheckPattl(mol, self.rejected, self.accepted)
+        Bool = CheckPattl(mol, self.rejected, self.accepted)
         if not self.useCount:
             fp = [x+0 for x in Bool]
         else:
