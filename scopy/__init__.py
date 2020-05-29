@@ -7,6 +7,7 @@ from rdkit.Chem import AllChem as Chem
 from collections import namedtuple
 from . import ScoConfig
 
+__all__ = ['Loadpkl', 'CheckWithSmarts']
 
 def _Generatepkl(endpoint):
     """  
@@ -52,7 +53,6 @@ def _Generatepkl(endpoint):
         
 def Loadpkl(endpoint):
     """ 
-    *Internal Use Only*
     
     loading the specific pkl file which contain the 'Rejected' and 'Accepted' SMARTS
     in rdkit.Chem.rdchem.Mol object format to avoid repeated reading SMARTS by 'MolFromSmarts'
@@ -110,7 +110,6 @@ def CheckPattl(mol, rejected_pattl, accepted_pattl):
 
 def CheckWithSmarts(mol, pattl, endpoint, detail=False, showSMILES=False):
     """  
-    *Internal Use Only*
     
     checking molecule(s) wheather or not 
     has(have) some (toxic) substructure(s) through comparing the 
