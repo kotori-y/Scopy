@@ -22,20 +22,20 @@ from scopy.ScoFH import FHfilter
 def main(mols):
     fh = FHfilter(mols, detail=False, showSMILES=True)
     
-    fh.Check_Aggregators()
+
     fh.Check_Alarm_NMR()
     fh.Check_AlphaScreen_FHs()
     fh.Check_AlphaScreen_GST_FHs()
     fh.Check_AlphaScreen_HIS_FHs()
     fh.Check_BMS()
     fh.Check_Chelating()
-    fh.Check_Frequent_Hitters()
     fh.Check_Luciferase_Inhibitory()
     fh.Check_PAINS()
         
     return 'Pass'
     
     
+
 if '__main__' == __name__:
     file = os.path.join(DemoDir, '50.sdf')
     mols = Chem.SDMolSupplier(file)

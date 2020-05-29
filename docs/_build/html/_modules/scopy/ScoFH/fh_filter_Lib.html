@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>scopy.ScoFH.fh_filter_Lib &#8212; Scopy 1.2.3 documentation</title>
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/./cssbasic.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../scopy.html" accesskey="U">scopy</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/Scopy.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for scopy.ScoFH.fh_filter_Lib</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Fri May 15 21:47:43 2020</span>
+
+<span class="sd">@Author: Zhi-Jiang Yang, Dong-Sheng Cao</span>
+<span class="sd">@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China</span>
+<span class="sd">@Homepage: http://www.scbdd.com</span>
+<span class="sd">@Mail: yzjkid9@gmail.com; oriental-cds@163.com</span>
+<span class="sd">@Blog: https://blog.iamkotori.com</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">Pool</span>
+<span class="kn">from</span> <span class="nn">rdkit</span> <span class="k">import</span> <span class="n">Chem</span>
+
+<span class="kn">from</span> <span class="nn">.fh_filter</span> <span class="k">import</span> <span class="n">Filter</span>
+
+
+
+<div class="viewcode-block" id="FHfilter"><a class="viewcode-back" href="../../../modules/scopy.ScoFH.html#scopy.ScoFH.fh_filter_Lib.FHfilter">[docs]</a><span class="k">class</span> <span class="nc">FHfilter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Here, we comdat the whole function that check endpoint retrieved from module FilterWithSmarts</span>
+<span class="sd">    </span>
+<span class="sd">    :param mols: the molecule to be scanned.</span>
+<span class="sd">    :type mols: Iterable object, each element is rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param n_jobs: The number of CPUs to use to do the computation, defaults to 1</span>
+<span class="sd">    :type n_jobs: int, optional</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    :param showSMILES: Control returning SMILES or not, defaults to False</span>
+<span class="sd">    :type showSMILES: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mols</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialization</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mols</span> <span class="o">=</span> <span class="n">mols</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">mols</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Chem</span><span class="o">.</span><span class="n">rdchem</span><span class="o">.</span><span class="n">Mol</span> <span class="k">else</span> <span class="p">[</span><span class="n">mols</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">=</span> <span class="n">n_jobs</span> <span class="k">if</span> <span class="n">n_jobs</span> <span class="o">&gt;=</span><span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detail</span> <span class="o">=</span> <span class="n">detail</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">showSMILES</span> <span class="o">=</span> <span class="n">showSMILES</span>
+        
+<div class="viewcode-block" id="FHfilter.Check_AlphaScreen_FHs"><a class="viewcode-back" href="../../../modules/scopy.ScoFH.html#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_AlphaScreen_FHs">[docs]</a>    <span class="k">def</span> <span class="nf">Check_AlphaScreen_FHs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Check_AlphaScreen_FHs Filter,</span>
+<span class="sd">        which presents a compound may be alphascreen frequent hitters.</span>
+<span class="sd">        There are 6 SMARTS in this endpoint.</span>
+<span class="sd">            </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">AlphaScreen</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;AlphaScreen_FHs&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">showSMILES</span><span class="p">)</span>
+        <span class="n">AlphaScreen</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">AlphaScreen_FHs</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">AlphaScreen</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">AlphaScreen_FHs</span></div>
+        
+<div class="viewcode-block" id="FHfilter.Check_AlphaScreen_GST_FHs"><a class="viewcode-back" href="../../../modules/scopy.ScoFH.html#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_AlphaScreen_GST_FHs">[docs]</a>    <span class="k">def</span> <span class="nf">Check_AlphaScreen_GST_FHs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Check_AlphaScreen_GST_FHs Filter,</span>
+<span class="sd">        which presents a compound may prevent GST/GSH interaction during HTS.</span>
+<span class="sd">        There are 34 SMARTS in this endpoint.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">GST</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;AlphaScreen_GST_FHs&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">showSMILES</span><span class="p">)</span>
+        <span class="n">GST</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">AlphaScreen_GST_FHs</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">GST</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">AlphaScreen_GST_FHs</span></div>
+    
+<div class="viewcode-block" id="FHfilter.Check_AlphaScreen_HIS_FHs"><a class="viewcode-back" href="../../../modules/scopy.ScoFH.html#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_AlphaScreen_HIS_FHs">[docs]</a>    <span class="k">def</span> <span class="nf">Check_AlphaScreen_HIS_FHs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Check_AlphaScreen_HIS_FHs Filter,</span>
+<span class="sd">        which presents a compound prevents the binding of the protein His-tag moiety to nickel chelate.</span>
+<span class="sd">        There are 19 SMARTS in this endpoint.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">HIS</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;AlphaScreen_HIS_FHs&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">showSMILES</span><span class="p">)</span>
+        <span class="n">HIS</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">AlphaScreen_HIS_FHs</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">HIS</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">AlphaScreen_HIS_FHs</span></div>
+        
+<div class="viewcode-block" id="FHfilter.Check_Chelating"><a class="viewcode-back" href="../../../modules/scopy.ScoFH.html#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_Chelating">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Chelating</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under Chelating Filter,</span>
+<span class="sd">        which presents a compound may inhibit metalloproteins.</span>
+<span class="sd">        Thers are 55 SMARTS in this endpoint</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Che</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Chelating&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">showSMILES</span><span class="p">)</span>
+        <span class="n">Che</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Chelating</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">Che</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Chelating</span></div>
+    
+<div class="viewcode-block" id="FHfilter.Check_Luciferase_Inhibitory"><a class="viewcode-back" href="../../../modules/scopy.ScoFH.html#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_Luciferase_Inhibitory">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Luciferase_Inhibitory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        There 3 SMARTS in Luciferase_Inhibitory Filter</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">luc</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Luciferase_Inhibitory&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">showSMILES</span><span class="p">)</span>
+        <span class="n">luc</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Luciferase_Inhibitory</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">luc</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Luciferase_Inhibitory</span></div>
+                
+<div class="viewcode-block" id="FHfilter.Check_PAINS"><a class="viewcode-back" href="../../../modules/scopy.ScoFH.html#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_PAINS">[docs]</a>    <span class="k">def</span> <span class="nf">Check_PAINS</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under PAINS Filter,</span>
+<span class="sd">        which presents a type of compounds tend to be hitted in HTS.</span>
+<span class="sd">        There are 480 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pai</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Pains&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">showSMILES</span><span class="p">)</span>
+        <span class="n">pai</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Pains</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">pai</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Pains</span></div>
+               
+<div class="viewcode-block" id="FHfilter.Check_BMS"><a class="viewcode-back" href="../../../modules/scopy.ScoFH.html#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_BMS">[docs]</a>    <span class="k">def</span> <span class="nf">Check_BMS</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check molecule under BMS Filter.</span>
+<span class="sd">        Pearce has proposed a Functional Group Compound Filters(FG Filters).</span>
+<span class="sd">        The FG filters are consisted of two part, Exclusion FG filters and informational filters.</span>
+<span class="sd">        Exclusion FG filters are those intended for compound removal from screening decks;</span>
+<span class="sd">        Informational filters are useful for compound annotation.</span>
+<span class="sd">        There are 176 SMARTS in this endpoint.</span>
+<span class="sd">    </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bms</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;BMS&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">showSMILES</span><span class="p">)</span>
+        <span class="n">bms</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">BMS</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">bms</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">BMS</span></div>
+            
+<div class="viewcode-block" id="FHfilter.Check_Alarm_NMR"><a class="viewcode-back" href="../../../modules/scopy.ScoFH.html#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_Alarm_NMR">[docs]</a>    <span class="k">def</span> <span class="nf">Check_Alarm_NMR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        There are 75 SMARTS in alarm_nmr</span>
+<span class="sd">        </span>
+<span class="sd">        :return: a list of dictionary</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nmr</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;Alarm_NMR&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">showSMILES</span><span class="p">)</span>
+        <span class="n">nmr</span><span class="o">.</span><span class="n">get_pattl</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="n">Alarm_NMR</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_async</span><span class="p">(</span><span class="n">nmr</span><span class="o">.</span><span class="n">scan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Alarm_NMR</span></div></div>
+            
+    
+<span class="k">if</span> <span class="s1">&#39;__main__&#39;</span> <span class="o">==</span> <span class="vm">__name__</span><span class="p">:</span>
+    <span class="n">smis</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;C1=CC=CC(C(Br)C)=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=NC(CCN)=CN1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1CCCC(CCO)C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=CC=C2N=C(O)C=CC2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C(OC)1=C(C)C=C2OC[C@]([H])3OC4C(C)=C(OC)C=CC=4C(=O)[C@@]3([H])C2=C1C&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C2N=CC=NC2=C2N=CNC2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C(O)C=CC(O)=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;CCC1(c2ccccc2)C(=O)NC(=O)NC1=O&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;N1=CN=CN=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C2C=CC=CC2=CC2C=CC=CC1=2&#39;</span><span class="p">,</span> <span class="c1">#NonGenotoxic_Carcinogenicity</span>
+            <span class="s1">&#39;C1=CC=C2C(=O)CC(=O)C2=C1&#39;</span><span class="p">,</span> <span class="c1">#Pains</span>
+            <span class="s1">&#39;C1=CC=CC(COCO)=C1&#39;</span><span class="p">,</span> <span class="c1">#Potential_Electrophilic</span>
+            <span class="s1">&#39;N1=NC=CN1C=O&#39;</span><span class="p">,</span> <span class="c1">#Promiscuity</span>
+            <span class="s1">&#39;CC(=O)OC(=O)C1C=COC1&#39;</span><span class="p">,</span> <span class="c1">#Skin_Sensitization</span>
+            <span class="s1">&#39;CCCCC(=O)[H]&#39;</span><span class="p">,</span> <span class="c1">#Biodegradable</span>
+            <span class="s1">&#39;C1=CN=C(C(=O)O)C=C1&#39;</span><span class="p">,</span> <span class="c1">#Chelating</span>
+            <span class="s1">&#39;C(OC)1=CC=C2OCC3OC4C=C(OC)C=CC=4C(=O)C3C2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C2N=CC=NC2=C2N=CNC2=C1&#39;</span><span class="p">,</span> <span class="c1">#Genotoxic_Carcinogenicity_Mutagenicity</span>
+            <span class="s1">&#39;N(CC)(CCCCC)C(=S)N&#39;</span><span class="p">,</span> <span class="c1">#Idiosyncratic</span>
+            <span class="p">]</span>
+    
+    <span class="n">mols</span> <span class="o">=</span> <span class="p">[</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smi</span><span class="p">)</span> <span class="k">for</span> <span class="n">smi</span> <span class="ow">in</span> <span class="n">smis</span><span class="p">]</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">FHfilter</span><span class="p">(</span><span class="n">mols</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">Check_Luciferase_Inhibitory</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Scopy 1.2.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../scopy.html" >scopy</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Zhijiang Yang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.0.
+    </div>
+  </body>
+</html>

@@ -12,6 +12,14 @@ scopy.ScoPretreat.pretreat module
    :undoc-members:
    :show-inheritance:
 
+scopy.ScoPretreat.pretreat\_Lib module
+--------------------------------------
+
+.. automodule:: scopy.ScoPretreat.pretreat_Lib
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 scopy.ScoPretreat.pretreatutil module
 -------------------------------------
 

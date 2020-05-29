@@ -217,7 +217,7 @@ table.modindextable td {
 
 div.body {
     min-width: 450px;
-    max-width: 800px;
+    max-width: none;
 }
 
 div.body p, div.body dd, div.body li, div.body blockquote {
@@ -379,7 +379,7 @@ table.align-center {
 }
 
 table.align-default {
-    margin-left: auto;
+    margin-left: 5px;
     margin-right: auto;
 }
 
@@ -551,7 +551,7 @@ dd > p:first-child {
 }
 
 dd ul, dd table {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 dd {
@@ -765,4 +765,23 @@ div.math:hover a.headerlink {
     #top-link {
         display: none;
     }
+}
+
+
+dl {
+    display: block;
+    margin-block-start: 0.5em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.items {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: inherit;
 }

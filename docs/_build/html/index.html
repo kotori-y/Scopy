@@ -1,12 +1,14 @@
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>The Scopy’s documentation &#8212; Scopy 1.2.1 documentation</title>
+    <title>The Scopy’s documentation &#8212; Scopy 1.2.3 documentation</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/./cssbasic.css" />
+    <script src="https://cdn.rawgit.com/adriancooney/console.image/c9e6d4fd/console.image.min.js"></script>
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
@@ -16,7 +18,79 @@
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Overview" href="overview.html" /> 
   </head><body>
+  	<script type='text/javascript'>
+	console.log("  ██████╗██████╗ ██████╗ ██████╗ \n██╔════╝██╔══██╗██╔══██╗██╔══██╗\n██║     ██████╔╝██║  ██║██║  ██║\n██║     ██╔══██╗██║  ██║██║  ██║\n╚██████╗██████╔╝██████╔╝██████╔╝\n ╚═════╝╚═════╝ ╚═════╝ ╚═════╝ \n                                \n   \nCBDD(Computational Biology & Drug Design Group):\n※From Xiangya School of Pharmaceutical Sciences, Central South University;\n※A vibrant team dedicated to research on leading-edge in pharmaceutical field;\n※Led by the tutor with priorest academic-ability in Xiangya system.\n\nIt's time to join us, sailing your research life!\n\nHomepage: http://www.scbdd.com\nContact us: oriental-cds@163.com; yzjkid9@gmail.com; kotori@cbdd.me")
+	</script>
     <div class="related" role="navigation" aria-label="related navigation">
+    	<a href="https://github.com/kotori-y/Scopy" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; left: 0; transform: scale(-1, 1);" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  <script>
+    function cmatrix(argument) {
+      document.write("<html><head><body></body></head></html>");
+      var canvas = document.createElement('canvas');
+      document.body.appendChild(canvas)
+      var context = canvas.getContext("2d");
+      var W = window.innerWidth;
+      var H = window.innerHeight;
+        
+      canvas.width = W;
+      canvas.height = H;
+        
+      var fontSize = 16;
+        
+      var colunms = Math.floor(W / fontSize);
+        
+      var drops = [];
+        
+      for (var i = 0; i < colunms; i++) {
+          drops[i] = 1;
+      }
+        
+      var str = "hxx";
+        
+      function draw() {
+          context.fillStyle = "rgba(0,0,0,0.05)";
+          
+          context.fillRect(0, 0, W, H);
+          
+          context.font = "700 " + fontSize + "px  微软雅黑";
+          
+          context.fillStyle = "#00cc33"; 
+
+          for (var i = 0; i < colunms; i++) {
+            var index = Math.floor(Math.random() * str.length); 
+             
+            var x = i * fontSize;
+            var y = drops[i] * fontSize; //也让y轴方向也向下掉一个文字的距离
+            context.fillText(str[index], x, y);
+            
+            if (y >= canvas.height && Math.random() > 0.99) {
+              drops[i] = 0;
+            }
+            drops[i]++;
+          }
+    }
+  draw();
+  setInterval(draw, 20);
+    }
+</script>
+		<script type="text/javascript">
+			console.image = function(url, size = 100) {
+			  var image = new Image();
+			  image.onload = function() {
+			    var style = [
+			      'font-size: 1px;',
+			      'padding: ' + this.height/100*size + 'px ' + this.width/100*size + 'px;',
+			      'background: url('+ url +') no-repeat;',
+			      'background-size: contain;'
+			     ].join(' ');
+			     console.log('%c ', style);
+			  };
+			  image.src = url;
+			};
+			function showmethemoney() {
+				console.image("https://github.com/ScopyDoc/scopydoc.github.io/blob/master/_images/qr.jpg?raw=true", size=20)
+			}
+		</script>
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -28,7 +102,7 @@
         <li class="right" >
           <a href="overview.html" title="Overview"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">Scopy 1.2.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">Scopy 1.2.3 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -72,9 +146,14 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="the-scopy-s-documentation">
+<div class="section" id="the-scopy-s-documentation">
 <h1>The Scopy’s documentation<a class="headerlink" href="#the-scopy-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>High-throughput screening (HTS) and virtual screening (VS) are widely applied in compounds screening and lead discovery. However, the frequent appearances of “noisy compounds” in the screening database, such as compounds with poor drug-likeness, compounds with poor selectivity or compounds with potential toxicity, have greatly weakened the efficiency of HTS and VS campaigns. The success of screening results critically depends on the quality of the available screening libraries. To construct a high-quality database, we developed Scopy (Screnning COmpounds in PYthon), an integrated negative design python library designed for screening out undesiable compounds in the early drug discovery. Scopy includes six modules, covering data preparation, screening filters, the calculation of scaffolds and descriptors, and the visualization analysis. The current version of Scopy can calculate 39 basic molecular properties, 3 comprehensive molecular evaluation scores, 2 types of molecular scaffolds, 6 types of substructure descriptors and 2 types of fingerprints. Screening rules such as drug-likeness rules (11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules), frequent hitter rules (4 assay interference substructure filters and 4 promiscuous compound substructure filters) and toxicophore filters (5 human related toxicity substructure filters, 3 environment related toxicity substructure filters and 3 comprehensive substructure filters) are provided in the Scopy library. Moreover, this library realized basic feature radar charts, feature-feature related scatter diagram, functional group marker gram and cloud gram four different visualization functions, which assists users in gaining a better understanding of the screening data. In conclusion, Scopy aims at providing an integrated analysis pipeline for molecule analysis, molecule screening, molecule optimization and model building. The Python package Scopy is designed by <a class="reference external" href="http://home.scbdd.com/index.php?s=/Home/Index.html&amp;t=english">CBDD Group</a> (Computational Biology &amp; Drug Design Group), Xiangya School of Pharmaceutical Sciences, Central South University.</p>
+<p>High-throughput screening (HTS) and virtual screening (VS) are widely applied in compounds screening and lead discovery. However, the frequent appearances of “noisy compounds” in the screening database, such as compounds with poor drug-likeness, compounds with poor selectivity or compounds with potential toxicity, have greatly weakened the efficiency of HTS and VS campaigns. The success of screening results critically depends on the quality of the available screening libraries. To construct a high-quality database, we developed <font color="B81C25"><strong>Scopy</strong></font> (<font color="#DD551A"><strong>S</strong></font>crenning <font color="#DD551A"><strong>CO</strong></font>mpounds in <font color="#DD551A"><strong>PY</strong></font>thon), an integrated negative design python library designed for screening out undesiable compounds in the early drug discovery. Scopy includes six modules, covering data preparation, screening filters, the calculation of scaffolds and descriptors, and the visualization analysis.</p>
+<P> The Python package Scopy is designed by <a class="reference external" href="http://home.scbdd.com/index.php?s=/Home/Index.html&amp;t=english">CBDD Group</a> (Computational Biology &amp; Drug Design Group), Xiangya School of Pharmaceutical Sciences, Central South University.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/intro.png"><img alt="_images/intro.png" src="_images/intro.jpg" style="width: 80%" /></a>
+<!-- <p class="caption"><span class="caption-text">The six modules in Scopy</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p> -->
+</div>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
@@ -134,6 +213,7 @@
 <li class="toctree-l2"><a class="reference internal" href="modules/scopy.ScoPretreat.html">scopy.ScoPretreat package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoPretreat.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoPretreat.html#module-scopy.ScoPretreat.pretreat">scopy.ScoPretreat.pretreat module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoPretreat.html#module-scopy.ScoPretreat.pretreat_Lib">scopy.ScoPretreat.pretreat_Lib module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoPretreat.html#module-scopy.ScoPretreat.pretreatutil">scopy.ScoPretreat.pretreatutil module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoPretreat.html#module-scopy.ScoPretreat">Module contents</a></li>
 </ul>
@@ -150,12 +230,14 @@
 <li class="toctree-l2"><a class="reference internal" href="modules/scopy.ScoFH.html">scopy.ScoFH package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoFH.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoFH.html#module-scopy.ScoFH.fh_filter">scopy.ScoFH.fh_filter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoFH.html#module-scopy.ScoFH.fh_filter_Lib">scopy.ScoFH.fh_filter_Lib module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoFH.html#module-scopy.ScoFH">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="modules/scopy.ScoTox.html">scopy.ScoTox package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoTox.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoTox.html#module-scopy.ScoTox.tox_filter">scopy.ScoTox.tox_filter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoTox.html#module-scopy.ScoTox.tox_filter_Lib">scopy.ScoTox.tox_filter_Lib module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoTox.html#module-scopy.ScoTox">Module contents</a></li>
 </ul>
 </li>
@@ -180,13 +262,6 @@
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoVisualize.html#module-scopy.ScoVisualize.mcloud">scopy.ScoVisualize.mcloud module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoVisualize.html#module-scopy.ScoVisualize.pc_depict">scopy.ScoVisualize.pc_depict module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoVisualize.html#module-scopy.ScoVisualize">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="modules/scopy.ScoBase.html">scopy.ScoBase package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoBase.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoBase.html#module-scopy.ScoBase.FilterWithSmarts">scopy.ScoBase.FilterWithSmarts module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoBase.html#module-scopy.ScoBase.SmartProcess">scopy.ScoBase.SmartProcess module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules/scopy.ScoBase.html#module-scopy.ScoBase">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -224,7 +299,7 @@
         <li class="right" >
           <a href="overview.html" title="Overview"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">Scopy 1.2.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">Scopy 1.2.3 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

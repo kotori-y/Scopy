@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Overview &#8212; Scopy 1.2.1 documentation</title>
+    <title>Overview &#8212; Scopy 1.2.3 documentation</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/./cssbasic.css" />
@@ -18,6 +18,13 @@
     <link rel="next" title="Getting Started with Scopy" href="user_guide.html" />
     <link rel="prev" title="The Scopy’s documentation" href="index.html" /> 
   </head><body>
+    <style type="text/css">
+      dt {
+            color: #DD551A;
+            font-weight: 600;
+      }
+
+    </style>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -33,7 +40,7 @@
         <li class="right" >
           <a href="index.html" title="The Scopy’s documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.2.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.2.3 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -85,7 +92,8 @@
             
   <div class="section" id="overview">
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
-<p>High-throughput screening (HTS) and virtual screening (VS) are widely applied in compounds screening and lead discovery. However, the frequent appearances of “noisy compounds” in the screening database, such as compounds with poor drug-likeness, compounds with poor selectivity or compounds with potential toxicity, have greatly weakened the efficiency of HTS and VS campaigns. The success of screening results critically depends on the quality of the available screening libraries. To construct a high-quality database, we developed Scopy (Screnning COmpounds in PYthon), an integrated negative design python library designed for screening out undesiable compounds in the early drug discovery. Scopy includes six modules, covering data preparation, screening filters, the calculation of scaffolds and descriptors, and the visualization analysis. The current version of Scopy can calculate 39 basic molecular properties, 3 comprehensive molecular evaluation scores, 2 types of molecular scaffolds, 6 types of substructure descriptors and 2 types of fingerprints. Screening rules such as drug-likeness rules (11 drug-likeness rules, 2 macro-cycle molecule rules and 2 building block rules), frequent hitter rules (4 assay interference substructure filters and 4 promiscuous compound substructure filters) and toxicophore filters (5 human related toxicity substructure filters, 3 environment related toxicity substructure filters and 3 comprehensive substructure filters) are provided in the Scopy library. Moreover, this library realized basic feature radar charts, feature-feature related scatter diagram, functional group marker gram and cloud gram four different visualization functions, which assists users in gaining a better understanding of the screening data. In conclusion, Scopy aims at providing an integrated analysis pipeline for molecule analysis, molecule screening, molecule optimization and model building. The Python package Scopy is designed by <a class="reference external" href="http://home.scbdd.com/index.php?s=/Home/Index.html&amp;t=english">CBDD Group</a> (Computational Biology &amp; Drug Design Group), Xiangya School of Pharmaceutical Sciences, Central South University.</p>
+<p>High-throughput screening (HTS) and virtual screening (VS) are widely applied in compounds screening and lead discovery. However, the frequent appearances of “noisy compounds” in the screening database, such as compounds with poor drug-likeness, compounds with poor selectivity or compounds with potential toxicity, have greatly weakened the efficiency of HTS and VS campaigns. The success of screening results critically depends on the quality of the available screening libraries. To construct a high-quality database, we developed <font color="B81C25"><strong>Scopy</strong></font> (<font color="#DD551A"><strong>S</strong></font>crenning <font color="#DD551A"><strong>CO</strong></font>mpounds in <font color="#DD551A"><strong>PY</strong></font>thon), an integrated negative design python library designed for screening out undesiable compounds in the early drug discovery. Scopy includes six modules, covering data preparation, screening filters, the calculation of scaffolds and descriptors, and the visualization analysis.</p>
+<P>The Python package Scopy is designed by <a class="reference external" href="http://home.scbdd.com/index.php?s=/Home/Index.html&amp;t=english">CBDD Group</a> (Computational Biology &amp; Drug Design Group), Xiangya School of Pharmaceutical Sciences, Central South University.</p>
 <div class="section" id="who-uses-scopy">
 <h2>Who uses Scopy?<a class="headerlink" href="#who-uses-scopy" title="Permalink to this headline">¶</a></h2>
 <p>Scopy is a comprehensive and uniform Python package which aims at providing an integrated pipeline for molecule analysis, molecule screening, molecule optimization and model building. Researchers who want to build a desirable screening database, evaluate initial hits quality, or need pertinent suggestions in molecular optimization, can use Scopy as a credible and efficient tool. We believe that, by the rational application of Scopy, users can draw useful knowledge and experience across many disciplines, thus decreasing the time and cost for drug research.</p>
@@ -118,13 +126,13 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td rowspan="2"><p>Drug-likeness Filter</p></td>
+<tr class="row-even"><td rowspan="2"><p style="color: #B81C25; font-weight: 900;">Drug-likeness Filter</p></td>
 <td><dl class="simple">
-<dt>Basic PC Properties</dt><dd><ul class="simple">
-<li><p>Molecular weight &gt;&gt;&gt; MW</p></li>
-<li><p>Molecular volume &gt;&gt;&gt; Vol</p></li>
-<li><p>Molecular density &gt;&gt;&gt; Dense</p></li>
-<li><p>Formal charge &gt;&gt;&gt; fChar</p></li>
+<dt>Basic PC Properties</dt><dd><ul class="items">
+<li><p>Molecular Weight &gt;&gt;&gt; MW</p></li>
+<li><p>Molecular Volume &gt;&gt;&gt; Vol</p></li>
+<li><p>Molecular Density &gt;&gt;&gt; Dense</p></li>
+<li><p>Formal Charge &gt;&gt;&gt; fChar</p></li>
 <li><p>Number of bonds &gt;&gt;&gt; nBond</p></li>
 <li><p>Number of atoms &gt;&gt;&gt; nAtom</p></li>
 <li><p>Number of heteroatoms &gt;&gt;&gt; nHet</p></li>
@@ -146,7 +154,7 @@
 <li><p>Sp3 hybridized carbons/total carbon count &gt;&gt;&gt; Fsp3</p></li>
 <li><p>TPSA &gt;&gt;&gt; TPSA</p></li>
 <li><p>Size of biggest system ring &gt;&gt;&gt; MaxRing</p></li>
-<li><p>Number of stero-centerss &gt;&gt;&gt; nStero</p></li>
+<li><p>Number of stereo-centers &gt;&gt;&gt; nStereo</p></li>
 <li><p>HetCarbonRatio &gt;&gt;&gt; HetRatio</p></li>
 <li><p>Number of single bonds &gt;&gt;&gt; nSingle</p></li>
 <li><p>Number of double bonds &gt;&gt;&gt; nDouble</p></li>
@@ -162,7 +170,7 @@
 <li><p>Number of Nitrogen atoms &gt;&gt;&gt; nN</p></li>
 </ul>
 </dd>
-<dt>Specific PC Properties</dt><dd><ul class="simple">
+<dt>Specific PC Properties</dt><dd><ul class="items">
 <li><p>QED with average descriptor weights &gt;&gt;&gt; QEDmean</p></li>
 <li><p>QED with maximal descriptor weights &gt;&gt;&gt; QEDmax</p></li>
 <li><p>QED with using unit weights &gt;&gt;&gt; QEDnone</p></li>
@@ -175,7 +183,7 @@
 <td rowspan="2"><p><a class="reference external" href="./modules/scopy.ScoDruglikeness.html">ScoDruglikeness</a></p></td>
 </tr>
 <tr class="row-odd"><td><dl class="simple">
-<dt>Drug-likeness Rules (Small Molecule)</dt><dd><ul class="simple">
+<dt>Drug-likeness Rules (Small Molecule)</dt><dd><ul class="items">
 <li><p>Egan Rule</p></li>
 <li><p>Veber Rule</p></li>
 <li><p>LipinskiRule</p></li>
@@ -189,12 +197,12 @@
 <li><p>GoldenTriangle</p></li>
 </ul>
 </dd>
-<dt>Drug-likeness Rules (Macro Molecule)</dt><dd><ul class="simple">
+<dt>Drug-likeness Rules (Macro Molecule)</dt><dd><ul class="items">
 <li><p>BeyondRo5</p></li>
 <li><p>OralMacrocycles</p></li>
 </ul>
 </dd>
-<dt>Drug-likeness Rules (Building Block)</dt><dd><ul class="simple">
+<dt>Drug-likeness Rules (Building Block)</dt><dd><ul class="items">
 <li><p>Ro3 Rule</p></li>
 <li><p>Ro2 Rule</p></li>
 </ul>
@@ -202,17 +210,17 @@
 </dl>
 </td>
 </tr>
-<tr class="row-even"><td><p>Frequent Hitters Filter</p></td>
+<tr class="row-even"><td><p style="color: #B81C25; font-weight: 900;">Frequent Hitters Filter</p></td>
 <td><dl class="simple">
-<dt>Assay interference</dt><dd><ul class="simple">
+<dt>Assay interference</dt><dd><ul class="items">
 <li><p>AlphaScreen_FHs(6)</p></li>
 <li><p>Luciferase_Inhibitory(3)</p></li>
 <li><p>Chelating(55)</p></li>
 <li><p>Alarm_NMR(75)</p></li>
-<li><p>Aggregator(311)</p></li>
+<!-- <li><p>Aggregator(311)</p></li> -->
 </ul>
 </dd>
-<dt>Promiscuous compounds</dt><dd><ul class="simple">
+<dt>Promiscuous compounds</dt><dd><ul class="items">
 <li><p>AlphaScreen_GST_FHs(34)</p></li>
 <li><p>AlphaScreen_HIS_FHs(19)</p></li>
 <li><p>PAINS(480)</p></li>
@@ -223,24 +231,24 @@
 </td>
 <td><p><a class="reference external" href="./modules/scopy.ScoFH.html">ScoFH</a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Toxicity Filter</p></td>
+<tr class="row-odd"><td><p style="color: #B81C25; font-weight: 900;">Toxicity Filter</p></td>
 <td><dl class="simple">
-<dt>Human Toxicity</dt><dd><ul class="simple">
-<li><p>Potential_Electrophilic(119)</p></li>
-<li><p>LD50_oral(20)</p></li>
+<dt>Human Toxicity</dt><dd><ul class="items">
+<li><p>Potential_Electrophilic(119) #i.e.Broad Toxicity Rule</p></li>
+<li><p>LD50_oral(20) #i.e.Acute Toxicity Rule</p></li>
 <li><p>Genotoxic_Carcinogenicity_Mutagenicity(117)</p></li>
 <li><p>NonGenotoxic_Carcinogenicity(23)</p></li>
 <li><p>Skin_Sensitization(155)</p></li>
-<li><p>DNA_Binding(78)</p></li>
+<!-- <li><p>DNA_Binding(78)</p></li> -->
 </ul>
 </dd>
-<dt>Comprehensive Toxicity</dt><dd><ul class="simple">
+<dt>Comprehensive Toxicity</dt><dd><ul class="items">
 <li><p>NTD(105)</p></li>
 <li><p>SureChEMBL(165)</p></li>
 <li><p>Toxicophores(154)</p></li>
 </ul>
 </dd>
-<dt>Envrionment Toxicity</dt><dd><ul class="simple">
+<dt>Envrionment Toxicity</dt><dd><ul class="items">
 <li><p>Acute_Aquatic_Toxicity(99)</p></li>
 <li><p>Biodegradable(9)</p></li>
 <li><p>NonBiodegradable(19)</p></li>
@@ -250,9 +258,9 @@
 </td>
 <td><p><a class="reference external" href="./modules/scopy.ScoTox.html">ScoTox</a></p></td>
 </tr>
-<tr class="row-even"><td><p>Chemical Space Exploer</p></td>
+<tr class="row-even"><td><p style="color: #B81C25; font-weight: 900;">Chemical Space Exploer</p></td>
 <td><dl class="simple">
-<dt>Substurecture Descriptor</dt><dd><ul class="simple">
+<dt>Substurecture Descriptor</dt><dd><ul class="items">
 <li><p>MACCS(167 bits)</p></li>
 <li><p><strong>EFG(583 bits)</strong></p></li>
 <li><p><strong>PubChem(881 bits)</strong></p></li>
@@ -261,12 +269,12 @@
 <li><p><strong>IFG</strong></p></li>
 </ul>
 </dd>
-<dt>Fingerptint</dt><dd><ul class="simple">
+<dt>Fingerprint</dt><dd><ul class="items">
 <li><p>Morgan(1024 <em>default</em>)</p></li>
 <li><p>Daylight(2048 <em>default</em>)</p></li>
 </ul>
 </dd>
-<dt>Framework</dt><dd><ul class="simple">
+<dt>Framework</dt><dd><ul class="items">
 <li><p>Murcko Framework</p></li>
 <li><p>Carbon Scaffold</p></li>
 </ul>
@@ -305,7 +313,7 @@
         <li class="right" >
           <a href="index.html" title="The Scopy’s documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.2.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Scopy 1.2.3 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

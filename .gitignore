@@ -112,3 +112,5 @@ scopy/example/application_4.py
 
 .pypirc
 meta.yaml
+scopy/ScoBase
+scopy/ScoBase/*

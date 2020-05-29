@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.ScoFH package &#8212; Scopy 1.2.1 documentation</title>
+    <title>scopy.ScoFH package &#8212; Scopy 1.2.3 documentation</title>
     <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/./cssbasic.css" />
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="scopy.ScoDruglikeness.html" title="scopy.ScoDruglikeness package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" accesskey="U">Scopy API</a> &#187;</li> 
       </ul>
     </div>
@@ -47,6 +47,7 @@
 <li><a class="reference internal" href="#">scopy.ScoFH package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-scopy.ScoFH.fh_filter">scopy.ScoFH.fh_filter module</a></li>
+<li><a class="reference internal" href="#module-scopy.ScoFH.fh_filter_Lib">scopy.ScoFH.fh_filter_Lib module</a></li>
 <li><a class="reference internal" href="#module-scopy.ScoFH">Module contents</a></li>
 </ul>
 </li>
@@ -90,16 +91,271 @@
 </div>
 <div class="section" id="module-scopy.ScoFH.fh_filter">
 <span id="scopy-scofh-fh-filter-module"></span><h2>scopy.ScoFH.fh_filter module<a class="headerlink" href="#module-scopy.ScoFH.fh_filter" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scopy.ScoFH.fh_filter.Check_Alarm_NMR">
+<code class="sig-prename descclassname">scopy.ScoFH.fh_filter.</code><code class="sig-name descname">Check_Alarm_NMR</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#Check_Alarm_NMR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.Check_Alarm_NMR" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are 75 SMARTS in alarm_nmr</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoFH.fh_filter.Check_AlphaScreen_FHs">
+<code class="sig-prename descclassname">scopy.ScoFH.fh_filter.</code><code class="sig-name descname">Check_AlphaScreen_FHs</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#Check_AlphaScreen_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.Check_AlphaScreen_FHs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Check_AlphaScreen_FHs Filter,
+which presents a compound may be alphascreen frequent hitters.
+There are 6 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://journals.sagepub.com/doi/abs/10.1177/1087057113516861">Schorpp, Kenji. (2014)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoFH.fh_filter.Check_AlphaScreen_GST_FHs">
+<code class="sig-prename descclassname">scopy.ScoFH.fh_filter.</code><code class="sig-name descname">Check_AlphaScreen_GST_FHs</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#Check_AlphaScreen_GST_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.Check_AlphaScreen_GST_FHs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Check_AlphaScreen_GST_FHs Filter,
+which presents a compound may prevent GST/GSH interaction during HTS.
+There are 34 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>References:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://journals.sagepub.com/doi/abs/10.1177/1087057116639992">Brenke, Jara K. (2016)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoFH.fh_filter.Check_AlphaScreen_HIS_FHs">
+<code class="sig-prename descclassname">scopy.ScoFH.fh_filter.</code><code class="sig-name descname">Check_AlphaScreen_HIS_FHs</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#Check_AlphaScreen_HIS_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.Check_AlphaScreen_HIS_FHs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Check_AlphaScreen_HIS_FHs Filter,
+which presents a compound prevents the binding of the protein His-tag moiety to nickel chelate.
+There are 19 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://journals.sagepub.com/doi/abs/10.1177/1087057113516861">Schorpp, Kenji. (2014)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoFH.fh_filter.Check_BMS">
+<code class="sig-prename descclassname">scopy.ScoFH.fh_filter.</code><code class="sig-name descname">Check_BMS</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#Check_BMS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.Check_BMS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under BMS Filter.
+Pearce has proposed a Functional Group Compound Filters(FG Filters).
+The FG filters are consisted of two part, Exclusion FG filters and informational filters.
+Exclusion FG filters are those intended for compound removal from screening decks;
+Informational filters are useful for compound annotation.
+There are 176 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/ci050504m">Pearce, Bradley C (2006)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoFH.fh_filter.Check_Chelating">
+<code class="sig-prename descclassname">scopy.ScoFH.fh_filter.</code><code class="sig-name descname">Check_Chelating</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#Check_Chelating"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.Check_Chelating" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Chelating Filter,
+which presents a compound may inhibit metalloproteins.
+Thers are 55 SMARTS in this endpoint</p>
+<dl class="simple">
+<dt>Reference.:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://onlinelibrary.wiley.com/doi/abs/10.1002/cmdc.200900516">Agrawal, Arpita. (2010)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoFH.fh_filter.Check_Luciferase_Inhibitory">
+<code class="sig-prename descclassname">scopy.ScoFH.fh_filter.</code><code class="sig-name descname">Check_Luciferase_Inhibitory</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#Check_Luciferase_Inhibitory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.Check_Luciferase_Inhibitory" title="Permalink to this definition">¶</a></dt>
+<dd><p>There 3 SMARTS in Luciferase_Inhibitory Filter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoFH.fh_filter.Check_PAINS">
+<code class="sig-prename descclassname">scopy.ScoFH.fh_filter.</code><code class="sig-name descname">Check_PAINS</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#Check_PAINS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.Check_PAINS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under PAINS Filter,
+which presents a type of compounds tend to be hitted in HTS.
+There are 480 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/jm901137j">Baell, Jonathan B. and Georgina A. Holloway (2010)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="scopy.ScoFH.fh_filter.Filter">
+<em class="property">class </em><code class="sig-prename descclassname">scopy.ScoFH.fh_filter.</code><code class="sig-name descname">Filter</code><span class="sig-paren">(</span><em class="sig-param">endpoint</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#Filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.Filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p><em>Internal Use Only</em>
+the tool to check molecule(s) whether matched some unexpected endpoints.
+based on module SmartProcess</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of endpoint for scanning molecule</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="scopy.ScoFH.fh_filter.Filter.get_pattl">
+<code class="sig-name descname">get_pattl</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#Filter.get_pattl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.Filter.get_pattl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="scopy.ScoFH.fh_filter.Filter.scan">
+<code class="sig-name descname">scan</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#Filter.scan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.Filter.scan" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scopy.ScoFH.fh_filter_Lib">
+<span id="scopy-scofh-fh-filter-lib-module"></span><h2>scopy.ScoFH.fh_filter_Lib module<a class="headerlink" href="#module-scopy.ScoFH.fh_filter_Lib" title="Permalink to this headline">¶</a></h2>
 <p>Created on Fri May 15 21:47:43 2020</p>
 <p>&#64;Author: Zhi-Jiang Yang, Dong-Sheng Cao
 &#64;Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China
 &#64;Homepage: <a class="reference external" href="http://www.scbdd.com">http://www.scbdd.com</a>
 &#64;Mail: <a class="reference external" href="mailto:yzjkid9&#37;&#52;&#48;gmail&#46;com">yzjkid9<span>&#64;</span>gmail<span>&#46;</span>com</a>; <a class="reference external" href="mailto:oriental-cds&#37;&#52;&#48;163&#46;com">oriental-cds<span>&#64;</span>163<span>&#46;</span>com</a>
 &#64;Blog: <a class="reference external" href="https://blog.iamkotori.com">https://blog.iamkotori.com</a></p>
-<p>♥I love Princess Zelda forever♥</p>
 <dl class="class">
-<dt id="scopy.ScoFH.fh_filter.FHfilter">
-<em class="property">class </em><code class="sig-prename descclassname">scopy.ScoFH.fh_filter.</code><code class="sig-name descname">FHfilter</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">n_jobs=1</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#FHfilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.FHfilter" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoFH.fh_filter_Lib.FHfilter">
+<em class="property">class </em><code class="sig-prename descclassname">scopy.ScoFH.fh_filter_Lib.</code><code class="sig-name descname">FHfilter</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">n_jobs=1</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter_Lib.html#FHfilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter_Lib.FHfilter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Here, we comdat the whole function that check endpoint retrieved from module FilterWithSmarts</p>
 <dl class="field-list simple">
@@ -113,22 +369,8 @@
 </dd>
 </dl>
 <dl class="method">
-<dt id="scopy.ScoFH.fh_filter.FHfilter.Check_Aggregators">
-<code class="sig-name descname">Check_Aggregators</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#FHfilter.Check_Aggregators"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.FHfilter.Check_Aggregators" title="Permalink to this definition">¶</a></dt>
-<dd><p>There are 311 SMARTS in Aggregators</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a list of dictionary</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="scopy.ScoFH.fh_filter.FHfilter.Check_Alarm_NMR">
-<code class="sig-name descname">Check_Alarm_NMR</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#FHfilter.Check_Alarm_NMR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.FHfilter.Check_Alarm_NMR" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoFH.fh_filter_Lib.FHfilter.Check_Alarm_NMR">
+<code class="sig-name descname">Check_Alarm_NMR</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter_Lib.html#FHfilter.Check_Alarm_NMR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_Alarm_NMR" title="Permalink to this definition">¶</a></dt>
 <dd><p>There are 75 SMARTS in alarm_nmr</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -141,8 +383,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoFH.fh_filter.FHfilter.Check_AlphaScreen_FHs">
-<code class="sig-name descname">Check_AlphaScreen_FHs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#FHfilter.Check_AlphaScreen_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.FHfilter.Check_AlphaScreen_FHs" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoFH.fh_filter_Lib.FHfilter.Check_AlphaScreen_FHs">
+<code class="sig-name descname">Check_AlphaScreen_FHs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter_Lib.html#FHfilter.Check_AlphaScreen_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_AlphaScreen_FHs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under Check_AlphaScreen_FHs Filter,
 which presents a compound may be alphascreen frequent hitters.
 There are 6 SMARTS in this endpoint.</p>
@@ -157,8 +399,8 @@ There are 6 SMARTS in this endpoint.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoFH.fh_filter.FHfilter.Check_AlphaScreen_GST_FHs">
-<code class="sig-name descname">Check_AlphaScreen_GST_FHs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#FHfilter.Check_AlphaScreen_GST_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.FHfilter.Check_AlphaScreen_GST_FHs" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoFH.fh_filter_Lib.FHfilter.Check_AlphaScreen_GST_FHs">
+<code class="sig-name descname">Check_AlphaScreen_GST_FHs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter_Lib.html#FHfilter.Check_AlphaScreen_GST_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_AlphaScreen_GST_FHs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under Check_AlphaScreen_GST_FHs Filter,
 which presents a compound may prevent GST/GSH interaction during HTS.
 There are 34 SMARTS in this endpoint.</p>
@@ -173,8 +415,8 @@ There are 34 SMARTS in this endpoint.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoFH.fh_filter.FHfilter.Check_AlphaScreen_HIS_FHs">
-<code class="sig-name descname">Check_AlphaScreen_HIS_FHs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#FHfilter.Check_AlphaScreen_HIS_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.FHfilter.Check_AlphaScreen_HIS_FHs" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoFH.fh_filter_Lib.FHfilter.Check_AlphaScreen_HIS_FHs">
+<code class="sig-name descname">Check_AlphaScreen_HIS_FHs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter_Lib.html#FHfilter.Check_AlphaScreen_HIS_FHs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_AlphaScreen_HIS_FHs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under Check_AlphaScreen_HIS_FHs Filter,
 which presents a compound prevents the binding of the protein His-tag moiety to nickel chelate.
 There are 19 SMARTS in this endpoint.</p>
@@ -189,8 +431,8 @@ There are 19 SMARTS in this endpoint.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoFH.fh_filter.FHfilter.Check_BMS">
-<code class="sig-name descname">Check_BMS</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#FHfilter.Check_BMS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.FHfilter.Check_BMS" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoFH.fh_filter_Lib.FHfilter.Check_BMS">
+<code class="sig-name descname">Check_BMS</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter_Lib.html#FHfilter.Check_BMS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_BMS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under BMS Filter.
 Pearce has proposed a Functional Group Compound Filters(FG Filters).
 The FG filters are consisted of two part, Exclusion FG filters and informational filters.
@@ -208,8 +450,8 @@ There are 176 SMARTS in this endpoint.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoFH.fh_filter.FHfilter.Check_Chelating">
-<code class="sig-name descname">Check_Chelating</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#FHfilter.Check_Chelating"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.FHfilter.Check_Chelating" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoFH.fh_filter_Lib.FHfilter.Check_Chelating">
+<code class="sig-name descname">Check_Chelating</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter_Lib.html#FHfilter.Check_Chelating"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_Chelating" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under Chelating Filter,
 which presents a compound may inhibit metalloproteins.
 Thers are 55 SMARTS in this endpoint</p>
@@ -224,22 +466,8 @@ Thers are 55 SMARTS in this endpoint</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoFH.fh_filter.FHfilter.Check_Frequent_Hitters">
-<code class="sig-name descname">Check_Frequent_Hitters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#FHfilter.Check_Frequent_Hitters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.FHfilter.Check_Frequent_Hitters" title="Permalink to this definition">¶</a></dt>
-<dd><p>There are 15 SMARTS in Frequent_Hitters</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a list of dictionary</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="scopy.ScoFH.fh_filter.FHfilter.Check_Luciferase_Inhibitory">
-<code class="sig-name descname">Check_Luciferase_Inhibitory</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#FHfilter.Check_Luciferase_Inhibitory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.FHfilter.Check_Luciferase_Inhibitory" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoFH.fh_filter_Lib.FHfilter.Check_Luciferase_Inhibitory">
+<code class="sig-name descname">Check_Luciferase_Inhibitory</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter_Lib.html#FHfilter.Check_Luciferase_Inhibitory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_Luciferase_Inhibitory" title="Permalink to this definition">¶</a></dt>
 <dd><p>There 3 SMARTS in Luciferase_Inhibitory Filter</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -252,22 +480,8 @@ Thers are 55 SMARTS in this endpoint</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoFH.fh_filter.FHfilter.Check_NTD">
-<code class="sig-name descname">Check_NTD</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#FHfilter.Check_NTD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.FHfilter.Check_NTD" title="Permalink to this definition">¶</a></dt>
-<dd><p>Brenk has proposed 105 unwanted groups in HTS</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a list of dictionary</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="scopy.ScoFH.fh_filter.FHfilter.Check_PAINS">
-<code class="sig-name descname">Check_PAINS</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter.html#FHfilter.Check_PAINS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter.FHfilter.Check_PAINS" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoFH.fh_filter_Lib.FHfilter.Check_PAINS">
+<code class="sig-name descname">Check_PAINS</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoFH/fh_filter_Lib.html#FHfilter.Check_PAINS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoFH.fh_filter_Lib.FHfilter.Check_PAINS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under PAINS Filter,
 which presents a type of compounds tend to be hitted in HTS.
 There are 480 SMARTS in this endpoint.</p>
@@ -292,7 +506,6 @@ There are 480 SMARTS in this endpoint.</p>
 &#64;Homepage: <a class="reference external" href="http://www.scbdd.com">http://www.scbdd.com</a>
 &#64;Mail: <a class="reference external" href="mailto:yzjkid9&#37;&#52;&#48;gmail&#46;com">yzjkid9<span>&#64;</span>gmail<span>&#46;</span>com</a>; <a class="reference external" href="mailto:oriental-cds&#37;&#52;&#48;163&#46;com">oriental-cds<span>&#64;</span>163<span>&#46;</span>com</a>
 &#64;Blog: <a class="reference external" href="https://blog.iamkotori.com">https://blog.iamkotori.com</a></p>
-<p>♥I love Princess Zelda forever♥</p>
 </div>
 </div>
 
@@ -317,7 +530,7 @@ There are 480 SMARTS in this endpoint.</p>
         <li class="right" >
           <a href="scopy.ScoDruglikeness.html" title="scopy.ScoDruglikeness package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" >Scopy API</a> &#187;</li> 
       </ul>
     </div>

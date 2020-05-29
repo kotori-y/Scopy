@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy package &#8212; Scopy 1.2.1 documentation</title>
+    <title>scopy package &#8212; Scopy 1.2.3 documentation</title>
     <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/./cssbasic.css" />
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.3 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -94,12 +94,14 @@
 <li class="toctree-l1"><a class="reference internal" href="scopy.ScoFH.html">scopy.ScoFH package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="scopy.ScoFH.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scopy.ScoFH.html#module-scopy.ScoFH.fh_filter">scopy.ScoFH.fh_filter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.ScoFH.html#module-scopy.ScoFH.fh_filter_Lib">scopy.ScoFH.fh_filter_Lib module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scopy.ScoFH.html#module-scopy.ScoFH">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="scopy.ScoPretreat.html">scopy.ScoPretreat package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="scopy.ScoPretreat.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scopy.ScoPretreat.html#module-scopy.ScoPretreat.pretreat">scopy.ScoPretreat.pretreat module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.ScoPretreat.html#module-scopy.ScoPretreat.pretreat_Lib">scopy.ScoPretreat.pretreat_Lib module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scopy.ScoPretreat.html#module-scopy.ScoPretreat.pretreatutil">scopy.ScoPretreat.pretreatutil module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scopy.ScoPretreat.html#module-scopy.ScoPretreat">Module contents</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="scopy.ScoPretreat.html#molvs-molecule-validation-and-standardization">MolVS - Molecule Validation and Standardization</a></li>
@@ -125,6 +127,7 @@
 <li class="toctree-l1"><a class="reference internal" href="scopy.ScoTox.html">scopy.ScoTox package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="scopy.ScoTox.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scopy.ScoTox.html#module-scopy.ScoTox.tox_filter">scopy.ScoTox.tox_filter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scopy.ScoTox.html#module-scopy.ScoTox.tox_filter_Lib">scopy.ScoTox.tox_filter_Lib module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scopy.ScoTox.html#module-scopy.ScoTox">Module contents</a></li>
 </ul>
 </li>
@@ -153,6 +156,49 @@
 </div>
 <div class="section" id="module-scopy">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scopy" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scopy.Loadpkl">
+<code class="sig-prename descclassname">scopy.</code><code class="sig-name descname">Loadpkl</code><span class="sig-paren">(</span><em class="sig-param">endpoint</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy.html#Loadpkl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.Loadpkl" title="Permalink to this definition">¶</a></dt>
+<dd><p>loading the specific pkl file which contain the ‘Rejected’ and ‘Accepted’ SMARTS
+in rdkit.Chem.rdchem.Mol object format to avoid repeated reading SMARTS by ‘MolFromSmarts’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>endpoint</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the endpoint of pkl file meant</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whose element ia also a list with four elements: 0:the name of SMARTS, 1:original SMARTS, 2:the ‘rejected’ part of SMARTS,3:the ‘accepted’ part of SMARTS.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.CheckWithSmarts">
+<code class="sig-prename descclassname">scopy.</code><code class="sig-name descname">CheckWithSmarts</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">pattl</em>, <em class="sig-param">endpoint</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy.html#CheckWithSmarts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.CheckWithSmarts" title="Permalink to this definition">¶</a></dt>
+<dd><p>checking molecule(s) wheather or not 
+has(have) some (toxic) substructure(s) through comparing the 
+SMILES of molecule(s) and the SMARTS of (toxic) substructure(s) 
+which obtained from Ochem Database(<a class="reference external" href="https://ochem.eu/alerts/home.do">https://ochem.eu/alerts/home.do</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
+<li><p><strong>pattl</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – generated by _Loadpkl, containing ‘rejected’ and ‘accepted’ part.</p></li>
+<li><p><strong>endpoint</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the endpoint name of pattl that de used to scan mol.</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 
@@ -171,7 +217,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.3 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

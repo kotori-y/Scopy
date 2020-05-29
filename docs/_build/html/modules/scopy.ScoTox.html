@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.ScoTox package &#8212; Scopy 1.2.1 documentation</title>
+    <title>scopy.ScoTox package &#8212; Scopy 1.2.3 documentation</title>
     <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/./cssbasic.css" />
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="scopy.ScoFH.html" title="scopy.ScoFH package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" accesskey="U">Scopy API</a> &#187;</li> 
       </ul>
     </div>
@@ -47,6 +47,7 @@
 <li><a class="reference internal" href="#">scopy.ScoTox package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-scopy.ScoTox.tox_filter">scopy.ScoTox.tox_filter module</a></li>
+<li><a class="reference internal" href="#module-scopy.ScoTox.tox_filter_Lib">scopy.ScoTox.tox_filter_Lib module</a></li>
 <li><a class="reference internal" href="#module-scopy.ScoTox">Module contents</a></li>
 </ul>
 </li>
@@ -90,16 +91,363 @@
 </div>
 <div class="section" id="module-scopy.ScoTox.tox_filter">
 <span id="scopy-scotox-tox-filter-module"></span><h2>scopy.ScoTox.tox_filter module<a class="headerlink" href="#module-scopy.ScoTox.tox_filter" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scopy.ScoTox.tox_filter.Check_Acute_Aquatic_Toxicity">
+<code class="sig-prename descclassname">scopy.ScoTox.tox_filter.</code><code class="sig-name descname">Check_Acute_Aquatic_Toxicity</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Check_Acute_Aquatic_Toxicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Check_Acute_Aquatic_Toxicity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Acute_Aquatic_Toxicity Filter,
+which presents a compound may cause toxicity to liquid(water).
+There are 99 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://ehp.niehs.nih.gov/doi/abs/10.1289/ehp.9087219">Hermens, J. L. (1990)</a>;</p></li>
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/0045653592902805">Verhaar, Henk JM, Cees J. Van Leeuwen (1992)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoTox.tox_filter.Check_Biodegradable">
+<code class="sig-prename descclassname">scopy.ScoTox.tox_filter.</code><code class="sig-name descname">Check_Biodegradable</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Check_Biodegradable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Check_Biodegradable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Biodegradable Filter,
+which presents a compound may be Biodegradable.
+There are 9 SMARTS in this enpoint</p>
+<dl class="simple">
+<dt>Reference:          </dt><dd><ol class="arabic simple">
+<li><p>Existing Substances Program (CD-ROM), released April, 2004 (2003).</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoTox.tox_filter.Check_Genotoxic_Carcinogenicity_Mutagenicity">
+<code class="sig-prename descclassname">scopy.ScoTox.tox_filter.</code><code class="sig-name descname">Check_Genotoxic_Carcinogenicity_Mutagenicity</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Check_Genotoxic_Carcinogenicity_Mutagenicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Check_Genotoxic_Carcinogenicity_Mutagenicity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Developmental_Mitochondrial Filter,
+which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms.
+There are 117 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S1383574208000781">Benigni, Romualdo and Cecilia Bossa. (2008)</a>;</p></li>
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/0165121888901140">Ashby, John and Raymond W. Tennant. (1988)</a>;</p></li>
+<li><p><a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/jm040835a">Kazius, Jeroen, Ross McGuire, Roberta Bursi. (2005)</a>;</p></li>
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0273230005000553">Bailey, Allan B. (2005)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoTox.tox_filter.Check_LD50_Oral">
+<code class="sig-prename descclassname">scopy.ScoTox.tox_filter.</code><code class="sig-name descname">Check_LD50_Oral</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Check_LD50_Oral"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Check_LD50_Oral" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under LD50_Oral Filter,
+which presents a compound may cause acute toxicity during oral administration;
+There are 20 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p>Tinkov OV (2019).</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoTox.tox_filter.Check_NTD">
+<code class="sig-prename descclassname">scopy.ScoTox.tox_filter.</code><code class="sig-name descname">Check_NTD</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Check_NTD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Check_NTD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brenk has proposed 105 unwanted groups in HTS</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://onlinelibrary.wiley.com/doi/abs/10.1002/cmdc.200700139">Brenk, Ruth (2008)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoTox.tox_filter.Check_NonBiodegradable">
+<code class="sig-prename descclassname">scopy.ScoTox.tox_filter.</code><code class="sig-name descname">Check_NonBiodegradable</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Check_NonBiodegradable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Check_NonBiodegradable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under NonBiodegradable Filter,
+which presents a compound may be non-biodegradable.
+There are 19 SMARTS in this enpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p>Environment Canada. Existing Substances Program (CD-ROM), released April, 2004 (2003).</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoTox.tox_filter.Check_NonGenotoxic_Carcinogenicity">
+<code class="sig-prename descclassname">scopy.ScoTox.tox_filter.</code><code class="sig-name descname">Check_NonGenotoxic_Carcinogenicity</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Check_NonGenotoxic_Carcinogenicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Check_NonGenotoxic_Carcinogenicity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under NonGenotoxic_Carcinogenicity Filter,
+which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms。
+There are 23 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S1383574208000781">Benigni, Romualdo and Cecilia Bossa (2008)</a>;</p></li>
+<li><p><a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/cr300206t">Benigni, Romualdo, Cecilia Bossa and Olga Tcheremenskaia (2013)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoTox.tox_filter.Check_Potential_Electrophilic">
+<code class="sig-prename descclassname">scopy.ScoTox.tox_filter.</code><code class="sig-name descname">Check_Potential_Electrophilic</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Check_Potential_Electrophilic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Check_Potential_Electrophilic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Potential_Electrophilic Filter,
+which presents a compound would be more probably take part in electrophilic reaction, 
+and the electrophilic reaction is strongly assosiated with protein binding.
+There are 119 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://www.tandfonline.com/doi/abs/10.3109/10408444.2011.598141">Enoch, S. J (2011)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoTox.tox_filter.Check_Skin_Sensitization">
+<code class="sig-prename descclassname">scopy.ScoTox.tox_filter.</code><code class="sig-name descname">Check_Skin_Sensitization</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Check_Skin_Sensitization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Check_Skin_Sensitization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under Skin_Sensitization Filter,
+There are 155 SMARTS in this endpoint.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://pubs.acs.org/doi/pdf/10.1021/ci00017a019">Payne, M. P. and P. T. Walsh (1994)</a>.</p></li>
+<li><p><a class="reference external" href="https://www.tandfonline.com/doi/abs/10.1080/10629360802348985">Enoch, S. J., J. C. Madden and M. T. D. Cronin (2008)</a>.</p></li>
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/0887233394902445">Barratt, M. D (1994)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoTox.tox_filter.Check_SureChEMBL">
+<code class="sig-prename descclassname">scopy.ScoTox.tox_filter.</code><code class="sig-name descname">Check_SureChEMBL</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Check_SureChEMBL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Check_SureChEMBL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check molecule under SureChEMBL Filter,
+which presents a compound would match one or more structural alerts and hence considered to have a MedChem unfriendly status.  
+There are 164 SMARTS in this endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoTox.tox_filter.Check_Toxicophores">
+<code class="sig-prename descclassname">scopy.ScoTox.tox_filter.</code><code class="sig-name descname">Check_Toxicophores</code><span class="sig-paren">(</span><em class="sig-param">mol</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Check_Toxicophores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Check_Toxicophores" title="Permalink to this definition">¶</a></dt>
+<dd><p>There 154 SMARTS in Toxicophres</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – The molecule to be scanned</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="scopy.ScoTox.tox_filter.Filter">
+<em class="property">class </em><code class="sig-prename descclassname">scopy.ScoTox.tox_filter.</code><code class="sig-name descname">Filter</code><span class="sig-paren">(</span><em class="sig-param">endpoint</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p><em>Internal Use Only</em>
+the tool to check molecule(s) whether matched some unexpected endpoints.
+based on module SmartProcess</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of endpoint for scanning molecule</p></li>
+<li><p><strong>detail</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning specific infomation or not, defaults to False</p></li>
+<li><p><strong>showSMILES</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Control returning SMILES or not, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result after scanning. If detail has been set to False, only return ‘Disposed’ and ‘Endpoint’, otherwise ‘MatchedAtoms’ and ‘MatchedNames’ are also provided.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>namedtuple</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="scopy.ScoTox.tox_filter.Filter.get_pattl">
+<code class="sig-name descname">get_pattl</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Filter.get_pattl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Filter.get_pattl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="scopy.ScoTox.tox_filter.Filter.scan">
+<code class="sig-name descname">scan</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Filter.scan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Filter.scan" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scopy.ScoTox.tox_filter_Lib">
+<span id="scopy-scotox-tox-filter-lib-module"></span><h2>scopy.ScoTox.tox_filter_Lib module<a class="headerlink" href="#module-scopy.ScoTox.tox_filter_Lib" title="Permalink to this headline">¶</a></h2>
 <p>Created on Fri May 15 22:27:53 2020</p>
 <p>&#64;Author: Zhi-Jiang Yang, Dong-Sheng Cao
 &#64;Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China
 &#64;Homepage: <a class="reference external" href="http://www.scbdd.com">http://www.scbdd.com</a>
 &#64;Mail: <a class="reference external" href="mailto:yzjkid9&#37;&#52;&#48;gmail&#46;com">yzjkid9<span>&#64;</span>gmail<span>&#46;</span>com</a>; <a class="reference external" href="mailto:oriental-cds&#37;&#52;&#48;163&#46;com">oriental-cds<span>&#64;</span>163<span>&#46;</span>com</a>
 &#64;Blog: <a class="reference external" href="https://blog.iamkotori.com">https://blog.iamkotori.com</a></p>
-<p>♥I love Princess Zelda forever♥</p>
+<!-- <p>♥I love Princess Zelda forever♥</p> -->
 <dl class="class">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter">
-<em class="property">class </em><code class="sig-prename descclassname">scopy.ScoTox.tox_filter.</code><code class="sig-name descname">Toxfilter</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">n_jobs=1</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoTox.tox_filter_Lib.Toxfilter">
+<em class="property">class </em><code class="sig-prename descclassname">scopy.ScoTox.tox_filter_Lib.</code><code class="sig-name descname">Toxfilter</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">n_jobs=1</em>, <em class="sig-param">detail=False</em>, <em class="sig-param">showSMILES=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter_Lib.html#Toxfilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter_Lib.Toxfilter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Here, we comdat the whole function that check endpoint retrieved from module FilterWithSmarts</p>
 <dl class="field-list simple">
@@ -113,8 +461,8 @@
 </dd>
 </dl>
 <dl class="method">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter.Check_Acute_Aquatic_Toxicity">
-<code class="sig-name descname">Check_Acute_Aquatic_Toxicity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter.Check_Acute_Aquatic_Toxicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter.Check_Acute_Aquatic_Toxicity" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_Acute_Aquatic_Toxicity">
+<code class="sig-name descname">Check_Acute_Aquatic_Toxicity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter_Lib.html#Toxfilter.Check_Acute_Aquatic_Toxicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_Acute_Aquatic_Toxicity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under Acute_Aquatic_Toxicity Filter,
 which presents a compound may cause toxicity to liquid(water).
 There are 99 SMARTS in this endpoint.</p>
@@ -129,8 +477,8 @@ There are 99 SMARTS in this endpoint.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter.Check_Biodegradable">
-<code class="sig-name descname">Check_Biodegradable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter.Check_Biodegradable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter.Check_Biodegradable" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_Biodegradable">
+<code class="sig-name descname">Check_Biodegradable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter_Lib.html#Toxfilter.Check_Biodegradable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_Biodegradable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under Biodegradable Filter,
 which presents a compound may be Biodegradable.
 There are 9 SMARTS in this enpoint</p>
@@ -145,39 +493,8 @@ There are 9 SMARTS in this enpoint</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter.Check_DNA_Binding">
-<code class="sig-name descname">Check_DNA_Binding</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter.Check_DNA_Binding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter.Check_DNA_Binding" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check molecule under DNA_Binding Filter,
-There are 78 SMARTS in this endpoint.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a list of dictionary</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter.Check_Developmental_Mitochondrial">
-<code class="sig-name descname">Check_Developmental_Mitochondrial</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter.Check_Developmental_Mitochondrial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter.Check_Developmental_Mitochondrial" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check molecule under Developmental_Mitochondrial Filter,
-which presents a compound may casue Developmental Toxicity and Mitochondrial Toxicity.
-There are 12 SMARTS in this endpoint.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a list of dictionary</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter.Check_Genotoxic_Carcinogenicity_Mutagenicity">
-<code class="sig-name descname">Check_Genotoxic_Carcinogenicity_Mutagenicity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter.Check_Genotoxic_Carcinogenicity_Mutagenicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter.Check_Genotoxic_Carcinogenicity_Mutagenicity" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_Genotoxic_Carcinogenicity_Mutagenicity">
+<code class="sig-name descname">Check_Genotoxic_Carcinogenicity_Mutagenicity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter_Lib.html#Toxfilter.Check_Genotoxic_Carcinogenicity_Mutagenicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_Genotoxic_Carcinogenicity_Mutagenicity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under Developmental_Mitochondrial Filter,
 which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms.
 There are 117 SMARTS in this endpoint.</p>
@@ -192,24 +509,8 @@ There are 117 SMARTS in this endpoint.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter.Check_Idiosyncratic">
-<code class="sig-name descname">Check_Idiosyncratic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter.Check_Idiosyncratic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter.Check_Idiosyncratic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check molecule under Idiosyncratic Filter,
-which presents a compound may has diosyncratic toxicity.
-There are 35 SMARTS in this endpoint.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a list of dictionary</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter.Check_LD50_Oral">
-<code class="sig-name descname">Check_LD50_Oral</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter.Check_LD50_Oral"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter.Check_LD50_Oral" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_LD50_Oral">
+<code class="sig-name descname">Check_LD50_Oral</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter_Lib.html#Toxfilter.Check_LD50_Oral"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_LD50_Oral" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under LD50_Oral Filter,
 which presents a compound may cause acute toxicity during oral administration;
 There are 20 SMARTS in this endpoint.</p>
@@ -224,8 +525,8 @@ There are 20 SMARTS in this endpoint.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter.Check_NTD">
-<code class="sig-name descname">Check_NTD</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter.Check_NTD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter.Check_NTD" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_NTD">
+<code class="sig-name descname">Check_NTD</code><span class="sig-paren">(</span><em class="sig-param">detail=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter_Lib.html#Toxfilter.Check_NTD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_NTD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Brenk has proposed 105 unwanted groups in HTS</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -238,8 +539,8 @@ There are 20 SMARTS in this endpoint.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter.Check_NonBiodegradable">
-<code class="sig-name descname">Check_NonBiodegradable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter.Check_NonBiodegradable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter.Check_NonBiodegradable" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_NonBiodegradable">
+<code class="sig-name descname">Check_NonBiodegradable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter_Lib.html#Toxfilter.Check_NonBiodegradable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_NonBiodegradable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under NonBiodegradable Filter,
 which presents a compound may be non-biodegradable.
 There are 19 SMARTS in this enpoint.</p>
@@ -254,8 +555,8 @@ There are 19 SMARTS in this enpoint.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter.Check_NonGenotoxic_Carcinogenicity">
-<code class="sig-name descname">Check_NonGenotoxic_Carcinogenicity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter.Check_NonGenotoxic_Carcinogenicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter.Check_NonGenotoxic_Carcinogenicity" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_NonGenotoxic_Carcinogenicity">
+<code class="sig-name descname">Check_NonGenotoxic_Carcinogenicity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter_Lib.html#Toxfilter.Check_NonGenotoxic_Carcinogenicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_NonGenotoxic_Carcinogenicity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under NonGenotoxic_Carcinogenicity Filter,
 which presents a compound may cause carcinogenicity or(and) mutagenicity through genotoxic mechanisms。
 There are 23 SMARTS in this endpoint.</p>
@@ -270,8 +571,8 @@ There are 23 SMARTS in this endpoint.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter.Check_Potential_Electrophilic">
-<code class="sig-name descname">Check_Potential_Electrophilic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter.Check_Potential_Electrophilic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter.Check_Potential_Electrophilic" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_Potential_Electrophilic">
+<code class="sig-name descname">Check_Potential_Electrophilic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter_Lib.html#Toxfilter.Check_Potential_Electrophilic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_Potential_Electrophilic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under Potential_Electrophilic Filter,
 which presents a compound would be more probably take part in electrophilic reaction, 
 and the electrophilic reaction is strongly assosiated with protein binding.
@@ -287,23 +588,8 @@ There are 119 SMARTS in this endpoint.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter.Check_Reactive_Unstable_Toxic">
-<code class="sig-name descname">Check_Reactive_Unstable_Toxic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter.Check_Reactive_Unstable_Toxic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter.Check_Reactive_Unstable_Toxic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check molecule under Reactive_Unstable_Toxic Filter.
-There are 335 SMARTS in this endpoint.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a list of dictionary</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter.Check_Skin_Sensitization">
-<code class="sig-name descname">Check_Skin_Sensitization</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter.Check_Skin_Sensitization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter.Check_Skin_Sensitization" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_Skin_Sensitization">
+<code class="sig-name descname">Check_Skin_Sensitization</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter_Lib.html#Toxfilter.Check_Skin_Sensitization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_Skin_Sensitization" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under Skin_Sensitization Filter,
 There are 155 SMARTS in this endpoint.</p>
 <dl class="field-list simple">
@@ -317,8 +603,8 @@ There are 155 SMARTS in this endpoint.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter.Check_SureChEMBL">
-<code class="sig-name descname">Check_SureChEMBL</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter.Check_SureChEMBL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter.Check_SureChEMBL" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_SureChEMBL">
+<code class="sig-name descname">Check_SureChEMBL</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter_Lib.html#Toxfilter.Check_SureChEMBL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_SureChEMBL" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check molecule under SureChEMBL Filter,
 which presents a compound would match one or more structural alerts and hence considered to have a MedChem unfriendly status.  
 There are 164 SMARTS in this endpoint.</p>
@@ -333,8 +619,8 @@ There are 164 SMARTS in this endpoint.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="scopy.ScoTox.tox_filter.Toxfilter.Check_Toxicophores">
-<code class="sig-name descname">Check_Toxicophores</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter.html#Toxfilter.Check_Toxicophores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter.Toxfilter.Check_Toxicophores" title="Permalink to this definition">¶</a></dt>
+<dt id="scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_Toxicophores">
+<code class="sig-name descname">Check_Toxicophores</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoTox/tox_filter_Lib.html#Toxfilter.Check_Toxicophores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoTox.tox_filter_Lib.Toxfilter.Check_Toxicophores" title="Permalink to this definition">¶</a></dt>
 <dd><p>There 154 SMARTS in Toxicophres</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -357,7 +643,7 @@ There are 164 SMARTS in this endpoint.</p>
 &#64;Homepage: <a class="reference external" href="http://www.scbdd.com">http://www.scbdd.com</a>
 &#64;Mail: <a class="reference external" href="mailto:yzjkid9&#37;&#52;&#48;gmail&#46;com">yzjkid9<span>&#64;</span>gmail<span>&#46;</span>com</a>; <a class="reference external" href="mailto:oriental-cds&#37;&#52;&#48;163&#46;com">oriental-cds<span>&#64;</span>163<span>&#46;</span>com</a>
 &#64;Blog: <a class="reference external" href="https://blog.iamkotori.com">https://blog.iamkotori.com</a></p>
-<p>♥I love Princess Zelda forever♥</p>
+<!-- <p>♥I love Princess Zelda forever♥</p> -->
 </div>
 </div>
 
@@ -382,7 +668,7 @@ There are 164 SMARTS in this endpoint.</p>
         <li class="right" >
           <a href="scopy.ScoFH.html" title="scopy.ScoFH package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" >Scopy API</a> &#187;</li> 
       </ul>
     </div>

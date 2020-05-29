@@ -12,6 +12,14 @@ scopy.ScoTox.tox\_filter module
    :undoc-members:
    :show-inheritance:
 
+scopy.ScoTox.tox\_filter\_Lib module
+------------------------------------
+
+.. automodule:: scopy.ScoTox.tox_filter_Lib
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 Module contents
 ---------------

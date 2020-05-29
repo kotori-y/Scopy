@@ -12,6 +12,14 @@ scopy.ScoFH.fh\_filter module
    :undoc-members:
    :show-inheritance:
 
+scopy.ScoFH.fh\_filter\_Lib module
+----------------------------------
+
+.. automodule:: scopy.ScoFH.fh_filter_Lib
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 Module contents
 ---------------

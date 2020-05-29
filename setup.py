@@ -16,7 +16,7 @@ from distutils.core import setup
 
 # print（__doc__）
 
-package_data= {'scopy':['ScoBase/*','ScoDruglikeness/*','ScoRepresent/*',
+package_data= {'scopy':['ScoDruglikeness/*','ScoRepresent/*',
                         'ScoVisualize/*','ScoPretreat/*','ScoFH/*','ScoTox/*','data/SMARTS/*','data/PATT/*',
                         'data/ACID/*','data/*','data/Crippen/*','data/EFG/*','data/Demo/*',
                         'data/MC/mcloud/*','data/MC/mcloud/ertl/mcloud/*',
@@ -26,7 +26,7 @@ package_data= {'scopy':['ScoBase/*','ScoDruglikeness/*','ScoRepresent/*',
 
 
 setup(name="cbdd-scopy",  
-      version="1.2.2",
+      version="1.2.3",
       license="MIT",
       description="A filter tool for HTS and VS",
       long_description="Scopy (Screening COmpounds in PYthon), based on RDKit, is an integrated negative design python library designed for screening out undesiable compounds in the early drug discovery.",

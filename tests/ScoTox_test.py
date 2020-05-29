@@ -24,22 +24,19 @@ def main(mols):
     
     tox.Check_Acute_Aquatic_Toxicity()
     tox.Check_Biodegradable()
-    tox.Check_DNA_Binding()
-    tox.Check_Developmental_Mitochondrial()
     tox.Check_Genotoxic_Carcinogenicity_Mutagenicity()
-    tox.Check_Idiosyncratic()
     tox.Check_LD50_Oral()
     tox.Check_NTD()
     tox.Check_NonBiodegradable()
     tox.Check_NonGenotoxic_Carcinogenicity()
     tox.Check_Potential_Electrophilic()
-    tox.Check_Reactive_Unstable_Toxic()
     tox.Check_Skin_Sensitization()
     tox.Check_SureChEMBL()
     tox.Check_Toxicophores()
     
     return 'Pass'
     
+   
     
 if '__main__' == __name__:
     file = os.path.join(DemoDir, '50.sdf')

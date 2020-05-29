@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>scopy.ScoRepresent package &#8212; Scopy 1.2.1 documentation</title>
+    <title>scopy.ScoRepresent package &#8212; Scopy 1.2.3 documentation</title>
     <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/./cssbasic.css" />
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="scopy.ScoTox.html" title="scopy.ScoTox package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" accesskey="U">Scopy API</a> &#187;</li> 
       </ul>
     </div>
@@ -96,129 +96,6 @@
 <h1>scopy.ScoRepresent package<a class="headerlink" href="#scopy-scorepresent-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-scopy.ScoRepresent.daylight">
-<span id="scopy-scorepresent-daylight-module"></span><h2>scopy.ScoRepresent.daylight module<a class="headerlink" href="#module-scopy.ScoRepresent.daylight" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="scopy.ScoRepresent.daylight.Daylight">
-<em class="property">class </em><code class="sig-prename descclassname">scopy.ScoRepresent.daylight.</code><code class="sig-name descname">Daylight</code><span class="sig-paren">(</span><em class="sig-param">minPath</em>, <em class="sig-param">maxPath</em>, <em class="sig-param">nBits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/daylight.html#Daylight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.daylight.Daylight" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>a Daylight-like fingerprint based on hashing molecular subgraphs
-2^n bits</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>minPath</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – minimum number of bonds to include in the subgraphs, defaults to 1</p></li>
-<li><p><strong>maxPath</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – maximum number of bonds to include in the subgraphs, defaults to 7</p></li>
-<li><p><strong>nBits</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – number of bits in the fingerprint, defaults to 2048</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="method">
-<dt id="scopy.ScoRepresent.daylight.Daylight.CalculateDaylight">
-<code class="sig-name descname">CalculateDaylight</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/daylight.html#Daylight.CalculateDaylight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.daylight.Daylight.CalculateDaylight" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – molecule</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>fingerprint</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-scopy.ScoRepresent.efg">
-<span id="scopy-scorepresent-efg-module"></span><h2>scopy.ScoRepresent.efg module<a class="headerlink" href="#module-scopy.ScoRepresent.efg" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="scopy.ScoRepresent.efg.EFG">
-<em class="property">class </em><code class="sig-prename descclassname">scopy.ScoRepresent.efg.</code><code class="sig-name descname">EFG</code><span class="sig-paren">(</span><em class="sig-param">useCount</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/efg.html#EFG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.efg.EFG" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>classification system termed “extended functional groups” (EFG),
-which are an extension of a set previously used by the CheckMol software, 
-that covers in addition heterocyclic compound classes and periodic table groups. 
-583 bits</p>
-<dl class="simple">
-<dt>Reference:</dt><dd><ol class="arabic simple">
-<li><p><a class="reference external" href="https://www.mdpi.com/1420-3049/21/1/1">Salmina, Elena, Norbert Haider and Igor Tetko (2016)</a>.</p></li>
-</ol>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>useCount</strong> – If set to True, the fingerprint will presented in the format of counter(not only 1 and 0) else, would be binary, defaults to True</p>
-</dd>
-</dl>
-<dl class="method">
-<dt id="scopy.ScoRepresent.efg.EFG.CalculateEFG">
-<code class="sig-name descname">CalculateEFG</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/efg.html#EFG.CalculateEFG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.efg.EFG.CalculateEFG" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calulating EFG fingerprint</p>
-<dl class="simple">
-<dt>Note:</dt><dd><p>following bits are always to be set as 1 or 0: bit0, bit1, bit2, bit59, bit60, bit61, bit62, bit209, bit218, bit544, bit545.
-It’s diffcult to counter them like others bits, because these bits contain “not”</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – molecule</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>fingerprint</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-scopy.ScoRepresent.estate">
-<span id="scopy-scorepresent-estate-module"></span><h2>scopy.ScoRepresent.estate module<a class="headerlink" href="#module-scopy.ScoRepresent.estate" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="scopy.ScoRepresent.estate.EStateFP">
-<em class="property">class </em><code class="sig-prename descclassname">scopy.ScoRepresent.estate.</code><code class="sig-name descname">EStateFP</code><span class="sig-paren">(</span><em class="sig-param">val=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/estate.html#EStateFP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.estate.EStateFP" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>79 bits</p>
-<dl class="simple">
-<dt>Reference:</dt><dd><ol class="arabic simple">
-<li><p>L.B. Kier and L.H. Hall _Molecular Structure Description: The Electrotopological State Academic Press (1999)</p></li>
-</ol>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>mols</strong> (<em>Iterable object</em><em>, </em><em>each element is rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
-<li><p><strong>val</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – If set to True, the fingerprint will presented in the format of vaule of estate, else, would be binary, defauls to True</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="method">
-<dt id="scopy.ScoRepresent.estate.EStateFP.CalculateEState">
-<code class="sig-name descname">CalculateEState</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/estate.html#EStateFP.CalculateEState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.estate.EStateFP.CalculateEState" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate EState fingerprint</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – molecule</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>fingerprint</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-scopy.ScoRepresent.fingerprints">
 <span id="scopy-scorepresent-fingerprints-module"></span><h2>scopy.ScoRepresent.fingerprints module<a class="headerlink" href="#module-scopy.ScoRepresent.fingerprints" title="Permalink to this headline">¶</a></h2>
@@ -461,6 +338,370 @@ is built by applying the Morgan algorithm to a set of user-supplied atom invaria
 </dd></dl>
 
 </div>
+<div class="section" id="module-scopy.ScoRepresent.daylight">
+<span id="scopy-scorepresent-daylight-module"></span><h2>scopy.ScoRepresent.daylight module<a class="headerlink" href="#module-scopy.ScoRepresent.daylight" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scopy.ScoRepresent.daylight.Daylight">
+<em class="property">class </em><code class="sig-prename descclassname">scopy.ScoRepresent.daylight.</code><code class="sig-name descname">Daylight</code><span class="sig-paren">(</span><em class="sig-param">minPath</em>, <em class="sig-param">maxPath</em>, <em class="sig-param">nBits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/daylight.html#Daylight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.daylight.Daylight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>a Daylight-like fingerprint based on hashing molecular subgraphs
+2^n bits</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>minPath</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – minimum number of bonds to include in the subgraphs, defaults to 1</p></li>
+<li><p><strong>maxPath</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – maximum number of bonds to include in the subgraphs, defaults to 7</p></li>
+<li><p><strong>nBits</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – number of bits in the fingerprint, defaults to 2048</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="scopy.ScoRepresent.daylight.Daylight.CalculateDaylight">
+<code class="sig-name descname">CalculateDaylight</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/daylight.html#Daylight.CalculateDaylight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.daylight.Daylight.CalculateDaylight" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – molecule</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fingerprint</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scopy.ScoRepresent.efg">
+<span id="scopy-scorepresent-efg-module"></span><h2>scopy.ScoRepresent.efg module<a class="headerlink" href="#module-scopy.ScoRepresent.efg" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scopy.ScoRepresent.efg.EFG">
+<em class="property">class </em><code class="sig-prename descclassname">scopy.ScoRepresent.efg.</code><code class="sig-name descname">EFG</code><span class="sig-paren">(</span><em class="sig-param">useCount</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/efg.html#EFG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.efg.EFG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>classification system termed “extended functional groups” (EFG),
+which are an extension of a set previously used by the CheckMol software, 
+that covers in addition heterocyclic compound classes and periodic table groups. 
+583 bits</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://www.mdpi.com/1420-3049/21/1/1">Salmina, Elena, Norbert Haider and Igor Tetko (2016)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>useCount</strong> – If set to True, the fingerprint will presented in the format of counter(not only 1 and 0) else, would be binary, defaults to True</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="scopy.ScoRepresent.efg.EFG.CalculateEFG">
+<code class="sig-name descname">CalculateEFG</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/efg.html#EFG.CalculateEFG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.efg.EFG.CalculateEFG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calulating EFG fingerprint</p>
+<dl class="simple">
+<dt>Note:</dt><dd><p>following bits are always to be set as 1 or 0: bit0, bit1, bit2, bit59, bit60, bit61, bit62, bit209, bit218, bit544, bit545.
+It’s diffcult to counter them like others bits, because these bits contain “not”</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – molecule</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fingerprint</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scopy.ScoRepresent.estate">
+<span id="scopy-scorepresent-estate-module"></span><h2>scopy.ScoRepresent.estate module<a class="headerlink" href="#module-scopy.ScoRepresent.estate" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scopy.ScoRepresent.estate.EStateFP">
+<em class="property">class </em><code class="sig-prename descclassname">scopy.ScoRepresent.estate.</code><code class="sig-name descname">EStateFP</code><span class="sig-paren">(</span><em class="sig-param">val=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/estate.html#EStateFP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.estate.EStateFP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>79 bits</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p>L.B. Kier and L.H. Hall _Molecular Structure Description: The Electrotopological State Academic Press (1999)</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mols</strong> (<em>Iterable object</em><em>, </em><em>each element is rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
+<li><p><strong>val</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – If set to True, the fingerprint will presented in the format of vaule of estate, else, would be binary, defauls to True</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="scopy.ScoRepresent.estate.EStateFP.CalculateEState">
+<code class="sig-name descname">CalculateEState</code><span class="sig-paren">(</span><em class="sig-param">mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/estate.html#EStateFP.CalculateEState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.estate.EStateFP.CalculateEState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate EState fingerprint</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mol</strong> (<em>rdkit.Chem.rdchem.Mol</em>) – molecule</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fingerprint</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<!-- <div class="section" id="module-scopy.ScoRepresent.fingerprints">
+<span id="scopy-scorepresent-fingerprints-module"></span><h2>scopy.ScoRepresent.fingerprints module<a class="headerlink" href="#module-scopy.ScoRepresent.fingerprints" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scopy.ScoRepresent.fingerprints.CalculateEFG">
+<code class="sig-prename descclassname">scopy.ScoRepresent.fingerprints.</code><code class="sig-name descname">CalculateEFG</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">useCount=True</em>, <em class="sig-param">n_jobs=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/fingerprints.html#CalculateEFG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.fingerprints.CalculateEFG" title="Permalink to this definition">¶</a></dt>
+<dd><p>classification system termed “extended functional groups” (EFG),
+which are an extension of a set previously used by the CheckMol software, 
+that covers in addition heterocyclic compound classes and periodic table groups. 
+583 bits</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://www.mdpi.com/1420-3049/21/1/1">Salmina, Elena, Norbert Haider and Igor Tetko (2016)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mols</strong> (<em>Iterable object</em><em>, </em><em>each element is rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
+<li><p><strong>useCount</strong> – If set to True, the fingerprint will presented in the format of counter(not only 1 and 0) else, would be binary, defaults to True</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The number of CPUs to use to do the computation, defaults to 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fingerprints</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoRepresent.fingerprints.CalculateGhoseCrippen">
+<code class="sig-prename descclassname">scopy.ScoRepresent.fingerprints.</code><code class="sig-name descname">CalculateGhoseCrippen</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">useCount=True</em>, <em class="sig-param">n_jobs=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/fingerprints.html#CalculateGhoseCrippen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.fingerprints.CalculateGhoseCrippen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Atom-based calculation of LogP and MR using Crippen’s approach. 
+110 bits</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/ci990307l">Wildman, Scott A., and Gordon M. Crippen (1999)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mols</strong> (<em>Iterable object</em><em>, </em><em>each element is rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
+<li><p><strong>useCount</strong> – If set to True, the fingerprint will presented in the format of counter(not only 1 and 0) else, would be binary, defaults to True</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The number of CPUs to use to do the computation, defaults to 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fingerprints</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoRepresent.fingerprints.CalculateEState">
+<code class="sig-prename descclassname">scopy.ScoRepresent.fingerprints.</code><code class="sig-name descname">CalculateEState</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">val=True</em>, <em class="sig-param">n_jobs=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/fingerprints.html#CalculateEState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.fingerprints.CalculateEState" title="Permalink to this definition">¶</a></dt>
+<dd><p>79 bits</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p>L.B. Kier and L.H. Hall _Molecular Structure Description: The Electrotopological State Academic Press (1999)</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mols</strong> (<em>Iterable object</em><em>, </em><em>each element is rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
+<li><p><strong>val</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – If set to True, the fingerprint will presented in the format of vaule of estate, else, would be int, defauls to True</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The number of CPUs to use to do the computation, defaults to 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fingerprints</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoRepresent.fingerprints.CalculateMACCS">
+<code class="sig-prename descclassname">scopy.ScoRepresent.fingerprints.</code><code class="sig-name descname">CalculateMACCS</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">n_jobs=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/fingerprints.html#CalculateMACCS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.fingerprints.CalculateMACCS" title="Permalink to this definition">¶</a></dt>
+<dd><p>There is a SMARTS-based implementation of the 166 public MACCS keys.
+167 bits</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mols</strong> (<em>Iterable object</em><em>, </em><em>each element is rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The number of CPUs to use to do the computation, defaults to 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fingerprints</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoRepresent.fingerprints.CalculateECFP">
+<code class="sig-prename descclassname">scopy.ScoRepresent.fingerprints.</code><code class="sig-name descname">CalculateECFP</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">radius=2</em>, <em class="sig-param">nBits=1024</em>, <em class="sig-param">n_jobs=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/fingerprints.html#CalculateECFP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.fingerprints.CalculateECFP" title="Permalink to this definition">¶</a></dt>
+<dd><p>This family of fingerprints, better known as circular fingerprints, 
+is built by applying the Morgan algorithm to a set of user-supplied atom invariants.
+2^n bits</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/ci100050t">Rogers (2010)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mols</strong> (<em>Iterable object</em><em>, </em><em>each element is rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
+<li><p><strong>radius</strong> – the radius of circle, defaults to 2</p></li>
+<li><p><strong>nBits</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>,</em><em>optional</em>) – number of bits in the fingerprint, defaults to 1024</p></li>
+<li><p><strong>useFeatures</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – to control generate FCFP if True, else ECFP, defaults to False</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The number of CPUs to use to do the computation, defaults to 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fingerprints</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoRepresent.fingerprints.CalculateFCFP">
+<code class="sig-prename descclassname">scopy.ScoRepresent.fingerprints.</code><code class="sig-name descname">CalculateFCFP</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">radius=2</em>, <em class="sig-param">nBits=1024</em>, <em class="sig-param">n_jobs=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/fingerprints.html#CalculateFCFP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.fingerprints.CalculateFCFP" title="Permalink to this definition">¶</a></dt>
+<dd><p>This family of fingerprints, better known as circular fingerprints, 
+is built by applying the Morgan algorithm to a set of user-supplied atom invariants.
+2^n bits</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/ci100050t">Rogers (2010)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mols</strong> (<em>Iterable object</em><em>, </em><em>each element is rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
+<li><p><strong>radius</strong> – the radius of circle, defaults to 2</p></li>
+<li><p><strong>nBits</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>,</em><em>optional</em>) – number of bits in the fingerprint, defaults to 1024</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The number of CPUs to use to do the computation, defaults to 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fingerprints</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoRepresent.fingerprints.CalculateDaylight">
+<code class="sig-prename descclassname">scopy.ScoRepresent.fingerprints.</code><code class="sig-name descname">CalculateDaylight</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">minPath=1</em>, <em class="sig-param">maxPath=7</em>, <em class="sig-param">nBits=2048</em>, <em class="sig-param">n_jobs=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/fingerprints.html#CalculateDaylight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.fingerprints.CalculateDaylight" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Daylight-like fingerprint based on hashing molecular subgraphs
+2^n bits</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mols</strong> (<em>Iterable object</em><em>, </em><em>each element is rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
+<li><p><strong>minPath</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – minimum number of bonds to include in the subgraphs, defaults to 1</p></li>
+<li><p><strong>maxPath</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – maximum number of bonds to include in the subgraphs, defaults to 7</p></li>
+<li><p><strong>nBits</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – number of bits in the fingerprint, defaults to 2048</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The number of CPUs to use to do the computation, defaults to 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fingerprints</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoRepresent.fingerprints.CalculatePubChem">
+<code class="sig-prename descclassname">scopy.ScoRepresent.fingerprints.</code><code class="sig-name descname">CalculatePubChem</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">n_jobs=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/fingerprints.html#CalculatePubChem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.fingerprints.CalculatePubChem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate PubChem Fingerprints</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mols</strong> (<em>Iterable object</em><em>, </em><em>each element is rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The number of CPUs to use to do the computation, defaults to 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fingerprints</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="scopy.ScoRepresent.fingerprints.CalculateIFG">
+<code class="sig-prename descclassname">scopy.ScoRepresent.fingerprints.</code><code class="sig-name descname">CalculateIFG</code><span class="sig-paren">(</span><em class="sig-param">mols</em>, <em class="sig-param">useCount=True</em>, <em class="sig-param">n_jobs=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/fingerprints.html#CalculateIFG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.fingerprints.CalculateIFG" title="Permalink to this definition">¶</a></dt>
+<dd><p>An algorithm to identify functional groups in organic molecules</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://jcheminf.springeropen.com/articles/10.1186/s13321-017-0225-z">Peter Ertl (2017)</a>.</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mols</strong> (<em>Iterable object</em><em>, </em><em>each element is rdkit.Chem.rdchem.Mol</em>) – the molecule to be scanned.</p></li>
+<li><p><strong>useCount</strong> – If set to True, the fingerprint will presented in the format of counter(not only 1 and 0) else, would be binary, defaults to True</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The number of CPUs to use to do the computation, defaults to 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fingerprints</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div> -->
 <div class="section" id="module-scopy.ScoRepresent.ghosecrippen">
 <span id="scopy-scorepresent-ghosecrippen-module"></span><h2>scopy.ScoRepresent.ghosecrippen module<a class="headerlink" href="#module-scopy.ScoRepresent.ghosecrippen" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -788,7 +1029,7 @@ is built by applying the Morgan algorithm to a set of user-supplied atom invaria
 &#64;Homepage: <a class="reference external" href="http://www.scbdd.com">http://www.scbdd.com</a>
 &#64;Mail: <a class="reference external" href="mailto:yzjkid9&#37;&#52;&#48;gmail&#46;com">yzjkid9<span>&#64;</span>gmail<span>&#46;</span>com</a>; <a class="reference external" href="mailto:oriental-cds&#37;&#52;&#48;163&#46;com">oriental-cds<span>&#64;</span>163<span>&#46;</span>com</a>
 &#64;Blog: <a class="reference external" href="https://blog.iamkotori.com">https://blog.iamkotori.com</a></p>
-<p>♥I love Princess Zelda forever♥</p>
+<!-- <p>♥I love Princess Zelda forever♥</p> -->
 <dl class="function">
 <dt id="scopy.ScoRepresent.scaffolds.CountCarbonScaffold">
 <code class="sig-prename descclassname">scopy.ScoRepresent.scaffolds.</code><code class="sig-name descname">CountCarbonScaffold</code><span class="sig-paren">(</span><em class="sig-param">mols</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scopy/ScoRepresent/scaffolds.html#CountCarbonScaffold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#scopy.ScoRepresent.scaffolds.CountCarbonScaffold" title="Permalink to this definition">¶</a></dt>
@@ -856,7 +1097,7 @@ is built by applying the Morgan algorithm to a set of user-supplied atom invaria
         <li class="right" >
           <a href="scopy.ScoTox.html" title="scopy.ScoTox package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" >Scopy API</a> &#187;</li> 
       </ul>
     </div>

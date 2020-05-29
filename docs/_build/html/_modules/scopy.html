@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>scopy &#8212; Scopy 1.2.3 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/./cssbasic.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/Scopy.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for scopy</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+
+<span class="kn">import</span> <span class="nn">_pickle</span> <span class="k">as</span> <span class="nn">cPickle</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="k">import</span> <span class="n">AllChem</span> <span class="k">as</span> <span class="n">Chem</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">ScoConfig</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Loadpkl&#39;</span><span class="p">,</span> <span class="s1">&#39;CheckWithSmarts&#39;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">_Generatepkl</span><span class="p">(</span><span class="n">endpoint</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">    *Internal Use Only*</span>
+<span class="sd">    </span>
+<span class="sd">    the pkl file in this package, storing the rdkit.Chem.rdchem.Mol object,</span>
+<span class="sd">    was generated under the environment whose rdkit version is &#39;2018.03.4&#39;.</span>
+<span class="sd">    Since, the file may can&#39;t be successfully loaded. This function is designed for</span>
+<span class="sd">    re-generating a pkl file under this situation.</span>
+<span class="sd">    </span>
+<span class="sd">    :param endpoint: the name of file</span>
+<span class="sd">    :type endpoint: str</span>
+<span class="sd">        </span>
+<span class="sd">    </span>
+<span class="sd">    :return: None</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">csv</span> 
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="n">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ScoConfig</span><span class="o">.</span><span class="n">SmartDir</span><span class="p">,</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">txt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">endpoint</span><span class="p">))</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_obj</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f_obj</span><span class="p">,</span><span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">next</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>  
+        <span class="n">lines</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+    <span class="n">f_obj</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="n">rej</span><span class="p">,</span><span class="n">acc</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span><span class="n">line</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">rej</span><span class="p">:</span>
+            <span class="n">rej</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">rej</span><span class="p">)</span> 
+            <span class="n">rej</span> <span class="o">=</span> <span class="p">[</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmarts</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">rej</span><span class="p">]</span>
+            <span class="n">line</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">rej</span>         
+        <span class="k">if</span> <span class="n">acc</span><span class="p">:</span>
+            <span class="n">acc</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span> 
+            <span class="n">acc</span> <span class="o">=</span> <span class="p">[</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmarts</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">acc</span><span class="p">]</span>
+            <span class="n">line</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">acc</span>          
+    <span class="n">out</span> <span class="o">=</span> <span class="n">cPickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span><span class="n">protocol</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">outfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ScoConfig</span><span class="o">.</span><span class="n">PattDir</span><span class="p">,</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.pkl.gz&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">endpoint</span><span class="p">))</span>
+    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span><span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_out</span><span class="p">:</span>
+        <span class="n">f_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+    <span class="n">f_out</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    
+        
+<div class="viewcode-block" id="Loadpkl"><a class="viewcode-back" href="../modules/scopy.html#scopy.Loadpkl">[docs]</a><span class="k">def</span> <span class="nf">Loadpkl</span><span class="p">(</span><span class="n">endpoint</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    </span>
+<span class="sd">    loading the specific pkl file which contain the &#39;Rejected&#39; and &#39;Accepted&#39; SMARTS</span>
+<span class="sd">    in rdkit.Chem.rdchem.Mol object format to avoid repeated reading SMARTS by &#39;MolFromSmarts&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    :param endpoint: the endpoint of pkl file meant</span>
+<span class="sd">    :type endpoint: str</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :return: whose element ia also a list with four elements: 0:the name of SMARTS, 1:original SMARTS, 2:the &#39;rejected&#39; part of SMARTS,3:the &#39;accepted&#39; part of SMARTS.</span>
+<span class="sd">    :rtype: list   </span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">ScoConfig</span><span class="o">.</span><span class="n">PattDir</span> <span class="o">+</span><span class="s1">&#39;/</span><span class="si">{}</span><span class="s1">.pkl.gz&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">pattl</span> <span class="o">=</span> <span class="n">cPickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+        <span class="k">class</span> <span class="nc">EndpointError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="kn">import</span> <span class="nn">os</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">ScoConfig</span><span class="o">.</span><span class="n">SmartDir</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">EndpointError</span><span class="p">(</span><span class="s1">&#39;Endpoint must be one of these:</span><span class="se">\n\t</span><span class="si">{}</span><span class="s1">.&#39;</span>\
+                            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">file</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.txt&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">])))</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">_Generatepkl</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
+        <span class="n">Loadpkl</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pattl</span></div>
+
+
+<span class="k">def</span> <span class="nf">CheckPattl</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">rejected_pattl</span><span class="p">,</span> <span class="n">accepted_pattl</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    *Internal Use Only*</span>
+<span class="sd">    </span>
+<span class="sd">    Checking mol through &#39;rejected&#39; and &#39;accepted&#39; part respectively</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: the molecule to be scanned.</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param rejected_pattl: the &#39;rejected&#39; part of SMARTS</span>
+<span class="sd">    :type rejected_pattl: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param accepted_pattl: the &#39;accepted&#39; part of SMARTS</span>
+<span class="sd">    :type accepted_pattl: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    </span>
+<span class="sd">    :yield: True meant matched SMARTS, else unmatched.</span>
+<span class="sd">    :ytype: bool</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="k">for</span> <span class="n">reject_list</span><span class="p">,</span><span class="n">accept_list</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">rejected_pattl</span><span class="p">,</span><span class="n">accepted_pattl</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">reject_list</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">any</span><span class="p">([</span><span class="n">mol</span><span class="o">.</span><span class="n">HasSubstructMatch</span><span class="p">(</span><span class="n">patt</span><span class="p">)</span> <span class="k">for</span> <span class="n">patt</span> <span class="ow">in</span> <span class="n">reject_list</span><span class="p">])):</span>
+            <span class="k">if</span> <span class="n">accept_list</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="nb">all</span><span class="p">([</span><span class="n">mol</span><span class="o">.</span><span class="n">HasSubstructMatch</span><span class="p">(</span><span class="n">patt</span><span class="p">)</span> <span class="k">for</span> <span class="n">patt</span> <span class="ow">in</span> <span class="n">accept_list</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="kc">False</span>
+      
+
+<div class="viewcode-block" id="CheckWithSmarts"><a class="viewcode-back" href="../modules/scopy.html#scopy.CheckWithSmarts">[docs]</a><span class="k">def</span> <span class="nf">CheckWithSmarts</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">pattl</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showSMILES</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">    </span>
+<span class="sd">    checking molecule(s) wheather or not </span>
+<span class="sd">    has(have) some (toxic) substructure(s) through comparing the </span>
+<span class="sd">    SMILES of molecule(s) and the SMARTS of (toxic) substructure(s) </span>
+<span class="sd">    which obtained from Ochem Database(https://ochem.eu/alerts/home.do).</span>
+<span class="sd">    </span>
+<span class="sd">    :param mol: the molecule to be scanned.</span>
+<span class="sd">    :type mol: rdkit.Chem.rdchem.Mol</span>
+<span class="sd">    :param pattl: generated by _Loadpkl, containing &#39;rejected&#39; and &#39;accepted&#39; part.</span>
+<span class="sd">    :type pattl: list</span>
+<span class="sd">    :param endpoint: the endpoint name of pattl that de used to scan mol.</span>
+<span class="sd">    :type endpoint: str</span>
+<span class="sd">    :param detail: Control returning specific infomation or not, defaults to False</span>
+<span class="sd">    :type detail: bool, optional</span>
+<span class="sd">    </span>
+<span class="sd">    :return: Result after scanning. If detail has been set to False, only return &#39;Disposed&#39; and &#39;Endpoint&#39;, otherwise &#39;MatchedAtoms&#39; and &#39;MatchedNames&#39; are also provided.</span>
+<span class="sd">    :rtype: namedtuple</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span> 
+    <span class="n">reject_pattl</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">pattl</span><span class="p">)</span>
+    <span class="n">accept_pattl</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">pattl</span><span class="p">)</span>
+      
+    <span class="k">if</span> <span class="n">detail</span><span class="p">:</span>
+        <span class="n">reject_pattl</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">reject_pattl</span><span class="p">)</span>
+        <span class="n">accept_pattl</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">accept_pattl</span><span class="p">)</span>
+                
+        <span class="n">matched_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">matched_atoms</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="n">names</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pattl</span><span class="p">)</span>
+
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">CheckPattl</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">reject_pattl</span><span class="p">,</span><span class="n">accept_pattl</span><span class="p">)</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">temp</span><span class="p">):</span>               
+            <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+            <span class="n">matched_patts</span> <span class="o">=</span> <span class="p">(</span><span class="n">pattl</span> <span class="k">for</span> <span class="n">pattl</span><span class="p">,</span><span class="n">bo</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">accept_pattl</span><span class="p">,</span><span class="n">temp</span><span class="p">)</span> <span class="k">if</span> <span class="n">bo</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">patts</span> <span class="ow">in</span> <span class="n">matched_patts</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">patts</span><span class="p">:</span>
+                    <span class="n">matched_sub</span> <span class="o">=</span> <span class="p">[</span><span class="n">mol</span><span class="o">.</span><span class="n">GetSubstructMatches</span><span class="p">(</span><span class="n">patt</span><span class="p">)</span> <span class="k">for</span> <span class="n">patt</span> <span class="ow">in</span> <span class="n">patts</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">matched_sub</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">tuple</span><span class="p">([</span><span class="n">atom</span><span class="o">.</span><span class="n">GetIdx</span><span class="p">()</span> <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetAtoms</span><span class="p">()]),)]</span>
+                <span class="n">matched_atoms</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">matched_sub</span><span class="p">)</span> 
+            <span class="n">matched_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">((</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span><span class="n">bo</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span><span class="n">temp</span><span class="p">)</span> <span class="k">if</span> <span class="n">bo</span><span class="p">))</span>       
+       
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+            <span class="n">matched_atoms</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span>
+            <span class="n">matched_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span>
+                        
+  
+<span class="c1">#        res = namedtuple(&#39;CheckRes&#39;,[&#39;Disposed&#39;,&#39;MatchedAtoms&#39;,&#39;MatchedNames&#39;,&#39;Endpoint&#39;])</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span><span class="s1">&#39;MatchedAtoms&#39;</span><span class="p">,</span><span class="s1">&#39;MatchedNames&#39;</span><span class="p">,</span><span class="s1">&#39;Endpoint&#39;</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">reject_pattl</span><span class="p">,</span><span class="n">accept_pattl</span>
+<span class="c1">#        return res(Disposed=disposed,MatchedAtoms=matched_atoms,MatchedNames=matched_names,Endpoint=endpoint)</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,[</span><span class="n">disposed</span><span class="p">,</span><span class="n">matched_atoms</span><span class="p">,</span><span class="n">matched_names</span><span class="p">,</span><span class="n">endpoint</span><span class="p">])))</span>
+        <span class="k">return</span> <span class="n">dic</span> 
+    
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">CheckPattl</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">reject_pattl</span><span class="p">,</span><span class="n">accept_pattl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">temp</span><span class="p">):</span>
+            <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Accepted&#39;</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">disposed</span> <span class="o">=</span> <span class="s1">&#39;Rejected&#39;</span>
+<span class="c1">#        res = namedtuple(&#39;CheckRes&#39;,[&#39;Disposed&#39;,&#39;Endpoint&#39;])</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Disposed&#39;</span><span class="p">,</span><span class="s1">&#39;Endpoint&#39;</span><span class="p">]</span>
+<span class="c1">#        return res(Disposed=disposed,Endpoint=endpoint)</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SMILES&#39;</span><span class="p">:</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)}</span> <span class="k">if</span> <span class="n">showSMILES</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="n">dic</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="p">[</span><span class="n">disposed</span><span class="p">,</span><span class="n">endpoint</span><span class="p">])))</span>
+        <span class="k">return</span> <span class="n">dic</span></div>
+                
+
+<span class="k">if</span> <span class="s1">&#39;__main__&#39;</span> <span class="o">==</span> <span class="vm">__name__</span><span class="p">:</span>
+    <span class="n">smis</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;C1=CC=CC(C(Br)C)=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=CC2NC(=O)CC3C=2C(C(=O)C2C=CC=CC=23)=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=CC=C2C(=O)C3C=CNC=3C(=O)C2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=NC(CCN)=CN1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1CCCC(CCO)C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=CC=C2N=C(O)C=CC2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C(OC)1=C(C)C=C2OC[C@]([H])3OC4C(C)=C(OC)C=CC=4C(=O)[C@@]3([H])C2=C1C&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C2N=CC=NC2=C2N=CNC2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C(O)C=CC(O)=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;CCC1(c2ccccc2)C(=O)NC(=O)NC1=O&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;N1=CN=CN=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C2C=CC=CC2=CC2C=CC=CC1=2&#39;</span><span class="p">,</span> <span class="c1">#NonGenotoxic_Carcinogenicity</span>
+            <span class="s1">&#39;C1=CC=C2C(=O)CC(=O)C2=C1&#39;</span><span class="p">,</span> <span class="c1">#Pains</span>
+            <span class="s1">&#39;C1=CC=CC(COCO)=C1&#39;</span><span class="p">,</span> <span class="c1">#Potential_Electrophilic</span>
+            <span class="s1">&#39;N1=NC=CN1C=O&#39;</span><span class="p">,</span> <span class="c1">#Promiscuity</span>
+            <span class="s1">&#39;CC(=O)OC(=O)C1C=COC1&#39;</span><span class="p">,</span> <span class="c1">#Skin_Sensitization</span>
+            <span class="s1">&#39;S&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;CCCCC(=O)[H]&#39;</span><span class="p">,</span> <span class="c1">#Biodegradable</span>
+            <span class="s1">&#39;C1=CN=C(C(=O)O)C=C1&#39;</span><span class="p">,</span> <span class="c1">#Chelating</span>
+            <span class="s1">&#39;C(OC)1=CC=C2OCC3OC4C=C(OC)C=CC=4C(=O)C3C2=C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;C1=C2N=CC=NC2=C2N=CNC2=C1&#39;</span><span class="p">,</span> <span class="c1">#Genotoxic_Carcinogenicity_Mutagenicity</span>
+            <span class="s1">&#39;N(CC)(CCCCC)C(=S)N&#39;</span><span class="p">,</span> <span class="c1">#Idiosyncratic</span>
+            <span class="p">]</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smis</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">pattl</span> <span class="o">=</span> <span class="n">Loadpkl</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;Pains&#39;</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">CheckWithSmarts</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span><span class="n">pattl</span><span class="o">=</span><span class="n">pattl</span><span class="p">,</span><span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;Pains&#39;</span><span class="p">,</span><span class="n">detail</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Scopy 1.2.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Zhijiang Yang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.0.
+    </div>
+  </body>
+</html>
