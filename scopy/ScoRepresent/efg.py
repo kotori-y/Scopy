@@ -33,7 +33,7 @@ def _Generatepkl(endpoint):
     :return: None
     
     """
-    file = os.path.join(ScoConfig.EFGDir,'{}'.txt.format(endpoint))
+    file = os.path.join(ScoConfig.EFGDir,'{}.txt'.format(endpoint))
     with open(file,'r',encoding='utf-8') as f_obj:
         lines = csv.reader(f_obj,delimiter='\t')
         next(lines)  
