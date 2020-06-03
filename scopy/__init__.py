@@ -68,16 +68,10 @@ def Loadpkl(endpoint):
     filename = ScoConfig.PattDir +'/{}.pkl.gz'.format(endpoint)
     try:
         pattl = cPickle.load(gzip.open(filename,'rb'))
-    except FileNotFoundError:
-        class EndpointError(Exception):
-            pass
-        import os
-        files = os.listdir(ScoConfig.SmartDir)
-        raise EndpointError('Endpoint must be one of these:\n\t{}.'\
-                            .format(', '.join([file.replace('.txt','') for file in files])))
+        
     except:
         _Generatepkl(endpoint)
-        Loadpkl(endpoint)
+        return Loadpkl(endpoint)
     return pattl
 
 
