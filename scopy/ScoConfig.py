@@ -14,9 +14,8 @@ import os
 
 
 ScoDir = os.path.dirname(__file__)
-_share = ScoDir +'/data'
-os.makedirs(_share + '/PATT')
 
+_share = ScoDir +'/data'
 SmartDir = _share + '/SMARTS'
 CrippenDir = _share + '/Crippen'
 PattDir = _share + '/PATT'
