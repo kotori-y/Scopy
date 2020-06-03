@@ -12,6 +12,8 @@ Created on Tue Jun 25 21:59:42 2019
 
 import os
 
+os.makedirs(_share + '/PATT')
+
 ScoDir = os.path.dirname(__file__)
 _share = ScoDir +'/data'
 SmartDir = _share + '/SMARTS'
