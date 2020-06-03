@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 
+import csv 
+import os
 import _pickle as cPickle
 import gzip
 from rdkit.Chem import AllChem as Chem
@@ -25,9 +27,7 @@ def _Generatepkl(endpoint):
     :return: None
 
     """
-    import csv 
-    import os
-    file = os.path.join(ScoConfig.SmartDir,'{}'.txt.format(endpoint))
+    file = os.path.join(ScoConfig.SmartDir,'{}.txt'.format(endpoint))
     with open(file,'r',encoding='utf-8') as f_obj:
         lines = csv.reader(f_obj,delimiter='\t')
         next(lines)  
