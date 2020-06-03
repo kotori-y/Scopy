@@ -12,10 +12,11 @@ Created on Tue Jun 25 21:59:42 2019
 
 import os
 
-os.makedirs(_share + '/PATT')
 
 ScoDir = os.path.dirname(__file__)
 _share = ScoDir +'/data'
+os.makedirs(_share + '/PATT')
+
 SmartDir = _share + '/SMARTS'
 CrippenDir = _share + '/Crippen'
 PattDir = _share + '/PATT'
