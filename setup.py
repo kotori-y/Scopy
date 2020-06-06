@@ -25,7 +25,7 @@ package_data= {'scopy':['ScoDruglikeness/*','ScoRepresent/*',
 #package_data= {'scopy':['structure_alert/*','druglikeness/*','test/*','data/SMARTS/*','data/PATT/*','data/ACID/*','data/*','data/Crippen/*','fingerprint/*']}
 
 
-setup(name="cbdd-scopy",  
+setup(name="scopy",  
       version="1.2.4",
       license="MIT",
       description="A filter tool for HTS and VS",

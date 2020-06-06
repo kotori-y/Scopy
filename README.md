@@ -1,6 +1,6 @@
 # Scopy: An integrated negative design Python library for desirable HTS/VS database design
 
-[![Travis (.com)](https://img.shields.io/travis/com/kotori-y/scopy)](https://travis-ci.com/kotori-y/Scopy) [![codecov](https://codecov.io/gh/kotori-y/Scopy/branch/master/graph/badge.svg)](https://codecov.io/gh/kotori-y/Scopy) [![GitHub last commit](https://img.shields.io/github/last-commit/kotori-y/scopy)](https://github.com/kotori-y/Scopy/commits/master) [![Conda](https://img.shields.io/badge/Install%20with-conda-green)](https://conda.anaconda.org/kotori_y) [![PyPI](https://img.shields.io/badge/Install%20with-pypi-informational)](https://pypi.org/project/cbdd-scopy/) [![MIT License](https://img.shields.io/badge/license-MIT-black)](https://anaconda.org/kotori_y/scopy) [![Blog](https://img.shields.io/badge/blog-iamkotori-pink)](https://blog.iamkotori.com/) [![Kouhai](https://img.shields.io/badge/contributor-Ziyi-%23B3D0BE)](https://github.com/Yangziyi1997)
+[![Travis (.com)](https://img.shields.io/travis/com/kotori-y/scopy)](https://travis-ci.com/kotori-y/Scopy) [![codecov](https://codecov.io/gh/kotori-y/Scopy/branch/master/graph/badge.svg)](https://codecov.io/gh/kotori-y/Scopy) [![GitHub last commit](https://img.shields.io/github/last-commit/kotori-y/scopy)](https://github.com/kotori-y/Scopy/commits/master) [![Conda](https://img.shields.io/badge/Install%20with-conda-green)](https://conda.anaconda.org/kotori_y) [![PyPI](https://img.shields.io/badge/Install%20with-pypi-informational)](https://pypi.org/project/scopy/) [![MIT License](https://img.shields.io/badge/license-MIT-black)](https://anaconda.org/kotori_y/scopy) [![Blog](https://img.shields.io/badge/blog-iamkotori-pink)](https://blog.iamkotori.com/) [![Kouhai](https://img.shields.io/badge/contributor-Ziyi-%23B3D0BE)](https://github.com/Yangziyi1997)
 
 <div align=center>
     <img src='Scopy.png'>
@@ -35,10 +35,10 @@ Scopy has been successfully tested on Linux, OSX and Windows systems under Pytho
 >>> conda install -c kotori_y scopy
 ```
 
-#### PyPI [![PyPI](https://img.shields.io/pypi/v/cbdd-scopy?style=flat-square)](https://pypi.org/project/cbdd-scopy/)
+#### PyPI [![PyPI](https://img.shields.io/pypi/v/scopy?style=flat-square)](https://pypi.org/project/cbdd-scopy/)
 
 ```
->>> pip install cbdd-scopy
+>>> pip install scopy
 ```
 
 ## Documentation
