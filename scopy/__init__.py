@@ -11,7 +11,7 @@ from . import ScoConfig
 
 from pkg_resources import get_distribution
 
-__version__ = get_distribution('cbdd-scopy').version
+__version__ = get_distribution('scopy').version
 __all__ = ['Loadpkl', 'CheckWithSmarts', 'CheckPattl']
 
 def _Generatepkl(endpoint):

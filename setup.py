@@ -22,8 +22,6 @@ package_data= {'scopy':['ScoDruglikeness/*','ScoRepresent/*',
                         'data/MC/mcloud/*','data/MC/mcloud/ertl/mcloud/*',
                         'data/MOL/*','data/PubChem/*',]}
 
-#package_data= {'scopy':['structure_alert/*','druglikeness/*','test/*','data/SMARTS/*','data/PATT/*','data/ACID/*','data/*','data/Crippen/*','fingerprint/*']}
-
 
 setup(name="scopy",  
       version="1.2.4",
