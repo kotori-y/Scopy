@@ -35,7 +35,7 @@ Scopy has been successfully tested on Linux, OSX and Windows systems under Pytho
 >>> conda install -c kotori_y scopy
 ```
 
-#### PyPI [![PyPI](https://img.shields.io/pypi/v/scopy?style=flat-square)](https://pypi.org/project/cbdd-scopy/)
+#### PyPI [![PyPI](https://img.shields.io/pypi/v/scopy?style=flat-square)](https://pypi.org/project/scopy/)
 
 ```
 >>> pip install scopy
