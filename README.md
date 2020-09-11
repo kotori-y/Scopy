@@ -1,6 +1,6 @@
 # Scopy: An integrated negative design Python library for desirable HTS/VS database design
 
-[![Travis (.com)](https://img.shields.io/travis/com/kotori-y/scopy)](https://travis-ci.com/kotori-y/Scopy) [![codecov](https://codecov.io/gh/kotori-y/Scopy/branch/master/graph/badge.svg)](https://codecov.io/gh/kotori-y/Scopy) [![GitHub last commit](https://img.shields.io/github/last-commit/kotori-y/scopy)](https://github.com/kotori-y/Scopy/commits/master) [![Conda](https://img.shields.io/badge/Install%20with-conda-green)](https://conda.anaconda.org/kotori_y) [![PyPI](https://img.shields.io/badge/Install%20with-pypi-informational)](https://pypi.org/project/scopy/) [![MIT License](https://img.shields.io/badge/license-MIT-black)](https://anaconda.org/kotori_y/scopy) [![Blog](https://img.shields.io/badge/blog-iamkotori-pink)](https://blog.iamkotori.com/) [![Kouhai](https://img.shields.io/badge/contributor-Ziyi-%23B3D0BE)](https://github.com/Yangziyi1997)
+[![Travis (.com)](https://img.shields.io/travis/com/kotori-y/scopy)](https://travis-ci.com/kotori-y/Scopy) [![codecov](https://codecov.io/gh/kotori-y/Scopy/branch/master/graph/badge.svg)](https://codecov.io/gh/kotori-y/Scopy) [![GitHub last commit](https://img.shields.io/github/last-commit/kotori-y/scopy)](https://github.com/kotori-y/Scopy/commits/master) [![Conda](https://img.shields.io/badge/Install%20with-conda-green)](https://conda.anaconda.org/kotori_y) [![PyPI](https://img.shields.io/badge/Install%20with-pypi-informational)](https://pypi.org/project/scopy/) [![MIT License](https://img.shields.io/badge/license-MIT-black)](https://anaconda.org/kotori_y/scopy) [![Blog](https://img.shields.io/badge/blog-iamkotori-pink)](https://blog.iamkotori.com/) [![Kouhai](https://img.shields.io/badge/contributor-Ziyi-%23B3D0BE)](https://github.com/Yangziyi1997) [![DOI](https://img.shields.io/badge/doi-Briefings%20in%20Bioinformatics-informational)](https://doi.org/10.1093/bib/bbaa194)
 
 <div align=center>
     <img src='Scopy.png'>
@@ -48,6 +48,26 @@ Scopy has been successfully tested on Linux, OSX and Windows systems under Pytho
 ## Contact
 
 If you have questions or suggestions, please contact: kotori@cbdd.me,and oriental-cds@163.com.<br>Please see the file LICENSE for details about the "MIT" license which covers this software and its associated data and documents.
+
+## Cite us
+
+Yang ZY, Yang ZJ, Lu AP, Hou TJ, Cao DS. Scopy: an integrated negative design python library for desirable HTS/VS database design [published online ahead of print, 2020 Sep 7]. *Brief Bioinform*. 2020;bbaa194. doi:10.1093/bib/bbaa194
+
+```
+@article{10.1093/bib/bbaa194,
+    author = {Yang, Zi-Yi and Yang, Zhi-Jiang and Lu, Ai-Ping and Hou, Ting-Jun and Cao, Dong-Sheng},
+    title = "{Scopy: an integrated negative design python library for desirable HTS/VS database design}",
+    journal = {Briefings in Bioinformatics},
+    year = {2020},
+    month = {09},
+    doi = {10.1093/bib/bbaa194},
+    url = {https://doi.org/10.1093/bib/bbaa194},
+    note = {bbaa194},
+    eprint = {https://academic.oup.com/bib/advance-article-pdf/doi/10.1093/bib/bbaa194/33719387/bbaa194.pdf},
+}
+```
+
+  
 
 ## Acknowledgement
 
