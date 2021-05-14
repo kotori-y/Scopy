@@ -114,3 +114,6 @@ scopy/example/application_4.py
 meta.yaml
 scopy/ScoBase
 scopy/ScoBase/*
+.vscode/launch.json
+.vscode/settings.json
+scopy/data/MC/mcloud/mcloud.png

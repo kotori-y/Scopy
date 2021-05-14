@@ -347,6 +347,39 @@ def CalculateNumHyBond(mol):
     return nHB
 
 
+def CalculateNumLipinskiHDonors(mol):
+    """
+    Caculation of the number of Hydrogen Bond Donors
+    (nitrogen–hydrogen and oxygen–hydrogen bonds)
+    
+    --->nLipinskiHD
+    
+    :param mol: molecular
+    :type mol: rdkit.Chem.rdchem.Mol
+    :return: the number of Hydrogen Bond Donors
+    :rtype: int
+    
+    """
+    nLipinskiHD = Lipinski.NHOHCount(mol)    
+    return nLipinskiHD
+
+
+def CalculateNumLipinskiHAcceptors(mol):
+    """
+    Caculation of the number of Hydrogen Bond Acceptors
+    (all nitrogen or oxygen atoms)
+    --->nLipinskiHA
+    
+    :param mol: molecular
+    :type mol: rdkit.Chem.rdchem.Mol
+    :return: the number of Hydrogen Bond Acceptors
+    :rtype: int
+    
+    """
+    nLipinskiHA = Lipinski.NOCount(mol)
+    return nLipinskiHA
+
+
 def CalculateNumAromaAtom(mol):
     """
     Calculation of aromatic atom counts in a molecule
