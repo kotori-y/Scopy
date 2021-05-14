@@ -147,8 +147,8 @@ def CheckLipinskiRule(mol, detail=False, showSMILES=False):
     #Calculate required properties of Lipinskin's rule
     MW = molproperty.CalculateMolWeight(mol)
     logP = molproperty.CalculateLogP(mol)
-    nHD = molproperty.CalculateNumHDonors(mol)
-    nHA = molproperty.CalculateNumHAcceptors(mol)   
+    nHD = molproperty.CalculateNumLipinskiHDonors(mol)
+    nHA = molproperty.CalculateNumLipinskiHAcceptors(mol)   
     #Determine whether the molecular match each rule
     aw = (MW <= 500)
     alogp = (logP <= 5)
