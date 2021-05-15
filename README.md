@@ -3,7 +3,7 @@
  * @Author: Kotori Y
  * @Date: 2019-09-15 17:04:40
  * @LastEditors: Kotori Y
- * @LastEditTime: 2021-05-14 21:18:26
+ * @LastEditTime: 2021-05-15 21:40:28
  * @FilePath: \scopy\README.md
  * @AuthorMail: kotori@cbdd.me
 -->
@@ -38,11 +38,11 @@ Scopy has been successfully tested on Linux, OSX and Windows systems under Pytho
 >>> [sudo] python setup.py install
 ```
 
-<!-- #### Conda [![Conda](https://img.shields.io/conda/v/kotori_y/scopy?color=green&label=conda&style=flat-square)](https://anaconda.org/kotori_y/scopy)
+#### Conda [![Conda](https://img.shields.io/conda/v/kotori_y/scopy?color=green&label=conda&style=flat-square)](https://anaconda.org/kotori_y/scopy)
 
 ```
 >>> conda install -c kotori_y scopy
-``` -->
+```
 
 #### PyPI [![PyPI](https://img.shields.io/pypi/v/scopy?style=flat-square)](https://pypi.org/project/scopy/)
 
